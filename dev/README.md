@@ -8,6 +8,8 @@ dev/check.sh
 
 It exits 0 only if everything passes. It takes about 45 s on 16 cores. `dev/check.sh --quick` skips `make check` and takes about 5 s.
 
+To also measure speed, run `dev/check.sh --bench [S|M|L]`. This adds a speed benchmark on large real datasets (Swiss-Prot, Pfam, Dfam, hg38 chr21, Rfam and E. coli). Each benchmark case also has its outputs hash-checked against goldens. Tier S takes about 5 min, M about 30 min and L hours. See [`bench/README.md`](bench/README.md).
+
 ## What it does
 
 | Step | What it runs | Fails when |
@@ -16,6 +18,7 @@ It exits 0 only if everything passes. It takes about 45 s on 16 cores. `dev/chec
 | **build** | Out-of-source `configure` + `make` + `make dev` in `build-dev/` (examples, benchmarks, utests) | Compile or link error |
 | **make check** | Easel and HMMER unit tests plus the sqc integration suites (`testsuite/testsuite.sqc`, `easel/testsuite/testsuite.sqc`). That's 394 exercises at level 2. | Any exercise fails |
 | **regress** | The golden-output regression (below) | Any output file isn't byte-identical to `dev/regress/golden/` |
+| **bench** (optional) | The `dev/bench/` tier: speed per case, with output hashes checked against `dev/bench/golden.json` | A case fails, its output hash differs, or reps produce different outputs. A slowdown fails the run only with `--fail-on-slowdown` |
 
 Logs go to `build-dev/{configure,make,make-dev,check}.log`.
 

@@ -1,0 +1,10 @@
+# Pinned public inputs for the speed benchmark. Downloaded once into
+# $HMMER_BENCH_DATA/raw (default ~/.cache/hmmer-bench) and verified by md5.
+# name                   md5                               url
+pfam_hmm                 8272c3f18626bc300ed7cc00e86bad40  https://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam37.0/Pfam-A.hmm.gz
+pfam_seed                a49cac91486d925409c90fdfcede7394  https://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam37.0/Pfam-A.seed.gz
+sprot_dat                8166ccf796f846b406d9de820afc72e1  https://ftp.ebi.ac.uk/pub/databases/Pfam/releases/Pfam37.0/uniprot_sprot.dat.gz
+dfam_curated             776d2caef4b52aa77f971df20d995f53  https://www.dfam.org/releases/Dfam_3.7/families/Dfam_curatedonly.hmm.gz
+rfam_seed                7f0e31432632109a542ff5527c9aa577                             https://ftp.ebi.ac.uk/pub/databases/Rfam/14.10/Rfam.seed.gz
+hg38_chr21               184df2bd9b812b6e6b6da16c6021369e  https://hgdownload.soe.ucsc.edu/goldenPath/hg38/chromosomes/chr21.fa.gz
+ecoli_k12                c13d459b5caa702ff7e1f26fe44b8ad7  https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/005/845/GCF_000005845.2_ASM584v2/GCF_000005845.2_ASM584v2_genomic.fna.gz

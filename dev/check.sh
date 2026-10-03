@@ -4,6 +4,8 @@
 #   dev/check.sh                 setup + build + `make check` + golden regression
 #   dev/check.sh --quick         skip `make check` (build + golden regression only)
 #   dev/check.sh --update-golden regenerate golden outputs (review the git diff!)
+#   dev/check.sh --bench [S|M|L] also run the speed benchmark (dev/bench/) and
+#                                compare against the saved baseline
 #
 # See dev/README.md for details.
 set -uo pipefail
@@ -16,6 +18,7 @@ WORK="$BUILD/regress-work"
 JOBS="${JOBS:-$(nproc 2>/dev/null || echo 4)}"
 
 DO_SETUP=1 DO_BUILD=1 DO_CHECK=1 DO_REGRESS=1 UPDATE=0 SQCLEVEL=2 CLEAN=0 FILTER=""
+BENCH_TIER="" BENCH_ARGS=()
 
 usage() {
   cat <<EOF
@@ -28,6 +31,9 @@ Usage: dev/check.sh [options]
   --cases REGEX      only run regression cases whose name matches REGEX
   --full             'make check' at sqc level 3 (adds valgrind tests; needs valgrind)
   --clean            wipe the build dir and rebuild from scratch
+  --bench [S|M|L]    also run the speed benchmark tier (default S; ~5 min / ~30 min / hours)
+                     (first use downloads ~2 GB of pinned public data, see dev/bench/README.md)
+  --bench-args "..." extra args for 'dev/bench.sh run' (e.g. "--baseline none --reps 5")
   -j N               parallel jobs (default: $JOBS)
   -h, --help         this help
 Env: HMMER_BUILD_DIR (default build-dev), CONFIGURE_FLAGS, CFLAGS
@@ -44,6 +50,8 @@ while [[ $# -gt 0 ]]; do
     --cases)         FILTER="$2"; shift ;;
     --full)          SQCLEVEL=3 ;;
     --clean)         CLEAN=1 ;;
+    --bench)         BENCH_TIER=S; if [[ "${2:-}" =~ ^[SML]$ ]]; then BENCH_TIER=$2; shift; fi ;;
+    --bench-args)    read -r -a BENCH_ARGS <<< "$2"; shift ;;
     -j)              JOBS="$2"; shift ;;
     -j*)             JOBS="${1#-j}" ;;
     -h|--help)       usage; exit 0 ;;
@@ -58,9 +66,12 @@ die()  { echo "${R}ERROR: $*${N}" >&2; exit 1; }
 
 declare -a SUMMARY=()
 FAILED=0
-record() { # record <name> <ok|FAIL|skip> [detail]
+STAGE_T0=$SECONDS
+record() { # record <name> <ok|FAIL|skip> [detail]   (also records the stage's wall time)
   local color=$G; [[ $2 == FAIL ]] && { color=$R; FAILED=1; }; [[ $2 == skip ]] && color=$Y
-  SUMMARY+=("$(printf '  %-22s %s%-4s%s %s' "$1" "$color" "$2" "$N" "${3:-}")")
+  local dt=$((SECONDS - STAGE_T0)); STAGE_T0=$SECONDS
+  [[ $2 == skip ]] && dt=0
+  SUMMARY+=("$(printf '  %-22s %s%-4s%s %5ss  %s' "$1" "$color" "$2" "$N" "$dt" "${3:-}")")
 }
 
 # --------------------------------------------------------------------------
@@ -249,10 +260,22 @@ regress() {
 # --------------------------------------------------------------------------
 cd "$ROOT"
 T0=$SECONDS
+STAGE_T0=$SECONDS
 [[ $DO_SETUP == 1 ]] && setup
 if [[ $DO_BUILD == 1 ]]; then build || { DO_CHECK=0; DO_REGRESS=0; }; fi
 if [[ $DO_CHECK == 1 ]];   then make_check; else record "make check" skip; fi
 if [[ $DO_REGRESS == 1 ]]; then regress;    else record regress skip; fi
+if [[ -n "$BENCH_TIER" ]]; then
+  step "Speed benchmark (tier $BENCH_TIER)"
+  STAGE_T0=$SECONDS
+  python3 "$DEV/bench/bench.py" prepare --build-dir "$BUILD" | tail -1 \
+    && python3 "$DEV/bench/bench.py" run "$BENCH_TIER" --build-dir "$BUILD" "${BENCH_ARGS[@]}" | tee "$BUILD/bench.log"
+  rc=${PIPESTATUS[0]}
+  res=$(grep -o 'results: .*' "$BUILD/bench.log" | sed 's/results: //')
+  ovr=$(grep -E '^\s+OVERALL' "$BUILD/bench.log" | awk '{print "speed ratio vs baseline " $2}')
+  if [[ $rc == 0 ]]; then record "bench $BENCH_TIER" ok "${ovr:-no baseline} — $res"
+  else record "bench $BENCH_TIER" FAIL "output mismatch or slowdown (see $BUILD/bench.log)"; fi
+fi
 
 echo; echo "${B}==> Summary ($((SECONDS - T0))s)${N}"
 printf '%s\n' "${SUMMARY[@]}"

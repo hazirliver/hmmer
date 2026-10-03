@@ -1,0 +1,15 @@
+# Shared fixtures for benchmark cases: built ONCE per run by the build under
+# test, in $WORK/fx (cwd), visible to cases as ./fx/ (read-only).
+# Their wall times are recorded in the results but not compared.
+# Format: <name> <tier> <command>        D/ = derived dataset dir
+press_pfam1k     S  cp D/pfam_1k.hmm pfam_1k.hmm && hmmpress pfam_1k.hmm
+press_dfam15     S  cp D/dfam_pick15.hmm dfam15.hmm && hmmpress dfam15.hmm
+build_rfam_pick  S  hmmbuild --rna rfam_pick.hmm D/rfam_pick.sto
+fm_ecoli         S  makehmmerdb D/ecoli.fa ecoli.fm
+pkinase_hmm      S  hmmfetch D/pfam_hitters.hmm Pkinase > pkinase.hmm
+pkinase_hits     S  hmmsearch --cpu 8 -A pk_hits.sto -o /dev/null pkinase.hmm D/sprot_50k.fa && esl-reformat fasta pk_hits.sto > pk_hits.fa && rm pk_hits.sto
+gfo_hmm          S  hmmbuild gfo.hmm D/msa_GFO.sto > /dev/null
+press_pfam       M  cp D/Pfam-A.hmm Pfam-A.hmm && hmmpress Pfam-A.hmm
+press_dfam100    M  cp D/dfam_100.hmm dfam_100.hmm && hmmpress dfam_100.hmm
+fm_chr21_5M      S  makehmmerdb D/chr21_5M.fa chr21_5M.fm
+press_dfam_human L  cp D/dfam_human.hmm dfam_human.hmm && hmmpress dfam_human.hmm

@@ -1,0 +1,161 @@
+# HMMER benchmark cases.
+# Format: <name> <tier> <group>[:flags] <command>
+#   tier   S (smoke, ~5 min) < M (~30 min) < L (hours); a tier includes all smaller tiers
+#   group  reporting bucket (per-group geometric-mean speed ratio is reported)
+#   flags  nohash : don't hash outputs (timing-only, e.g. build, kernel drivers)
+#          kernel : time = the driver's own "# CPU time ... Elapsed:" (kernel loop only), Mc/s recorded
+#   command runs under bash in a fresh dir; "setup ;; timed" runs setup untimed first.
+#   D/ = derived datasets, fx/ = fixtures, $ROOT $BUILD $IMPL $NCPU are set.
+# Every hashed case's normalized outputs (stdout, stderr, all files) must match
+# dev/bench/golden.json; repeated reps must produce identical outputs.
+
+# ======================= toolchain =======================
+build_configure          S build:nohash      $ROOT/configure -q > /dev/null
+build_make_par           S build:nohash      $ROOT/configure -q >/dev/null ;; make -j$NCPU > /dev/null 2>&1
+build_make_dev           M build:nohash      $ROOT/configure -q >/dev/null ;; make -j$NCPU dev > /dev/null 2>&1
+
+# ======================= pipeline stage kernels (SIMD + generic reference) =======================
+k_msv_M50                S kernel:nohash:kernel  $IMPL/msvfilter_benchmark -N 120000 D/kern_M50.hmm
+k_msv_M400               S kernel:nohash:kernel  $IMPL/msvfilter_benchmark -N 100000 D/kern_M400.hmm
+k_msv_M1000              S kernel:nohash:kernel  $IMPL/msvfilter_benchmark -N 40000 D/kern_M1000.hmm
+k_msv_M400_L2000         S kernel:nohash:kernel  $IMPL/msvfilter_benchmark -N 20000 -L 2000 D/kern_M400.hmm
+k_vit_M50                S kernel:nohash:kernel  $IMPL/vitfilter_benchmark -N 80000 D/kern_M50.hmm
+k_vit_M400               S kernel:nohash:kernel  $IMPL/vitfilter_benchmark -N 20000 D/kern_M400.hmm
+k_vit_M1000              S kernel:nohash:kernel  $IMPL/vitfilter_benchmark -N 8000 D/kern_M1000.hmm
+k_fwdback_M50            S kernel:nohash:kernel  $IMPL/fwdback_benchmark -N 16000 D/kern_M50.hmm
+k_fwdback_M400           S kernel:nohash:kernel  $IMPL/fwdback_benchmark -N 2000 D/kern_M400.hmm
+k_fwdback_M1000          S kernel:nohash:kernel  $IMPL/fwdback_benchmark -N 800 D/kern_M1000.hmm
+k_decoding_M400          S kernel:nohash:kernel  $IMPL/decoding_benchmark -N 6000 D/kern_M400.hmm
+k_optacc_M400            S kernel:nohash:kernel  $IMPL/optacc_benchmark -N 4000 D/kern_M400.hmm
+k_stotrace_M400          S kernel:nohash:kernel  $IMPL/stotrace_benchmark -N 200000 D/kern_M400.hmm
+k_null2_M400             S kernel:nohash:kernel  $IMPL/null2_benchmark -N 20000 D/kern_M400.hmm
+k_gen_msv_M400           S kernel:nohash:kernel  $BUILD/src/generic_msv_benchmark -N 4000 D/kern_M400.hmm
+k_gen_vit_M400           S kernel:nohash:kernel  $BUILD/src/generic_viterbi_benchmark -N 2000 D/kern_M400.hmm
+k_gen_fwdback_M400       S kernel:nohash:kernel  $BUILD/src/generic_fwdback_benchmark -N 300 D/kern_M400.hmm
+k_gen_decoding_M400      S kernel:nohash:kernel  $BUILD/src/generic_decoding_benchmark -N 1000 D/kern_M400.hmm
+k_hmmcache_pfam          M kernel:nohash     $BUILD/src/p7_hmmcache_benchmark fx/Pfam-A.hmm
+
+# ======================= hmmbuild (MSA -> profile) =======================
+hmmbuild_seed100         S hmmbuild          hmmbuild --cpu $NCPU out.hmm D/seed_100.sto
+hmmbuild_seed100_cpu1    S hmmbuild          hmmbuild --cpu 1 out.hmm D/seed_100.sto
+hmmbuild_big20           S hmmbuild          hmmbuild --cpu $NCPU out.hmm D/seed_big20.sto
+hmmbuild_GFO_4226seq     S hmmbuild          hmmbuild out.hmm D/msa_GFO.sto
+hmmbuild_rfam100_rna     S hmmbuild          hmmbuild --cpu $NCPU --rna out.hmm D/rfam_100.sto
+hmmbuild_fmt_sto         S hmmbuild          hmmbuild out.hmm D/msa_LRR_1.sto
+hmmbuild_fmt_afa         S hmmbuild          hmmbuild --informat afa out.hmm D/msa_LRR_1.afa
+hmmbuild_fmt_a2m         S hmmbuild          hmmbuild --informat a2m out.hmm D/msa_LRR_1.a2m
+hmmbuild_fmt_psiblast    S hmmbuild          hmmbuild --informat psiblast out.hmm D/msa_LRR_1.psiblast
+hmmbuild_fmt_clustal     S hmmbuild          hmmbuild --informat clustal out.hmm D/msa_LRR_1.clustal
+hmmbuild_fmt_phylip      S hmmbuild          hmmbuild --amino --informat phylip out.hmm D/msa_LRR_1.phylip
+hmmbuild_fmt_selex       S hmmbuild          hmmbuild --informat selex out.hmm D/msa_LRR_1.selex
+hmmbuild_variants_wblosum S hmmbuild         hmmbuild --cpu $NCPU --wblosum --eclust out.hmm D/seed_100.sto
+hmmbuild_variants_fast   S hmmbuild          hmmbuild --cpu $NCPU --fast --wnone --enone out.hmm D/seed_100.sto
+hmmbuild_seed1k          M hmmbuild          hmmbuild --cpu $NCPU out.hmm D/seed_1k.sto
+hmmbuild_pfam_all        L hmmbuild          hmmbuild --cpu $NCPU out.hmm D/Pfam-A.seed.sto
+
+# ======================= hmmsearch (profiles vs seq db) =======================
+hmmsearch_mix_10k        S hmmsearch         hmmsearch --cpu $NCPU D/pfam_len_mix.hmm D/sprot_10k.fa
+hmmsearch_mix_10k_cpu1   S hmmsearch         hmmsearch --cpu 1 D/pfam_len_mix.hmm D/sprot_10k.fa
+hmmsearch_mix_10k_cpu0   S hmmsearch         hmmsearch --cpu 0 D/pfam_len_mix.hmm D/sprot_10k.fa
+hmmsearch_short_10k      S hmmsearch         hmmsearch --cpu $NCPU D/pfam_len_short.hmm D/sprot_10k.fa
+hmmsearch_xlong_10k      S hmmsearch         hmmsearch --cpu $NCPU D/pfam_len_xlong.hmm D/sprot_10k.fa
+hmmsearch_hitters_10k    S hmmsearch         hmmsearch --cpu $NCPU --tblout t.tbl --domtblout t.dom --pfamtblout t.pfam -A ali.sto D/pfam_hitters.hmm D/sprot_10k.fa
+hmmsearch_hitters_noali  S hmmsearch         hmmsearch --cpu $NCPU --noali D/pfam_hitters.hmm D/sprot_10k.fa
+hmmsearch_longseqs       S hmmsearch         hmmsearch --cpu $NCPU D/pfam_len_med.hmm D/sprot_long.fa
+hmmsearch_shortseqs      S hmmsearch         hmmsearch --cpu $NCPU D/pfam_len_mix.hmm D/sprot_short.fa
+hmmsearch_random100k     S hmmsearch         hmmsearch --cpu $NCPU D/pfam_10.hmm D/random_100k.fa
+hmmsearch_dishuffled     S hmmsearch         hmmsearch --cpu $NCPU D/pfam_len_mix.hmm D/sprot_10k_dishuffled.fa
+hmmsearch_in_fasta_10k   S hmmsearch         hmmsearch --cpu $NCPU --noali D/kern_M200.hmm D/sprot_10k.fa
+hmmsearch_in_embl_10k    S hmmsearch         hmmsearch --cpu $NCPU --noali D/kern_M200.hmm D/sprot_10k.dat
+hmmsearch_in_fasta_50k   S hmmsearch         hmmsearch --cpu $NCPU --noali D/kern_M200.hmm D/sprot_50k.fa
+hmmsearch_in_gzip_50k    S hmmsearch         hmmsearch --cpu $NCPU --noali D/kern_M200.hmm D/sprot_50k.fa.gz
+hmmsearch_in_stdin_50k   S hmmsearch         cat D/sprot_50k.fa | hmmsearch --cpu $NCPU --noali D/kern_M200.hmm -
+hmmsearch_max_1k         S hmmsearch         hmmsearch --cpu $NCPU --max --noali D/pfam_len_med.hmm D/sprot_1k.fa
+hmmsearch_nobias_nonull2 S hmmsearch         hmmsearch --cpu $NCPU --nobias --nonull2 --noali D/pfam_len_mix.hmm D/sprot_10k.fa
+hmmsearch_cutga          S hmmsearch         hmmsearch --cpu $NCPU --cut_ga --tblout t.tbl -o /dev/null D/pfam_1k.hmm D/sprot_1k.fa
+hmmsearch_in_fasta_sprot M hmmsearch         hmmsearch --cpu $NCPU --noali D/kern_M200.hmm D/sprot.fa
+hmmsearch_in_gzip_sprot  M hmmsearch         hmmsearch --cpu $NCPU --noali D/kern_M200.hmm D/sprot.fa.gz
+hmmsearch_in_stdin_sprot M hmmsearch         cat D/sprot.fa | hmmsearch --cpu $NCPU --noali D/kern_M200.hmm -
+hmmsearch_in_embl_50k    M hmmsearch         hmmsearch --cpu $NCPU --noali D/kern_M200.hmm D/sprot_50k.dat
+hmmsearch_p100_50k_cpu1  M hmmsearch         hmmsearch --cpu 1 --noali D/pfam_100.hmm D/sprot_50k.fa
+hmmsearch_p100_50k_cpu2  M hmmsearch         hmmsearch --cpu 2 --noali D/pfam_100.hmm D/sprot_50k.fa
+hmmsearch_p100_50k_cpu4  M hmmsearch         hmmsearch --cpu 4 --noali D/pfam_100.hmm D/sprot_50k.fa
+hmmsearch_p100_50k_cpu8  M hmmsearch         hmmsearch --cpu 8 --noali D/pfam_100.hmm D/sprot_50k.fa
+hmmsearch_p100_50k_cpuN  M hmmsearch         hmmsearch --cpu $NCPU --noali D/pfam_100.hmm D/sprot_50k.fa
+hmmsearch_hitters_50k    M hmmsearch         hmmsearch --cpu $NCPU --domtblout t.dom D/pfam_hitters.hmm D/sprot_50k.fa
+hmmsearch_max_10k        M hmmsearch         hmmsearch --cpu $NCPU --max --noali D/pfam_len_med.hmm D/sprot_10k.fa
+hmmsearch_human_pfam1k   M hmmsearch         hmmsearch --cpu $NCPU --cut_ga --domtblout t.dom -o /dev/null D/pfam_1k.hmm D/human.fa
+hmmsearch_p100_sprot     L hmmsearch         hmmsearch --cpu $NCPU --noali --tblout t.tbl D/pfam_100.hmm D/sprot.fa
+hmmsearch_hitters_sprot  L hmmsearch         hmmsearch --cpu $NCPU --domtblout t.dom -o /dev/null D/pfam_hitters.hmm D/sprot.fa
+
+# ======================= hmmscan (seqs vs pressed profile db) =======================
+hmmscan_h10_pfam1k       S hmmscan           hmmscan --cpu $NCPU fx/pfam_1k.hmm D/q_human_10.fa
+hmmscan_h10_pfam1k_cpu1  S hmmscan           hmmscan --cpu 1 fx/pfam_1k.hmm D/q_human_10.fa
+hmmscan_h100_pfam1k      S hmmscan           hmmscan --cpu $NCPU --tblout t.tbl --domtblout t.dom -o /dev/null fx/pfam_1k.hmm D/q_human_100.fa
+hmmscan_titin_pfam1k     S hmmscan           hmmscan --cpu $NCPU fx/pfam_1k.hmm D/q_titin.fa
+hmmscan_h100_pfam        M hmmscan           hmmscan --cpu $NCPU --cut_ga --domtblout t.dom -o /dev/null fx/Pfam-A.hmm D/q_human_100.fa
+hmmscan_pick5_pfam       M hmmscan           hmmscan --cpu $NCPU fx/Pfam-A.hmm D/q_pick5.fa
+hmmscan_titin_pfam       M hmmscan           hmmscan --cpu $NCPU --cut_ga fx/Pfam-A.hmm D/q_titin.fa
+hmmscan_h1000_pfam       L hmmscan           hmmscan --cpu $NCPU --cut_ga --domtblout t.dom -o /dev/null fx/Pfam-A.hmm D/q_human_1000.fa
+
+# ======================= phmmer / jackhmmer (seq vs seq db) =======================
+phmmer_hba_10k           S phmmer            phmmer --cpu $NCPU D/q_hba.fa D/sprot_10k.fa
+phmmer_pick5_10k         S phmmer            phmmer --cpu $NCPU --tblout t.tbl --domtblout t.dom D/q_pick5.fa D/sprot_10k.fa
+phmmer_titin_10k         S phmmer            phmmer --cpu $NCPU --noali D/q_titin.fa D/sprot_10k.fa
+jackhmmer_hba_10k        S jackhmmer         jackhmmer --cpu $NCPU -N 3 --noali D/q_hba.fa D/sprot_10k.fa
+jackhmmer_egfr_10k       S jackhmmer         jackhmmer --cpu $NCPU -N 3 --noali --chkhmm chk D/q_egfr.fa D/sprot_10k.fa
+phmmer_pick5_50k         M phmmer            phmmer --cpu $NCPU --noali D/q_pick5.fa D/sprot_50k.fa
+phmmer_titin_50k         M phmmer            phmmer --cpu $NCPU --noali D/q_titin.fa D/sprot_50k.fa
+jackhmmer_pick5_50k      M jackhmmer         jackhmmer --cpu $NCPU -N 3 --noali D/q_pick5.fa D/sprot_50k.fa
+phmmer_h10_sprot         L phmmer            phmmer --cpu $NCPU --noali --tblout t.tbl D/q_human_10.fa D/sprot.fa
+jackhmmer_egfr_sprot     L jackhmmer         jackhmmer --cpu $NCPU -N 5 --noali --tblout t.tbl D/q_egfr.fa D/sprot.fa
+
+# ======================= hmmalign =======================
+hmmalign_gfo_4226        S hmmalign          hmmalign fx/gfo.hmm D/seqs_GFO.fa
+hmmalign_pkinase_hits    S hmmalign          hmmalign --trim fx/pkinase.hmm fx/pk_hits.fa
+hmmalign_pkinase_a2m     S hmmalign          hmmalign --outformat a2m fx/pkinase.hmm fx/pk_hits.fa
+
+# ======================= nhmmer / nhmmscan / makehmmerdb (DNA/RNA) =======================
+nhmmer_alu_5M            S nhmmer            nhmmer --cpu $NCPU --noali --tblout t.tbl D/dfam_AluY.hmm D/chr21_5M.fa
+nhmmer_l1_5M             S nhmmer            nhmmer --cpu $NCPU --noali --tblout t.tbl D/dfam_L1HS_5end.hmm D/chr21_5M.fa
+nhmmer_pick15_1M         S nhmmer            nhmmer --cpu $NCPU --noali --tblout t.tbl D/dfam_pick15.hmm D/chr21_1M.fa
+nhmmer_alu_5M_cpu1       S nhmmer            nhmmer --cpu 1 --noali --tblout t.tbl D/dfam_AluY.hmm D/chr21_5M.fa
+nhmmer_alu_gzip          S nhmmer            nhmmer --cpu $NCPU --noali --tblout t.tbl D/dfam_AluY.hmm D/chr21_5M.fa.gz
+nhmmer_alu_watson        S nhmmer            nhmmer --cpu $NCPU --watson --noali --tblout t.tbl D/dfam_AluY.hmm D/chr21_5M.fa
+nhmmer_alu_random10M     S nhmmer            nhmmer --cpu $NCPU --noali D/dfam_AluY.hmm D/random_dna_10M.fa
+nhmmer_rfam_ecoli        S nhmmer            nhmmer --cpu $NCPU --tblout t.tbl fx/rfam_pick.hmm D/ecoli.fa
+nhmmer_rfam_ecoli_fm     S nhmmer            nhmmer --cpu $NCPU --tblout t.tbl --tformat fmindex fx/rfam_pick.hmm fx/ecoli.fm
+nhmmer_alu_5M_fm         S nhmmer            nhmmer --cpu $NCPU --noali --tblout t.tbl --tformat fmindex D/dfam_AluY.hmm fx/chr21_5M.fm
+nhmmer_seqquery_5M       S nhmmer            nhmmer --cpu $NCPU --noali --tblout t.tbl D/q_chr21_2k.fa D/chr21_5M.fa
+nhmmer_msaquery_ecoli    S nhmmer            nhmmer --cpu $NCPU --noali --tblout t.tbl D/rfam_pick.sto D/ecoli.fa
+makehmmerdb_ecoli        S nhmmer            makehmmerdb D/ecoli.fa ecoli.fm > /dev/null && rm -f ecoli.fm*
+nhmmscan_100k_dfam15     S nhmmscan          nhmmscan --cpu $NCPU --noali --tblout t.tbl fx/dfam15.hmm D/q_chr21_10x100k.fa
+nhmmer_seqquery_rep_5M   M nhmmer            nhmmer --cpu $NCPU --noali --tblout t.tbl -o /dev/null D/q_chr21_2k_rep.fa D/chr21_5M.fa
+nhmmer_dfam100_5M        M nhmmer            nhmmer --cpu $NCPU --noali --tblout t.tbl -o /dev/null D/dfam_100.hmm D/chr21_5M.fa
+nhmmer_pick15_chr21      M nhmmer            nhmmer --cpu $NCPU --noali --tblout t.tbl -o /dev/null D/dfam_pick15.hmm D/chr21.fa
+makehmmerdb_chr21_5M     M nhmmer            makehmmerdb D/chr21_5M.fa x.fm > /dev/null && rm -f x.fm*
+nhmmscan_100k_dfam100    M nhmmscan          nhmmscan --cpu $NCPU --noali --tblout t.tbl -o /dev/null fx/dfam_100.hmm D/q_chr21_10x100k.fa
+nhmmer_seqquery6k_5M     L nhmmer            nhmmer --cpu $NCPU --noali --tblout t.tbl -o /dev/null D/q_chr21_6k.fa D/chr21_5M.fa
+nhmmer_dfam100_5M_fm     L nhmmer            nhmmer --cpu $NCPU --noali --tblout t.tbl -o /dev/null --tformat fmindex D/dfam_100.hmm fx/chr21_5M.fm
+nhmmer_dfamhuman_5M      L nhmmer            nhmmer --cpu $NCPU --noali --tblout t.tbl -o /dev/null D/dfam_human.hmm D/chr21_5M.fa
+nhmmer_dfam100_chr21     L nhmmer            nhmmer --cpu $NCPU --noali --tblout t.tbl -o /dev/null D/dfam_100.hmm D/chr21.fa
+nhmmscan_1M_dfamhuman    L nhmmscan          nhmmscan --cpu $NCPU --noali --tblout t.tbl -o /dev/null fx/dfam_human.hmm D/chr21_1M.fa
+
+# ======================= profile db utilities =======================
+hmmpress_pfam1k          S util              cp D/pfam_1k.hmm db.hmm ;; hmmpress db.hmm && rm db.hmm
+hmmpress_dfam100         S util              cp D/dfam_100.hmm db.hmm ;; hmmpress db.hmm && rm db.hmm
+hmmstat_pfam1k           S util              hmmstat D/pfam_1k.hmm
+hmmconvert_pfam1k_bin    S util              hmmconvert -b D/pfam_1k.hmm > out.bin
+hmmconvert_pfam1k_h2     S util              hmmconvert -2 D/pfam_1k.hmm | md5sum
+hmmfetch_index_pfam1k    S util              cp D/pfam_1k.hmm db.hmm ;; hmmfetch --index db.hmm && rm db.hmm
+hmmfetch_100_pfam1k      S util              cp D/pfam_1k.hmm db.hmm && hmmfetch --index db.hmm >/dev/null && grep '^NAME' D/pfam_100.hmm | awk '{print $2}' > keys ;; hmmfetch -f db.hmm keys | md5sum && rm db.hmm*
+hmmemit_pfam10_N1000     S util              hmmemit --seed 7 -N 1000 D/pfam_10.hmm | md5sum
+hmmemit_consensus_pfam1k S util              hmmemit -c D/pfam_1k.hmm
+hmmsim_M400              S util              hmmsim --seed 42 -N 2000 D/kern_M400.hmm
+hmmsim_fwd_M200          S util              hmmsim --seed 42 -N 500 --fwd D/kern_M200.hmm
+hmmlogo_pfam_xlong       S util              for n in $(grep '^NAME' D/pfam_len_xlong.hmm | awk '{print $2}'); do hmmfetch D/pfam_len_xlong.hmm $n | hmmlogo - | md5sum; done
+alimask_lrr              S util              alimask --modelrange 5-15 D/msa_LRR_1.sto out.sto
+hmmpress_pfam            M util              cp D/Pfam-A.hmm db.hmm ;; hmmpress db.hmm && rm db.hmm
+hmmstat_pfam             M util              hmmstat D/Pfam-A.hmm
+hmmconvert_pfam_bin      M util              hmmconvert -b D/Pfam-A.hmm | md5sum
+hmmpress_dfam_human      L util              cp D/dfam_human.hmm db.hmm ;; hmmpress db.hmm && rm db.hmm

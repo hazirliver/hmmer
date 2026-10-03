@@ -49,3 +49,5 @@ src/nhmmer
 src/nhmmscan
 src/phmmer
 autom4te.cache
+bench-results/
+__pycache__/
