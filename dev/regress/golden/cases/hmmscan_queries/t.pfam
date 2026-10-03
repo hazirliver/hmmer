@@ -1,0 +1,111 @@
+# Sequence scores
+# ---------------
+#
+# name                  bits   E-value   n   exp  bias    description
+# ------------------- ------ --------- --- ----- -----    ---------------------
+globins4               214.0   3.5e-67   1   1.0   3.0    -
+
+# Domain scores
+# -------------
+#
+#  name                 bits   E-value   hit  bias env-st env-en ali-st ali-en hmm-st hmm-en     description
+# ------------------- ------ --------- ----- ----- ------ ------ ------ ------ ------ ------      ---------------------
+globins4               213.9   3.9e-67     1   3.0      1    147      1    147      2    149     -
+# Sequence scores
+# ---------------
+#
+# name                  bits   E-value   n   exp  bias    description
+# ------------------- ------ --------- --- ----- -----    ---------------------
+globins4               205.2   1.8e-64   1   1.0   1.2    -
+
+# Domain scores
+# -------------
+#
+#  name                 bits   E-value   hit  bias env-st env-en ali-st ali-en hmm-st hmm-en     description
+# ------------------- ------ --------- ----- ----- ------ ------ ------ ------ ------ ------      ---------------------
+globins4               205.1     2e-64     1   1.2      1    147      2    147      3    149     -
+# Sequence scores
+# ---------------
+#
+# name                  bits   E-value   n   exp  bias    description
+# ------------------- ------ --------- --- ----- -----    ---------------------
+globins4               194.8   2.9e-61   1   1.0   0.3    -
+
+# Domain scores
+# -------------
+#
+#  name                 bits   E-value   hit  bias env-st env-en ali-st ali-en hmm-st hmm-en     description
+# ------------------- ------ --------- ----- ----- ------ ------ ------ ------ ------ ------      ---------------------
+globins4               194.7   3.2e-61     1   0.3      1    147      2    147      3    149     -
+# Sequence scores
+# ---------------
+#
+# name                  bits   E-value   n   exp  bias    description
+# ------------------- ------ --------- --- ----- -----    ---------------------
+globins4               194.0   5.2e-61   1   1.0   1.1    -
+
+# Domain scores
+# -------------
+#
+#  name                 bits   E-value   hit  bias env-st env-en ali-st ali-en hmm-st hmm-en     description
+# ------------------- ------ --------- ----- ----- ------ ------ ------ ------ ------ ------      ---------------------
+globins4               193.9   5.7e-61     1   1.1      1    147      2    147      3    149     -
+# Sequence scores
+# ---------------
+#
+# name                  bits   E-value   n   exp  bias    description
+# ------------------- ------ --------- --- ----- -----    ---------------------
+globins4               194.9   2.8e-61   1   1.0   1.7    -
+
+# Domain scores
+# -------------
+#
+#  name                 bits   E-value   hit  bias env-st env-en ali-st ali-en hmm-st hmm-en     description
+# ------------------- ------ --------- ----- ----- ------ ------ ------ ------ ------ ------      ---------------------
+globins4               194.7   3.1e-61     1   1.7      1    147      2    147      3    149     -
+# Sequence scores
+# ---------------
+#
+# name                  bits   E-value   n   exp  bias    description
+# ------------------- ------ --------- --- ----- -----    ---------------------
+globins4               222.8   7.1e-70   1   1.0   0.1    -
+
+# Domain scores
+# -------------
+#
+#  name                 bits   E-value   hit  bias env-st env-en ali-st ali-en hmm-st hmm-en     description
+# ------------------- ------ --------- ----- ----- ------ ------ ------ ------ ------ ------      ---------------------
+globins4               222.6   7.9e-70     1   0.1      1    146      1    146      1    149     -
+# Sequence scores
+# ---------------
+#
+# name                  bits   E-value   n   exp  bias    description
+# ------------------- ------ --------- --- ----- -----    ---------------------
+fn3                    176.4   3.4e-56   9   9.8   0.9    Fibronectin type III domain
+Pkinase                129.5   4.7e-41   1   1.3   0.0    Protein kinase domain
+
+# Domain scores
+# -------------
+#
+#  name                 bits   E-value   hit  bias env-st env-en ali-st ali-en hmm-st hmm-en     description
+# ------------------- ------ --------- ----- ----- ------ ------ ------ ------ ------ ------      ---------------------
+Pkinase                128.8   7.6e-41     1   0.0   2209   2481   2211   2478      3    254     Protein kinase domain
+fn3                     46.2   1.4e-15     7   0.9   1800   1891   1800   1888      1     82     Fibronectin type III domain
+fn3                     41.9     3e-14     2   0.0    439    521    440    520      2     83     Fibronectin type III domain
+fn3                     22.1   4.6e-08     5   0.0   1305   1384   1313   1380     13     79     Fibronectin type III domain
+fn3                     21.0     1e-07     8   0.0   1901   1977   1904   1967      5     74     Fibronectin type III domain
+fn3                     15.1     7e-06     3   0.0    827    914    838    913     14     84     Fibronectin type III domain
+fn3                      8.9   0.00059     9   0.0   1994   2107   1994   2107      1     85     Fibronectin type III domain
+fn3                      4.6     0.013     4   0.0   1203   1251   1206   1236      6     36     Fibronectin type III domain
+fn3                      0.4      0.27     6   0.0   1742   1769   1754   1769     57     72     Fibronectin type III domain
+fn3                     -1.9       1.4     1   0.0    395    410    396    408     60     72     Fibronectin type III domain
+#
+# Program:         hmmscan
+# Version:         3.4 (Aug 2023)
+# Pipeline mode:   SEARCH
+# Query file:      fx/queries.fa
+# Target file:     db.hmm
+# Option settings: hmmscan -o main.out --tblout t.tbl --domtblout t.domtbl --pfamtblout t.pfam db.hmm fx/queries.fa 
+# Current dir:     [normalized]
+# Date:            [normalized]
+# [ok]

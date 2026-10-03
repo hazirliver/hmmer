@@ -1,0 +1,395 @@
+# hmmscan :: search sequence(s) against a profile database
+# HMMER 3.4 (Aug 2023); http://hmmer.org/
+# Copyright (C) 2023 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query sequence file:             fx/queries.fa
+# target HMM database:             db.hmm
+# output directed to file:         main.out
+# per-seq hits tabular output:     t.tbl
+# per-dom hits tabular output:     t.domtbl
+# pfam-style tabular hit output:   t.pfam
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       MYG_ESCGI  [L=153]
+Scores for complete sequence (score includes all domains):
+   --- full sequence ---   --- best 1 domain ---    -#dom-
+    E-value  score  bias    E-value  score  bias    exp  N  Model    Description
+    ------- ------ -----    ------- ------ -----   ---- --  -------- -----------
+    3.5e-67  214.0   3.0    3.9e-67  213.9   3.0    1.0  1  globins4  
+
+
+Domain annotation for each model (and alignments):
+>> globins4  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  213.9   3.0   6.5e-68   3.9e-67       2     149 .]       1     147 [.       1     147 [. 0.99
+
+  Alignments for each domain:
+  == domain 1  score: 213.9 bits;  conditional E-value: 6.5e-68
+   globins4   2 vLseaektkvkavWakveadveevGadiLvrlfvsyPetqefFekFkdLstedelkgsadvkkHgkkvldAlsdalakldekleaelkaLselHakklkv 101
+                vLs+ae++ v+++Wakveadv+++G+diL+rlf+ +Pet+e+F+kFk+L+te+e+k+s+d+kkHg++vl+Al+ +l+k ++++eaelk+L+++Ha+k+k+
+  MYG_ESCGI   1 VLSDAEWQLVLNIWAKVEADVAGHGQDILIRLFKGHPETLEKFDKFKHLKTEAEMKASEDLKKHGNTVLTALGGILKK-KGHHEAELKPLAQSHATKHKI 99 
+                69****************************************************************************.99******************* PP
+
+   globins4 102 dpkyfkllsevlvvvlaarlpkeftadvqaaleKllalvakalaskYk 149
+                ++ky++++s+++++vl++r+p++f+ad+qaa++K+l+l++k++a+kYk
+  MYG_ESCGI 100 PIKYLEFISDAIIHVLHSRHPGDFGADAQAAMNKALELFRKDIAAKYK 147
+                ***********************************************7 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query sequence(s):                         1  (153 residues searched)
+Target model(s):                           6  (984 nodes)
+Passed MSV filter:                         1  (0.166667); expected 0.1 (0.02)
+Passed bias filter:                        1  (0.166667); expected 0.1 (0.02)
+Passed Vit filter:                         1  (0.166667); expected 0.0 (0.001)
+Passed Fwd filter:                         1  (0.166667); expected 0.0 (1e-05)
+Initial search space (Z):                  6  [actual number of targets]
+Domain search space  (domZ):               1  [number of targets reported over threshold]
+# CPU time: [normalized]
+# Mc/sec: [normalized]
+//
+Query:       MYG_HORSE  [L=153]
+Scores for complete sequence (score includes all domains):
+   --- full sequence ---   --- best 1 domain ---    -#dom-
+    E-value  score  bias    E-value  score  bias    exp  N  Model    Description
+    ------- ------ -----    ------- ------ -----   ---- --  -------- -----------
+    1.8e-64  205.2   1.2      2e-64  205.1   1.2    1.0  1  globins4  
+
+
+Domain annotation for each model (and alignments):
+>> globins4  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  205.1   1.2   3.3e-65     2e-64       3     149 .]       2     147 ..       1     147 [. 0.99
+
+  Alignments for each domain:
+  == domain 1  score: 205.1 bits;  conditional E-value: 3.3e-65
+   globins4   3 LseaektkvkavWakveadveevGadiLvrlfvsyPetqefFekFkdLstedelkgsadvkkHgkkvldAlsdalakldekleaelkaLselHakklkvd 102
+                Ls++e+++v++vW+kvead++++G+++L+rlf+ +Pet+e+F+kFk+L+te+e+k+s+d+kkHg  vl+Al+ +l+k ++++eaelk+L+++Ha+k+k++
+  MYG_HORSE   2 LSDGEWQQVLNVWGKVEADIAGHGQEVLIRLFTGHPETLEKFDKFKHLKTEAEMKASEDLKKHGTVVLTALGGILKK-KGHHEAELKPLAQSHATKHKIP 100
+                89***************************************************************************.99******************** PP
+
+   globins4 103 pkyfkllsevlvvvlaarlpkeftadvqaaleKllalvakalaskYk 149
+                +ky++++s+++++vl++++p++f+ad+q+a+ K+l+l+++++a+kYk
+  MYG_HORSE 101 IKYLEFISDAIIHVLHSKHPGNFGADAQGAMTKALELFRNDIAAKYK 147
+                **********************************************7 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query sequence(s):                         1  (153 residues searched)
+Target model(s):                           6  (984 nodes)
+Passed MSV filter:                         1  (0.166667); expected 0.1 (0.02)
+Passed bias filter:                        1  (0.166667); expected 0.1 (0.02)
+Passed Vit filter:                         1  (0.166667); expected 0.0 (0.001)
+Passed Fwd filter:                         1  (0.166667); expected 0.0 (1e-05)
+Initial search space (Z):                  6  [actual number of targets]
+Domain search space  (domZ):               1  [number of targets reported over threshold]
+# CPU time: [normalized]
+# Mc/sec: [normalized]
+//
+Query:       MYG_PROGU  [L=153]
+Scores for complete sequence (score includes all domains):
+   --- full sequence ---   --- best 1 domain ---    -#dom-
+    E-value  score  bias    E-value  score  bias    exp  N  Model    Description
+    ------- ------ -----    ------- ------ -----   ---- --  -------- -----------
+    2.9e-61  194.8   0.3    3.2e-61  194.7   0.3    1.0  1  globins4  
+
+
+Domain annotation for each model (and alignments):
+>> globins4  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  194.7   0.3   5.3e-62   3.2e-61       3     149 .]       2     147 ..       1     147 [. 0.99
+
+  Alignments for each domain:
+  == domain 1  score: 194.7 bits;  conditional E-value: 5.3e-62
+   globins4   3 LseaektkvkavWakveadveevGadiLvrlfvsyPetqefFekFkdLstedelkgsadvkkHgkkvldAlsdalakldekleaelkaLselHakklkvd 102
+                Ls++e++ v++vW+kve d  ++G+++L+rlf+ +Pet+e+F+kFk+L++ede+++s+++kkHg +vl+Al+ +l+k ++++ ael++L+++Ha+k+k++
+  MYG_PROGU   2 LSDGEWQLVLNVWGKVEGDLSGHGQEVLIRLFKGHPETLEKFDKFKHLKAEDEMRASEELKKHGTTVLTALGGILKK-KGQHAAELAPLAQSHATKHKIP 100
+                89***************************************************************************.99******************** PP
+
+   globins4 103 pkyfkllsevlvvvlaarlpkeftadvqaaleKllalvakalaskYk 149
+                +ky++++se++++vl++++p++f+ad+q+a+ K+l+l+++++a+kYk
+  MYG_PROGU 101 VKYLEFISEAIIQVLQSKHPGDFGADAQGAMSKALELFRNDIAAKYK 147
+                **********************************************7 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query sequence(s):                         1  (153 residues searched)
+Target model(s):                           6  (984 nodes)
+Passed MSV filter:                         1  (0.166667); expected 0.1 (0.02)
+Passed bias filter:                        1  (0.166667); expected 0.1 (0.02)
+Passed Vit filter:                         1  (0.166667); expected 0.0 (0.001)
+Passed Fwd filter:                         1  (0.166667); expected 0.0 (1e-05)
+Initial search space (Z):                  6  [actual number of targets]
+Domain search space  (domZ):               1  [number of targets reported over threshold]
+# CPU time: [normalized]
+# Mc/sec: [normalized]
+//
+Query:       MYG_SAISC  [L=153]
+Scores for complete sequence (score includes all domains):
+   --- full sequence ---   --- best 1 domain ---    -#dom-
+    E-value  score  bias    E-value  score  bias    exp  N  Model    Description
+    ------- ------ -----    ------- ------ -----   ---- --  -------- -----------
+    5.2e-61  194.0   1.1    5.7e-61  193.9   1.1    1.0  1  globins4  
+
+
+Domain annotation for each model (and alignments):
+>> globins4  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  193.9   1.1   9.5e-62   5.7e-61       3     149 .]       2     147 ..       1     147 [. 0.99
+
+  Alignments for each domain:
+  == domain 1  score: 193.9 bits;  conditional E-value: 9.5e-62
+   globins4   3 LseaektkvkavWakveadveevGadiLvrlfvsyPetqefFekFkdLstedelkgsadvkkHgkkvldAlsdalakldekleaelkaLselHakklkvd 102
+                Ls++e++ v+++W+kvead+  +G+++L+ lf+ +Pet+e+F+kFk+L+ ede+k+s+++kkHg +vl+Al+ +l+k ++++eaelk+L+++Ha+k+k++
+  MYG_SAISC   2 LSDGEWQLVLNIWGKVEADIPSHGQEVLISLFKGHPETLEKFDKFKHLKSEDEMKASEELKKHGTTVLTALGGILKK-KGQHEAELKPLAQSHATKHKIP 100
+                89***************************************************************************.99******************** PP
+
+   globins4 103 pkyfkllsevlvvvlaarlpkeftadvqaaleKllalvakalaskYk 149
+                +ky++l+s+++v+vl++++p++f+ad+q+a++K+l+l+++++a+kYk
+  MYG_SAISC 101 VKYLELISDAIVHVLQKKHPGDFGADAQGAMKKALELFRNDMAAKYK 147
+                **********************************************7 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query sequence(s):                         1  (153 residues searched)
+Target model(s):                           6  (984 nodes)
+Passed MSV filter:                         1  (0.166667); expected 0.1 (0.02)
+Passed bias filter:                        1  (0.166667); expected 0.1 (0.02)
+Passed Vit filter:                         1  (0.166667); expected 0.0 (0.001)
+Passed Fwd filter:                         1  (0.166667); expected 0.0 (1e-05)
+Initial search space (Z):                  6  [actual number of targets]
+Domain search space  (domZ):               1  [number of targets reported over threshold]
+# CPU time: [normalized]
+# Mc/sec: [normalized]
+//
+Query:       MYG_LYCPI  [L=153]
+Scores for complete sequence (score includes all domains):
+   --- full sequence ---   --- best 1 domain ---    -#dom-
+    E-value  score  bias    E-value  score  bias    exp  N  Model    Description
+    ------- ------ -----    ------- ------ -----   ---- --  -------- -----------
+    2.8e-61  194.9   1.7    3.1e-61  194.7   1.7    1.0  1  globins4  
+
+
+Domain annotation for each model (and alignments):
+>> globins4  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  194.7   1.7   5.2e-62   3.1e-61       3     149 .]       2     147 ..       1     147 [. 0.99
+
+  Alignments for each domain:
+  == domain 1  score: 194.7 bits;  conditional E-value: 5.2e-62
+   globins4   3 LseaektkvkavWakveadveevGadiLvrlfvsyPetqefFekFkdLstedelkgsadvkkHgkkvldAlsdalakldekleaelkaLselHakklkvd 102
+                Ls++e++ v+++W+kve+d +++G+++L+rlf+ +Pet+++F+kFk+L+tede+kgs+d+kkHg++vl+Al+ +l+k ++++eaelk+L+++Ha+k+k++
+  MYG_LYCPI   2 LSDGEWQIVLNIWGKVETDLAGHGQEVLIRLFKNHPETLDKFDKFKHLKTEDEMKGSEDLKKHGNTVLTALGGILKK-KGHHEAELKPLAQSHATKHKIP 100
+                89***************************************************************************.99******************** PP
+
+   globins4 103 pkyfkllsevlvvvlaarlpkeftadvqaaleKllalvakalaskYk 149
+                +ky++++s+++++vl+++++++f ad +aa++K+l+l+++++a+kYk
+  MYG_LYCPI 101 VKYLEFISDAIIQVLQNKHSGDFHADTEAAMKKALELFRNDIAAKYK 147
+                **********************************************7 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query sequence(s):                         1  (153 residues searched)
+Target model(s):                           6  (984 nodes)
+Passed MSV filter:                         1  (0.166667); expected 0.1 (0.02)
+Passed bias filter:                        1  (0.166667); expected 0.1 (0.02)
+Passed Vit filter:                         1  (0.166667); expected 0.0 (0.001)
+Passed Fwd filter:                         1  (0.166667); expected 0.0 (1e-05)
+Initial search space (Z):                  6  [actual number of targets]
+Domain search space  (domZ):               1  [number of targets reported over threshold]
+# CPU time: [normalized]
+# Mc/sec: [normalized]
+//
+Query:       HBB_HUMAN  [L=146]
+Description: Human beta hemoglobin.
+Scores for complete sequence (score includes all domains):
+   --- full sequence ---   --- best 1 domain ---    -#dom-
+    E-value  score  bias    E-value  score  bias    exp  N  Model    Description
+    ------- ------ -----    ------- ------ -----   ---- --  -------- -----------
+    7.1e-70  222.8   0.1    7.9e-70  222.6   0.1    1.0  1  globins4  
+
+
+Domain annotation for each model (and alignments):
+>> globins4  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  222.6   0.1   1.3e-70   7.9e-70       1     149 []       1     146 []       1     146 [] 0.99
+
+  Alignments for each domain:
+  == domain 1  score: 222.6 bits;  conditional E-value: 1.3e-70
+   globins4   1 vvLseaektkvkavWakveadveevGadiLvrlfvsyPetqefFekFkdLstedelkgsadvkkHgkkvldAlsdalakldekleaelkaLselHakklk 100
+                v+L+++ek++v+a+W+kv  +v+evG+++L rl+v+yP+tq+fFe+F+dLst+d+++g+++vk+Hgkkvl+A+sd+la+ld +l++++++LselH++kl+
+  HBB_HUMAN   1 VHLTPEEKSAVTALWGKV--NVDEVGGEALGRLLVVYPWTQRFFESFGDLSTPDAVMGNPKVKAHGKKVLGAFSDGLAHLD-NLKGTFATLSELHCDKLH 97 
+                69****************..*************************************************************.****************** PP
+
+   globins4 101 vdpkyfkllsevlvvvlaarlpkeftadvqaaleKllalvakalaskYk 149
+                vdp++f+ll++vlv+vla++++keft++vqaa++K++a+va+ala+kY+
+  HBB_HUMAN  98 VDPENFRLLGNVLVCVLAHHFGKEFTPPVQAAYQKVVAGVANALAHKYH 146
+                ************************************************7 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query sequence(s):                         1  (146 residues searched)
+Target model(s):                           6  (984 nodes)
+Passed MSV filter:                         1  (0.166667); expected 0.1 (0.02)
+Passed bias filter:                        1  (0.166667); expected 0.1 (0.02)
+Passed Vit filter:                         1  (0.166667); expected 0.0 (0.001)
+Passed Fwd filter:                         1  (0.166667); expected 0.0 (1e-05)
+Initial search space (Z):                  6  [actual number of targets]
+Domain search space  (domZ):               1  [number of targets reported over threshold]
+# CPU time: [normalized]
+# Mc/sec: [normalized]
+//
+Query:       7LESS_DROME  [L=2554]
+Description: P13368 RecName: Full=Protein sevenless;          EC=2.7.10.1;
+Scores for complete sequence (score includes all domains):
+   --- full sequence ---   --- best 1 domain ---    -#dom-
+    E-value  score  bias    E-value  score  bias    exp  N  Model    Description
+    ------- ------ -----    ------- ------ -----   ---- --  -------- -----------
+    3.4e-56  176.4   0.9    1.4e-15   46.2   0.9    9.8  9  fn3       Fibronectin type III domain
+    4.7e-41  129.5   0.0    7.6e-41  128.8   0.0    1.3  1  Pkinase   Protein kinase domain
+
+
+Domain annotation for each model (and alignments):
+>> fn3  Fibronectin type III domain
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ?   -1.9   0.0      0.48       1.4      60      72 ..     396     408 ..     395     410 .. 0.87
+   2 !   41.9   0.0     1e-14     3e-14       2      83 ..     440     520 ..     439     521 .. 0.95
+   3 !   15.1   0.0   2.3e-06     7e-06      14      84 ..     838     913 ..     827     914 .. 0.74
+   4 !    4.6   0.0    0.0044     0.013       6      36 ..    1206    1236 ..    1203    1251 .. 0.83
+   5 !   22.1   0.0   1.5e-08   4.6e-08      13      79 ..    1313    1380 ..    1305    1384 .. 0.82
+   6 ?    0.4   0.0      0.09      0.27      57      72 ..    1754    1769 ..    1742    1769 .. 0.88
+   7 !   46.2   0.9   4.7e-16   1.4e-15       1      82 [.    1800    1888 ..    1800    1891 .. 0.91
+   8 !   21.0   0.0   3.3e-08     1e-07       5      74 ..    1904    1967 ..    1901    1977 .. 0.90
+   9 !    8.9   0.0    0.0002   0.00059       1      85 []    1994    2107 ..    1994    2107 .. 0.81
+
+  Alignments for each domain:
+  == domain 1  score: -1.9 bits;  conditional E-value: 0.48
+                  EESSSTTEEEEEE CS
+          fn3  60 ltgLkpgteYevr 72 
+                  l+ L p+t+Y++r
+  7LESS_DROME 396 LEALIPYTQYRFR 408
+                  6789*******98 PP
+
+  == domain 2  score: 41.9 bits;  conditional E-value: 1e-14
+                  SBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTEEEE CS
+          fn3   2 aPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngggegp 83 
+                  aP   +++   ++ l v+W+p +  ngpi+gY++++++++++  + e+ vp    s+++++L++gt+Y++ +  +n++gegp
+  7LESS_DROME 440 APVIEHLMGLDDSHLAVHWHPGRFTNGPIEGYRLRLSSSEGNA-TSEQLVPAGRGSYIFSQLQAGTNYTLALSMINKQGEGP 520
+                  77778899999****************************9997.***********************************997 PP
+
+  == domain 3  score: 15.1 bits;  conditional E-value: 2.3e-06
+                  SEEEEEEE-CS..SS....SSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTE.EEEE CS
+          fn3  14 tsltvsWtppe..dg....ngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavnggg.egpe 84 
+                    + +sW++pe  +      +   +Ye+e+ ++ +++   +i++ +    + l+ L+p+  Y++rV+a+n +g  g++
+  7LESS_DROME 838 QAAKISWKEPErnPYqsadAARSWSYELEVLDVASQS-AFSIRNIRGP-IFGLQRLQPDNLYQLRVRAINVDGePGEW 913
+                  5677889998874221111223458********9999.6666655555.5**********************966666 PP
+
+  == domain 4  score: 4.6 bits;  conditional E-value: 0.0044
+                   EEEEEESSSEEEEEEE-CSSSSSTECEEEEE CS
+          fn3    6 lsvtevtstsltvsWtppedgngpitgYeve 36  
+                   +++ +  ++ ++v+W+p+++g+++  +Y++ 
+  7LESS_DROME 1206 VRLDDGHWDDFHVRWQPSTSGGNHSVSYRLL 1236
+                   566666788999*******999999999985 PP
+
+  == domain 5  score: 22.1 bits;  conditional E-value: 1.5e-08
+                   SSEEEEEEE-CS...SSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETT CS
+          fn3   13 stsltvsWtppe...dgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngg 79  
+                   + s++++W++pe   + + +   Y + ++  +e +   e ++  ++ ++ +++L+p+++Y+++V a+ ++
+  7LESS_DROME 1313 NVSAVLRWDAPEqgqEAPMQALEYHISCWVGSELH--EELRLNQSALEARVEHLQPDQTYHFQVEARVAA 1380
+                   6799********76666667789********8885..67777777777*****************98665 PP
+
+  == domain 6  score: 0.4 bits;  conditional E-value: 0.09
+                   EEEEESSSTTEEEEEE CS
+          fn3   57 svtltgLkpgteYevr 72  
+                   s++lt+L p t+Y+v+
+  7LESS_DROME 1754 SLNLTDLLPFTRYRVS 1769
+                   899**********985 PP
+
+  == domain 7  score: 46.2 bits;  conditional E-value: 4.7e-16
+                   TSBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSS.......TEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTEEE CS
+          fn3    1 saPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknege.......ewneitvpgtttsvtltgLkpgteYevrVqavngggeg 82  
+                   s+P+n+sv+  ++++l vsW ppe+ +++  +Y+++++++ +ge       ++ +++  +t+ ++ ltg kpg+ Y+++Vqa+ + +++
+  7LESS_DROME 1800 SPPRNFSVRVLSPRELEVSWLPPEQLRSESVYYTLHWQQELDGEnvqdrreWEAHERRLETAGTHRLTGIKPGSGYSLWVQAHATPTKS 1888
+                   79***********************************99999999****98777777888888*******************9877665 PP
+
+  == domain 8  score: 21.0 bits;  conditional E-value: 3.3e-08
+                   EEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEE CS
+          fn3    5 nlsvtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVq 74  
+                   +l++ e +++sl+++W      ++p+ + ++e+r++ e+    +++v g++t ++++ L+p t+Y++r+ 
+  7LESS_DROME 1904 ELQLLELGPYSLSLTWAGT---PDPLGSLQLECRSSAEQ---LRRNVAGNHTKMVVEPLQPRTRYQCRLL 1967
+                   6889999************...9*************655...7***********************9985 PP
+
+  == domain 9  score: 8.9 bits;  conditional E-value: 0.0002
+                   TSBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSS...........................TEEEEEEESTCS.EEEEESSSTTEE CS
+          fn3    1 saPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknege...........................ewneitvpgttt.svtltgLkpgte 68  
+                   s+P+ ++++ + +  ++v+Wt+ + +++pi  Y++e  ++++                             e+++ +  +tt+ s++++ L+ ++ 
+  7LESS_DROME 1994 SQPGKPQLEHIAEEVFRVTWTAARGNGAPIALYNLEALQARSDIrrrrrrrrrnsggsleqlpwaeepvvvEDQWLDFCNTTElSCIVKSLHSSRL 2089
+                   689999******************9999********988866666888888888888888887777777777777777777777888888888888 PP
+
+                   EEEEEEEEETTE.EEEEE CS
+          fn3   69 YevrVqavnggg.egpes 85  
+                     +rV+a++ +  +gp+s
+  7LESS_DROME 2090 LLFRVRARSLEHgWGPYS 2107
+                   888888888544477665 PP
+
+>> Pkinase  Protein kinase domain
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  128.8   0.0   2.5e-41   7.6e-41       3     254 ..    2211    2478 ..    2209    2481 .. 0.83
+
+  Alignments for each domain:
+  == domain 1  score: 128.8 bits;  conditional E-value: 2.5e-41
+                   EEEEEEEESSEEEEEEEET....TTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE--TTEBHHHHHH..HH CS
+      Pkinase    3 vleklGeGsfgkVykavek....etgkivAvKkikkekakkkkekkvlrEikilkklkhpnivrlidvfeekdelylvleyveggelfdlls..rk 92  
+                    l+ lG+G+fg+Vy++  k    e+ + vA+K ++k   +     ++l+E ++++++kh+niv l++++ +++++ l++e++e g+l ++l+  r 
+  7LESS_DROME 2211 LLRFLGSGAFGEVYEGQLKtedsEEPQRVAIKSLRKGASEF---AELLQEAQLMSNFKHENIVCLVGICFDTESISLIMEHMEAGDLLSYLRaaR- 2302
+                   5788*********998754111145578******9996665...568*********************************************652. PP
+
+                   SS--HH...........HHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEE.TTTE......EEE-SGTTSEECCSSCS...BCTCCSCGGGS-HH CS
+      Pkinase   93 galsee...........eakkilkqilegleylHskgivHrDlKpeNiLld.ekge......lKitDFGlakelesssk...ltsfvgtseYmAPE 167 
+                    a s +           e+  ++  +++g +yl ++++vHrDl   N L+  ++g       +Ki DFGla+ + +s       +     ++m+PE
+  7LESS_DROME 2303 -ATSTQepqptaglslsELLAMCIDVANGCSYLEDMHFVHRDLACRNCLVTeSTGStdrrrtVKIGDFGLARDIYKSDYyrkEGEGLLPVRWMSPE 2397
+                   .3333334667777666999*******************************55454777788************99986533334456789***** PP
+
+                   HHTTSTCSHHHHHHHHHHHHHHHHH.SS-STTTSSCHHHHHHHHHTHHHHSHH......TTS-HHHHHHHHHHT-SSGCCSTTHHHHH CS
+      Pkinase  168 vlkskkygkkvDvWslGvilyellt.gkppfsaekekekvekeldqlelkelklkspelsslseeakdllkkllkkdpkkRltaeell 254 
+                    l +  +++++DvW+ Gv+++e+lt g++p+ a+++ e  ++  +           +++  + e++ +ll  +++ dp +R++++ + 
+  7LESS_DROME 2398 SLVDGLFTTQSDVWAFGVLCWEILTlGQQPYAARNNFEVLAHVKE-------GGRLQQPPMCTEKLYSLLLLCWRTDPWERPSFRRCY 2478
+                   **********************88659*****6666553333333.......56889999***********************99876 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query sequence(s):                         1  (2554 residues searched)
+Target model(s):                           6  (984 nodes)
+Passed MSV filter:                         2  (0.333333); expected 0.1 (0.02)
+Passed bias filter:                        2  (0.333333); expected 0.1 (0.02)
+Passed Vit filter:                         2  (0.333333); expected 0.0 (0.001)
+Passed Fwd filter:                         2  (0.333333); expected 0.0 (1e-05)
+Initial search space (Z):                  6  [actual number of targets]
+Domain search space  (domZ):               2  [number of targets reported over threshold]
+# CPU time: [normalized]
+# Mc/sec: [normalized]
+//
+[ok]

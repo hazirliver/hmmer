@@ -1,0 +1,20 @@
+# Fixture stage: run serially, in order, inside $WORK/fx (cwd).
+# Everything produced here is (1) compared against golden/fx and
+# (2) available read-only to every case as ./fx/.
+#
+# Format: <name> <shell command...>   (first token = name, rest = command)
+# Input data is available as ./data/ ; HMMER/Easel programs are on PATH.
+# The DATE line of every *.hmm written here is normalized before
+# downstream use, so pressed/binary files are reproducible.
+
+build_globins4   hmmbuild globins4.hmm data/globins4.sto
+build_fn3        hmmbuild fn3.hmm data/fn3.sto
+build_Pkinase    hmmbuild Pkinase.hmm data/Pkinase.sto
+build_RRM_1      hmmbuild RRM_1.hmm data/RRM_1.sto
+build_LuxC       hmmbuild LuxC.hmm data/LuxC.sto
+build_20aa       hmmbuild 20aa.hmm data/20aa.sto
+build_MADE1      hmmbuild MADE1.hmm data/MADE1.sto
+build_3box       hmmbuild 3box.hmm data/3box.sto
+concat_protdb    cat globins4.hmm fn3.hmm Pkinase.hmm RRM_1.hmm LuxC.hmm 20aa.hmm > minipfam.hmm
+concat_dnadb     cat MADE1.hmm 3box.hmm > dnafam.hmm
+queries          esl-reformat fasta data/7LESS_DROME > 7LESS.fa && awk '/^>/{n++} n<=5' data/globins45.fa > queries.fa && cat data/HBB_HUMAN 7LESS.fa >> queries.fa

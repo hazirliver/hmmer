@@ -1,0 +1,4 @@
+Alignment input parse error:
+   sequence MYG_MUSAN has alen 148; expected 153
+   while reading aligned FASTA file data/protdb.fa
+   at or near line 29

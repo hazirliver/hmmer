@@ -1,0 +1,49 @@
+# nhmmer :: search a DNA model, alignment, or sequence against a DNA database
+# HMMER 3.4 (Aug 2023); http://hmmer.org/
+# Copyright (C) 2023 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query file:                      fx/MADE1.hmm
+# target sequence database:        data/dna_target.fa
+# hits tabular output:             t.tbl
+# show alignments in output:       no
+# search only bottom strand:       on
+# number of worker threads:        2
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       MADE1  [M=80]
+Accession:   DF0000629.2
+Description: MADE1 (MAriner Derived Element 1), a TcMar-Mariner DNA transposon
+Scores for complete hits:
+    E-value  score  bias  Sequence        start    end  Description
+    ------- ------ -----  --------        -----  -----  -----------
+    5.8e-09   32.8   6.8  humanchr1_frag 302466 302389 
+      2e-06   24.7   7.0  humanchr1_frag 174493 174456 
+
+
+Annotation for each hit :
+>> humanchr1_frag  
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ !   32.8   6.8   5.8e-09         1        78 [.    302466    302389 ..    302466    302387 ..    330000    0.83
+
+>> humanchr1_frag  
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ !   24.7   7.0     2e-06        43        80 .]    174493    174456 ..    174513    174456 ..    330000    0.94
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (80 nodes)
+Target sequences:                          1  (330000 residues searched)
+Residues passing SSV filter:           34487  (0.105); expected (0.02)
+Residues passing bias filter:          21110  (0.064); expected (0.02)
+Residues passing Vit filter:            2200  (0.00667); expected (0.003)
+Residues passing Fwd filter:             623  (0.00189); expected (3e-05)
+Total number of hits:                      2  (0.000352)
+# CPU time: [normalized]
+# Mc/sec: [normalized]
+//
+[ok]

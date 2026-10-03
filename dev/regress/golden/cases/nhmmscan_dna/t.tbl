@@ -1,0 +1,19 @@
+# target name        accession   query name           accession  hmmfrom hmm to alifrom  ali to envfrom  env to  modlen strand   E-value  score  bias  description of target
+#-------------------  ---------- -------------------- ---------- ------- ------- ------- ------- ------- ------- ------- ------ --------- ------ ----- ---------------------
+MADE1                DF0000629.2 humanchr1_frag       -                4      80  302390  302466  302387  302466      80    +     1.4e-10   39.9   7.2  MADE1 (MAriner Derived Element 1), a TcMar-Mariner DNA transposon
+MADE1                DF0000629.2 humanchr1_frag       -                1      78  302466  302389  302466  302387      80    -     2.3e-08   32.8   6.8  MADE1 (MAriner Derived Element 1), a TcMar-Mariner DNA transposon
+MADE1                DF0000629.2 humanchr1_frag       -                1      43  174456  174498  174456  174518      80    +     8.2e-08   31.0   8.2  MADE1 (MAriner Derived Element 1), a TcMar-Mariner DNA transposon
+MADE1                DF0000629.2 humanchr1_frag       -               43      80  174493  174456  174513  174456      80    -       8e-06   24.7   7.0  MADE1 (MAriner Derived Element 1), a TcMar-Mariner DNA transposon
+3box                 -           humanchr1_frag       -                1      16  178064  178049  178064  178045      20    -         1.4    9.5   2.2  -
+MADE1                DF0000629.2 humanchr1_frag       -               41      72  304073  304104  304053  304109      80    +         1.7    7.6   7.5  MADE1 (MAriner Derived Element 1), a TcMar-Mariner DNA transposon
+3box                 -           humanchr1_frag       -                1      16   96791   96776   96791   96770      20    -         2.7    8.6   3.2  -
+#
+# Program:         nhmmscan
+# Version:         3.4 (Aug 2023)
+# Pipeline mode:   SCAN
+# Query file:      q.fa
+# Target file:     db.hmm
+# Option settings: nhmmscan --tblout t.tbl --dfamtblout t.dfam db.hmm q.fa 
+# Current dir:     [normalized]
+# Date:            [normalized]
+# [ok]

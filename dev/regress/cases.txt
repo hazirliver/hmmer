@@ -1,0 +1,101 @@
+# Regression cases: run in parallel, each in its own empty dir
+# $WORK/cases/<name>/ (cwd), with ./data -> input data and ./fx -> fixtures.
+# stdout/stderr/exit code of the command plus every regular file the case
+# leaves in its dir are compared byte-for-byte against golden/cases/<name>/
+# (after the volatile-line normalization described in dev/README.md).
+#
+# Format: <name> <shell command...>   (first token = name, rest = command)
+# Keep outputs small: delete big intermediates (e.g. FM-index dbs) in the command.
+
+# ---------- hmmbuild variants ----------
+hmmbuild_fast         hmmbuild --fast --symfrac 0.6 out.hmm data/Pkinase.sto
+hmmbuild_hand         hmmbuild --hand out.hmm data/20aa.sto
+hmmbuild_wnone_enone  hmmbuild --wnone --enone out.hmm data/fn3.sto
+hmmbuild_wblosum_eclust hmmbuild --wblosum --eclust out.hmm data/fn3.sto
+hmmbuild_wgsc_eset    hmmbuild --wgsc --eset 1.5 out.hmm data/LuxC.sto
+hmmbuild_pnone        hmmbuild --pnone out.hmm data/globins4.sto
+hmmbuild_resave_O     hmmbuild -O resaved.sto out.hmm data/Pkinase.sto
+hmmbuild_singleseq    hmmbuild --amino out.hmm data/HBB_HUMAN
+hmmbuild_multi_cpu0   cat data/fn3.sto data/RRM_1.sto data/Pkinase.sto data/LuxC.sto data/20aa.sto > in.sto && hmmbuild --cpu 0 out.hmm in.sto && rm in.sto
+hmmbuild_multi_cpu4   cat data/fn3.sto data/RRM_1.sto data/Pkinase.sto data/LuxC.sto data/20aa.sto > in.sto && hmmbuild --cpu 4 out.hmm in.sto && rm in.sto
+hmmbuild_hand_err     hmmbuild --hand out.hmm data/RRM_1.sto
+hmmbuild_dna_seed     hmmbuild --dna --EmL 300 --seed 7 out.hmm data/3box.sto
+
+# ---------- hmmsearch ----------
+hmmsearch_globins     hmmsearch fx/globins4.hmm data/protdb.fa
+hmmsearch_tables      hmmsearch --tblout t.tbl --domtblout t.domtbl --pfamtblout t.pfam -A ali.sto -o main.out fx/Pkinase.hmm data/protdb.fa
+hmmsearch_multi       hmmsearch --noali --acc fx/minipfam.hmm data/protdb.fa
+hmmsearch_multi_cpu0  hmmsearch --noali --acc --cpu 0 fx/minipfam.hmm data/protdb.fa
+hmmsearch_multi_cpu8  hmmsearch --noali --acc --cpu 8 fx/minipfam.hmm data/protdb.fa
+hmmsearch_max         hmmsearch --max --tblout t.tbl fx/fn3.hmm data/protdb.fa
+hmmsearch_nobias_nonull2 hmmsearch --nobias --nonull2 --domtblout t.domtbl fx/RRM_1.hmm data/protdb.fa
+hmmsearch_thresh      hmmsearch -E 50 --domE 50 --incE 1e-5 --incdomE 1e-5 -Z 1000 --domZ 1000 --notextw fx/LuxC.hmm data/protdb.fa
+hmmsearch_T           hmmsearch -T 10 --domT 5 --F1 0.05 --F2 0.01 --F3 0.001 fx/globins4.hmm data/protdb.fa
+hmmsearch_stdin_hmm   cat fx/fn3.hmm | hmmsearch --tblout t.tbl - data/protdb.fa
+hmmsearch_seed0       hmmsearch --seed 1234 --tblout t.tbl --noali fx/Pkinase.hmm data/protdb.fa
+
+# ---------- hmmpress / hmmscan ----------
+hmmpress_protdb       cp fx/minipfam.hmm db.hmm && hmmpress db.hmm && rm db.hmm
+hmmscan_queries       cp fx/minipfam.hmm db.hmm && hmmpress db.hmm >/dev/null && hmmscan --tblout t.tbl --domtblout t.domtbl --pfamtblout t.pfam -o main.out db.hmm fx/queries.fa && rm db.hmm*
+hmmscan_cpu0_max      cp fx/minipfam.hmm db.hmm && hmmpress db.hmm >/dev/null && hmmscan --cpu 0 --max --noali db.hmm fx/queries.fa && rm db.hmm*
+hmmscan_cpu8          cp fx/minipfam.hmm db.hmm && hmmpress db.hmm >/dev/null && hmmscan --cpu 8 db.hmm fx/queries.fa && rm db.hmm*
+
+# ---------- phmmer / jackhmmer ----------
+phmmer_hbb            phmmer --tblout t.tbl --domtblout t.domtbl -A ali.sto data/HBB_HUMAN data/protdb.fa
+phmmer_queries_cpu0   phmmer --noali --cpu 0 fx/queries.fa data/protdb.fa
+phmmer_matrix_gaps    phmmer --mx BLOSUM45 --popen 0.04 --pextend 0.5 --noali data/HBB_HUMAN data/protdb.fa
+phmmer_7less          phmmer --noali fx/7LESS.fa data/protdb.fa
+jackhmmer_hbb         jackhmmer -N 3 --tblout t.tbl --domtblout t.domtbl --chkhmm chk --chkali chk -A ali.sto data/HBB_HUMAN data/protdb.fa
+jackhmmer_cpu0        jackhmmer -N 2 --noali --cpu 0 data/HBB_HUMAN data/protdb.fa
+jackhmmer_stockquery  jackhmmer -N 2 --noali --qformat stockholm data/globins4.sto data/protdb.fa
+
+# ---------- nhmmer / nhmmscan / makehmmerdb ----------
+nhmmer_made1          nhmmer --tblout t.tbl --dfamtblout t.dfam --aliscoresout t.scores fx/MADE1.hmm data/dna_target.fa
+nhmmer_made1_cpu0     nhmmer --noali --cpu 0 fx/MADE1.hmm data/dna_target.fa
+nhmmer_made1_cpu8_blk nhmmer --noali --cpu 8 --block_length 60000 fx/MADE1.hmm data/dna_target.fa
+nhmmer_watson         nhmmer --watson --noali --tblout t.tbl fx/MADE1.hmm data/dna_target.fa
+nhmmer_crick          nhmmer --crick --noali --tblout t.tbl fx/MADE1.hmm data/dna_target.fa
+nhmmer_ali_query      nhmmer --hmmout q.hmm --noali data/MADE1.sto data/dna_target.fa
+nhmmer_max            nhmmer --max --noali --tblout t.tbl fx/MADE1.hmm data/dna_target.fa
+nhmmer_fmindex        makehmmerdb data/dna_target.fa fm.db > /dev/null && nhmmer --tformat fmindex --tblout t.tbl fx/MADE1.hmm fm.db && rm -f fm.db
+nhmmscan_dna          cp fx/dnafam.hmm db.hmm && hmmpress db.hmm >/dev/null && awk '/^>/{n++} n<=3' data/dna_target.fa > q.fa && nhmmscan --tblout t.tbl --dfamtblout t.dfam db.hmm q.fa && rm -f db.hmm* q.fa
+
+# ---------- hmmalign ----------
+hmmalign_globins      hmmalign fx/globins4.hmm data/globins45.fa
+hmmalign_trim_a2m     hmmalign --trim --outformat a2m fx/globins4.hmm data/globins45.fa
+hmmalign_afa          hmmalign --outformat afa -o out.afa fx/globins4.hmm data/globins45.fa
+hmmalign_mapali       hmmalign --mapali data/globins4.sto fx/globins4.hmm data/globins45.fa
+hmmalign_pfam         hmmalign --outformat pfam fx/fn3.hmm fx/queries.fa
+
+# ---------- hmmemit / hmmsim ----------
+hmmemit_seqs          hmmemit --seed 17 -N 25 fx/Pkinase.hmm
+hmmemit_alignment     hmmemit --seed 17 -N 15 -a fx/globins4.hmm
+hmmemit_consensus     hmmemit -c fx/minipfam.hmm
+hmmemit_fancycons     hmmemit -C --minl 0.2 --minu 0.6 fx/minipfam.hmm
+hmmemit_profile       hmmemit --seed 9 -p -N 10 -L 300 --local fx/fn3.hmm
+hmmemit_dna           hmmemit --seed 9 -N 5 fx/MADE1.hmm
+hmmsim_vit            hmmsim --seed 42 -N 300 -L 200 fx/fn3.hmm
+hmmsim_fwd            hmmsim --seed 42 -N 300 -L 200 --fwd fx/globins4.hmm
+hmmsim_msv_ffile      hmmsim --seed 42 -N 300 -L 200 --msv --ffile f.out --xfile x.out fx/RRM_1.hmm
+hmmsim_hyb            hmmsim --seed 5 -N 100 -L 150 --hyb fx/globins4.hmm
+
+# ---------- utilities ----------
+hmmstat_all           hmmstat fx/minipfam.hmm
+hmmstat_dna           hmmstat fx/dnafam.hmm
+hmmconvert_default    cat fx/globins4.hmm fx/fn3.hmm > in.hmm && hmmconvert in.hmm && rm in.hmm
+hmmconvert_3a         hmmconvert --outfmt 3/a fx/globins4.hmm
+hmmconvert_h2         cat fx/globins4.hmm fx/fn3.hmm > in.hmm && hmmconvert -2 in.hmm && rm in.hmm
+hmmconvert_binary     hmmconvert -b fx/minipfam.hmm > out.bin && hmmconvert out.bin > roundtrip.hmm && cmp roundtrip.hmm fx/minipfam.hmm && rm roundtrip.hmm
+hmmfetch_name         hmmfetch fx/minipfam.hmm Pkinase
+hmmfetch_list         cp fx/minipfam.hmm db.hmm && hmmfetch --index db.hmm && printf 'RRM_1\nglobins4\n' > keys && hmmfetch -f db.hmm keys && rm -f db.hmm db.hmm.ssi
+hmmlogo_relent        hmmlogo fx/fn3.hmm
+hmmlogo_abovebg       hmmlogo --height_relent_abovebg fx/globins4.hmm
+hmmlogo_score         hmmlogo --height_score --no_indel fx/RRM_1.hmm
+alimask_modelrange    alimask --modelrange 10-40,60-70 data/Pkinase.sto out.sto
+alimask_alirange      alimask --alirange 5-30 data/fn3.sto out.sto
+alimask_model2ali     alimask --model2ali 10-40 data/Pkinase.sto
+
+# ---------- error paths (exit codes and messages) ----------
+err_missing_hmm       hmmsearch nonexistent.hmm data/protdb.fa
+err_bad_format        hmmbuild out.hmm data/protdb.fa
+err_bad_option        hmmsearch --no-such-option fx/fn3.hmm data/protdb.fa

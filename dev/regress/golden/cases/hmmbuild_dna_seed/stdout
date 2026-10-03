@@ -1,0 +1,17 @@
+# hmmbuild :: profile HMM construction from multiple sequence alignments
+# HMMER 3.4 (Aug 2023); http://hmmer.org/
+# Copyright (C) 2023 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# input alignment file:             data/3box.sto
+# output HMM file:                  out.hmm
+# input alignment is asserted as:   DNA
+# seq length for MSV Gumbel mu fit: 300
+# random number seed set to:        7
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# idx name                  nseq  alen  mlen     W eff_nseq re/pos description
+#---- -------------------- ----- ----- ----- ----- -------- ------ -----------
+1     3box                    22    22    20    75    22.00  1.414 
+
+# CPU time: [normalized]

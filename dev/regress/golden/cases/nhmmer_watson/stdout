@@ -1,0 +1,56 @@
+# nhmmer :: search a DNA model, alignment, or sequence against a DNA database
+# HMMER 3.4 (Aug 2023); http://hmmer.org/
+# Copyright (C) 2023 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query file:                      fx/MADE1.hmm
+# target sequence database:        data/dna_target.fa
+# hits tabular output:             t.tbl
+# show alignments in output:       no
+# search only top strand:          on
+# number of worker threads:        2
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       MADE1  [M=80]
+Accession:   DF0000629.2
+Description: MADE1 (MAriner Derived Element 1), a TcMar-Mariner DNA transposon
+Scores for complete hits:
+    E-value  score  bias  Sequence        start    end  Description
+    ------- ------ -----  --------        -----  -----  -----------
+    3.4e-11   39.9   7.2  humanchr1_frag 302390 302466 
+    2.1e-08   31.0   8.2  humanchr1_frag 174456 174498 
+  ------ inclusion threshold ------
+       0.42    7.6   7.5  humanchr1_frag 304073 304104 
+
+
+Annotation for each hit :
+>> humanchr1_frag  
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ !   39.9   7.2   3.4e-11         4        80 .]    302390    302466 ..    302387    302466 ..    330000    0.89
+
+>> humanchr1_frag  
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ !   31.0   8.2   2.1e-08         1        43 [.    174456    174498 ..    174456    174518 ..    330000    0.91
+
+>> humanchr1_frag  
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to       sq len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?    7.6   7.5      0.42        41        72 ..    304073    304104 ..    304053    304109 ..    330000    0.84
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (80 nodes)
+Target sequences:                          1  (330000 residues searched)
+Residues passing SSV filter:           39006  (0.118); expected (0.02)
+Residues passing bias filter:          28201  (0.0855); expected (0.02)
+Residues passing Vit filter:            1822  (0.00552); expected (0.003)
+Residues passing Fwd filter:             939  (0.00285); expected (3e-05)
+Total number of hits:                      3  (0.000461)
+# CPU time: [normalized]
+# Mc/sec: [normalized]
+//
+[ok]

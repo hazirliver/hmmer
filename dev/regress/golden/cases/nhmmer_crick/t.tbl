@@ -1,0 +1,14 @@
+# target name        accession  query name           accession   hmmfrom hmm to alifrom  ali to envfrom  env to  sq len strand   E-value  score  bias  description of target
+#------------------- ---------- --------------------  ---------- ------- ------- ------- ------- ------- ------- ------- ------ --------- ------ ----- ---------------------
+humanchr1_frag       -          MADE1                DF0000629.2       1      78  302466  302389  302466  302387  330000    -     5.8e-09   32.8   6.8  -
+humanchr1_frag       -          MADE1                DF0000629.2      43      80  174493  174456  174513  174456  330000    -       2e-06   24.7   7.0  -
+#
+# Program:         nhmmer
+# Version:         3.4 (Aug 2023)
+# Pipeline mode:   SEARCH
+# Query file:      fx/MADE1.hmm
+# Target file:     data/dna_target.fa
+# Option settings: nhmmer --tblout t.tbl --noali --crick fx/MADE1.hmm data/dna_target.fa 
+# Current dir:     [normalized]
+# Date:            [normalized]
+# [ok]

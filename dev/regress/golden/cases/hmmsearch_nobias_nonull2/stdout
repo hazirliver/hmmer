@@ -1,0 +1,598 @@
+# hmmsearch :: search profile(s) against a sequence database
+# HMMER 3.4 (Aug 2023); http://hmmer.org/
+# Copyright (C) 2023 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query HMM file:                  fx/RRM_1.hmm
+# target sequence database:        data/protdb.fa
+# per-dom hits tabular output:     t.domtbl
+# biased composition HMM filter:   off
+# null2 bias corrections:          off
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       RRM_1  [M=71]
+Accession:   PF00076.13
+Description: RNA recognition motif. (a.k.a. RRM, RBD, or RNP domain)
+Scores for complete sequences (score includes all domains):
+   --- full sequence ---   --- best 1 domain ---    -#dom-
+    E-value  score  bias    E-value  score  bias    exp  N  Sequence                  Description
+    ------- ------ -----    ------- ------ -----   ---- --  --------                  -----------
+    1.7e-16   57.3   0.0    1.7e-16   57.2   0.0    1.0  1  emit_RRM_1_RRM_1-sample30  
+      2e-16   57.0   0.0    2.2e-16   56.9   0.0    1.0  1  emit_RRM_1_RRM_1-sample18  
+    1.4e-15   54.3   0.0    1.5e-15   54.2   0.0    1.0  1  emit_RRM_1_RRM_1-sample35  
+    1.6e-15   54.1   0.0    1.7e-15   54.0   0.0    1.0  1  emit_RRM_1_RRM_1-sample39  
+    2.5e-15   53.5   0.0    2.7e-15   53.4   0.0    1.0  1  emit_RRM_1_RRM_1-sample33  
+    7.1e-15   52.1   0.0    7.6e-15   52.0   0.0    1.0  1  emit_RRM_1_RRM_1-sample14  
+    1.4e-14   51.1   0.0    1.5e-14   51.0   0.0    1.0  1  emit_RRM_1_RRM_1-sample7   
+    2.7e-14   50.2   0.0    2.9e-14   50.1   0.0    1.0  1  emit_RRM_1_RRM_1-sample36  
+    4.3e-14   49.5   0.0    4.6e-14   49.4   0.0    1.0  1  emit_RRM_1_RRM_1-sample19  
+    9.3e-14   48.5   0.0      1e-13   48.4   0.0    1.0  1  emit_RRM_1_RRM_1-sample21  
+    9.8e-14   48.4   0.0    1.1e-13   48.2   0.0    1.0  1  emit_RRM_1_RRM_1-sample20  
+    2.2e-13   47.3   0.0    2.4e-13   47.2   0.0    1.0  1  emit_RRM_1_RRM_1-sample1   
+    3.9e-13   46.5   0.0    4.1e-13   46.4   0.0    1.0  1  emit_RRM_1_RRM_1-sample27  
+    1.1e-12   45.0   0.0    1.2e-12   44.9   0.0    1.0  1  emit_RRM_1_RRM_1-sample2   
+    1.4e-12   44.7   0.0    1.6e-12   44.6   0.0    1.0  1  emit_RRM_1_RRM_1-sample34  
+      2e-12   44.2   0.0    2.1e-12   44.1   0.0    1.0  1  emit_RRM_1_RRM_1-sample38  
+    2.9e-12   43.7   0.0      3e-12   43.6   0.0    1.0  1  emit_RRM_1_RRM_1-sample24  
+    4.3e-12   43.1   0.0    4.4e-12   43.1   0.0    1.0  1  emit_RRM_1_RRM_1-sample5   
+    1.7e-11   41.3   0.0    1.8e-11   41.2   0.0    1.0  1  emit_RRM_1_RRM_1-sample32  
+      2e-11   41.0   0.0    2.3e-11   40.8   0.0    1.0  1  emit_RRM_1_RRM_1-sample12  
+    3.1e-11   40.4   0.0    3.4e-11   40.3   0.0    1.0  1  emit_RRM_1_RRM_1-sample4   
+    6.6e-11   39.3   0.0    7.2e-11   39.2   0.0    1.0  1  emit_RRM_1_RRM_1-sample15  
+    6.8e-11   39.3   0.0    7.5e-11   39.2   0.0    1.0  1  emit_RRM_1_RRM_1-sample17  
+    8.2e-11   39.0   0.0    8.9e-11   38.9   0.0    1.0  1  emit_RRM_1_RRM_1-sample13  
+    2.4e-10   37.5   0.0    2.7e-10   37.4   0.0    1.0  1  emit_RRM_1_RRM_1-sample6   
+    3.4e-10   37.1   0.0    3.9e-10   36.8   0.0    1.1  1  emit_RRM_1_RRM_1-sample26  
+    4.2e-10   36.8   0.0    4.3e-10   36.7   0.0    1.0  1  emit_RRM_1_RRM_1-sample3   
+    1.3e-09   35.2   0.0    1.4e-09   35.0   0.0    1.0  1  emit_RRM_1_RRM_1-sample22  
+      3e-09   34.0   0.0    3.5e-09   33.8   0.0    1.0  1  emit_RRM_1_RRM_1-sample8   
+    3.4e-09   33.9   0.0    3.7e-09   33.7   0.0    1.0  1  emit_RRM_1_RRM_1-sample9   
+    5.2e-09   33.2   0.0      6e-09   33.1   0.0    1.1  1  emit_RRM_1_RRM_1-sample29  
+    5.4e-09   33.2   0.0    5.8e-09   33.1   0.0    1.0  1  emit_RRM_1_RRM_1-sample23  
+    1.6e-08   31.7   0.0    1.7e-08   31.6   0.0    1.0  1  emit_RRM_1_RRM_1-sample28  
+    4.5e-08   30.3   0.0    5.4e-08   30.0   0.0    1.1  1  emit_RRM_1_RRM_1-sample11  
+    2.2e-07   28.1   0.0    2.8e-07   27.7   0.0    1.3  1  emit_RRM_1_RRM_1-sample16  
+    1.2e-06   25.7   0.0    1.4e-06   25.5   0.0    1.0  1  emit_RRM_1_RRM_1-sample37  
+    3.4e-06   24.2   0.0      4e-06   24.0   0.0    1.0  1  emit_RRM_1_RRM_1-sample25  
+      2e-05   21.8   0.0    2.1e-05   21.7   0.0    1.1  1  emit_RRM_1_RRM_1-sample40  
+    3.6e-05   21.0   0.0    4.1e-05   20.8   0.0    1.1  1  emit_RRM_1_RRM_1-sample10  
+    5.8e-05   20.3   0.0    5.8e-05   20.3   0.0    1.2  1  emit_RRM_1_RRM_1-sample31  
+
+
+Domain annotation for each sequence (and alignments):
+>> emit_RRM_1_RRM_1-sample30  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   57.2   0.0   2.5e-18   1.7e-16       1      67 [.       1      69 [.       1      73 [] 0.94
+
+  Alignments for each domain:
+  == domain 1  score: 57.2 bits;  conditional E-value: 2.5e-18
+                               EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEE..TTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTE CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrd..etgrskgfafVeFeseedaekAlealngkelggr 67
+                               l ++ Lp+++++e+Lk+l ++ Gp++si++ ++  +++ +kg++fV+F  +++ae+A e+l+  ++ +r
+  emit_RRM_1_RRM_1-sample30  1 LRITKLPTTIDKEQLKKLIKEQGPFQSIRIRKKapSNHDPKGYCFVRFRRQDAAENAYESLDSNTILDR 69
+                               56999**********************************************************888776 PP
+
+>> emit_RRM_1_RRM_1-sample18  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   56.9   0.0   3.3e-18   2.2e-16       1      71 []       1      72 []       1      72 [] 0.99
+
+  Alignments for each domain:
+  == domain 1  score: 56.9 bits;  conditional E-value: 3.3e-18
+                               EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEE.TTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEEEE CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrd.etgrskgfafVeFeseedaekAlealngkelggrelkv 71
+                               +f++nL+ d t  +L+ +F+++ +i+++ +++  +++r+k ++f  F+se+ a+kAl++ln+++l++re++v
+  emit_RRM_1_RRM_1-sample18  1 IFIKNLNGDETTIMLYSHFRNIAEITDCIISKTeQQKRPKCTCFNHFKSEDTAKKALAKLNEHKLKQREIEV 72
+                               8*********************************************************************97 PP
+
+>> emit_RRM_1_RRM_1-sample35  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   54.2   0.0   2.2e-17   1.5e-15       1      69 [.       1      68 [.       1      70 [] 0.96
+
+  Alignments for each domain:
+  == domain 1  score: 54.2 bits;  conditional E-value: 2.2e-17
+                               EEEESETTTTHHHHHHHHHTT.TSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEE CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFsk.fGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggrel 69
+                               lfV+ Lp+ ++e++L+++F   +G+ie+++ +   t++ + fa V+Fes + a+kA  ++n  + +g+++
+  emit_RRM_1_RRM_1-sample35  1 LFVKKLPYAISEQELRQWFVGcYGQIERVTSSF--THKDRQFAMVTFESNRHAKKARITCNRDNTDGTRV 68
+                               8*******************************9..8**************************99999876 PP
+
+>> emit_RRM_1_RRM_1-sample39  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   54.0   0.0   2.5e-17   1.7e-15       1      70 [.       1      71 [.       1      72 [] 0.98
+
+  Alignments for each domain:
+  == domain 1  score: 54.0 bits;  conditional E-value: 2.5e-17
+                               EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEE.TTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEEE CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrd.etgrskgfafVeFeseedaekAlealngkelggrelk 70
+                               l+V+n++ ++++++  ++F+++G+++++  +++ +t+ ++g a V+F+++ dae++ ++l+++++ ++el 
+  emit_RRM_1_RRM_1-sample39  1 LYVKNISVECSNKQQAEFFKPYGSVTRLYHPTKdSTKETNGEALVQFDDKKDAEEITDTLDHHTVLNNELL 71
+                               8*****************************************************************99986 PP
+
+>> emit_RRM_1_RRM_1-sample33  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   53.4   0.0     4e-17   2.7e-15       2      71 .]       2      72 .]       1      72 [] 0.98
+
+  Alignments for each domain:
+  == domain 1  score: 53.4 bits;  conditional E-value: 4e-17
+                               EEESETTTTHHHHHHHHHTTTSEEEEEEEEEE.TTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEEEE CS
+                      RRM_1  2 fVgnLppdtteedLkdlFskfGpiesiklvrd.etgrskgfafVeFeseedaekAlealngkelggrelkv 71
+                               +V+nLp++ ++ ++ +l+sk+G ++s++ v    t+r  gfa VeF+   da++A++a ng++++++++ v
+  emit_RRM_1_RRM_1-sample33  2 YVSNLPQEGNRGTIAMLLSKVGLVKSLRTVETpPTNRMAGFAAVEFHRAVDARRAVKASNGYIIKSSRIVV 72
+                               9*****************************************************************99976 PP
+
+>> emit_RRM_1_RRM_1-sample14  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   52.0   0.0   1.1e-16   7.6e-15       2      69 ..       2      67 ..       1      69 [] 0.96
+
+  Alignments for each domain:
+  == domain 1  score: 52.0 bits;  conditional E-value: 1.1e-16
+                               EEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEE CS
+                      RRM_1  2 fVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggrel 69
+                                +gnLp++ te+dL+dlF+k  ++  ++ +   t++ kg+ fV F   ++a++A+++lng +lggr+l
+  emit_RRM_1_RRM_1-sample14  2 AMGNLPSSETEQDLEDLFQKSRRVGQVEFPI--TKKFKGMNFVMFYRTRSAKNAKQTLNGFTLGGRKL 67
+                               58*****************************..8********************************98 PP
+
+>> emit_RRM_1_RRM_1-sample7  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   51.0   0.0   2.2e-16   1.5e-14       1      71 []       1      72 []       1      72 [] 0.98
+
+  Alignments for each domain:
+  == domain 1  score: 51.0 bits;  conditional E-value: 2.2e-16
+                              EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEE.TTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEEEE CS
+                     RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrd.etgrskgfafVeFeseedaekAlealngkelggrelkv 71
+                              l++ nLp ++  ++L d F+  G i+s++++r  + + ++g+afV+ ++ e  ++A+++ n++e++g +++v
+  emit_RRM_1_RRM_1-sample7  1 LYIQNLPANLQARKLVDEFGGAGIIKSVSVSRLmSPKGNDGVAFVTVNDDEYLQNAIRNQNKHEVMGYPVEV 72
+                              8*******************************************************************9987 PP
+
+>> emit_RRM_1_RRM_1-sample36  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   50.1   0.0   4.2e-16   2.9e-14       1      70 [.       1      70 [.       1      71 [] 0.97
+
+  Alignments for each domain:
+  == domain 1  score: 50.1 bits;  conditional E-value: 4.2e-16
+                               EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEEE CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggrelk 70
+                               + V n++ ++t+e Lk l ++  + + i+++rd+++++ g++fV+F + + a++A ++ln  +l+++ lk
+  emit_RRM_1_RRM_1-sample36  1 VLVQNISIEYTDEVLKSLCKQLDKLKGITVFRDRNESPYGIGFVKFSTVSGAKRAAQTLNSFTLDQKALK 70
+                               689***************************************************************9986 PP
+
+>> emit_RRM_1_RRM_1-sample19  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   49.4   0.0   6.7e-16   4.6e-14       1      57 [.       1      56 [.       1      68 [. 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 49.4 bits;  conditional E-value: 6.7e-16
+                               EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHH CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAle 57
+                               l+Vg Lp+dt+ + Lk+l  k+G+i+ + ++    + +kgfafV Fe+++ + +A+ 
+  emit_RRM_1_RRM_1-sample19  1 LYVGKLPSDTSTDSLKTLAWKYGKIKYCAISD-TEKDNKGFAFVIFENPSRMHRAVL 56
+                               8*******************************.6********************986 PP
+
+>> emit_RRM_1_RRM_1-sample21  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   48.4   0.0   1.5e-15     1e-13       1      71 []       1      71 []       1      71 [] 0.98
+
+  Alignments for each domain:
+  == domain 1  score: 48.4 bits;  conditional E-value: 1.5e-15
+                               EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEE.TTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEEEE CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrd.etgrskgfafVeFeseedaekAlealngkelggrelkv 71
+                               l+Vg++++ +t+++L+ + s fG++++++l  d   + + +f+fVe+ ++e++e++ + ++ +++ +r+l v
+  emit_RRM_1_RRM_1-sample21  1 LIVGDVTEACTQSKLEPYYSIFGKVTRVSLLCDrMEKDKEPFGFVEMRQQEQVESCYA-MDFRQISNRQLLV 71
+                               68********************************************************.*********9976 PP
+
+>> emit_RRM_1_RRM_1-sample20  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   48.2   0.0   1.7e-15   1.1e-13       1      69 [.       1      68 [.       1      69 [. 0.97
+
+  Alignments for each domain:
+  == domain 1  score: 48.2 bits;  conditional E-value: 1.7e-15
+                               EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEE CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggrel 69
+                               lfV  Lp d ++++ kd+F  +G ++ +k ++ +t++++g+ +++F ++ ++++A++++n +++ ++++
+  emit_RRM_1_RRM_1-sample20  1 LFVAQLPADSNDKEFKDIFAAYGGVNAAKNYT-STRSKRGYSVIKFLKPMQMDHAMKSMNDQTYTSHVI 68
+                               8*******************************.8*******************************9998 PP
+
+>> emit_RRM_1_RRM_1-sample1  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   47.2   0.0   3.5e-15   2.4e-13       1      71 []       1      71 []       1      71 [] 0.98
+
+  Alignments for each domain:
+  == domain 1  score: 47.2 bits;  conditional E-value: 3.5e-15
+                              EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEEEE CS
+                     RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggrelkv 71
+                              ++Vg +p++++e d  + F ++G+++ i   +d+++++  fafV+F++ e+ ++ +++l+ + + ++ + v
+  emit_RRM_1_RRM_1-sample1  1 VYVGQIPESVDETDFLQDFLQYGRVQQILWANDSHKSNESFAFVTFATVEQRDSFKDTLHRQRFSSKIISV 71
+                              8****************************************************************998876 PP
+
+>> emit_RRM_1_RRM_1-sample27  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   46.4   0.0     6e-15   4.1e-13       2      70 ..       2      70 ..       1      71 [] 0.95
+
+  Alignments for each domain:
+  == domain 1  score: 46.4 bits;  conditional E-value: 6e-15
+                               EEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEEE CS
+                      RRM_1  2 fVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggrelk 70
+                                +g Lp+++tee L +lF+++G+++++++v d + + +g++f++++s +d   +l a+     +gr+l+
+  emit_RRM_1_RRM_1-sample27  2 RMGPLPESCTEEILVKLFKDIGKVRHFTVVVDGQATIMGVGFINYKSDRDIGMILIAVGSSDKNGRRLT 70
+                               6899***************************************************99999999999875 PP
+
+>> emit_RRM_1_RRM_1-sample2  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   44.9   0.0   1.7e-14   1.2e-12       1      68 [.       1      68 [.       1      71 [] 0.94
+
+  Alignments for each domain:
+  == domain 1  score: 44.9 bits;  conditional E-value: 1.7e-14
+                              EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEE CS
+                     RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggre 68
+                              l+V+ + ++ +++dL+++F++ G ++++++ +++t+ skg++f  +++++ ae+A+++l  k+++g+ 
+  emit_RRM_1_RRM_1-sample2  1 LIVKVVAQNHNDKDLSEHFQEKGLMVEAEIEPEQTHFSKGHCFLIYHKSRYAEEAKKKLRRKTYDGNY 68
+                              5788889999*******************************************************986 PP
+
+>> emit_RRM_1_RRM_1-sample34  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   44.6   0.0   2.3e-14   1.6e-12       1      68 [.       1      68 [.       1      69 [. 0.97
+
+  Alignments for each domain:
+  == domain 1  score: 44.6 bits;  conditional E-value: 2.3e-14
+                               EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEE CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggre 68
+                               +f  nL p++ ++ ++ +F+++  ie+i+++++ +g++  + fV F ++  ++kA ++ n+++l+ r+
+  emit_RRM_1_RRM_1-sample34  1 IFLDNLRPNVANQGIENHFRECAFIEDIRVFPEGNGNTTSVSFVAFPDKMGVDKASQETNHEKLEERV 68
+                               899************************************************************99885 PP
+
+>> emit_RRM_1_RRM_1-sample38  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   44.1   0.0   3.1e-14   2.1e-12       2      70 ..       2      69 ..       1      70 [] 0.91
+
+  Alignments for each domain:
+  == domain 1  score: 44.1 bits;  conditional E-value: 3.1e-14
+                               EEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEEE CS
+                      RRM_1  2 fVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggrelk 70
+                               +V+nLp ++ ++ L +l++  Gp e + + + +t++++gfafV+Fe+ ++++kA++   +++++++ + 
+  emit_RRM_1_RRM_1-sample38  2 IVSNLPMSAQDDFLATLMETKGPTEAACVLYFSTNSNNGFAFVTFETFRSFTKAIK-EGEHIYRNTAVD 69
+                               69**********************99998888************************.666887777765 PP
+
+>> emit_RRM_1_RRM_1-sample24  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   43.6   0.0   4.4e-14     3e-12       1      68 [.       1      68 [.       1      71 [] 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 43.6 bits;  conditional E-value: 4.4e-14
+                               EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEE CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggre 68
+                               ++Vg Lpp+tte d++ +F +fG+i++ik+++   +r  g+ f+ F+ + +  k + +  g +l g  
+  emit_RRM_1_RRM_1-sample24  1 VIVGLLPPSTTEWDIRPVFIDFGKIKDIKVIKGDPHREAGYSFIHFTRKMAYCKRIIEARGCTLPGDF 68
+                               68************************************************999999888888877765 PP
+
+>> emit_RRM_1_RRM_1-sample5  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   43.1   0.0   6.4e-14   4.4e-12       3      68 ..       3      68 ..       1      71 [] 0.89
+
+  Alignments for each domain:
+  == domain 1  score: 43.1 bits;  conditional E-value: 6.4e-14
+                              EESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEE CS
+                     RRM_1  3 VgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggre 68
+                              +++L + +++e+Lk++F+ +  +esi+l   ++ rskg++fV+F  +  a +A +++n+     ++
+  emit_RRM_1_RRM_1-sample5  3 IRDLLRVVSQEQLKQVFGTYSFVESIRLAGTADPRSKGMGFVNFRHKATALRARKRMNKNARFEKK 68
+                              67788889**************************************************95544444 PP
+
+>> emit_RRM_1_RRM_1-sample32  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   41.2   0.0   2.6e-13   1.8e-11       1      68 [.       1      66 [.       1      69 [] 0.96
+
+  Alignments for each domain:
+  == domain 1  score: 41.2 bits;  conditional E-value: 2.6e-13
+                               EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEE CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggre 68
+                               +fV nL++d t + L++lF+++ +i++++l  +  +r+ +fa+ +F++++da +++ +l    ++++ 
+  emit_RRM_1_RRM_1-sample32  1 VFVLNLSNDHTSNLLEELFGEYISIKRLNLAAE--KRHSNFAILDFANPDDAHQVILQLGRISINNKA 66
+                               7*******************************6..**************************9999985 PP
+
+>> emit_RRM_1_RRM_1-sample12  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   40.8   0.0   3.3e-13   2.3e-11       1      70 [.       1      69 [.       1      69 [. 0.97
+
+  Alignments for each domain:
+  == domain 1  score: 40.8 bits;  conditional E-value: 3.3e-13
+                               EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEEE CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggrelk 70
+                               l+++ Lp+d+ ++ L +l +++G+ +  +++ d  ++ ++++f+e+++++  ekA+ +l  + + g++++
+  emit_RRM_1_RRM_1-sample12  1 LWIKFLPSDMADDSLVRLAEPYGEAVQSEISED-ENNANNMGFIEYADPRLQEKAVLSLYSRAMTGKQIR 69
+                               689*****************************8.99**************************99999986 PP
+
+>> emit_RRM_1_RRM_1-sample4  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   40.3   0.0     5e-13   3.4e-11       1      68 [.       1      63 [.       1      66 [] 0.96
+
+  Alignments for each domain:
+  == domain 1  score: 40.3 bits;  conditional E-value: 5e-13
+                              EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEE CS
+                     RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggre 68
+                              lfV++L +d++e+dL+++  + Gp  ++ ++        g+afV+ + ee+a k +++l+g +l+g++
+  emit_RRM_1_RRM_1-sample4  1 LFVSGLGTDCNEKDLYTFATELGPLSHVAVFF-----CGGIAFVRWAAEESASKYMSCLHGAQLQGTP 63
+                              8*******************************.....7***************************987 PP
+
+>> emit_RRM_1_RRM_1-sample15  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   39.2   0.0     1e-12   7.2e-11       2      71 .]       2      70 .]       1      70 [] 0.98
+
+  Alignments for each domain:
+  == domain 1  score: 39.2 bits;  conditional E-value: 1e-12
+                               EEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEEEE CS
+                      RRM_1  2 fVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggrelkv 71
+                               fVg+  ++  e++L + F+++ +i s++++  +tg+++  + V+F++ ++ + Al+ +n+ e+ g+ ++v
+  emit_RRM_1_RRM_1-sample15  2 FVGGMGSEGPEKQLVESFRPYEEILSFNVKA-ATGSHRYAGLVQFKKNDAQAPALQLFNEVEIYGNYIRV 70
+                               9******************************.8**********************************997 PP
+
+>> emit_RRM_1_RRM_1-sample17  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   39.2   0.0   1.1e-12   7.5e-11       3      71 .]       3      72 .]       2      72 .] 0.98
+
+  Alignments for each domain:
+  == domain 1  score: 39.2 bits;  conditional E-value: 1.1e-12
+                               EESETTTTHHHHHHHHHTTTSEEEEEEEEEE.TTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEEEE CS
+                      RRM_1  3 VgnLppdtteedLkdlFskfGpiesiklvrd.etgrskgfafVeFeseedaekAlealngkelggrelkv 71
+                               V+nL++ + +++L ++F + G++ s++lv++  + ++k+++fV+ +   +a+k +ea +g +++gr+l v
+  emit_RRM_1_RRM_1-sample17  3 VNNLNTGVKRDELTRAFHPAGKVASASLVHKfDDVSKKPTGFVTKACNKQATKSVEAIHGDMIDGRPLAV 72
+                               99****************************************************************9976 PP
+
+>> emit_RRM_1_RRM_1-sample13  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   38.9   0.0   1.3e-12   8.9e-11       1      71 []       1      70 []       1      70 [] 0.96
+
+  Alignments for each domain:
+  == domain 1  score: 38.9 bits;  conditional E-value: 1.3e-12
+                               EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEEEE CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggrelkv 71
+                               +++++L+ +  +edL d+ +++G i ++ +v  +t+rs   afVeF+++++  + + al ++++ g +lkv
+  emit_RRM_1_RRM_1-sample13  1 VYMSGLTVNHVKEDLADIIEQVGLIIELWVVQ-QTRRSSVEAFVEFKDKSELLDKMLALEKYIFAGEVLKV 70
+                               799*****************************.7*****************9999999*********9997 PP
+
+>> emit_RRM_1_RRM_1-sample6  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   37.4   0.0     4e-12   2.7e-10       1      71 []       1      67 [.       1      67 [. 0.96
+
+  Alignments for each domain:
+  == domain 1  score: 37.4 bits;  conditional E-value: 4e-12
+                              EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEEEE CS
+                     RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggrelkv 71
+                              ++++nL +d+++ +++++F+k+  + s+        ++kg+afV+     +ae +++a+ng+ +  r++kv
+  emit_RRM_1_RRM_1-sample6  1 VYIRNLREDISDGKMYQFFEKILTVHSVLSLV----SNKGYAFVQQLRTGEAETVMRAMNGRRILTRQIKV 67
+                              8************************9988888....69*******************************98 PP
+
+>> emit_RRM_1_RRM_1-sample26  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   36.8   0.0   5.8e-12   3.9e-10       1      71 []       1      74 []       1      74 [] 0.93
+
+  Alignments for each domain:
+  == domain 1  score: 36.8 bits;  conditional E-value: 5.8e-12
+                               EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEE...TTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEEEE CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrd...etgrskgfafVeFeseedaekAlealngkelggrelkv 71
+                               lfV  Lp+++t+e L  +F+    +++i+lv++   ++  +  ++fVe +++ ++e+A+ea+ +    g+++ v
+  emit_RRM_1_RRM_1-sample26  1 LFVERLPSNYTDEGLAIYFQAAVAVKRIQLVNNsqrSQLERSCVGFVELDNQVNVEEAVEAYTHDSKAGKQISV 74
+                               8********************************9666667889*******************999999999876 PP
+
+>> emit_RRM_1_RRM_1-sample3  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   36.7   0.0   6.2e-12   4.3e-10       1      66 [.       1      64 [.       1      69 [] 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 36.7 bits;  conditional E-value: 6.2e-12
+                              EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETT CS
+                     RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelgg 66
+                              + V+ L + + e+++k +F+ fGp  +i+lv+   g++kg++ V F++ + +++ ++++++ ++ +
+  emit_RRM_1_RRM_1-sample3  1 ILVRSLLQKVYEAKIKNVFRFFGPNLEIQLVTA--GKKKGTGLVMFTTYDHMQNSIDKVDHAKIVD 64
+                              679999999***********************6..*************************988755 PP
+
+>> emit_RRM_1_RRM_1-sample22  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   35.0   0.0   2.1e-11   1.4e-09       2      71 .]       1      71 []       1      71 [] 0.98
+
+  Alignments for each domain:
+  == domain 1  score: 35.0 bits;  conditional E-value: 2.1e-11
+                               EEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEE.ESSHHHHHHHHHHHSSEEETTEEEEE CS
+                      RRM_1  2 fVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVe.FeseedaekAlealngkelggrelkv 71
+                               +V+nLp+ +  edL ++ s+f+++   +l+r +t+ +k +++V  + ++e   +A+++++ ++++g++l+v
+  emit_RRM_1_RRM_1-sample22  1 YVTNLPNAIQGEDLVKFYSDFNEVIAMELYRYRTKDTKVICIVSgYYTKEPLHNAKKSMDQRTIEGSVLRV 71
+                               8******************************************88***********************998 PP
+
+>> emit_RRM_1_RRM_1-sample8  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   33.8   0.0   5.1e-11   3.5e-09       1      62 [.       1      57 [.       1      64 [. 0.93
+
+  Alignments for each domain:
+  == domain 1  score: 33.8 bits;  conditional E-value: 5.1e-11
+                              EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSE CS
+                     RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngk 62
+                              +fV+ L p + +++L  +F   G  e+ik+v       +g++f++ ++ + a+ A ++ ++ 
+  emit_RRM_1_RRM_1-sample8  1 IFVRILRPKVARSELVSIFAASGTCEEIKVVFA-----RGYGFITLTKVRTAQYAAQEAQKA 57
+                              8*******************************5.....*******************99875 PP
+
+>> emit_RRM_1_RRM_1-sample9  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   33.7   0.0   5.4e-11   3.7e-09       6      70 ..       7      73 ..       2      74 .] 0.89
+
+  Alignments for each domain:
+  == domain 1  score: 33.7 bits;  conditional E-value: 5.4e-11
+                              ETTTTHHHHHHHHHTTTSEEEEEEEEEE..TTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEEE CS
+                     RRM_1  6 LppdtteedLkdlFskfGpiesiklvrd..etgrskgfafVeFeseedaekAlealngkelggrelk 70
+                              +++d++ +++++lFs fG + ++k ++   + ++  g a+V F+s+e+a+k+ ++ +   + g++l+
+  emit_RRM_1_RRM_1-sample9  7 ITYDVDVHKMHTLFSAFGNVIKCKFINGeeQGKTDIGLAYVGFNSPESAQKVFAEIDSPLFLGQKLR 73
+                              799**************************5566666******************9999888887775 PP
+
+>> emit_RRM_1_RRM_1-sample29  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   33.1   0.0   8.8e-11     6e-09       1      62 [.       1      63 [.       1      71 [. 0.87
+
+  Alignments for each domain:
+  == domain 1  score: 33.1 bits;  conditional E-value: 8.8e-11
+                               EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEE.TTTSEEEEEEEEESSHHHHHHHHHHHSSE CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrd.etgrskgfafVeFeseedaekAlealngk 62
+                               ++V+nLp+ +t e + ++F+kfG  ++++l+ + + g   +++fV+ +   + +  l+al++ 
+  emit_RRM_1_RRM_1-sample29  1 VYVNNLPSILTLEAIGQIFGKFGLLKKVSLPMEwNFGLVEKYGFVRLDYLANEAVLLDALHKV 63
+                               8********************************************998877777777766665 PP
+
+>> emit_RRM_1_RRM_1-sample23  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   33.1   0.0   8.5e-11   5.8e-09       1      68 [.       1      65 [.       1      68 [. 0.93
+
+  Alignments for each domain:
+  == domain 1  score: 33.1 bits;  conditional E-value: 8.5e-11
+                               EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEE CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggre 68
+                               ++  nL+++t  ++L + F  + ++ s++ v    g+s  +a+++F +e ++e+Al+++ngk++  r 
+  emit_RRM_1_RRM_1-sample23  1 VYLANLTRNTLMQTLDERFTAYASVLSFDGVG---GQSGEYAYCTFGQEPAFEQALASVNGKKFLARY 65
+                               7999*********************8888888...7***************************98765 PP
+
+>> emit_RRM_1_RRM_1-sample28  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   31.6   0.0   2.5e-10   1.7e-08       1      69 [.       1      62 [.       1      64 [] 0.97
+
+  Alignments for each domain:
+  == domain 1  score: 31.6 bits;  conditional E-value: 2.5e-10
+                               EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEE CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggrel 69
+                               +fV n++++ t+  L+  F ++G+  ++klv+       g++fV F  +++ ++A++aln     grel
+  emit_RRM_1_RRM_1-sample28  1 IFVENISREGTKLSLEYRFHHIGEPHNLKLVK-------GVGFVFFSRSSAIDSAISALNSNCAAGREL 62
+                               8*******************************.......9*********************99999998 PP
+
+>> emit_RRM_1_RRM_1-sample11  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   30.0   0.0   7.9e-10   5.4e-08      11      63 ..      13      63 ..       3      65 .. 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 30.0 bits;  conditional E-value: 7.9e-10
+                               HHHHHHHHHTTTSEEEEEEEEEE.TTTSEEEEEEEEESSHHHHHHHHHHHSSEE CS
+                      RRM_1 11 teedLkdlFskfGpiesiklvrd.etgrskgfafVeFeseedaekAlealngke 63
+                               +ee+L+ + sk+G+i   k++r  e +  +g+a +e+++++da++++ a+ + +
+  emit_RRM_1_RRM_1-sample11 13 DEEELYAFYSKCGSI---KVMRGsEIDPEMGYATIEYAQSDDADRIITAYEKST 63
+                               89*************...999999***********************9887765 PP
+
+>> emit_RRM_1_RRM_1-sample16  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   27.7   0.0   4.2e-09   2.8e-07       7      67 ..       7      65 ..       1      69 [. 0.75
+
+  Alignments for each domain:
+  == domain 1  score: 27.7 bits;  conditional E-value: 4.2e-09
+                               TTTTHHHHHHHHHTTTSEEEEEEEEEE.TTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTE CS
+                      RRM_1  7 ppdtteedLkdlFskfGpiesiklvrd.etgrskgfafVeFeseedaekAlealngkelggr 67
+                               p++ t ++++ +F + + i   +       + + g+afV+F++ee+a +++ea+ng +++  
+  emit_RRM_1_RRM_1-sample16  7 PKNDTPKEIRNFFPERNGISPKE---RkGIKGHAGIAFVRFDDEEAAHAVKEAMNGVYMNTA 65
+                               66667788888888877772222...23467899**********************887765 PP
+
+>> emit_RRM_1_RRM_1-sample37  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   25.5   0.0     2e-08   1.4e-06       2      69 ..       2      71 ..       2      73 .] 0.87
+
+  Alignments for each domain:
+  == domain 1  score: 25.5 bits;  conditional E-value: 2e-08
+                               EEESETTTTHHHHHHH.HHTTTSEEEEEEEEEE.TTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEE CS
+                      RRM_1  2 fVgnLppdtteedLkd.lFskfGpiesiklvrd.etgrskgfafVeFeseedaekAlealngkelggrel 69
+                               +V++Lp+d+++++L + l +++G + +i  v d e  + + f+   F  ++++++A++ +  + l+g+ +
+  emit_RRM_1_RRM_1-sample37  2 VVKDLPSDVSWDTLVEaLIEQVGHVHTIAFVQDnELVSFRVFCHAVFSAHREMADAVQMYFPQSLKGNAV 71
+                               59***********98725567*************************************554488877765 PP
+
+>> emit_RRM_1_RRM_1-sample25  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   24.0   0.0   5.8e-08     4e-06       1      68 [.       1      66 [.       1      68 [. 0.88
+
+  Alignments for each domain:
+  == domain 1  score: 24.0 bits;  conditional E-value: 5.8e-08
+                               EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEE CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelggre 68
+                               l V nL+  +  + + d F  f + +++ ++    +++ gfa Ve++++ + + A+++  g    gre
+  emit_RRM_1_RRM_1-sample25  1 LRVANLHVGCGFQSILDTFVRFAELKNAVIIM--PDTHFGFATVEYKEPKNSRGAISEAFGLLTSGRE 66
+                               5799*********************8888777..47*******************9998877777766 PP
+
+>> emit_RRM_1_RRM_1-sample40  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   21.7   0.0   3.1e-07   2.1e-05       1      66 [.       1      60 [.       1      66 [] 0.90
+
+  Alignments for each domain:
+  == domain 1  score: 21.7 bits;  conditional E-value: 3.1e-07
+                               EEEESETTTTHHHHHHHHHTTTSEEEEEEEEEETTTSEEEEEEEEESSHHHHHHHHHHHSSEEETT CS
+                      RRM_1  1 lfVgnLppdtteedLkdlFskfGpiesiklvrdetgrskgfafVeFeseedaekAlealngkelgg 66
+                               + +gnLp  + ++++  +F+ +G+ ++ k+         + a+++ ++++  + +l +ln     g
+  emit_RRM_1_RRM_1-sample40  1 VTMGNLPAICRKRNVLPHFGTYGQLTRKKVNEL------PKAYITVHNSDHLQVILTNLNTSDTAG 60
+                               568***************************996......*********************966555 PP
+
+>> emit_RRM_1_RRM_1-sample10  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   20.8   0.0   6.1e-07   4.1e-05       7      68 ..      10      71 ..       1      73 [. 0.85
+
+  Alignments for each domain:
+  == domain 1  score: 20.8 bits;  conditional E-value: 6.1e-07
+                               TTTTHHHHHHHHHTTTSEEEEEEEEEE.TTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEE CS
+                      RRM_1  7 ppdtteedLkdlFskfGpiesiklvrd.etgrskgfafVeFeseedaekAlealngkelggre 68
+                                + +++ ++k+    +  +  +k++++  ++  k  +f  F++ee  +++ e lng  ++g +
+  emit_RRM_1_RRM_1-sample10 10 EELVNKPNIKESDYSIATVGYAKIIPQsGHKEAKDLGFTAFKNEETLDQIFE-LNGADFDGAK 71
+                               556666666777777888999*******************************.******9975 PP
+
+>> emit_RRM_1_RRM_1-sample31  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   20.3   0.0   8.4e-07   5.8e-05      28      69 ..      27      69 ..       2      71 .] 0.78
+
+  Alignments for each domain:
+  == domain 1  score: 20.3 bits;  conditional E-value: 8.4e-07
+                               EEEEEE.TTTSEEEEEEEEESSHHHHHHHHHHHSSEEETTEEE CS
+                      RRM_1 28 iklvrd.etgrskgfafVeFeseedaekAlealngkelggrel 69
+                                k ++d et++   +afV+F++ +da  Al+al +  +g  ++
+  emit_RRM_1_RRM_1-sample31 27 TKQSHDgETKTLWHVAFVRFTDLRDAGLALKALRKLSIGEEPW 69
+                               45567779*************************9998887765 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (71 nodes)
+Target sequences:                       2735  (767780 residues searched)
+Passed MSV filter:                        95  (0.0347349); expected 54.7 (0.02)
+Passed bias filter:                       95  (0.0347349); expected 54.7 (0.02)
+Passed Vit filter:                        43  (0.0157221); expected 2.7 (0.001)
+Passed Fwd filter:                        40  (0.0146252); expected 0.0 (1e-05)
+Initial search space (Z):               2735  [actual number of targets]
+Domain search space  (domZ):              40  [number of targets reported over threshold]
+# CPU time: [normalized]
+# Mc/sec: [normalized]
+//
+[ok]

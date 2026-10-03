@@ -1,0 +1,666 @@
+# hmmsearch :: search profile(s) against a sequence database
+# HMMER 3.4 (Aug 2023); http://hmmer.org/
+# Copyright (C) 2023 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query HMM file:                  -
+# target sequence database:        data/protdb.fa
+# per-seq hits tabular output:     t.tbl
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       fn3  [M=85]
+Accession:   PF00041.20
+Description: Fibronectin type III domain
+Scores for complete sequences (score includes all domains):
+   --- full sequence ---   --- best 1 domain ---    -#dom-
+    E-value  score  bias    E-value  score  bias    exp  N  Sequence              Description
+    ------- ------ -----    ------- ------ -----   ---- --  --------              -----------
+    1.5e-53  176.4   0.9    6.4e-13   46.2   0.9    9.8  9  7LESS_DROME            P13368 RecName: Full=Protein sevenless
+    9.8e-16   55.2   0.1    1.1e-15   55.1   0.1    1.0  1  emit_fn3_fn3-sample31  
+    2.8e-15   53.8   0.2      3e-15   53.7   0.2    1.0  1  emit_fn3_fn3-sample28  
+    5.9e-15   52.7   0.4    6.3e-15   52.6   0.4    1.0  1  emit_fn3_fn3-sample5   
+    5.9e-15   52.7   0.0    6.4e-15   52.6   0.0    1.0  1  emit_fn3_fn3-sample33  
+    7.1e-15   52.4   0.1    7.7e-15   52.3   0.1    1.0  1  emit_fn3_fn3-sample6   
+    7.2e-14   49.2   0.3    8.3e-14   49.0   0.3    1.0  1  emit_fn3_fn3-sample15  
+    3.2e-13   47.2   0.2    3.6e-13   47.0   0.2    1.0  1  emit_fn3_fn3-sample32  
+    3.3e-13   47.1   0.1    3.8e-13   46.9   0.1    1.0  1  emit_fn3_fn3-sample16  
+    1.9e-12   44.7   0.1    2.2e-12   44.5   0.1    1.0  1  emit_fn3_fn3-sample4   
+    5.6e-12   43.2   0.1    6.2e-12   43.0   0.1    1.0  1  emit_fn3_fn3-sample30  
+    6.7e-12   42.9   0.0      8e-12   42.7   0.0    1.0  1  emit_fn3_fn3-sample37  
+    2.7e-11   41.0   0.0    2.9e-11   40.9   0.0    1.0  1  emit_fn3_fn3-sample21  
+      3e-11   40.8   0.0    3.5e-11   40.6   0.0    1.1  1  emit_fn3_fn3-sample8   
+    7.4e-11   39.6   0.0      8e-11   39.5   0.0    1.0  1  emit_fn3_fn3-sample39  
+    1.2e-10   38.9   0.2    1.2e-10   38.9   0.2    1.0  1  emit_fn3_fn3-sample12  
+      3e-10   37.6   0.5    3.3e-10   37.5   0.5    1.0  1  emit_fn3_fn3-sample19  
+    6.1e-10   36.6   0.1    6.5e-10   36.5   0.1    1.0  1  emit_fn3_fn3-sample3   
+    1.2e-09   35.6   0.2    1.3e-09   35.5   0.2    1.0  1  emit_fn3_fn3-sample34  
+    1.4e-09   35.5   0.2    1.6e-09   35.3   0.2    1.0  1  emit_fn3_fn3-sample17  
+    2.3e-09   34.8   0.1    2.7e-09   34.6   0.1    1.1  1  emit_fn3_fn3-sample23  
+    2.9e-09   34.5   0.1    3.1e-09   34.4   0.1    1.0  1  emit_fn3_fn3-sample18  
+    4.7e-09   33.8   0.3      5e-09   33.7   0.3    1.0  1  emit_fn3_fn3-sample9   
+    4.7e-09   33.8   0.5    5.7e-09   33.5   0.5    1.1  1  emit_fn3_fn3-sample24  
+    1.3e-08   32.4   0.0    1.4e-08   32.3   0.0    1.1  1  emit_fn3_fn3-sample20  
+    1.8e-08   31.9   0.0    2.1e-08   31.7   0.0    1.1  1  emit_fn3_fn3-sample29  
+    2.4e-08   31.5   0.0    2.6e-08   31.4   0.0    1.0  1  emit_fn3_fn3-sample7   
+    3.5e-08   31.0   0.0    4.1e-08   30.8   0.0    1.1  1  emit_fn3_fn3-sample14  
+    3.7e-08   30.9   0.1    4.1e-08   30.8   0.1    1.1  1  emit_fn3_fn3-sample40  
+    5.8e-08   30.3   0.0    6.7e-08   30.1   0.0    1.1  1  emit_fn3_fn3-sample25  
+    1.4e-07   29.1   0.1    1.4e-07   29.0   0.1    1.1  1  emit_fn3_fn3-sample22  
+    1.4e-07   29.0   0.0    1.6e-07   28.9   0.0    1.1  1  emit_fn3_fn3-sample2   
+    1.7e-07   28.8   0.2    1.9e-07   28.6   0.2    1.0  1  emit_fn3_fn3-sample1   
+    2.3e-07   28.4   0.3    2.4e-07   28.3   0.3    1.0  1  emit_fn3_fn3-sample13  
+    2.5e-07   28.3   0.0    3.1e-07   28.0   0.0    1.2  1  emit_fn3_fn3-sample35  
+    4.4e-06   24.3   0.0    5.1e-06   24.1   0.0    1.1  1  emit_fn3_fn3-sample10  
+    2.1e-05   22.1   0.0    2.7e-05   21.7   0.0    1.2  1  emit_fn3_fn3-sample38  
+    3.6e-05   21.4   0.0    4.1e-05   21.2   0.0    1.0  1  emit_fn3_fn3-sample26  
+    6.6e-05   20.5   0.0    7.4e-05   20.4   0.0    1.0  1  emit_fn3_fn3-sample36  
+    0.00084   17.0   0.0    0.00087   16.9   0.0    1.1  1  emit_fn3_fn3-sample11  
+
+
+Domain annotation for each sequence (and alignments):
+>> 7LESS_DROME  P13368 RecName: Full=Protein sevenless;          EC=2.7.10.1;
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ?   -1.9   0.0       9.5   6.5e+02      60      72 ..     396     408 ..     395     410 .. 0.87
+   2 !   41.9   0.0     2e-13   1.4e-11       2      83 ..     440     520 ..     439     521 .. 0.95
+   3 !   15.1   0.0   4.7e-05    0.0032      14      84 ..     838     913 ..     827     914 .. 0.74
+   4 ?    4.6   0.0     0.088       6.1       6      36 ..    1206    1236 ..    1203    1251 .. 0.83
+   5 !   22.1   0.0     3e-07   2.1e-05      13      79 ..    1313    1380 ..    1305    1384 .. 0.82
+   6 ?    0.4   0.0       1.8   1.2e+02      57      72 ..    1754    1769 ..    1742    1769 .. 0.88
+   7 !   46.2   0.9   9.4e-15   6.4e-13       1      82 [.    1800    1888 ..    1800    1891 .. 0.91
+   8 !   21.0   0.0   6.7e-07   4.6e-05       5      74 ..    1904    1967 ..    1901    1977 .. 0.90
+   9 !    8.9   0.0    0.0039      0.27       1      85 []    1994    2107 ..    1994    2107 .. 0.81
+
+  Alignments for each domain:
+  == domain 1  score: -1.9 bits;  conditional E-value: 9.5
+                  EESSSTTEEEEEE CS
+          fn3  60 ltgLkpgteYevr 72 
+                  l+ L p+t+Y++r
+  7LESS_DROME 396 LEALIPYTQYRFR 408
+                  6789*******98 PP
+
+  == domain 2  score: 41.9 bits;  conditional E-value: 2e-13
+                  SBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTEEEE CS
+          fn3   2 aPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngggegp 83 
+                  aP   +++   ++ l v+W+p +  ngpi+gY++++++++++  + e+ vp    s+++++L++gt+Y++ +  +n++gegp
+  7LESS_DROME 440 APVIEHLMGLDDSHLAVHWHPGRFTNGPIEGYRLRLSSSEGNA-TSEQLVPAGRGSYIFSQLQAGTNYTLALSMINKQGEGP 520
+                  77778899999****************************9997.***********************************997 PP
+
+  == domain 3  score: 15.1 bits;  conditional E-value: 4.7e-05
+                  SEEEEEEE-CS..SS....SSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTE.EEEE CS
+          fn3  14 tsltvsWtppe..dg....ngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavnggg.egpe 84 
+                    + +sW++pe  +      +   +Ye+e+ ++ +++   +i++ +    + l+ L+p+  Y++rV+a+n +g  g++
+  7LESS_DROME 838 QAAKISWKEPErnPYqsadAARSWSYELEVLDVASQS-AFSIRNIRGP-IFGLQRLQPDNLYQLRVRAINVDGePGEW 913
+                  5677889998874221111223458********9999.6666655555.5**********************966666 PP
+
+  == domain 4  score: 4.6 bits;  conditional E-value: 0.088
+                   EEEEEESSSEEEEEEE-CSSSSSTECEEEEE CS
+          fn3    6 lsvtevtstsltvsWtppedgngpitgYeve 36  
+                   +++ +  ++ ++v+W+p+++g+++  +Y++ 
+  7LESS_DROME 1206 VRLDDGHWDDFHVRWQPSTSGGNHSVSYRLL 1236
+                   566666788999*******999999999985 PP
+
+  == domain 5  score: 22.1 bits;  conditional E-value: 3e-07
+                   SSEEEEEEE-CS...SSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETT CS
+          fn3   13 stsltvsWtppe...dgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngg 79  
+                   + s++++W++pe   + + +   Y + ++  +e +   e ++  ++ ++ +++L+p+++Y+++V a+ ++
+  7LESS_DROME 1313 NVSAVLRWDAPEqgqEAPMQALEYHISCWVGSELH--EELRLNQSALEARVEHLQPDQTYHFQVEARVAA 1380
+                   6799********76666667789********8885..67777777777*****************98665 PP
+
+  == domain 6  score: 0.4 bits;  conditional E-value: 1.8
+                   EEEEESSSTTEEEEEE CS
+          fn3   57 svtltgLkpgteYevr 72  
+                   s++lt+L p t+Y+v+
+  7LESS_DROME 1754 SLNLTDLLPFTRYRVS 1769
+                   899**********985 PP
+
+  == domain 7  score: 46.2 bits;  conditional E-value: 9.4e-15
+                   TSBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSS.......TEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTEEE CS
+          fn3    1 saPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknege.......ewneitvpgtttsvtltgLkpgteYevrVqavngggeg 82  
+                   s+P+n+sv+  ++++l vsW ppe+ +++  +Y+++++++ +ge       ++ +++  +t+ ++ ltg kpg+ Y+++Vqa+ + +++
+  7LESS_DROME 1800 SPPRNFSVRVLSPRELEVSWLPPEQLRSESVYYTLHWQQELDGEnvqdrreWEAHERRLETAGTHRLTGIKPGSGYSLWVQAHATPTKS 1888
+                   79***********************************99999999****98777777888888*******************9877665 PP
+
+  == domain 8  score: 21.0 bits;  conditional E-value: 6.7e-07
+                   EEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEE CS
+          fn3    5 nlsvtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVq 74  
+                   +l++ e +++sl+++W      ++p+ + ++e+r++ e+    +++v g++t ++++ L+p t+Y++r+ 
+  7LESS_DROME 1904 ELQLLELGPYSLSLTWAGT---PDPLGSLQLECRSSAEQ---LRRNVAGNHTKMVVEPLQPRTRYQCRLL 1967
+                   6889999************...9*************655...7***********************9985 PP
+
+  == domain 9  score: 8.9 bits;  conditional E-value: 0.0039
+                   TSBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSS...........................TEEEEEEESTCS.EEEEESSSTTEE CS
+          fn3    1 saPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknege...........................ewneitvpgttt.svtltgLkpgte 68  
+                   s+P+ ++++ + +  ++v+Wt+ + +++pi  Y++e  ++++                             e+++ +  +tt+ s++++ L+ ++ 
+  7LESS_DROME 1994 SQPGKPQLEHIAEEVFRVTWTAARGNGAPIALYNLEALQARSDIrrrrrrrrrnsggsleqlpwaeepvvvEDQWLDFCNTTElSCIVKSLHSSRL 2089
+                   689999******************9999********988866666888888888888888887777777777777777777777888888888888 PP
+
+                   EEEEEEEEETTE.EEEEE CS
+          fn3   69 YevrVqavnggg.egpes 85  
+                     +rV+a++ +  +gp+s
+  7LESS_DROME 2090 LLFRVRARSLEHgWGPYS 2107
+                   888888888544477665 PP
+
+>> emit_fn3_fn3-sample31  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   55.1   0.1   1.6e-17   1.1e-15       1      85 []       1      87 []       1      87 [] 0.97
+
+  Alignments for each domain:
+  == domain 1  score: 55.1 bits;  conditional E-value: 1.6e-17
+                           TSBCEEEEEEE.SSSEEEEEEE-CS.SSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTEEEEEE CS
+                    fn3  1 saPsnlsvtev.tstsltvsWtppe.dgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngggegpes 85
+                           +aP+n+s+ +v t++s+ vsW+ ++   + +++gY+++y++  ++++++++  +++ + v + +L ++t Y+vrVq+++++  g++s
+  emit_fn3_fn3-sample31  1 PAPRNISLVDVlTDDSMFVSWKSKTkADSMDLEGYTITYEKLATESAHRHQAFHSSPYGVSVPHLMASTLYHVRVQSQTSHVCGEKS 87
+                           79********************************************9999999999************************9999876 PP
+
+>> emit_fn3_fn3-sample28  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   53.7   0.2   4.3e-17     3e-15       1      82 [.       1      84 [.       1      87 [] 0.95
+
+  Alignments for each domain:
+  == domain 1  score: 53.7 bits;  conditional E-value: 4.3e-17
+                           TSBCEEEEEEESSSEEEEEEE-CS..SSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTEEE CS
+                    fn3  1 saPsnlsvtevtstsltvsWtppe..dgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngggeg 82
+                           ++P++++ ++++++++ v W p    ++++  t+Y +  ++++++ +wn + vp+++ s++ ++ + g++Yev+V+a+++   g
+  emit_fn3_fn3-sample28  1 PPPTDVRQSQRNAHEIAVMWMPAVdkSSESMDTKYVIIRWTQGTTVHWNDFVVPNNKFSYKTNDFRQGRNYEVCVKALKEVAAG 84
+                           79*********************99999999**********************************************9987655 PP
+
+>> emit_fn3_fn3-sample5  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   52.6   0.4   9.2e-17   6.3e-15       2      82 ..       2      83 ..       1      85 [] 0.90
+
+  Alignments for each domain:
+  == domain 1  score: 52.6 bits;  conditional E-value: 9.2e-17
+                          SBCEEEEEEESSSEEEEEEE-CS..SSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTEEE CS
+                   fn3  2 aPsnlsvtevtstsltvsWtppe..dgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngggeg 82
+                          +P++l++++ t+tslt +W++p+   g+++it Y v+ r++++ +e++  t  ++t+  ++t+L pg++Y+++V+a ++g  g
+  emit_fn3_fn3-sample5  2 QPEGLRLID-TETSLTGEWNAPNtyRGHDKITTYFVTRRKTSHLKEHVILTRRPQTNKIKVTNLAPGRQYHLWVRAKSQGQVG 83
+                          7999*****.**********************************9666666666677*********************99666 PP
+
+>> emit_fn3_fn3-sample33  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   52.6   0.0   9.4e-17   6.4e-15       1      80 [.       1      80 [.       1      82 [] 0.97
+
+  Alignments for each domain:
+  == domain 1  score: 52.6 bits;  conditional E-value: 9.4e-17
+                           TSBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTE CS
+                    fn3  1 saPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavnggg 80
+                           saP+ +++++vt+  + v W +  +g+  i gYev y++ ++++++++  ++++t+ + ++g+ p+++Y+++V + ng+g
+  emit_fn3_fn3-sample33  1 SAPEAVKFKDVTHPCILVMWAAEAHGPMNIGGYEVFYWHHGGTQKHRNMANDNNTRVMSIEGMVPNSSYQITVCTKNGRG 80
+                           79******************************************999999***************************996 PP
+
+>> emit_fn3_fn3-sample6  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   52.3   0.1   1.1e-16   7.7e-15       1      85 []       1      85 []       1      85 [] 0.97
+
+  Alignments for each domain:
+  == domain 1  score: 52.3 bits;  conditional E-value: 1.1e-16
+                          TSBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSS...TEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTEEEEEE CS
+                   fn3  1 saPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknege...ewneitvpgtttsvtltgLkpgteYevrVqavngggegpes 85
+                          s+P++l+++ vt+ ++++ W      + p+t+Ye++++++n++    +++++ vp+++++v+l +L+p   Yev+V+++n g +g+ s
+  emit_fn3_fn3-sample6  1 SPPERLTAKSVTDQTVVLAWIIM---RQPLTKYELDISKDNSQPcdgYPRREFVPRNQHEVQLWKLEPAGLYEVSVVSYNVGDYGHIS 85
+                          79*********************...9*****************************************************99888765 PP
+
+>> emit_fn3_fn3-sample15  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   49.0   0.3   1.2e-15   8.3e-14       2      79 ..       2      79 ..       1      83 [. 0.95
+
+  Alignments for each domain:
+  == domain 1  score: 49.0 bits;  conditional E-value: 1.2e-15
+                           SBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETT CS
+                    fn3  2 aPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngg 79
+                            P +++++e +++ ++vsW++ ed+n+ i+g +++y+  +++e++++ +++g+++ + ++gL++ + Yev V++++++
+  emit_fn3_fn3-sample15  2 TPDEIKAQEDGPRPASVSWKETEDQNASISGTRITYHARDKQEYTRSLSLDGPEHAYYFKGLREAEHYEVAVYTLSTR 79
+                           688999*********************************************************************987 PP
+
+>> emit_fn3_fn3-sample32  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   47.0   0.2   5.3e-15   3.6e-13       2      79 ..       2      78 ..       1      83 [. 0.94
+
+  Alignments for each domain:
+  == domain 1  score: 47.0 bits;  conditional E-value: 5.3e-15
+                           SBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETT CS
+                    fn3  2 aPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngg 79
+                           +++n++ ++  s++ltvsW+pp+ g+++i gY++++ + +eg  + e++++g t ++  ++Lk+ ++Y+ +++av++ 
+  emit_fn3_fn3-sample32  2 SITNIRQEADASNYLTVSWKPPFFGSSDIVGYSLTLGELTEGV-PGERSLDGRTPTYPTEQLKEKSNYVAKIIAVTKS 78
+                           6799999999*****************************8886.*******************************986 PP
+
+>> emit_fn3_fn3-sample16  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   46.9   0.1   5.5e-15   3.8e-13       2      79 ..       2      75 ..       1      78 [. 0.93
+
+  Alignments for each domain:
+  == domain 1  score: 46.9 bits;  conditional E-value: 5.5e-15
+                           SBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETT CS
+                    fn3  2 aPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngg 79
+                           ++++l v++ +++s  v+W+ ++  ++ ++gY v+y+++n+ +   +    g   sv ++ L+p  +Y+++V+av +g
+  emit_fn3_fn3-sample16  2 KIRRLVVENLRDNSKEVKWSSSQ--SESFSGYHVKYWTDNDLG-AEHAPEVGAI-SVLVKTLHPEAKYVFTVKAVGQG 75
+                           67899*****************6..*****************9.9999999999.9*******************887 PP
+
+>> emit_fn3_fn3-sample4  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   44.5   0.1   3.2e-14   2.2e-12       4      79 ..       3      74 ..       1      75 [. 0.95
+
+  Alignments for each domain:
+  == domain 1  score: 44.5 bits;  conditional E-value: 3.2e-14
+                          CEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETT CS
+                   fn3  4 snlsvtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngg 79
+                          +++++ +++s+ lt++W  ++  + ++t+ +v ++  n++  w++ +++++++ +++++L  gt Y+vrV+a+n++
+  emit_fn3_fn3-sample4  3 RRFKFNARNSNVLTINWIVKS--HHELTKKRVLFSAPNNN--WQTLKIKNNAQGCVVKNLAKGTIYSVRVAAINND 74
+                          5789999*************6..**************999..9*******************************86 PP
+
+>> emit_fn3_fn3-sample30  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   43.0   0.1     9e-14   6.2e-12       7      82 ..       8      81 ..       2      82 .] 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 43.0 bits;  conditional E-value: 9e-14
+                           EEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCS.EEEEESSSTTEEEEEEEEEEETTEEE CS
+                    fn3  7 svtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgttt.svtltgLkpgteYevrVqavngggeg 82
+                           ++  ++ t+l vsW++p    ++  +Y +  +++++++   +   +++++ +++++gL++ t Y+v Vqavn++g g
+  emit_fn3_fn3-sample30  8 TLNSIQLTELEVSWKQP---KSKCKSYDLPQKKVSDNGSLFTLVKKNEQNaTYVVNGLREATVYNVGVQAVNAKGLG 81
+                           6778899**********...9**********99999998999999999999***********************987 PP
+
+>> emit_fn3_fn3-sample37  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   42.7   0.0   1.2e-13     8e-12      10      76 ..       9      72 ..       4      77 .. 0.93
+
+  Alignments for each domain:
+  == domain 1  score: 42.7 bits;  conditional E-value: 1.2e-13
+                           EESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEE CS
+                    fn3 10 evtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqav 76
+                           +v+++ + v+W+pp+  +  i gY++ +++ ++ + w e+ ++g +t  +++gL+p + Y++++ ++
+  emit_fn3_fn3-sample37  9 AVNTSVILVTWQPPD--EINIGGYSISCKDMSTRS-WAEEFIKGGQTPIMVNGLQPEEPYVMNINTI 72
+                           57999*********7..**************9999.***************************9986 PP
+
+>> emit_fn3_fn3-sample21  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   40.9   0.0   4.3e-13   2.9e-11       2      84 ..       2      78 ..       1      79 [] 0.93
+
+  Alignments for each domain:
+  == domain 1  score: 40.9 bits;  conditional E-value: 4.3e-13
+                           SBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTEEEEE CS
+                    fn3  2 aPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngggegpe 84
+                            P n ++++v ++sl++  ++    +g ++ ++v+ +++++++  + ++ ++++  ++++ Lkp+t+Y++rV+a+++    p+
+  emit_fn3_fn3-sample21  2 DPFNANASNVLESSLSIALSQE--VGGLYDMFRVTKHSDQGNSSGRPKKSSKNA-KAEVKALKPHTTYRFRVAAISTT---PR 78
+                           699*******************..5***********999999989999999999.9********************98...65 PP
+
+>> emit_fn3_fn3-sample8  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   40.6   0.0   5.1e-13   3.5e-11       3      80 ..       3      85 ..       1      90 [. 0.88
+
+  Alignments for each domain:
+  == domain 1  score: 40.6 bits;  conditional E-value: 5.1e-13
+                          BCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSS......TEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTE CS
+                   fn3  3 PsnlsvtevtstsltvsWtppedgngpitgYeveyrpknege......ewneitvpgtttsvtltgLkpgteYevrVqavnggg 80
+                           + +++ ev++ s+++sW+   d ++ it+Y++ +r k+e +      ++ + +   ++  +++t+L +g+eY+v +qa n++ 
+  emit_fn3_fn3-sample8  3 LQTFHIPEVSHASMRLSWSLV-DADSAITKYSIFWRYKEEVGddkgaeAPSHLRSELHSAYYNFTQLYAGEEYTVLIQAANAKK 85
+                          6788999**************.7************8777777788988888888888899*********************994 PP
+
+>> emit_fn3_fn3-sample39  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   39.5   0.0   1.2e-12     8e-11       4      85 .]       4      84 .]       1      84 [] 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 39.5 bits;  conditional E-value: 1.2e-12
+                           CEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCS..EEEEESSSTTEEEEEEEEEEETTEEEEEE CS
+                    fn3  4 snlsvtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgttt..svtltgLkpgteYevrVqavngggegpes 85
+                           + l v  ++++s +v W      +g++ +Y+ve +++n++e+++++ + g+++  +++ +gL++ t+Y+ ++ +v ggg g++s
+  emit_fn3_fn3-sample39  4 KKLIVAVIQAHSSVVMWRSG---GGQYAQYKVEASEQNKSEAEVNYVIQGSSRgeNLHARGLRAETNYKAQIFSVPGGGLGEFS 84
+                           67889999************...******************888888888876689*************************987 PP
+
+>> emit_fn3_fn3-sample12  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   38.9   0.2   1.8e-12   1.2e-10       7      83 ..       7      83 ..       1      85 [] 0.90
+
+  Alignments for each domain:
+  == domain 1  score: 38.9 bits;  conditional E-value: 1.8e-12
+                           EEEEESSSEEEEEEE-CS.SSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTE..EEE CS
+                    fn3  7 svtevtstsltvsWtppe.dgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavnggg..egp 83
+                           +++ +t++++  +W+p     + ++++Y+v+++p +    ++e+++ +   ++ +t+L++ +eYe++V+avn+++  +g+
+  emit_fn3_fn3-sample12  7 RLSVTTESTFDPHWDPTYkIMSIQLDYYTVTCQPHGRV--KKEVQIERML-QYAITELTERKEYELSVVAVNQNTdeKGQ 83
+                           567789999*********9****************999..6*********.**********************9865555 PP
+
+>> emit_fn3_fn3-sample19  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   37.5   0.5   4.9e-12   3.3e-10      12      84 ..      12      85 ..       2      86 .] 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 37.5 bits;  conditional E-value: 4.9e-12
+                           SSSEEEEEEE-CS.SSSSTECEEEEEEEETTSSSTEEEEEEESTCS.EEEEESSSTTEEEEEEEEEEETTEEEEE CS
+                    fn3 12 tstsltvsWtppe.dgngpitgYeveyrpknegeewneitvpgttt.svtltgLkpgteYevrVqavngggegpe 84
+                           t  sl+v+W +p+  +++++ +Y+v+y++ + ++   ++  +++t   +tltg    teY+  ++ v++ g ++e
+  emit_fn3_fn3-sample19 12 TMKSLNVRWLRPDsRSGEEVVNYSVTYEDHDLTS-GPSVIDKRDTAwAYTLTGIDSETEYNTMLTWVSSVGISQE 85
+                           6789*****************************9.999999999999**********************998876 PP
+
+>> emit_fn3_fn3-sample3  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   36.5   0.1   9.6e-12   6.5e-10       2      82 ..       2      84 ..       1      87 [] 0.93
+
+  Alignments for each domain:
+  == domain 1  score: 36.5 bits;  conditional E-value: 9.6e-12
+                          SBCEEEEEEESSSEEEEEEE-CS..SSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTEEE CS
+                   fn3  2 aPsnlsvtevtstsltvsWtppe..dgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngggeg 82
+                          aP+ +sv+  ++ts+t++W++ +  ++ng     +v ++p+++ ++++ +   ++ +++t t+L+p+  Y+ ++ a+n++  g
+  emit_fn3_fn3-sample3  2 APHLISVHTAQTTSATMTWQHGPgaSKNGGSITLQVCWHPTGSFSPEKMQIGLENRSQYTQTDLQPHNVYNEELLALNRQAAG 84
+                          79999******************9*99999***************999999999999*********************99665 PP
+
+>> emit_fn3_fn3-sample34  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   35.5   0.2     2e-11   1.3e-09       1      79 [.       1      78 [.       1      81 [] 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 35.5 bits;  conditional E-value: 2e-11
+                           TSBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETT CS
+                    fn3  1 saPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngg 79
+                           s+Ps+l+  ++t+ s+t+s ++p d ++++ g+e++ +++++++ + +i  ++++ s+ +t L p+t Y+ +V++ +++
+  emit_fn3_fn3-sample34  1 SKPSELRTVPRTPKSVTFSAKEP-DEDEDYRGFEIKRYQTENEKGKANIPDSRESVSLAITMLVPSTPYSESVITASEE 78
+                           689********************.7**********98777666669********99******************99987 PP
+
+>> emit_fn3_fn3-sample17  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   35.3   0.2   2.3e-11   1.6e-09       8      84 ..       8      81 ..       2      82 .] 0.87
+
+  Alignments for each domain:
+  == domain 1  score: 35.3 bits;  conditional E-value: 2.3e-11
+                           EEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSS...TEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTEEEEE CS
+                    fn3  8 vtevtstsltvsWtppedgngpitgYeveyrpknege...ewneitvpgtttsvtltgLkpgteYevrVqavngggegpe 84
+                           +t++ + sl vsW+ ++   ++i+ Y+v   p n+++   + ++++   tt ++t+ +Lk+ + Yev+V++ ++g   +e
+  emit_fn3_fn3-sample17  8 ATQIAAQSLDVSWKSSS--TSTISIYTVFPLPINNPQdggQLTRKDRVWTT-ECTFDDLKAQSMYEVSVYTGTKG---HE 81
+                           788999**********7..***********999999988777777777777.******************98877...55 PP
+
+>> emit_fn3_fn3-sample23  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   34.6   0.1     4e-11   2.7e-09      10      76 ..      10      74 ..       2      77 .. 0.84
+
+  Alignments for each domain:
+  == domain 1  score: 34.6 bits;  conditional E-value: 4e-11
+                           EE.SSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESS..STTEEEEEEEEEE CS
+                    fn3 10 ev.tstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgL..kpgteYevrVqav 76
+                           +  ++++ +vsW +p   ngp +g+ ++y +  +++   e  v+ + +++++++L  +p++ Y+vrV +v
+  emit_fn3_fn3-sample23 10 QDyNHNECSVSWRAP---NGPQQGFVITYCKP-KPQ-VDEAPVKDENHHYHVSKLkkTPDSMYQVRVLSV 74
+                           4458999********...***********999.454.677777777778******878*********987 PP
+
+>> emit_fn3_fn3-sample18  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   34.4   0.1   4.5e-11   3.1e-09       1      79 [.       1      77 [.       1      81 [] 0.85
+
+  Alignments for each domain:
+  == domain 1  score: 34.4 bits;  conditional E-value: 4.5e-11
+                           TSBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSS...TEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETT CS
+                    fn3  1 saPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknege...ewneitvpgtttsvtltgLkpgteYevrVqavngg 79
+                           +aP+++ v+  +   + ++Wt+p    + +t Y+v yr++n+ +       ++ +g++  ++l++L+p ++ +v+V+av g 
+  emit_fn3_fn3-sample18  1 DAPGRFGVHRDRRGDVLLTWTTP----SVLTVYQVCYREENQKTpsqNMYYVRSSGNK-AFMLKELTPEVRLKVEVIAVHGY 77
+                           6899999****************....9************999974223333344444.********************987 PP
+
+>> emit_fn3_fn3-sample9  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   33.7   0.3   7.3e-11     5e-09       4      81 ..       4      84 ..       1      85 [] 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 33.7 bits;  conditional E-value: 7.3e-11
+                          CEEEEEEESSSEEEEEEE-CS.SSSSTECEEEEEEEETTSSS.TEEEEEEESTCS.EEEEESSSTTEEEEEEEEEEETTEE CS
+                   fn3  4 snlsvtevtstsltvsWtppe.dgngpitgYeveyrpknege.ewneitvpgttt.svtltgLkpgteYevrVqavnggge 81
+                          ++ls t  +++++  +W+ p+  + +  t+Ye+ey  +n+++ ++   +vp +t  + +l+ L +g++Y++++ +v ++++
+  emit_fn3_fn3-sample9  4 TELSYTGPGADEALENWSLPDeRQLNADTYYELEYVAENHPDpAPSYSNVPQNTGgERELNVLSEGVDYTFKIDTVITATW 84
+                          778889999999999*******999*****************99999999***99*********************99844 PP
+
+>> emit_fn3_fn3-sample24  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   33.5   0.5   8.3e-11   5.7e-09       2      74 ..       2      77 ..       1      84 [. 0.93
+
+  Alignments for each domain:
+  == domain 1  score: 33.5 bits;  conditional E-value: 8.3e-11
+                           SBCEEEEEEESSSEEEEEEE-CS.SSSSTECEEEEEEEETTSSS..TEEEEEEESTCSEEEEESSSTTEEEEEEEE CS
+                    fn3  2 aPsnlsvtevtstsltvsWtppe.dgngpitgYeveyrpknege..ewneitvpgtttsvtltgLkpgteYevrVq 74
+                           aP+n++v   ++ s  +  t  + + ++++ +Y+v+y+++n+ +  + +++++p + t + l +L p+++Y++rV+
+  emit_fn3_fn3-sample24  2 APENVKVVTLNTISELFWLTSRFeTRPNEVYSYNVQYQKVNGADfqHIKHFNLPHNVTLTLLVKLIPYENYRLRVR 77
+                           79999999999999888888888****************************************************8 PP
+
+>> emit_fn3_fn3-sample20  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   32.3   0.0     2e-10   1.4e-08      18      79 ..      21      83 ..       1      89 [. 0.87
+
+  Alignments for each domain:
+  == domain 1  score: 32.3 bits;  conditional E-value: 2e-10
+                           EEEE-CSSSSSTECEEEEEEEETTSSS.TEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETT CS
+                    fn3 18 vsWtppedgngpitgYeveyrpknege.ewneitvpgtttsvtltgLkpgteYevrVqavngg 79
+                           ++W++p+  +gp+t+Y+ ++   n++  + +e+  ++++ts++ t+L+p+++Y++ ++ +n++
+  emit_fn3_fn3-sample20 21 LEWDTPPRYGGPYTKYRFDILRRNDSLaARREKMATRSETSYIQTKLQPYKTYKIIIHDFNSK 83
+                           79******************88888887999999*********************99988877 PP
+
+>> emit_fn3_fn3-sample29  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   31.7   0.0     3e-10   2.1e-08      23      83 ..      20      85 ..       4      87 .] 0.90
+
+  Alignments for each domain:
+  == domain 1  score: 31.7 bits;  conditional E-value: 3e-10
+                           CS.SSSSTECEEEEEEEETTSSS......TEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTEEEE CS
+                    fn3 23 pe.dgngpitgYeveyrpknege......ewneitvpgtttsvtltgLkpgteYevrVqavngggegp 83
+                           ++ +g+g+i+ Y+++++  n+        ++  i+++g+t  ++++gL+ +++Y+++V a+ g++ g+
+  emit_fn3_fn3-sample29 20 SKnEGDGKIQFYNIQVYAFNGLRgyawtaYKDVIQISGNT--YIINGLRKYRKYRICVLAIHGETSGR 85
+                           44579********************9999999999*****..*********************98876 PP
+
+>> emit_fn3_fn3-sample7  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   31.4   0.0   3.7e-10   2.6e-08       2      84 ..       2      81 ..       1      82 [] 0.95
+
+  Alignments for each domain:
+  == domain 1  score: 31.4 bits;  conditional E-value: 3.7e-10
+                          SBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTEEEEE CS
+                   fn3  2 aPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngggegpe 84
+                          +P+ + ++ +++++l+++ +p    +  +++Y++++  +++++e ++ +   +++ v l+ Lk g+ Y +r   vn++ eg  
+  emit_fn3_fn3-sample7  2 PPTAIILKRTGASTLHLEISPR---HVSWDSYKIRLCRQDSQKELQSMKEVLHAYIVDLHYLKSGRGYIMRFPGVNDESEGSL 81
+                          899999****************...**************9**99*********************************988876 PP
+
+>> emit_fn3_fn3-sample14  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   30.8   0.0   6.1e-10   4.1e-08       2      79 ..       2      82 ..       1      87 [. 0.86
+
+  Alignments for each domain:
+  == domain 1  score: 30.8 bits;  conditional E-value: 6.1e-10
+                           SBCEEEEEEESSSEEEEEEE-CS...SSSSTECEEEEEEEETTSSSTEEEEEEESTCS.EEEEESSSTTEEEEEEEEEEETT CS
+                    fn3  2 aPsnlsvtevtstsltvsWtppe...dgngpitgYeveyrpknegeewneitvpgttt.svtltgLkpgteYevrVqavngg 79
+                           +P+++ + e  +  ++++W   +   +++g++ g++v y+ k+    ++e  vp++ t s+t ++Lkp+t  +v++qav+++
+  emit_fn3_fn3-sample14  2 PPKDIFFAELCTKGASLNWYMNTaanQPDGELVGFQVLYKRKSFRL-ERENVVPRENThSFTTSNLKPNTPTSVKIQAVTAR 82
+                           7899999999999999***87777789************9996665.788888877555********************987 PP
+
+>> emit_fn3_fn3-sample40  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   30.8   0.1     6e-10   4.1e-08      16      85 .]      13      76 .]       3      76 .] 0.86
+
+  Alignments for each domain:
+  == domain 1  score: 30.8 bits;  conditional E-value: 6e-10
+                           EEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTEEEEEE CS
+                    fn3 16 ltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngggegpes 85
+                             + W+ p     +i   e+e++ kn++++++ ++  +++ s+t+++L p  +Y+++V+avng+ +g++s
+  emit_fn3_fn3-sample40 13 NEIMWSLP-----EIVWTELEFYLKNDTGKKVVFNSVNPK-SLTVHNLSPLFTYNLTVKAVNGRNTGKKS 76
+                           56889999.....688888888888888878888888888.***********************999877 PP
+
+>> emit_fn3_fn3-sample25  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   30.1   0.0   9.8e-10   6.7e-08       8      79 ..       9      81 ..       4      84 .] 0.91
+
+  Alignments for each domain:
+  == domain 1  score: 30.1 bits;  conditional E-value: 9.8e-10
+                           EEEESSSEEEEEEE-CS..SSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETT CS
+                    fn3  8 vtevtstsltvsWtppe..dgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngg 79
+                           v+ ++++ + ++Wt      g   i+ Y+++y+p+n++    +++++ +++ ++l gL ++ +Y+  V+ + ++
+  emit_fn3_fn3-sample25  9 VSCRQHSHVLLRWTGDLhrFGMKRIEPYRIRYQPENGPA-LDRESIDQDHNAMQLAGLLENIKYQAVVAIRHAA 81
+                           66678999********99999*****************8.****************************998877 PP
+
+>> emit_fn3_fn3-sample22  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   29.0   0.1   2.1e-09   1.4e-07      16      85 .]      15      89 .]       1      89 [] 0.83
+
+  Alignments for each domain:
+  == domain 1  score: 29.0 bits;  conditional E-value: 2.1e-09
+                           EEEEEE-CS...SSSSTECEEEEEEEETTSSS..TEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTEEEEEE CS
+                    fn3 16 ltvsWtppe...dgngpitgYeveyrpknege..ewneitvpgtttsvtltgLkpgteYevrVqavngggegpes 85
+                           +  +W +p+   ++++p+ +Y +e++++ + e  + +e +v+  ++s++ + L  g++Yev    vn++g+g +s
+  emit_fn3_fn3-sample22 15 MLTKWMTPRsqsPSGDPVCSYLLEWENQVNVEwiARKETKVTHVHKSYKMKMLIQGQDYEVHMNQVNKEGDGLKS 89
+                           5667888887777899*********999999977777777777788***********************999765 PP
+
+>> emit_fn3_fn3-sample2  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   28.9   0.0   2.4e-09   1.6e-07       5      75 ..       5      81 ..       1      88 [. 0.80
+
+  Alignments for each domain:
+  == domain 1  score: 28.9 bits;  conditional E-value: 2.4e-09
+                          EEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSS........TEEEEEEESTCSEEEEESSSTTEEEEEEEEE CS
+                   fn3  5 nlsvtevtstsltvsWtppedgngpitgYeveyrpknege........ewneitvpgtttsvtltgLkpgteYevrVqa 75
+                          n++ +e+ s++++vsW++p++++ +i+g+e++y+++++ e        +++ +t +    +++l++  ++  Y++r+  
+  emit_fn3_fn3-sample2  5 NITEKERLSDKVVVSWETPNEKDLEIDGFELKYENEGDFEdcnnaeqfHPRDFTDKDR--TMKLQQYIAHDIYTLRIEL 81
+                          555566789*******************************998886555555555555..5999999999999999975 PP
+
+>> emit_fn3_fn3-sample1  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   28.6   0.2   2.8e-09   1.9e-07       2      78 ..       2      74 ..       1      80 [. 0.88
+
+  Alignments for each domain:
+  == domain 1  score: 28.6 bits;  conditional E-value: 2.8e-09
+                          SBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCS.EEEEESSSTTEEEEEEEEEEET CS
+                   fn3  2 aPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgttt.svtltgLkpgteYevrVqavng 78
+                          +++++++t    + l+++W+++    +pi +  +++++k++ge    + + ++t+ ++++++L+ +t+Ye  +qav  
+  emit_fn3_fn3-sample1  2 SVGQFNATTAKVDALSFQWSTK----NPILYDLLTIQTKDTGE-AAKFELNPQTDeTHQIENLNGSTKYENMIQAVQV 74
+                          678999999999**********....89999999999999999.777777777777*******************986 PP
+
+>> emit_fn3_fn3-sample13  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   28.3   0.3   3.5e-09   2.4e-07       2      79 ..       2      76 ..       1      79 [] 0.91
+
+  Alignments for each domain:
+  == domain 1  score: 28.3 bits;  conditional E-value: 3.5e-09
+                           SBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETT CS
+                    fn3  2 aPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngg 79
+                           ++ +l+++  +s+s++++  + +  n+ +  Ye+ ++  + +e w+++++ ++ +   l+gL+p+ +Y+v+V+  +++
+  emit_fn3_fn3-sample13  2 KVAQLTFSYAQSNSIRLRPAQAQ--NNNFREYELYIQWGQRPE-WVNERIQESRQIDRLEGLEPSLKYVVTVAVKKNE 76
+                           5789******************5..*********999999998.*********9999***************987665 PP
+
+>> emit_fn3_fn3-sample35  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   28.0   0.0   4.5e-09   3.1e-07       2      75 ..       2      69 ..       1      74 [] 0.86
+
+  Alignments for each domain:
+  == domain 1  score: 28.0 bits;  conditional E-value: 4.5e-09
+                           SBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEE CS
+                    fn3  2 aPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqa 75
+                           +P+ ls++ v++t+  v W  p +++++++ ++++y ++      ne++  g+++s++l++L  g +Y+ + ++
+  emit_fn3_fn3-sample35  2 PPTKLSAETVQPTERKVAWALP-SSEEKFDTFKIQYLQS-----VNERKHMGDHSSLKLHKLDQGNSYTATCHT 69
+                           89********************.7************999.....4555666777799***********987666 PP
+
+>> emit_fn3_fn3-sample10  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   24.1   0.0   7.5e-08   5.1e-06       9      79 ..       9      74 ..       2      76 .] 0.84
+
+  Alignments for each domain:
+  == domain 1  score: 24.1 bits;  conditional E-value: 7.5e-08
+                           EEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETT CS
+                    fn3  9 tevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngg 79
+                           ++ ++ +++ + + p   ++p ++Y++ y+ ++ +   +e       + v   +L p t Y++ V a+ g+
+  emit_fn3_fn3-sample10  9 ENEGEGTIRTTLELP---SSPCEQYRIAYQREEREA--KEAFRRTARYAVRMMHLIPVTAYTLDVEAQDGQ 74
+                           6778999999999**...**************8885..55555555557******************9987 PP
+
+>> emit_fn3_fn3-sample38  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   21.7   0.0     4e-07   2.7e-05       3      81 ..       3      81 ..       1      83 [] 0.89
+
+  Alignments for each domain:
+  == domain 1  score: 21.7 bits;  conditional E-value: 4e-07
+                           BCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETTEE CS
+                    fn3  3 PsnlsvtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavnggge 81
+                           P   s++ + s+ ++ s +p ++gn + +gYe+++   n g++  +    ++t+s t+++L+p +eY ++++ +++ g+
+  emit_fn3_fn3-sample38  3 PDKYSARVRASNAIRSSLSPLQEGNTKTSGYEIDILWNNPGSVRFSMMCAPETYSDTFRKLEPLMEYDIWLRMRTRTGQ 81
+                           6667788889999**********************7777888899999999999******************9999864 PP
+
+>> emit_fn3_fn3-sample26  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   21.2   0.0     6e-07   4.1e-05      10      79 ..      10      77 ..       5      80 .] 0.90
+
+  Alignments for each domain:
+  == domain 1  score: 21.2 bits;  conditional E-value: 6e-07
+                           EESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETT CS
+                    fn3 10 evtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngg 79
+                            + +  + ++W + +  + p++ + ++++++n+ e + ++ + g ++++ lt L  g++Y ++V+   ++
+  emit_fn3_fn3-sample26 10 KIDDQGIDLTWAAAT--SVPMSFFLITVWKVNSIELSLWFPTEGMQDQLDLTLLSIGEDYWINVTFTEQN 77
+                           56778899******7..***********************************************966655 PP
+
+>> emit_fn3_fn3-sample36  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   20.4   0.0   1.1e-06   7.4e-05       2      79 ..       2      77 ..       1      82 [. 0.94
+
+  Alignments for each domain:
+  == domain 1  score: 20.4 bits;  conditional E-value: 1.1e-06
+                           SBCEEEEEEESSSEEEEEEE-CSSSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEETT CS
+                    fn3  2 aPsnlsvtevtstsltvsWtppedgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavngg 79
+                           +P+ +sv+  ++  l+v+  p + + +   +Y+v + +    + +++++v+++ +s+ l gL +  +Y +++q+v+++
+  emit_fn3_fn3-sample36  2 KPQLFSVSS-NHKDLRVNLGPTDRPASVPRSYKVAIASPALIS-STRQDVKPDPMSLLLAGLIATLDYLLSLQTVSEE 77
+                           688888888.9999**********************9999998.*******************************987 PP
+
+>> emit_fn3_fn3-sample11  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   16.9   0.0   1.3e-05   0.00087       6      78 ..       6      78 ..       1      80 [] 0.85
+
+  Alignments for each domain:
+  == domain 1  score: 16.9 bits;  conditional E-value: 1.3e-05
+                           EEEEEESSSEEEEEEE-CS.SSSSTECEEEEEEEETTSSSTEEEEEEESTCSEEEEESSSTTEEEEEEEEEEET CS
+                    fn3  6 lsvtevtstsltvsWtppe.dgngpitgYeveyrpknegeewneitvpgtttsvtltgLkpgteYevrVqavng 78
+                           +++ + +   + +s +++   g+  ++ + ++ ++++++e   ++++  +t++v  ++L+ +t++ + V+ v++
+  emit_fn3_fn3-sample11  6 VNAVP-NGERAILSLSQKLkGGQVVVQDFPLDKKEDDGPENALNFNIAHNTETVYEKDLRSYTDFAIAVKLVSR 78
+                           44444.5556777888888789999*********************************************9986 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (85 nodes)
+Target sequences:                       2735  (767780 residues searched)
+Passed MSV filter:                       100  (0.0365631); expected 54.7 (0.02)
+Passed bias filter:                       90  (0.0329068); expected 54.7 (0.02)
+Passed Vit filter:                        46  (0.016819); expected 2.7 (0.001)
+Passed Fwd filter:                        40  (0.0146252); expected 0.0 (1e-05)
+Initial search space (Z):               2735  [actual number of targets]
+Domain search space  (domZ):              40  [number of targets reported over threshold]
+# CPU time: [normalized]
+# Mc/sec: [normalized]
+//
+[ok]

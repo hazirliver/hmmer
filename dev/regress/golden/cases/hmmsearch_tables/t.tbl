@@ -1,0 +1,54 @@
+#                                                                        --- full sequence ---- --- best 1 domain ---- --- domain number estimation ----
+# target name                 accession  query name           accession    E-value  score  bias   E-value  score  bias   exp reg clu  ov env dom rep inc description of target
+#         ------------------- ---------- -------------------- ---------- --------- ------ ----- --------- ------ -----   --- --- --- --- --- --- --- --- ---------------------
+emit_Pkinase_Pkinase-sample30 -          Pkinase              PF00069.24   1.2e-38  130.3   0.9   1.5e-38  130.0   0.9   1.0   1   0   0   1   1   1   1 -
+7LESS_DROME                   -          Pkinase              PF00069.24   2.1e-38  129.5   0.0   3.5e-38  128.8   0.0   1.3   1   0   0   1   1   1   1 P13368 RecName: Full=Protein sevenless;          EC=2.7.10.1;
+emit_Pkinase_Pkinase-sample11 -          Pkinase              PF00069.24   9.6e-37  124.1   0.0   1.2e-36  123.8   0.0   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample8  -          Pkinase              PF00069.24   4.4e-36  121.9   0.0   4.9e-36  121.8   0.0   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample31 -          Pkinase              PF00069.24   3.4e-35  119.0   0.2   3.8e-35  118.9   0.2   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample28 -          Pkinase              PF00069.24   6.1e-35  118.2   0.1   6.8e-35  118.0   0.1   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample35 -          Pkinase              PF00069.24   1.7e-34  116.7   0.0   1.9e-34  116.5   0.0   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample38 -          Pkinase              PF00069.24   1.7e-33  113.4   0.3   1.8e-33  113.4   0.3   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample21 -          Pkinase              PF00069.24   6.7e-33  111.5   0.8   7.5e-33  111.3   0.8   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample34 -          Pkinase              PF00069.24   6.9e-33  111.5   0.1   9.3e-33  111.0   0.1   1.1   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample16 -          Pkinase              PF00069.24   2.7e-32  109.5   0.1   3.2e-32  109.3   0.1   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample39 -          Pkinase              PF00069.24   4.5e-32  108.8   0.2   5.8e-32  108.4   0.2   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample12 -          Pkinase              PF00069.24   5.2e-32  108.6   0.5     6e-32  108.4   0.5   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample13 -          Pkinase              PF00069.24     2e-31  106.6   0.1   2.3e-31  106.5   0.1   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample5  -          Pkinase              PF00069.24   2.3e-31  106.5   0.6   2.7e-31  106.2   0.6   1.1   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample37 -          Pkinase              PF00069.24   1.9e-30  103.5   0.0   2.2e-30  103.2   0.0   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample23 -          Pkinase              PF00069.24   2.1e-30  103.3   0.4   2.5e-30  103.1   0.4   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample4  -          Pkinase              PF00069.24   2.8e-30  102.9   0.0   3.2e-30  102.7   0.0   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample40 -          Pkinase              PF00069.24     3e-30  102.8   0.1   3.6e-30  102.5   0.1   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample18 -          Pkinase              PF00069.24   1.7e-29  100.3   0.1   1.9e-29  100.1   0.1   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample27 -          Pkinase              PF00069.24   6.9e-29   98.3   1.5   7.6e-29   98.2   1.5   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample2  -          Pkinase              PF00069.24   1.1e-28   97.6   0.0   1.3e-28   97.4   0.0   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample7  -          Pkinase              PF00069.24   2.9e-28   96.3   0.0   3.2e-28   96.2   0.0   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample14 -          Pkinase              PF00069.24   3.3e-28   96.1   0.5   3.6e-28   96.0   0.5   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample9  -          Pkinase              PF00069.24   4.4e-28   95.7   0.0   4.7e-28   95.6   0.0   1.1   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample1  -          Pkinase              PF00069.24   4.8e-28   95.6   0.0   5.3e-28   95.4   0.0   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample26 -          Pkinase              PF00069.24   7.5e-28   94.9   0.8   8.4e-28   94.8   0.8   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample22 -          Pkinase              PF00069.24   2.4e-27   93.3   0.3   2.7e-27   93.1   0.3   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample15 -          Pkinase              PF00069.24   1.5e-26   90.7   1.4   1.7e-26   90.5   1.4   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample33 -          Pkinase              PF00069.24   6.2e-26   88.7   0.0   7.3e-26   88.4   0.0   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample32 -          Pkinase              PF00069.24   2.4e-25   86.7   0.1   2.8e-25   86.5   0.1   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample29 -          Pkinase              PF00069.24     7e-25   85.2   0.4   8.4e-25   85.0   0.4   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample10 -          Pkinase              PF00069.24   1.4e-24   84.2   0.1   1.8e-24   83.8   0.1   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample19 -          Pkinase              PF00069.24     5e-24   82.4   0.2     6e-24   82.1   0.2   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample24 -          Pkinase              PF00069.24   3.7e-23   79.6   0.1   4.5e-23   79.3   0.1   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample3  -          Pkinase              PF00069.24   3.7e-23   79.6   0.0   6.7e-23   78.7   0.0   1.4   1   1   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample17 -          Pkinase              PF00069.24   1.5e-20   71.0   1.4   1.7e-20   70.8   1.4   1.1   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample20 -          Pkinase              PF00069.24   7.9e-20   68.7   0.0   8.8e-20   68.5   0.0   1.0   1   0   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample25 -          Pkinase              PF00069.24   2.6e-19   66.9   2.7   4.1e-19   66.3   2.7   1.3   1   1   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample36 -          Pkinase              PF00069.24   4.6e-17   59.6   0.0     1e-16   58.5   0.0   1.5   1   1   0   1   1   1   1 -
+emit_Pkinase_Pkinase-sample6  -          Pkinase              PF00069.24   9.5e-17   58.6   0.4   1.9e-16   57.6   0.4   1.4   1   1   0   1   1   1   1 -
+#
+# Program:         hmmsearch
+# Version:         3.4 (Aug 2023)
+# Pipeline mode:   SEARCH
+# Query file:      fx/Pkinase.hmm
+# Target file:     data/protdb.fa
+# Option settings: hmmsearch -o main.out -A ali.sto --tblout t.tbl --domtblout t.domtbl --pfamtblout t.pfam fx/Pkinase.hmm data/protdb.fa 
+# Current dir:     [normalized]
+# Date:            [normalized]
+# [ok]

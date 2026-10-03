@@ -1,0 +1,429 @@
+# phmmer :: search a protein sequence against a protein database
+# HMMER 3.4 (Aug 2023); http://hmmer.org/
+# Copyright (C) 2023 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query sequence file:             data/HBB_HUMAN
+# target sequence database:        data/protdb.fa
+# show alignments in output:       no
+# gap open probability:            0.040000
+# gap extend probability:          0.500000
+# subst score matrix (built-in):   BLOSUM45
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       HBB_HUMAN  [L=146]
+Description: Human beta hemoglobin.
+Scores for complete sequences (score includes all domains):
+   --- full sequence ---   --- best 1 domain ---    -#dom-
+    E-value  score  bias    E-value  score  bias    exp  N  Sequence                        Description
+    ------- ------ -----    ------- ------ -----   ---- --  --------                        -----------
+    1.9e-83  272.4   0.3    2.1e-83  272.3   0.3    1.0  1  HBB_HUMAN                        Human beta hemoglobin.
+    2.3e-79  259.4   0.3    2.6e-79  259.2   0.3    1.0  1  HBB_MANSP                        
+    4.1e-79  258.5   0.4    4.6e-79  258.4   0.4    1.0  1  HBB_CALAR                        
+    7.7e-74  241.7   0.2    8.6e-74  241.5   0.2    1.0  1  HBB_URSMA                        
+    8.1e-74  241.6   0.3      9e-74  241.5   0.3    1.0  1  HBB_RABIT                        
+    7.7e-68  222.5   0.3    8.6e-68  222.4   0.3    1.0  1  HBB_TRIIN                        
+    8.9e-68  222.3   0.3    9.8e-68  222.2   0.3    1.0  1  HBB_EQUHE                        
+    1.5e-67  221.6   0.2    1.7e-67  221.4   0.2    1.0  1  HBB_SUNMU                        
+    7.3e-67  219.4   0.1    8.1e-67  219.2   0.1    1.0  1  HBB_TUPGL                        
+    2.2e-64  211.5   0.1    2.4e-64  211.3   0.1    1.0  1  HBB_SPETO                        
+    3.7e-64  210.7   0.2    4.1e-64  210.6   0.2    1.0  1  HBB_SPECI                        
+    3.2e-63  207.7   0.3    3.6e-63  207.6   0.3    1.0  1  HBB_TACAC                        
+    5.7e-63  206.9   0.1    6.3e-63  206.8   0.1    1.0  1  HBE_PONPY                        
+    1.3e-62  205.8   0.2    1.4e-62  205.7   0.2    1.0  1  HBB_ORNAN                        
+    4.9e-56  184.8   0.0    5.4e-56  184.6   0.0    1.0  1  HBB_COLLI                        
+    8.5e-55  180.8   0.0    9.4e-55  180.7   0.0    1.0  1  HBB_LARRI                        
+    8.4e-52  171.2   0.1    9.4e-52  171.1   0.1    1.0  1  HBB1_VAREX                       
+    1.7e-44  147.8   0.2    1.9e-44  147.7   0.2    1.0  1  HBBL_RANCA                       
+    1.1e-39  132.5   0.1    1.2e-39  132.4   0.1    1.0  1  HBB2_XENTR                       
+      1e-33  113.4   0.0    1.1e-33  113.2   0.0    1.0  1  HBB2_TRICR                       
+    1.1e-25   87.6   0.2    1.2e-25   87.5   0.2    1.0  1  HBA_MESAU                        
+      2e-25   86.9   0.2    2.2e-25   86.7   0.2    1.0  1  HBA_AILME                        
+    9.4e-25   84.7   0.2      1e-24   84.6   0.2    1.0  1  HBA_PONPY                        
+    1.9e-24   83.8   0.0      2e-24   83.6   0.0    1.0  1  HBA4_SALIR                       
+    1.9e-24   83.7   0.1    2.1e-24   83.6   0.1    1.0  1  HBA_PROLO                        
+    2.1e-24   83.6   0.2    2.3e-24   83.5   0.2    1.0  1  HBA_MACFA                        
+    2.3e-24   83.5   0.3    2.5e-24   83.4   0.3    1.0  1  HBA2_BOSMU                       
+    7.8e-24   81.8   0.1    8.6e-24   81.6   0.1    1.0  1  HBAD_CHLME                       
+    1.1e-23   81.3   0.2    1.2e-23   81.2   0.2    1.0  1  HBA_MACSI                        
+    1.5e-23   80.9   0.1    1.6e-23   80.7   0.1    1.0  1  HBA2_GALCR                       
+    2.4e-23   80.2   0.1    2.6e-23   80.1   0.1    1.0  1  HBA_COLLI                        
+    7.7e-23   78.6   0.2    8.4e-23   78.5   0.2    1.0  1  HBA_ERIEU                        
+    1.4e-22   77.8   0.1    1.5e-22   77.7   0.1    1.0  1  HBA_FRAPO                        
+    1.4e-22   77.7   0.0    1.6e-22   77.6   0.0    1.0  1  HBAD_PASMO                       
+    1.6e-22   77.5   0.0    1.8e-22   77.4   0.0    1.0  1  HBAZ_HORSE                       
+    3.2e-22   76.6   0.1    3.4e-22   76.5   0.1    1.0  1  HBA_PAGLA                        
+      9e-22   75.2   0.1    9.6e-22   75.1   0.1    1.0  1  HBA_TRIOC                        
+    1.6e-21   74.4   0.1    1.9e-21   74.2   0.1    1.0  1  HBA_PHACO                        
+    1.8e-20   71.0   0.1    1.9e-20   70.9   0.1    1.0  1  HBA_ANSSE                        
+    1.1e-09   36.5   0.0    1.2e-09   36.3   0.0    1.0  1  MYG_LYCPI                        
+    5.5e-08   31.1   0.0    6.5e-08   30.8   0.0    1.0  1  emit_globins4_globins4-sample16  
+      9e-08   30.4   0.0    9.9e-08   30.3   0.0    1.0  1  MYG_PROGU                        
+    9.5e-08   30.3   0.0      1e-07   30.2   0.0    1.0  1  MYG_SAISC                        
+    1.9e-07   29.3   0.0    2.1e-07   29.2   0.0    1.0  1  MYG_MOUSE                        
+    2.3e-07   29.1   0.1    2.6e-07   28.9   0.1    1.0  1  MYG_HORSE                        
+    2.9e-07   28.8   0.0    3.2e-07   28.6   0.0    1.0  1  emit_globins4_globins4-sample13  
+    8.2e-07   27.3   0.0      9e-07   27.2   0.0    1.0  1  MYG_ESCGI                        
+    1.5e-06   26.5   0.0    1.7e-06   26.3   0.0    1.0  1  emit_globins4_globins4-sample37  
+    1.6e-06   26.4   0.0    1.8e-06   26.3   0.0    1.0  1  emit_globins4_globins4-sample36  
+    2.4e-06   25.9   0.0    2.7e-06   25.7   0.0    1.0  1  emit_globins4_globins4-sample11  
+    3.7e-06   25.2   0.0    3.7e-06   25.2   0.0    1.0  1  emit_globins4_globins4-sample26  
+    7.1e-06   24.3   0.0    8.6e-06   24.1   0.0    1.0  1  emit_globins4_globins4-sample18  
+    7.7e-06   24.2   0.0    9.5e-06   23.9   0.0    1.1  1  emit_globins4_globins4-sample1   
+    2.8e-05   22.4   0.0    3.1e-05   22.3   0.0    1.0  1  emit_globins4_globins4-sample8   
+      3e-05   22.3   0.0    3.3e-05   22.2   0.0    1.1  1  emit_globins4_globins4-sample15  
+    4.6e-05   21.7   0.0    5.6e-05   21.5   0.0    1.0  1  emit_globins4_globins4-sample19  
+      5e-05   21.6   0.0    6.4e-05   21.3   0.0    1.0  1  MYG_MUSAN                        
+    0.00015   20.1   0.0    0.00018   19.8   0.0    1.1  1  emit_globins4_globins4-sample7   
+    0.00031   19.1   0.0    0.00034   19.0   0.0    1.0  1  emit_globins4_globins4-sample32  
+    0.00075   17.8   0.0    0.00089   17.6   0.0    1.0  1  emit_globins4_globins4-sample34  
+     0.0025   16.2   0.0     0.0027   16.1   0.0    1.1  1  emit_globins4_globins4-sample21  
+     0.0037   15.6   0.0     0.0043   15.4   0.0    1.1  1  emit_globins4_globins4-sample6   
+     0.0083   14.5   0.0     0.0092   14.4   0.0    1.1  1  emit_globins4_globins4-sample4   
+  ------ inclusion threshold ------
+      0.011   14.1   0.0      0.014   13.8   0.0    1.1  1  emit_globins4_globins4-sample2   
+       0.02   13.3   0.0      0.024   13.1   0.0    1.1  1  emit_globins4_globins4-sample39  
+
+
+Domain annotation for each sequence:
+>> HBB_HUMAN  Human beta hemoglobin.
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  272.3   0.3   4.9e-85   2.1e-83       1     146 []       1     146 []       1     146 [] 1.00
+
+>> HBB_MANSP  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  259.2   0.3   6.1e-81   2.6e-79       1     146 []       1     146 []       1     146 [] 1.00
+
+>> HBB_CALAR  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  258.4   0.4   1.1e-80   4.6e-79       1     146 []       1     146 []       1     146 [] 1.00
+
+>> HBB_URSMA  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  241.5   0.2     2e-75   8.6e-74       1     146 []       1     146 []       1     146 [] 1.00
+
+>> HBB_RABIT  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  241.5   0.3   2.1e-75     9e-74       1     146 []       1     146 []       1     146 [] 1.00
+
+>> HBB_TRIIN  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  222.4   0.3     2e-69   8.6e-68       1     146 []       1     146 []       1     146 [] 1.00
+
+>> HBB_EQUHE  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  222.2   0.3   2.3e-69   9.8e-68       1     146 []       1     146 []       1     146 [] 0.99
+
+>> HBB_SUNMU  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  221.4   0.2   3.9e-69   1.7e-67       1     146 []       1     146 []       1     146 [] 0.99
+
+>> HBB_TUPGL  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  219.2   0.1   1.9e-68   8.1e-67       1     146 []       1     146 []       1     146 [] 1.00
+
+>> HBB_SPETO  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  211.3   0.1   5.8e-66   2.4e-64       1     146 []       1     146 []       1     146 [] 0.99
+
+>> HBB_SPECI  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  210.6   0.2   9.7e-66   4.1e-64       1     146 []       1     146 []       1     146 [] 0.99
+
+>> HBB_TACAC  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  207.6   0.3   8.5e-65   3.6e-63       1     146 []       1     146 []       1     146 [] 0.99
+
+>> HBE_PONPY  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  206.8   0.1   1.5e-64   6.3e-63       1     146 []       1     146 []       1     146 [] 0.99
+
+>> HBB_ORNAN  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  205.7   0.2   3.3e-64   1.4e-62       1     146 []       1     146 []       1     146 [] 0.99
+
+>> HBB_COLLI  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  184.6   0.0   1.3e-57   5.4e-56       1     146 []       1     146 []       1     146 [] 0.99
+
+>> HBB_LARRI  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  180.7   0.0   2.2e-56   9.4e-55       1     146 []       1     146 []       1     146 [] 0.99
+
+>> HBB1_VAREX  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  171.1   0.1   2.2e-53   9.4e-52       1     146 []       1     146 []       1     146 [] 0.99
+
+>> HBBL_RANCA  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  147.7   0.2   4.5e-46   1.9e-44       1     146 []       1     146 []       1     146 [] 0.99
+
+>> HBB2_XENTR  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  132.4   0.1   2.8e-41   1.2e-39       1     145 [.       1     145 [.       1     146 [] 0.98
+
+>> HBB2_TRICR  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  113.2   0.0   2.7e-35   1.1e-33       1     145 [.       1     145 []       1     145 [] 0.96
+
+>> HBA_MESAU  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   87.5   0.2   2.9e-27   1.2e-25       4     145 ..       3     140 ..       1     141 [] 0.93
+
+>> HBA_AILME  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   86.7   0.2   5.1e-27   2.2e-25       3     145 ..       2     140 ..       1     141 [] 0.93
+
+>> HBA_PONPY  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   84.6   0.2   2.4e-26     1e-24       3     145 ..       2     140 ..       1     141 [] 0.93
+
+>> HBA4_SALIR  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   83.6   0.0   4.8e-26     2e-24       4     145 ..       3     141 ..       1     142 [] 0.92
+
+>> HBA_PROLO  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   83.6   0.1   5.1e-26   2.1e-24       3     145 ..       2     140 ..       1     141 [] 0.92
+
+>> HBA_MACFA  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   83.5   0.2   5.4e-26   2.3e-24       3     145 ..       2     140 ..       1     141 [] 0.94
+
+>> HBA2_BOSMU  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   83.4   0.3   5.9e-26   2.5e-24       5     145 ..       4     140 ..       1     141 [] 0.92
+
+>> HBAD_CHLME  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   81.6   0.1     2e-25   8.6e-24       3     145 ..       2     140 ..       1     141 [] 0.93
+
+>> HBA_MACSI  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   81.2   0.2   2.8e-25   1.2e-23       3     145 ..       2     140 ..       1     141 [] 0.93
+
+>> HBA2_GALCR  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   80.7   0.1   3.9e-25   1.6e-23       3     145 ..       2     140 ..       1     141 [] 0.93
+
+>> HBA_COLLI  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   80.1   0.1   6.2e-25   2.6e-23       5     145 ..       4     140 ..       1     141 [] 0.91
+
+>> HBA_ERIEU  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   78.5   0.2     2e-24   8.4e-23       5     145 ..       4     140 ..       1     141 [] 0.91
+
+>> HBA_FRAPO  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   77.7   0.1   3.5e-24   1.5e-22       5     145 ..       4     140 ..       1     141 [] 0.90
+
+>> HBAD_PASMO  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   77.6   0.0   3.7e-24   1.6e-22       3     145 ..       2     140 ..       1     141 [] 0.93
+
+>> HBAZ_HORSE  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   77.4   0.0   4.3e-24   1.8e-22       3     145 ..       2     140 ..       1     141 [] 0.93
+
+>> HBA_PAGLA  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   76.5   0.1   8.2e-24   3.4e-22       5     145 ..       4     140 ..       1     141 [] 0.91
+
+>> HBA_TRIOC  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   75.1   0.1   2.3e-23   9.6e-22       8     145 ..       7     140 ..       1     141 [] 0.87
+
+>> HBA_PHACO  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   74.2   0.1   4.4e-23   1.9e-21      11     145 ..      10     140 ..       2     141 .] 0.87
+
+>> HBA_ANSSE  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   70.9   0.1   4.6e-22   1.9e-20       6     145 ..       5     140 ..       1     141 [] 0.90
+
+>> MYG_LYCPI  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   36.3   0.0   2.9e-11   1.2e-09       7     145 ..       6     146 ..       1     147 [. 0.87
+
+>> emit_globins4_globins4-sample16  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   30.8   0.0   1.5e-09   6.5e-08       2     132 ..      14     145 ..      13     159 .. 0.82
+
+>> MYG_PROGU  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   30.3   0.0   2.4e-09   9.9e-08       7     145 ..       6     146 ..       1     147 [. 0.85
+
+>> MYG_SAISC  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   30.2   0.0   2.5e-09     1e-07       7     145 ..       6     146 ..       1     147 [. 0.86
+
+>> MYG_MOUSE  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   29.2   0.0   5.1e-09   2.1e-07       7     145 ..       6     146 ..       1     147 [. 0.86
+
+>> MYG_HORSE  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   28.9   0.1   6.2e-09   2.6e-07       7     145 ..       6     146 ..       1     147 [. 0.84
+
+>> emit_globins4_globins4-sample13  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   28.6   0.0   7.5e-09   3.2e-07       3     144 ..       3     152 ..       1     154 [] 0.74
+
+>> MYG_ESCGI  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   27.2   0.0   2.1e-08     9e-07       6     143 ..       5     144 ..       1     147 [. 0.83
+
+>> emit_globins4_globins4-sample37  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   26.3   0.0   4.1e-08   1.7e-06      16     144 ..      28     156 ..      11     158 .] 0.85
+
+>> emit_globins4_globins4-sample36  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   26.3   0.0   4.2e-08   1.8e-06       5     142 ..       2     139 ..       1     143 [] 0.76
+
+>> emit_globins4_globins4-sample11  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   25.7   0.0   6.5e-08   2.7e-06      22     142 ..      17     143 ..       3     147 .] 0.76
+
+>> emit_globins4_globins4-sample26  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   25.2   0.0   8.9e-08   3.7e-06      18     144 ..      21     150 ..       1     152 [] 0.83
+
+>> emit_globins4_globins4-sample18  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   24.1   0.0     2e-07   8.6e-06       4     137 ..       7     138 ..       3     146 .. 0.81
+
+>> emit_globins4_globins4-sample1  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   23.9   0.0   2.3e-07   9.5e-06      14     113 ..      23     127 ..      12     149 .. 0.77
+
+>> emit_globins4_globins4-sample8  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   22.3   0.0   7.4e-07   3.1e-05       9     139 ..       8     139 ..       2     146 .] 0.79
+
+>> emit_globins4_globins4-sample15  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   22.2   0.0   7.8e-07   3.3e-05      20     144 ..      22     146 ..       3     148 .] 0.72
+
+>> emit_globins4_globins4-sample19  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   21.5   0.0   1.3e-06   5.6e-05       7     133 ..       7     136 ..       3     145 .. 0.84
+
+>> MYG_MUSAN  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   21.3   0.0   1.5e-06   6.4e-05      11     133 ..       6     129 ..       2     141 .. 0.82
+
+>> emit_globins4_globins4-sample7  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   19.8   0.0   4.3e-06   0.00018      14     122 ..      14     128 ..       2     148 .. 0.71
+
+>> emit_globins4_globins4-sample32  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   19.0   0.0     8e-06   0.00034      25     143 ..      26     148 ..       3     151 .] 0.81
+
+>> emit_globins4_globins4-sample34  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   17.6   0.0   2.1e-05   0.00089      27     141 ..      26     138 ..       4     144 .. 0.71
+
+>> emit_globins4_globins4-sample21  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   16.1   0.0   6.5e-05    0.0027       1     117 [.      11     130 ..      11     159 .. 0.80
+
+>> emit_globins4_globins4-sample6  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   15.4   0.0    0.0001    0.0043      38     140 ..      45     149 ..       9     155 .. 0.75
+
+>> emit_globins4_globins4-sample4  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   14.4   0.0   0.00022    0.0092      13     133 ..      16     142 ..       4     155 .. 0.67
+
+>> emit_globins4_globins4-sample2  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ?   13.8   0.0   0.00033     0.014      10     122 ..      26     140 ..      17     164 .. 0.77
+
+>> emit_globins4_globins4-sample39  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 ?   13.1   0.0   0.00056     0.024      27     130 ..      29     135 ..       3     149 .. 0.68
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (146 nodes)
+Target sequences:                       2735  (767780 residues searched)
+Passed MSV filter:                       139  (0.0508227); expected 54.7 (0.02)
+Passed bias filter:                      130  (0.047532); expected 54.7 (0.02)
+Passed Vit filter:                        69  (0.0252285); expected 2.7 (0.001)
+Passed Fwd filter:                        65  (0.023766); expected 0.0 (1e-05)
+Initial search space (Z):               2735  [actual number of targets]
+Domain search space  (domZ):              65  [number of targets reported over threshold]
+# CPU time: [normalized]
+# Mc/sec: [normalized]
+//
+[ok]

@@ -1,0 +1,134 @@
+# nhmmscan :: search DNA sequence(s) against a DNA profile database
+# HMMER 3.4 (Aug 2023); http://hmmer.org/
+# Copyright (C) 2023 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query sequence file:             q.fa
+# target HMM database:             db.hmm
+# per-seq hits tabular output:     t.tbl
+# hits output in Dfam format:      t.dfam
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       humanchr1_frag  [L=330000]
+Scores for complete hit:
+    E-value  score  bias  Model     start    end  Description
+    ------- ------ -----  --------  -----  -----  -----------
+    1.4e-10   39.9   7.2  MADE1    302390 302466 MADE1 (MAriner Derived Element 1), a TcMar-Mariner DNA transposon
+    2.3e-08   32.8   6.8  MADE1    302466 302389 MADE1 (MAriner Derived Element 1), a TcMar-Mariner DNA transposon
+    8.2e-08   31.0   8.2  MADE1    174456 174498 MADE1 (MAriner Derived Element 1), a TcMar-Mariner DNA transposon
+      8e-06   24.7   7.0  MADE1    174493 174456 MADE1 (MAriner Derived Element 1), a TcMar-Mariner DNA transposon
+  ------ inclusion threshold ------
+        1.4    9.5   2.2  3box     178064 178049 
+        1.7    7.6   7.5  MADE1    304073 304104 MADE1 (MAriner Derived Element 1), a TcMar-Mariner DNA transposon
+        2.7    8.6   3.2  3box      96791  96776 
+
+
+Annotation for each hit  (and alignments):
+>> MADE1  MADE1 (MAriner Derived Element 1), a TcMar-Mariner DNA transposon
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to      mod len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ !   39.9   7.2   1.4e-10         4        80 .]    302390    302466 ..    302387    302466 ..        80    0.89
+
+  Alignment:
+  score: 39.9 bits
+                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx....xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx RF
+           MADE1      4 ggttggtgcaaaagtaattgcggtttttgccattacttttaatggc....aaaaaccgcaattacttttgcaccaacctaa 80    
+                        ggt ggtgcaaaa  aattg ggtttttgccatt cttttaat gc    aaaa   g aa t ctttt caccaa ctaa
+  humanchr1_frag 302390 GGTCGGTGCAAAATCAATTGTGGTTTTTGCCATTGCTTTTAATTGCttttAAAA---GTAA-TGCTTTTACACCAATCTAA 302466
+                        89*******************************************966655555...4555.68**************997 PP
+
+>> MADE1  MADE1 (MAriner Derived Element 1), a TcMar-Mariner DNA transposon
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to      mod len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ !   32.8   6.8   2.3e-08         1        78 [.    302466    302389 ..    302466    302387 ..        80    0.83
+
+  Alignment:
+  score: 32.8 bits
+                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx....xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx RF
+           MADE1      1 ttaggttggtgcaaaagtaattgcggttttt....gccattacttttaatggcaaaaaccgcaattacttttgcaccaacct 78    
+                        ttag ttggtg aaaag a t      tttt    gc atta    +aatggcaaaaacc caatt  ttttgcacc acc 
+  humanchr1_frag 302466 TTAGATTGGTGTAAAAGCATTA----CTTTTaaaaGCAATTAAAAGCAATGGCAAAAACCACAATTGATTTTGCACCGACCA 302389
+                        689*************986443....34444466677777777777899******************************995 PP
+
+>> MADE1  MADE1 (MAriner Derived Element 1), a TcMar-Mariner DNA transposon
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to      mod len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ !   31.0   8.2   8.2e-08         1        43 [.    174456    174498 ..    174456    174518 ..        80    0.91
+
+  Alignment:
+  score: 31.0 bits
+                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx RF
+           MADE1      1 ttaggttggtgcaaaagtaattgcggtttttgccattactttt 43    
+                        ttaggtt gtgcaaaagtaattg ggtttttg cattactttt
+  humanchr1_frag 174456 TTAGGTTAGTGCAAAAGTAATTGTGGTTTTTGTCATTACTTTT 174498
+                        589************************************9986 PP
+
+>> MADE1  MADE1 (MAriner Derived Element 1), a TcMar-Mariner DNA transposon
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to      mod len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ !   24.7   7.0     8e-06        43        80 .]    174493    174456 ..    174513    174456 ..        80    0.94
+
+  Alignment:
+  score: 24.7 bits
+                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx RF
+           MADE1     43 taatggcaaaaaccgcaattacttttgcaccaacctaa 80    
+                        taatg caaaaacc caattacttttgcac aacctaa
+  humanchr1_frag 174493 TAATGACAAAAACCACAATTACTTTTGCACTAACCTAA 174456
+                        689********************************986 PP
+
+>> 3box  
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to      mod len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?    9.5   2.2       1.4         1        16 [.    178064    178049 ..    178064    178045 ..        20    0.94
+
+  Alignment:
+  score: 9.5 bits
+                        ................ CS
+                        xxxxxxxxx.xxxxxx RF
+            3box      1 AAAtGAaattGTtTGA 16    
+                        AAA+GAa ttGTtTGA
+  humanchr1_frag 178064 AAAGGAACTTGTTTGA 178049
+                        799***********97 PP
+
+>> MADE1  MADE1 (MAriner Derived Element 1), a TcMar-Mariner DNA transposon
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to      mod len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?    7.6   7.5       1.7        41        72 ..    304073    304104 ..    304053    304109 ..        80    0.84
+
+  Alignment:
+  score: 7.6 bits
+                        xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx RF
+           MADE1     41 tttaatggcaaaaaccgcaattacttttgcac 72    
+                        tt a tgg aaaaa   ca tta ttttgca 
+  humanchr1_frag 304073 TTAAGTGGGAAAAAATACACTTATTTTTGCAT 304104
+                        567889************************85 PP
+
+>> 3box  
+    score  bias    Evalue   hmmfrom    hmm to     alifrom    ali to      envfrom    env to      mod len      acc
+   ------ ----- ---------   -------   -------    --------- ---------    --------- ---------    ---------    ----
+ ?    8.6   3.2       2.7         1        16 [.     96791     96776 ..     96791     96770 ..        20    0.94
+
+  Alignment:
+  score: 8.6 bits
+                       ................ CS
+                       xxxxxxxxx.xxxxxx RF
+            3box     1 AAAtGAaattGTtTGA 16   
+                       AAAtGAa t GTtTGA
+  humanchr1_frag 96791 AAATGAATTGGTTTGA 96776
+                       79*************8 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query sequence(s):                         1  (660000 residues searched)
+Target model(s):                           2  (100 nodes)
+Residues passing SSV filter:          118914  (0.0901); expected (0.02)
+Residues passing bias filter:          70719  (0.0536); expected (0.02)
+Residues passing Vit filter:            7176  (0.00544); expected (0.003)
+Residues passing Fwd filter:            1670  (0.00127); expected (3e-05)
+Total number of hits:                      7  (0.000227)
+# CPU time: [normalized]
+# Mc/sec: [normalized]
+//
+[ok]

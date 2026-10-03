@@ -1,0 +1,1329 @@
+# hmmsearch :: search profile(s) against a sequence database
+# HMMER 3.4 (Aug 2023); http://hmmer.org/
+# Copyright (C) 2023 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query HMM file:                  fx/Pkinase.hmm
+# target sequence database:        data/protdb.fa
+# output directed to file:         main.out
+# MSA of all hits saved to file:   ali.sto
+# per-seq hits tabular output:     t.tbl
+# per-dom hits tabular output:     t.domtbl
+# pfam-style tabular hit output:   t.pfam
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       Pkinase  [M=259]
+Accession:   PF00069.24
+Description: Protein kinase domain
+Scores for complete sequences (score includes all domains):
+   --- full sequence ---   --- best 1 domain ---    -#dom-
+    E-value  score  bias    E-value  score  bias    exp  N  Sequence                      Description
+    ------- ------ -----    ------- ------ -----   ---- --  --------                      -----------
+    1.2e-38  130.3   0.9    1.5e-38  130.0   0.9    1.0  1  emit_Pkinase_Pkinase-sample30  
+    2.1e-38  129.5   0.0    3.5e-38  128.8   0.0    1.3  1  7LESS_DROME                    P13368 RecName: Full=Protein sev
+    9.6e-37  124.1   0.0    1.2e-36  123.8   0.0    1.0  1  emit_Pkinase_Pkinase-sample11  
+    4.4e-36  121.9   0.0    4.9e-36  121.8   0.0    1.0  1  emit_Pkinase_Pkinase-sample8   
+    3.4e-35  119.0   0.2    3.8e-35  118.9   0.2    1.0  1  emit_Pkinase_Pkinase-sample31  
+    6.1e-35  118.2   0.1    6.8e-35  118.0   0.1    1.0  1  emit_Pkinase_Pkinase-sample28  
+    1.7e-34  116.7   0.0    1.9e-34  116.5   0.0    1.0  1  emit_Pkinase_Pkinase-sample35  
+    1.7e-33  113.4   0.3    1.8e-33  113.4   0.3    1.0  1  emit_Pkinase_Pkinase-sample38  
+    6.7e-33  111.5   0.8    7.5e-33  111.3   0.8    1.0  1  emit_Pkinase_Pkinase-sample21  
+    6.9e-33  111.5   0.1    9.3e-33  111.0   0.1    1.1  1  emit_Pkinase_Pkinase-sample34  
+    2.7e-32  109.5   0.1    3.2e-32  109.3   0.1    1.0  1  emit_Pkinase_Pkinase-sample16  
+    4.5e-32  108.8   0.2    5.8e-32  108.4   0.2    1.0  1  emit_Pkinase_Pkinase-sample39  
+    5.2e-32  108.6   0.5      6e-32  108.4   0.5    1.0  1  emit_Pkinase_Pkinase-sample12  
+      2e-31  106.6   0.1    2.3e-31  106.5   0.1    1.0  1  emit_Pkinase_Pkinase-sample13  
+    2.3e-31  106.5   0.6    2.7e-31  106.2   0.6    1.1  1  emit_Pkinase_Pkinase-sample5   
+    1.9e-30  103.5   0.0    2.2e-30  103.2   0.0    1.0  1  emit_Pkinase_Pkinase-sample37  
+    2.1e-30  103.3   0.4    2.5e-30  103.1   0.4    1.0  1  emit_Pkinase_Pkinase-sample23  
+    2.8e-30  102.9   0.0    3.2e-30  102.7   0.0    1.0  1  emit_Pkinase_Pkinase-sample4   
+      3e-30  102.8   0.1    3.6e-30  102.5   0.1    1.0  1  emit_Pkinase_Pkinase-sample40  
+    1.7e-29  100.3   0.1    1.9e-29  100.1   0.1    1.0  1  emit_Pkinase_Pkinase-sample18  
+    6.9e-29   98.3   1.5    7.6e-29   98.2   1.5    1.0  1  emit_Pkinase_Pkinase-sample27  
+    1.1e-28   97.6   0.0    1.3e-28   97.4   0.0    1.0  1  emit_Pkinase_Pkinase-sample2   
+    2.9e-28   96.3   0.0    3.2e-28   96.2   0.0    1.0  1  emit_Pkinase_Pkinase-sample7   
+    3.3e-28   96.1   0.5    3.6e-28   96.0   0.5    1.0  1  emit_Pkinase_Pkinase-sample14  
+    4.4e-28   95.7   0.0    4.7e-28   95.6   0.0    1.1  1  emit_Pkinase_Pkinase-sample9   
+    4.8e-28   95.6   0.0    5.3e-28   95.4   0.0    1.0  1  emit_Pkinase_Pkinase-sample1   
+    7.5e-28   94.9   0.8    8.4e-28   94.8   0.8    1.0  1  emit_Pkinase_Pkinase-sample26  
+    2.4e-27   93.3   0.3    2.7e-27   93.1   0.3    1.0  1  emit_Pkinase_Pkinase-sample22  
+    1.5e-26   90.7   1.4    1.7e-26   90.5   1.4    1.0  1  emit_Pkinase_Pkinase-sample15  
+    6.2e-26   88.7   0.0    7.3e-26   88.4   0.0    1.0  1  emit_Pkinase_Pkinase-sample33  
+    2.4e-25   86.7   0.1    2.8e-25   86.5   0.1    1.0  1  emit_Pkinase_Pkinase-sample32  
+      7e-25   85.2   0.4    8.4e-25   85.0   0.4    1.0  1  emit_Pkinase_Pkinase-sample29  
+    1.4e-24   84.2   0.1    1.8e-24   83.8   0.1    1.0  1  emit_Pkinase_Pkinase-sample10  
+      5e-24   82.4   0.2      6e-24   82.1   0.2    1.0  1  emit_Pkinase_Pkinase-sample19  
+    3.7e-23   79.6   0.1    4.5e-23   79.3   0.1    1.0  1  emit_Pkinase_Pkinase-sample24  
+    3.7e-23   79.6   0.0    6.7e-23   78.7   0.0    1.4  1  emit_Pkinase_Pkinase-sample3   
+    1.5e-20   71.0   1.4    1.7e-20   70.8   1.4    1.1  1  emit_Pkinase_Pkinase-sample17  
+    7.9e-20   68.7   0.0    8.8e-20   68.5   0.0    1.0  1  emit_Pkinase_Pkinase-sample20  
+    2.6e-19   66.9   2.7    4.1e-19   66.3   2.7    1.3  1  emit_Pkinase_Pkinase-sample25  
+    4.6e-17   59.6   0.0      1e-16   58.5   0.0    1.5  1  emit_Pkinase_Pkinase-sample36  
+    9.5e-17   58.6   0.4    1.9e-16   57.6   0.4    1.4  1  emit_Pkinase_Pkinase-sample6   
+
+
+Domain annotation for each sequence (and alignments):
+>> emit_Pkinase_Pkinase-sample30  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  130.0   0.9   2.2e-40   1.5e-38       3     258 ..       3     259 ..       1     259 [. 0.91
+
+  Alignments for each domain:
+  == domain 1  score: 130.0 bits;  conditional E-value: 2.2e-40
+                                    EEEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHS.STTB--EEEEEEESSEEEEEEE--T CS
+                        Pkinase   3 vleklGeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklk.hpnivrlidvfeekdelylvleyve 81 
+                                      + lGeG+ + V++a + e++   A+K i + k+++++  ++++E+++  ++  +++i++l+ ++ ++   y++ e   
+  emit_Pkinase_Pkinase-sample30   3 DFRPLGEGQPSLVVTAGKLEKNTFTAIKNIPNLKIRSRRALRLQKELEYEVSSPeSEYILKLKTWVGTTAVEYMIHEASA 82 
+                                    5678********************************************9887777************************* PP
+
+                                    TEBHHHHHH.HHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCS..BCTCC CS
+                        Pkinase  82 ggelfdlls.rkgalseeeakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelesssk..ltsfv 158
+                                     +el++l    ++ ++ ++++  ++ ++++++y+  + + + DlK++Ni++d++++++++DFG ak   +s++   ++f 
+  emit_Pkinase_Pkinase-sample30  83 VDELARLDAdMSKYIETTKTQLSFWAVVRAIRYMAVEIMQYADLKTNNIICDKQEKIRVADFGQAKASLNSKEttSNTFP 162
+                                    *******99556669999***********************************************99877777678999* PP
+
+                                    SCGGGS-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHHSHH......TTS-HHHHHHHHH CS
+                        Pkinase 159 gtseYmAPEvlkskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqlelkelklkspelsslseeakdllkk 238
+                                    +t++Y APE+l++++ + k D+Ws G+i +e ++  +  +   +k+++++e+++  +++++++++++++  +++ +++kk
+  emit_Pkinase_Pkinase-sample30 163 ATRWYKAPEILQHEEDEVKLDIWSFGIINAEAYSVGTGKK---TKTSISAEAEKRSIDNYSQDFAKAQDYLKDLNEVIKK 239
+                                    ******************************9976555444...45545555555336688999***************** PP
+
+                                    HT-SSGCCSTTHHHHHTSGG CS
+                        Pkinase 239 llkkdpkkRltaeellqhpw 258
+                                    +   d++ R+t e++++h++
+  emit_Pkinase_Pkinase-sample30 240 MYWDDKNMRVTGESMISHRF 259
+                                    ****************9986 PP
+
+>> 7LESS_DROME  P13368 RecName: Full=Protein sevenless;          EC=2.7.10.1;
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  128.8   0.0   5.2e-40   3.5e-38       3     254 ..    2211    2478 ..    2209    2481 .. 0.83
+
+  Alignments for each domain:
+  == domain 1  score: 128.8 bits;  conditional E-value: 5.2e-40
+                   EEEEEEEESSEEEEEEEET....TTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE--TTEBHHHHHH..HH CS
+      Pkinase    3 vleklGeGsfgkVykavek....etgkivAvKkikkekakkkkekkvlrEikilkklkhpnivrlidvfeekdelylvleyveggelfdlls..rk 92  
+                    l+ lG+G+fg+Vy++  k    e+ + vA+K ++k   +     ++l+E ++++++kh+niv l++++ +++++ l++e++e g+l ++l+  r 
+  7LESS_DROME 2211 LLRFLGSGAFGEVYEGQLKtedsEEPQRVAIKSLRKGASEF---AELLQEAQLMSNFKHENIVCLVGICFDTESISLIMEHMEAGDLLSYLRaaR- 2302
+                   5788*********998754111145578******9996665...568*********************************************652. PP
+
+                   SS--HH...........HHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEE.TTTE......EEE-SGTTSEECCSSCS...BCTCCSCGGGS-HH CS
+      Pkinase   93 galsee...........eakkilkqilegleylHskgivHrDlKpeNiLld.ekge......lKitDFGlakelesssk...ltsfvgtseYmAPE 167 
+                    a s +           e+  ++  +++g +yl ++++vHrDl   N L+  ++g       +Ki DFGla+ + +s       +     ++m+PE
+  7LESS_DROME 2303 -ATSTQepqptaglslsELLAMCIDVANGCSYLEDMHFVHRDLACRNCLVTeSTGStdrrrtVKIGDFGLARDIYKSDYyrkEGEGLLPVRWMSPE 2397
+                   .3333334667777666999*******************************55454777788************99986533334456789***** PP
+
+                   HHTTSTCSHHHHHHHHHHHHHHHHH.SS-STTTSSCHHHHHHHHHTHHHHSHH......TTS-HHHHHHHHHHT-SSGCCSTTHHHHH CS
+      Pkinase  168 vlkskkygkkvDvWslGvilyellt.gkppfsaekekekvekeldqlelkelklkspelsslseeakdllkkllkkdpkkRltaeell 254 
+                    l +  +++++DvW+ Gv+++e+lt g++p+ a+++ e  ++  +           +++  + e++ +ll  +++ dp +R++++ + 
+  7LESS_DROME 2398 SLVDGLFTTQSDVWAFGVLCWEILTlGQQPYAARNNFEVLAHVKE-------GGRLQQPPMCTEKLYSLLLLCWRTDPWERPSFRRCY 2478
+                   **********************88659*****6666553333333.......56889999***********************99876 PP
+
+>> emit_Pkinase_Pkinase-sample11  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  123.8   0.0   1.7e-38   1.2e-36       3     259 .]       3     261 .]       2     261 .] 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 123.8 bits;  conditional E-value: 1.7e-38
+                                    EEEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE--TT CS
+                        Pkinase   3 vleklGeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklkhpnivrlidvfeekdelylvleyveg 82 
+                                    +++k+G+G+    y++  +++ +  A+K i+ +k + k+ k vl+E  +l+ +k +n v+li +++++++ ++++e++e+
+  emit_Pkinase_Pkinase-sample11   3 NGKKIGSGTRDPLYSIQLEKNCDGAALKSIQAQKVDLKR-KPVLSEEIMLAAFKTSNGVTLIAAVSRPTHAVFLVEIMEK 81 
+                                    579******************************999876.69************************************** PP
+
+                                    EBHHHHHHHHSS.--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTE...EEE-SGTTSEECCSSCS.BCTC CS
+                        Pkinase  83 gelfdllsrkga.lseeeakkilkqilegleylHskgivHrDlKpeNiLldekge...lKitDFGlakelesssk.ltsf 157
+                                    + l+  ++++ + ++ ++ k  l++  + + ylH ++++H  +K +NiL d++++   +KitDFG+a++  ss+k ++s 
+  emit_Pkinase_Pkinase-sample11  82 TLLAFKYRDEDFfYNFDDEKPTLYESHKFVIYLHCRELFHINIKLSNILADKSKQsfsIKITDFGFAENEASSQKtMDSS 161
+                                    **9999996665378889999******************************777679**********998887777**** PP
+
+                                    CSCGGGS-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHHSHH......TTS-HHHHHHHH CS
+                        Pkinase 158 vgtseYmAPEvlkskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqlelkelklkspelsslseeakdllk 237
+                                    +gt +Y +   ++s++ +++ D WslGv+   l   ++ f + ++ ++++ke+++    e   + +e++sl+ +a dll 
+  emit_Pkinase_Pkinase-sample11 162 CGTLDYGPTRAVRSEELDETEDAWSLGVTT--LCQHHMKFGQCTDAQEANKEIEEARESEFFVDPQEWTSLPLHAGDLLV 239
+                                    ***************************986..556888999889999999999995445778899*************** PP
+
+                                    HHT-SSGCCSTTHHHHHTSGGG CS
+                        Pkinase 238 kllkkdpkkRltaeellqhpwl 259
+                                    k l+   k+R+ta+++   p+l
+  emit_Pkinase_Pkinase-sample11 240 KKLCNMTKDRPTARQATTPPYL 261
+                                    ****************999986 PP
+
+>> emit_Pkinase_Pkinase-sample8  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  121.8   0.0   7.3e-38   4.9e-36       4     255 ..       4     258 ..       1     262 [] 0.87
+
+  Alignments for each domain:
+  == domain 1  score: 121.8 bits;  conditional E-value: 7.3e-38
+                                   EEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHH...HHHHHHHHHHHHHS...STTB--EEEEEEESSEEEEEEE CS
+                       Pkinase   4 leklGeGsfgkVykaveketgkivAvKkikkekakkkke...kkvlrEikilkklk...hpnivrlidvfeekdelylvle 78 
+                                   + ++G+G  g V + + k+ +  vA+K++  ++ ++      + + +Ei+il+kl+       v+   v++ +++ +l+l+
+  emit_Pkinase_Pkinase-sample8   4 QARIGKGRNGAVHSTC-KTVKYDVAIKVFPDSQGEQLPSseyQLIKNEIQILQKLSgstTATPVEKELVIRVTKKWILFLD 83 
+                                   578*********9999.69999*******998877655555799************7555555777778899********* PP
+
+                                   --TTEBHHHHHHHHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCSBCTCCS CS
+                       Pkinase  79 yveggelfdllsrkgalseeeakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelessskltsfvg 159
+                                   y++ +e ++ l r + ls++ + +i++++l+ le lH+k ++H D+K eN++l      K   FG ++++  ++       
+  emit_Pkinase_Pkinase-sample8  84 YCSSREGTRPLGRYTQLSNRLITNIAAETLHFLEQLHHKVVIHQDVKEENVILYPLLRPKWLCFGAVRNFAGGQ----KKS 160
+                                   ***********999****************************************8999**************98....678 PP
+
+                                   CGGGS-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHH..SHH......TTS-HHHHHHHHH CS
+                       Pkinase 160 tseYmAPEvlkskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqlelk..elklkspelsslseeakdllkk 238
+                                   t+ +mAP v ++++y+++vD+W++G++l e l+gk+ f+ ++ +   ++ l  +++k  e ++  + + +++ +a+ l ++
+  emit_Pkinase_Pkinase-sample8 161 TPSWMAPNVARESNYSEQVDMWAYGIVLTERLAGKMFFNTKDPDRGDQEGLALMKAKskEREKPQAVQANMEAAAIALARG 241
+                                   ***************************************6666554444444333444354555566677899******** PP
+
+                                   HT-SSGCCSTTHHHHHT CS
+                       Pkinase 239 llkkdpkkRltaeellq 255
+                                   +++ +p+ R ++ee+l 
+  emit_Pkinase_Pkinase-sample8 242 CWHAEPTLRAGIEEALT 258
+                                   **************986 PP
+
+>> emit_Pkinase_Pkinase-sample31  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  118.9   0.2   5.7e-37   3.8e-35       1     259 []       1     264 []       1     264 [] 0.89
+
+  Alignments for each domain:
+  == domain 1  score: 118.9 bits;  conditional E-value: 5.7e-37
+                                    EEEEEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHH.HHHHHHHHHHHHHS.STTB--EEEEEEESSEEEEEEE CS
+                        Pkinase   1 yevleklGeGsfgkVykaveketgkivAvKkikkekakkkke.kkvlrEikilkklk.hpnivrlidvfeekdelylvle 78 
+                                    y+ ++ lG+G+    y+ ++++t  +   K +k++  ++ ++ +++++E ++lkkl+ h+n+++l++  ++  ++ lvle
+  emit_Pkinase_Pkinase-sample31   1 YHSSQSLGKGTLTLYYRRCHEATTMKKEGKLMKTRILTPYQDdSRAIKEKAVLKKLDsHKNVLTLFGLNSDRADVALVLE 80 
+                                    78999******************************9999888899*********************************** PP
+
+                                    --TTEBHHHHHHHHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCSBCTCC CS
+                        Pkinase  79 yveggelfdllsrkgalseeeakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelessskltsfv 158
+                                      e   l+dl++ k a++ ++++k +++i ++++ +H+k+i    +K+eN+L +  gelKi+DFG a  +e   +lt f 
+  emit_Pkinase_Pkinase-sample31  81 ATEYAFLDDLVQGKVAVEGQNISKCAQNI-TTVQTCHRKEINSETVKSENLLAH-FGELKISDFGDADVVEAVPTLTIFY 158
+                                    ************99999999999988887.57**********************.************************* PP
+
+                                    SCGGGS-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHH.HH....SHH......TTS..... CS
+                        Pkinase 159 gtseYmAPEvlkskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqle.lk....elklkspelssl..... 228
+                                     t  +  PE+++++ ++ kv  W lG+  + ll++ +pf+a+++++++e+++ q + +     +++        +     
+  emit_Pkinase_Pkinase-sample31 159 YTVVWAEPELVRYNVITMKVETWPLGCQHMALLAKALPFKANSQRKRMEHNTIQAKgQSetsdPVS--------Vrgvds 230
+                                    ****************************************99999999999999443222222222........223442 PP
+
+                                    ...-HHHHHHHHHHT-SSGCCSTTHHHHHTSGGG CS
+                        Pkinase 229 ...seeakdllkkllkkdpkkRltaeellqhpwl 259
+                                        +  k+llk++   d + R ++ ++++ +++
+  emit_Pkinase_Pkinase-sample31 231 kkaLHVKKNLLKRCEGPDNRARSGLAQICAASYF 264
+                                    2224445788888889999**********99997 PP
+
+>> emit_Pkinase_Pkinase-sample28  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  118.0   0.1     1e-36   6.8e-35       1     259 []       1     268 []       1     268 [] 0.86
+
+  Alignments for each domain:
+  == domain 1  score: 118.0 bits;  conditional E-value: 1e-36
+                                    EEEEEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHS....STTB--EEEEEEESSEEEEE CS
+                        Pkinase   1 yevleklGeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklk....hpnivrlidvfeekdelylv 76 
+                                    y++++++GeG+ g+V+k + k+++  vA K+ +k k++ ++   +++E++   ++k    + +++  +  f  +++ yl 
+  emit_Pkinase_Pkinase-sample28   1 YTRETEIGEGECGTVFKQY-KWNEGYVATKTNEKAKDNRMTS--LVKECTGSLSYKkpnvSMQVIDSYCGFLYQKSDYLQ 77 
+                                    78899**************.7999*******99998888765..889988877777222355566666667779999*** PP
+
+                                    EE--TTEBHHHHHH.....HHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTE.EEE-SGTTSEECCS CS
+                        Pkinase  77 leyveggelfdlls.....rkgalseeeakkilkqilegleylHskgivHrDlKpeNiLldekge.lKitDFGlakeles 150
+                                       ++ gel+ lls     + ++ +e  + + +++ ++g+   H++g+ + DlK +Ni+l++ ge lKi DFGl + + +
+  emit_Pkinase_Pkinase-sample28  78 QSQMRIGELDYLLSqdemtETKKRPEIAIADPMTSAARGIVETHEEGVAYLDLKAQNIILHNVGEvLKIPDFGLLRMTLN 157
+                                    *************965554444455559999******************************88888************99 PP
+
+                                    SCSBCTCCSCGGGS-HHHH...TTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHH.HH..SHH..... CS
+                        Pkinase 151 sskltsfvgtseYmAPEvl...kskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqle.lk..elklkspe 224
+                                    +  +++   t+e++   v+   k++ y++++D++ +G++l+ l +g  +f+   +k+++ + l++   ++  ++k ++++
+  emit_Pkinase_Pkinase-sample28 158 GI-ASTLRSTEEFIEGIVVsvhKKQTYSRATDIFVCGILLVGLANGPKLFE---QKNIMCNLLRRQGsFNnvHNKVSFKW 233
+                                    99.***********999999999999*************************...4444444444422344678999**** PP
+
+                                    .TTS-HHHHHHHHHHT-SSGCCSTTHHHHHTSGGG CS
+                        Pkinase 225 lsslseeakdllkkllkkdpkkRltaeellqhpwl 259
+                                    ++s +++a  l+ +ll+++   R t++ l+q+p++
+  emit_Pkinase_Pkinase-sample28 234 EESTNSDAAALVAELLQMECAPRSTLKRLMQKPYF 268
+                                    **********************************8 PP
+
+>> emit_Pkinase_Pkinase-sample35  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  116.5   0.0   2.9e-36   1.9e-34      12     249 ..       9     246 ..       1     265 [. 0.87
+
+  Alignments for each domain:
+  == domain 1  score: 116.5 bits;  conditional E-value: 2.9e-36
+                                    SEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHSSTTB--EEEEEEE..SSEEEEEEE--TTEB....H CS
+                        Pkinase  12 fgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklkhpnivrlidvfee..kdelylvleyvegge....l 85 
+                                     g+V + ++++t   +A+K+   ++++ + e ++++E++ l k+  pnivr++++f+   +++++l+ e +  ++    l
+  emit_Pkinase_Pkinase-sample35   9 QGQVNTRMSESTPALIALKTGMYDEISAQWEPAIQSEMDTLVKTLQPNIVRFMRAFHLnrSKDVILCDEAALSQDappeL 88 
+                                    46789999999****************99999************************87558999*****9998888999* PP
+
+                                    HHHHH..HHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCSBCTCCSCGGG CS
+                        Pkinase  86 fdlls..rkgalseeeakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelessskltsfvgtseY 163
+                                    f +l+  + g++++++++ i++ ++++l+yl++ g+v +  K++NiL++e++ +Ki+D G  k++ s+  ++ +vgt++ 
+  emit_Pkinase_Pkinase-sample35  89 FPVLRdrATGSVTHDQVEAIAAGMVSALQYLWKYGVVKKHCKDSNILCSERNFIKIVDSGCPKKMASTDMTNMIVGTPWQ 168
+                                    ****9777788**********************************************************9********** PP
+
+                                    S-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHHSHH......TTS-HHHHHHH.HHHT-S CS
+                        Pkinase 164 mAPEvlkskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqlelkelklkspelsslseeakdll.kkllkk 242
+                                    +APE++ +k+++++ DvWs+ + l++ll+++  fs  +++ ++ k +++         +++++ ++++a++ll kk +++
+  emit_Pkinase_Pkinase-sample35 169 LAPEWVLEKQTTSAQDVWSIDICLWKLLAKSAAFSPIDDDATKIKAISE---------IRRAQAVNPQATKLLtKKTVTM 239
+                                    ***********************************99998888888887.........4444555444444431445555 PP
+
+                                    SGCCSTT CS
+                        Pkinase 243 dpkkRlt 249
+                                    +pk+ + 
+  emit_Pkinase_Pkinase-sample35 240 KPKQKMD 246
+                                    5555554 PP
+
+>> emit_Pkinase_Pkinase-sample38  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  113.4   0.3   2.7e-35   1.8e-33       5     212 ..       5     215 ..       1     254 [] 0.87
+
+  Alignments for each domain:
+  == domain 1  score: 113.4 bits;  conditional E-value: 2.7e-35
+                                    EEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE--TTEB CS
+                        Pkinase   5 eklGeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklkhpnivrlidvfeekdelylvleyvegge 84 
+                                    + +G G+ g V +a+ ke +k +A K+++ +++k+ +e   + E+ +l  l+ + +++ ++++ ++++++++++y +g+e
+  emit_Pkinase_Pkinase-sample38   5 SLIGMGKLGGVRSAFTKELHKSIAAKIVELQQDKDLEE--GTGELIVLMVLRVNDVIESFNAIVHSKQILMLIDYSRGEE 82 
+                                    68******************************999887..89************************************** PP
+
+                                    HHHHHHHHSS.--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCS...BCTCCSC CS
+                        Pkinase  85 lfdllsrkga.lseeeakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelesssk...ltsfvgt 160
+                                    ++ + +++++ ++ ++ k+i++q++++++y+++ +i+H D K +N+L++ +ge Ki   Gl   l+++++   ++++v+t
+  emit_Pkinase_Pkinase-sample38  83 MNGVANQESVrMERDDRKSIAAQMAQSVKYCYEDSIFHVDRKEANLLIHMRGEAKILAVGLEIVLNEEKEgngTNQVVIT 162
+                                    ******77776999*****************************************************99999******** PP
+
+                                    GGGS-HHHH..TTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHT CS
+                        Pkinase 161 seYmAPEvl..kskkygkkvDvWslGvilyelltgkppfsaekekekvekeldq 212
+                                    se+++ E l  ++ + ++ +  Ws+Gv+++e+ + + +f  ++++e+++++l+ 
+  emit_Pkinase_Pkinase-sample38 163 SEFRSAENLddRGAMCSAVISDWSVGVVCIEIAFIEVLFA-STQDESAKRILHL 215
+                                    *********8777788999999******************.4444445555544 PP
+
+>> emit_Pkinase_Pkinase-sample21  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  111.3   0.8   1.1e-34   7.5e-33       2     259 .]       2     263 .]       1     263 [] 0.90
+
+  Alignments for each domain:
+  == domain 1  score: 111.3 bits;  conditional E-value: 1.1e-34
+                                    EEEEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHH.HHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE-- CS
+                        Pkinase   2 evleklGeGsfgkVykaveketgkivAvKkikkekakkkke.kkvlrEikilkklkhpnivrlidvfeekdelylvleyv 80 
+                                    e+ +++G+G +g+      +e++ +  +K ++ +ka kkk+  + ++  + l+ l   +iv l   f ek ++ lv+e+v
+  emit_Pkinase_Pkinase-sample21   2 EKAQRVGHGVYGRLQASSIAEQDSKRHIKFLQLNKAFKKKKyGTSAQKRQTLNMLGKIQIVVLSTQFAEKFQFSLVTEVV 81 
+                                    57799*********9999999999999******999999888899999******************************** PP
+
+                                    TTEBHHHHHHHHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCS...BCTC CS
+                        Pkinase  81 eggelfdllsrkgalseeeakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelesssk...ltsf 157
+                                    + +   ++  ++ ++ ++++ + +k+     +y+H++g +  DlK +Ni+ld++++l itD+Gla  + +++     + +
+  emit_Pkinase_Pkinase-sample21  82 DARRESSA--AEASVRQRRIVEQAKSNTYRKSYIHQEGTIIADLKRANIILDTRNKLVITDWGLAYAVIPNEVssgIQAM 159
+                                    *8844443..4567777777777777777789*********************************99888766689**** PP
+
+                                    CSCGGGS-HHHH....TTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHHSHH......TTS-HHHH CS
+                        Pkinase 158 vgtseYmAPEvl....kskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqlelkelklkspelsslseeak 233
+                                    +  s +mAPEv+     +++y +  DvW + ++ + ++ + pp ++ + ++k+   +++  +ke++ + +  +++++e++
+  emit_Pkinase_Pkinase-sample21 160 CKMSCFMAPEVIwpeaLRTHYAAGKDVWVCTCTAVDIIPKYPPRRHIEATDKYDILVEH--QKEQTSEEQLDKNIDDECT 237
+                                    ************99877799*************************99999988888877..567788889999******* PP
+
+                                    HHHHHHT-SSGCCSTTHHHHHTSGGG CS
+                        Pkinase 234 dllkkllkkdpkkRltaeellqhpwl 259
+                                    dl++ +l   +k+Rl+aeel qh ++
+  emit_Pkinase_Pkinase-sample21 238 DLVRTCLLPCMKERLSAEELSQHVVF 263
+                                    ***********************876 PP
+
+>> emit_Pkinase_Pkinase-sample34  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  111.0   0.1   1.4e-34   9.3e-33       4     253 ..       4     262 ..       2     268 .] 0.86
+
+  Alignments for each domain:
+  == domain 1  score: 111.0 bits;  conditional E-value: 1.4e-34
+                                    EEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE--TTE CS
+                        Pkinase   4 leklGeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklkhpnivrlidvfeekdelylvleyvegg 83 
+                                    +e +G G  g Vy +     +k  AvK+++  k++k   k + +Ei+i ++l+ +niv+       k +l+ +l++++g 
+  emit_Pkinase_Pkinase-sample34   4 QEDVGVGRGGFVYHVA---YSKLAAVKEVNSVKDQKLFAKVIDKEIRISERLERRNIVEQA-----KGDLFRILDWLSGV 75 
+                                    6889*********998...89*************************************854.....55556566666555 PP
+
+                                    BHHHHHH.....HHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCSBCTCC CS
+                        Pkinase  84 elfdlls.....rkgalseeeakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelessskltsfv 158
+                                    + +  l+     r+  l ee + +++ +i +g++ lH   + H  lK +N+ +de++++Ki+D G+++ ++++ k ++ v
+  emit_Pkinase_Pkinase-sample34  76 HNEGKLEtsklpRSDWLGEELMADVTLHIKKGIDSLHLYVVDHGLLKLNNLVCDEQKDVKIIDLGFVRLISEQDKPSELV 155
+                                    5444443334458889**************************************************************** PP
+
+                                    SCGGGS-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHH..HH........SHH......TTS CS
+                        Pkinase 159 gtseYmAPEvlkskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqle..lk........elklkspelssl 228
+                                    g   Y A Ev+k++  +++ D W++Gv+++ ++ g +p+ +++  ++ +k+++ +   +         +++ + + + ++
+  emit_Pkinase_Pkinase-sample34 156 GQTVYTAAEVIKKRTDDQEKDKWGMGVLVAVVVEGGTPYAETNYPTNCSKDASSIRnsMAaapmngpePTSPTKHYQAQI 235
+                                    ****************************************9998888888887755542256778887667777778888 PP
+
+                                    -HHHHHHHHHHT-SSGCCSTT..HHHH CS
+                        Pkinase 229 seeakdllkkllkkdpkkRlt..aeel 253
+                                    ++++k+++ + l+ d+++R+t  + ++
+  emit_Pkinase_Pkinase-sample34 236 NDSCKQFMAGTLDNDQDNRFTtvIFQI 262
+                                    ********************9555555 PP
+
+>> emit_Pkinase_Pkinase-sample16  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  109.3   0.1   4.8e-34   3.2e-32      46     259 .]      58     274 .]      42     274 .] 0.89
+
+  Alignments for each domain:
+  == domain 1  score: 109.3 bits;  conditional E-value: 4.8e-34
+                                    HHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE--TTEBHHHHHHHHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-S CS
+                        Pkinase  46 lrEikilkklkhpnivrlidvfeekdelylvleyveggelfdllsrkgalseeeakkilkqilegleylHskgivHrDlK 125
+                                    ++E+  +  l+  ni +l+++ e++d  y+   ++e g++++ll +  ++  +++ +i+++  +g++ lH+k ++HrDlK
+  emit_Pkinase_Pkinase-sample16  58 VSELLAMCYLDIANIGTLVKSREKDDARYITRVMCESGDFQKLLDQIVVYRTWRLLHIIYTWSTGISLLHEKLVCHRDLK 137
+                                    56777778888********************************************************************* PP
+
+                                    GGGEEEE.TTTEEEE-SGTTSEECCSSCSBCTCCSCGGGS-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHH CS
+                        Pkinase 126 peNiLld.ekgelKitDFGlakelessskltsfvgtseYmAPEvlkskkygkkvDvWslGvilyelltgkppfsaekeke 204
+                                    p NiL +  k +++++D+G+++e  +++  +++     ++APE+l++++y++++D Ws+ ++ +el+t + p   +k+k+
+  emit_Pkinase_Pkinase-sample16 138 PCNILEErAKVTMRLVDWGMSAEKLEGHMEKDRLDVAIFVAPEILTKNPYKTTIDGWSASCLRLELVTDSRPILPQKKKD 217
+                                    *******55556********999999998889999999*******************************99998555544 PP
+
+                                    HHHHHHHTHH.HH..SHH......TTS-HHHHHHHHHHT-SSGCCSTTHHHHHTSGGG CS
+                        Pkinase 205 kvekeldqle.lk..elklkspelsslseeakdllkkllkkdpkkRltaeellqhpwl 259
+                                     ++ ++++l  l+  ++++k ++++ l  ++ ++l   lk +  kR  ++ + +h ++
+  emit_Pkinase_Pkinase-sample16 218 -KRDQIRNLSlLDvlDVDKKRQRWEVLIAKLPKVLLCFLKDQTAKRTEVKRATAHTFF 274
+                                    .5666666554336699**************************************998 PP
+
+>> emit_Pkinase_Pkinase-sample39  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  108.4   0.2   8.7e-34   5.8e-32       6     240 ..       5     267 ..       2     272 .. 0.85
+
+  Alignments for each domain:
+  == domain 1  score: 108.4 bits;  conditional E-value: 8.7e-34
+                                    EEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHS.STTB--EEEEEEESSEEEEEEE--TTEB CS
+                        Pkinase   6 klGeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklk.hpnivrlidvfeekdelylvleyvegge 84 
+                                    + G G+ g+V ++ ++++ +  AvK+   +++kk+ + ++ +E++++  +  h+   r+++ + e +++y+v+ +++ +e
+  emit_Pkinase_Pkinase-sample39   5 EAGAGERGSVTECDKDTQMQAAAVKETALTHNKKEADAAAKQELRLVDITYsHQVTTRVYNRLGERKTVYFVIPMAMSRE 84 
+                                    569********************************************976669999****************99988776 PP
+
+                                    ...HHHHHH...HHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SG....GGEEEETTTE......EEE-SGTTSEEC CS
+                        Pkinase  85 ...lfdlls...rkgalseeeakkilkqilegleylHskgivHrDlKp....eNiLldekge......lKitDFGlakel 148
+                                          +     + ++++e +a+ i+++i++ +e++H+  +v+rD+K+    eN+L+ ++ +       +++D G+a+ +
+  emit_Pkinase_Pkinase-sample39  85 dqaS--R-DeelQLKIFTEYTASIIIESIASMVEFIHEFAVVYRDIKDiaqgENVLIVSDVNikdicpKRLVDLGVANLI 161
+                                    4321..2.23557789*******************************666669*****988877777778********** PP
+
+                                    CSSCS........BCTCCSCGGGS-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHT.HHHH... CS
+                        Pkinase 149 esssk........ltsfvgtseYmAPEvlkskkygkkvDvWslGvilyelltgkppfsaekekekvekeldq.lelk... 216
+                                    e +++         ++ v+tse   PE ++++ + ++vDvWs+G+i+++++ g +p+  ek ++++ ++  + +  +   
+  emit_Pkinase_Pkinase-sample39 162 EGTEHsaysetdgQNDKVATSELSTPEAIQTTAVMPEVDVWSVGIIVISFVVGVSPLMSEKAQSNKDEIKGEwI--Qlfg 239
+                                    *999999*****99********************************************6666654444444432..2344 PP
+
+                                    ....SHH......TTS-HHHHHHHHHHT CS
+                        Pkinase 217 ....elklkspelsslseeakdllkkll 240
+                                        +  ++ +  +++s +ak +   l 
+  emit_Pkinase_Pkinase-sample39 240 eshaTDGFSDAMDYEVSATAKPFFATLA 267
+                                    6666667888888888888888877665 PP
+
+>> emit_Pkinase_Pkinase-sample12  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  108.4   0.5     9e-34     6e-32       6     258 ..       6     270 ..       2     271 .. 0.91
+
+  Alignments for each domain:
+  == domain 1  score: 108.4 bits;  conditional E-value: 9e-34
+                                    EEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHH........HHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEE CS
+                        Pkinase   6 klGeGsfgkVykaveketgkivAvKkikkekakkkke........kkvlrEikilkklkhpnivrlidvfeekdelylvl 77 
+                                     lG+  +g V +a+ +e+++  A K+++   + ++ +        +++ rE +ilk+ +    +r ++v  +++e  +v 
+  emit_Pkinase_Pkinase-sample12   6 SLGDEYVGHVTSARTTERSNALATKRVHAYMEGDEATeckesldlERTGREDRILKRRQLIRFIREMEVEDSEKERNMVR 85 
+                                    6788889*******************99877666555566799999*********************************9 PP
+
+                                    E--TTEBHHHHHH.......HHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEE.TTTEEEE-SGTTSEECC CS
+                        Pkinase  78 eyveggelfdlls.......rkgalseeeakkilkqilegleylHskgivHrDlKpeNiLld.ekgelKitDFGlakele 149
+                                    +  +g  + +++         +++l++++++++++++l g+e  H+++++H+D K + + l  + g+++itDFG+a+ l+
+  emit_Pkinase_Pkinase-sample12  86 QQHKGMRYVERVAfddikggPSKILTHKRMREFMSTTLDGVETYHDENCIHKDHKYSELVLAsKAGNMRITDFGIANVLR 165
+                                    999988866666666776898899********************************99999879999************* PP
+
+                                    SSCSBCTCCSCGGGS-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHHSHH......TTS- CS
+                        Pkinase 150 ssskltsfvgtseYmAPEvlkskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqlelkelklkspelssls 229
+                                    ++s+ ++   t+ Y+ +  l + +y +++D Ws+G i++ l+ ++p+    +++e+++k l+    ++++++ + ++s+s
+  emit_Pkinase_Pkinase-sample12 166 RGSDIDEKYLTQGYVMNKPLAAPEYYSETDTWSCGNIIMALVHNQPVST--NRDEIFSKSLTG--SRNNEMEAAIFESIS 241
+                                    *****************************************99999988..777778888877..668999********* PP
+
+                                    HHHHHHHHHHT-SSGCCSTTHHHHHTSGG CS
+                        Pkinase 230 eeakdllkkllkkdpkkRltaeellqhpw 258
+                                    ee++ +++k  ++dp+kR+ a    +++w
+  emit_Pkinase_Pkinase-sample12 242 EEFRVFMNKTGARDPQKRIAAVLYYENKW 270
+                                    *******************9877776666 PP
+
+>> emit_Pkinase_Pkinase-sample13  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  106.5   0.1   3.4e-33   2.3e-31       4     256 ..       4     279 ..       1     282 [] 0.85
+
+  Alignments for each domain:
+  == domain 1  score: 106.5 bits;  conditional E-value: 3.4e-33
+                                    EEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHH...HHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE-- CS
+                        Pkinase   4 leklGeGsfgkVykaveketgkivAvKkikkekakkkke...kkvlrEikilkklkhpnivrlidvfeekdelylvleyv 80 
+                                     ++lG Gs gk   ++ + t+k +    +++e+++k++    ++ + E+++ k +k p+i +l dvf +++el++ +e+ 
+  emit_Pkinase_Pkinase-sample13   4 AQHLGAGSNGKANDCT-RGTKKAWMAHGVNNESIHKDSGlsdRQSIAELSYTKVVKFPFIYKLRDVFIKTTELTVQMECT 82 
+                                    589*************.57777777777888877777667889************************************* PP
+
+                                    TTEBHHHHHH.......HHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCS CS
+                        Pkinase  81 eggelfdlls.......rkgalseeeakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelesssk 153
+                                    + ++++ +l+       ++ ++s+e     + ++le l+++ +  i H+DlK +N+L+d    ++++D  +++++e++ +
+  emit_Pkinase_Pkinase-sample13  83 NAEDIWMVLHsgapvaeDNEKISNEAGDLTIDEVLEFLRFCVEVFIAHMDLKFQNLLMD-AYAIRLCDLNFSRQTEPTAR 161
+                                    ****999999899998888889999999*******************************.999**************999 PP
+
+                                    .............BCTCCSCGGGS-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHH.... CS
+                        Pkinase 154 .............ltsfvgtseYmAPEvlkskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqlelk.... 216
+                                                 + s+ gt e+ APE+++ k+++     Ws G   + +  ++++f+  +   ++ + +++   +    
+  emit_Pkinase_Pkinase-sample13 162 aaysmsicvnvsyTVSVLGTLEFAAPEIITLKNTTDDKSEWSFGACTAIV-VEREVFELLRVYGNILALFKKA--Hkhsn 238
+                                    9***********888999***********99999999999****988877.5667788444444333333332..12333 PP
+
+                                    .SHH......TTS-HHHHHHHHHHT-SSGCCSTTHHHHHTS CS
+                        Pkinase 217 .elklkspelsslseeakdllkkllkkdpkkRltaeellqh 256
+                                     ++     +++  s+ +k+l++ +l++++  Rlt++++++ 
+  emit_Pkinase_Pkinase-sample13 239 rDQVRRNTNPDVSSSRLKSLVTIMLAEQEAARLTVNSIMRR 279
+                                    233333444445599*********************99976 PP
+
+>> emit_Pkinase_Pkinase-sample5  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  106.2   0.6     4e-33   2.7e-31      12     216 ..      13     223 ..       5     269 .. 0.87
+
+  Alignments for each domain:
+  == domain 1  score: 106.2 bits;  conditional E-value: 4e-33
+                                   SEEEEEEEETTTTEEEEEEEEEHHCCCHHHH........HHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE--TTEB CS
+                       Pkinase  12 fgkVykaveketgkivAvKkikkekakkkke........kkvlrEikilkklkhpnivrlidvfeekdelylvleyvegge 84 
+                                   +g++++ +e ++g +v +Kk+++   ++++e        ++ + Ei++l+ +kh   v + ++f+++d + ++   ++g++
+  emit_Pkinase_Pkinase-sample5  13 SGRIVQLIEPNEGMEVTIKKVRTVAVHENEEagkgkqrkDEDIAEIAVLECSKH---VSVSQAFQTNDFINVIAGTLRGRK 90 
+                                   6899999999999*******9999988888888888666667778888888888...667889****************** PP
+
+                                   HHHHHH.HHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCSBCTCCSCGGGS CS
+                       Pkinase  85 lfdlls.rkgalseeeakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelessskltsfvgtseYm 164
+                                    f+ ++   g++ e+ a+++++++  +++ + ++g+vH DlKpe ++++ +g+ Ki+DFGla+  +++ + ++ vgt +Y 
+  emit_Pkinase_Pkinase-sample5  91 TFRCIHtSAGIMAEHVARDVITEMGDAVSIIMRRGLVHADLKPEQLMVECEGHEKIADFGLARTSQKEVEDSQAVGTIHYG 171
+                                   *****967788********************************************************************** PP
+
+                                   -HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHH CS
+                       Pkinase 165 APEvlkskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqlelk 216
+                                   +PE  ++++y++   ++ lG+ +yell+++  f+ +k+k++++  ++++++k
+  emit_Pkinase_Pkinase-sample5 172 SPEAPDKQEYSSRQELFFLGIAVYELLNNEAFFYINKDKQTTRDCVKTTFVK 223
+                                   **********************************666666555555543333 PP
+
+>> emit_Pkinase_Pkinase-sample37  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  103.2   0.0   3.3e-32   2.2e-30       3     245 ..       3     254 ..       1     261 [. 0.90
+
+  Alignments for each domain:
+  == domain 1  score: 103.2 bits;  conditional E-value: 3.3e-32
+                                    EEEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHSSTTB--EEEEEEE...SSEEEEEEE- CS
+                        Pkinase   3 vleklGeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklkhpnivrlidvfee...kdelylvley 79 
+                                     ++ +G+ + g++++ v++   + + +K + k+  +++k++++l+E + + ++ ++n+++l+ + ++   +++ +l  ++
+  emit_Pkinase_Pkinase-sample37   3 LGHDIGSDEAGRCVQTVRHGAADYMSMKYLVKQVMETRKTSEYLEEAEPITSCLSNNVIKLKMMENKiydDKRHFLASDL 82 
+                                    56789********************************************************98876677688889***** PP
+
+                                    -TTEBHHHHHHHHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEE.TTTEEEE-SGTTSEECCSSCS..BCT CS
+                        Pkinase  80 veggelfdllsrkgalseeeakkilkqilegleylHskgivHrDlKpeNiLld.ekgelKitDFGlakelesssk..lts 156
+                                     e+g+l +   + ++l+++++ k++++i+  l+ylHs++ vHrD+ ++Ni+++ ++  +++ DFG  ++l ++ +  ++ 
+  emit_Pkinase_Pkinase-sample37  83 WEHGDLSNKFFAACTLPSKDTMKYMSRIADPLSYLHSREYVHRDVQSANIIVHvTSAVIRLDDFGSGSKLPHTASspTSG 162
+                                    *****************************************************88888************9998888999 PP
+
+                                    CCSCGGGS-HHHH...TTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHH..HHSHH......TTS-HH CS
+                        Pkinase 157 fvgtseYmAPEvl...kskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqle..lkelklkspelsslsee 231
+                                    + +t++Y+ P ++    +k+ +++ D+W lG +  +    ++ f+ ++++ k++k+    +  ++++k k + ++   + 
+  emit_Pkinase_Pkinase-sample37 163 VKITPYYVDPDWIigiLDKDLSSSRDYWRLGFVEKKSAVSEEAFE-QQGDMKYRKDQGI-FllAQDEKSKGDFVKAPRDR 240
+                                    99***********98889***************************.3333334444333.33566888899999999999 PP
+
+                                    HHHHHHHHT-SSGC CS
+                        Pkinase 232 akdllkkllkkdpk 245
+                                    a  l  kll++d++
+  emit_Pkinase_Pkinase-sample37 241 ADTLTIKLLAQDMN 254
+                                    99999999999987 PP
+
+>> emit_Pkinase_Pkinase-sample23  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  103.1   0.4   3.7e-32   2.5e-30       2     258 ..       2     264 ..       1     265 [] 0.83
+
+  Alignments for each domain:
+  == domain 1  score: 103.1 bits;  conditional E-value: 3.7e-32
+                                    EEEEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHH....HHHHHHHHHHHHHS.STTB--EEEEEEESSEEEEE CS
+                        Pkinase   2 evleklGeGsfgkVykaveketgkivAvKkikkekakkkke....kkvlrEikilkklk.hpnivrlidvfeekdelylv 76 
+                                    + +e++GeG++g+Vy++   e  + + +Kk+k  +  ++++    ++++ E++i+  l+ h+n+++  + +++ ++l+++
+  emit_Pkinase_Pkinase-sample23   2 HLKETIGEGQVGTVYQVAVIEHCEWIYIKKMKYMRFASTHQslleEAIYYELRIMGMLNpHENLIKSAKLIRRGERLLFI 81 
+                                    7899*****************************9999998889999********************************99 PP
+
+                                    EE--TTEBHHHHHHHHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCSBCT CS
+                        Pkinase  77 leyveggelfdllsrkgalseeeakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelesssklts 156
+                                      +v +++++ +     +   ++++ + ++++  +  +H+++i+H   K  NiL ++ g +K+tDFG+ak+ + + +++ 
+  emit_Pkinase_Pkinase-sample23  82 QPVVGTDTVTPIE--GVVGMTQQMEMLSSNVAGVVLVMHAENILHQAKKVYNILASTAGLIKLTDFGIAKKASANRTKNR 159
+                                    9999977555544..355666788899999999999******************************************** PP
+
+                                    CCSCGGGS-HHHHTTSTC.SHHHHHHHHHHHHH...HHHHSS-STTTSSCHHHHHHHHHTHHHH...SHH......TTS- CS
+                        Pkinase 157 fvgtseYmAPEvlkskky.gkkvDvWslGvily...elltgkppfsaekekekvekeldqlelk...elklkspelssls 229
+                                      gt  Y+AP  ++s    +k+vD +s+G       + + +k  ++ +++ +    ++++ e+k    ++++ p+++ +s
+  emit_Pkinase_Pkinase-sample23 160 NKGTLVYVAPHSIGSVYAfSKPVDKFSAGTNNNypgTKVIEKKKWRTNDGAS---DITREQERKhdrGSTKDRPTPKRMS 236
+                                    *************775555**********97651113444555555444444...3333333334545566777777776 PP
+
+                                    HHHHHHHHHHT-SSGCCSTTHHHHHTSGG CS
+                        Pkinase 230 eeakdllkkllkkdpkkRltaeellqhpw 258
+                                    ++  +l + ++ kd +kR+ +e+ +q++ 
+  emit_Pkinase_Pkinase-sample23 237 RN-SSLKDPIIIKDVEKRPIIEDTVQQKL 264
+                                    65.68999*************99999875 PP
+
+>> emit_Pkinase_Pkinase-sample4  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  102.7   0.0   4.9e-32   3.2e-30       2     246 ..       2     253 ..       1     264 [. 0.86
+
+  Alignments for each domain:
+  == domain 1  score: 102.7 bits;  conditional E-value: 4.9e-32
+                                   EEEEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHSSTTB.--EEEEEEE.SSEEEEEEE-- CS
+                       Pkinase   2 evleklGeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklkhpni.vrlidvfee.kdelylvleyv 80 
+                                   e ++ +G G+  +V++a e + ++ +A+K +k+e+a++++++ ++  + + +++ hp+  ++l d ++  ++ l l l+ +
+  emit_Pkinase_Pkinase-sample4   2 ELNTDIGLGDLNRVFLAAEMKVDDRMAMKNLKEESAENRNRELITPKLYVPAQVFHPHMdLELRDLVKAwQHGLKLRLNAA 82 
+                                   67889*****************************************************9899*****99455577****** PP
+
+                                   TTEBHHHHHH..HHSS--HHHHHHHHHHHHHHHHHHHHTTEE.-SS-SGGGEEEETTTE.EEE-SGTTSEECCSSCS..BC CS
+                       Pkinase  81 eggelfdlls..rkgalseeeakkilkqilegleylHskgiv.HrDlKpeNiLldekge.lKitDFGlakelesssk..lt 155
+                                   + g+ + ll+  +++ ++ +   ++l+++l g++yl ++ ++ + D+K++NiL+++k++ l+++DFGl ++++++ +  + 
+  emit_Pkinase_Pkinase-sample4  83 NAGSHKGLLTgtQQTRMTVAIKLFFLENVLPGIRYLDNEPVIdFIDVKKSNILFQNKDHsLRLIDFGLMSRFDNGPNkkVP 163
+                                   **********866666877777899************9987659***********66666*************99986566 PP
+
+                                   TCCSCGGGS-HHHH.TTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHHSHH......TTS-HHHHHH CS
+                       Pkinase 156 sfvgtseYmAPEvl.kskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqlelkelklkspelsslseeakdl 235
+                                   ++vgt  Y+ PE l  +++y++++Dv+slG++l+e l g+ +  + ++   ++++++  ++++++++++e +  s +++  
+  emit_Pkinase_Pkinase-sample4 164 NVVGT-FYLEPETLeYQTRYDNPIDVYSLGCVLHEPLLGHAIVIKVSDLRVTRRNVSI-HRQTWEEDIQEIKVASISCRYA 242
+                                   66666.7*******555789***********************966665544444444.356999**************** PP
+
+                                   HHHHT-SSGCC CS
+                       Pkinase 236 lkkllkkdpkk 246
+                                   l+k+l+k + +
+  emit_Pkinase_Pkinase-sample4 243 LQKMLNKMEAR 253
+                                   *****997765 PP
+
+>> emit_Pkinase_Pkinase-sample40  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  102.5   0.1   5.4e-32   3.6e-30       6     251 ..       6     256 ..       1     262 [. 0.85
+
+  Alignments for each domain:
+  == domain 1  score: 102.5 bits;  conditional E-value: 5.4e-32
+                                    EEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHS..STTB--EEEEEEESSEEEEEEE--TTE CS
+                        Pkinase   6 klGeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklk..hpnivrlidvfeekdelylvleyvegg 83 
+                                     +G+Gs g+Vy+++++e+ +ivAvK    ek++  ++ k+  E  + ++l+     iv+ i++f+e+++  l+ e+++ +
+  emit_Pkinase_Pkinase-sample40   6 LIGRGSCGEVYRGFKDEKCDIVAVKWDVAEKNEAYQRMKLSAEYYMAEELHleFTTIVN-IGFFKESQKPALISECIQLE 84 
+                                    69***********************9999999999999************986666776.79****************77 PP
+
+                                    BHHHHHHHHSS...--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCSBCTCCSC CS
+                        Pkinase  84 elfdllsrkga...lseeeakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelessskltsfvgt 160
+                                     + d ++++++     ++e+ + +k +l+++e ++++  +H D+K  Ni+ ++ ++ K+tDF + + ++ ++  +   + 
+  emit_Pkinase_Pkinase-sample40  85 -VYDTIENESSicgRGPTELFERMKGTLNAVETCYKNATMHADMKARNIINSSYQDTKLTDFRVHEIIDATN--DPSDAA 161
+                                    .6666665555122345588899*****************************9999************9988..777889 PP
+
+                                    GGGS-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHH....SHH......TTS-HHH.HHH CS
+                        Pkinase 161 seYmAPEvlkskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqlelk....elklkspelsslseea.kdl 235
+                                    + Y+A E  ++ +  k+ D+ slG+ lye +  k++++ ++++++++  ++ + +     ++k  ++   s s ea   +
+  emit_Pkinase_Pkinase-sample40 162 PFYLADEAANEAGKNKADDIVSLGISLYEYILSKEIYR-TDGNHSYQVLANGIARSeghdNWKVRIELHASASLEAiLVV 240
+                                    **************************************.77777787777776533345566666666666665551567 PP
+
+                                    HHHHT-SSGCCSTTHH CS
+                        Pkinase 236 lkkllkkdpkkRltae 251
+                                    +++ll+ +pk Rlt +
+  emit_Pkinase_Pkinase-sample40 241 MDGLLHLQPKLRLTRQ 256
+                                    899**********965 PP
+
+>> emit_Pkinase_Pkinase-sample18  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  100.1   0.1   2.9e-31   1.9e-29       3     259 .]       5     264 .]       3     264 .] 0.93
+
+  Alignments for each domain:
+  == domain 1  score: 100.1 bits;  conditional E-value: 2.9e-31
+                                    EEEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHS..STTB--EEEEEEESSEEEEEEE-- CS
+                        Pkinase   3 vleklGeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklk..hpnivrlidvfeekdelylvleyv 80 
+                                     ++k+G+G   + +k v+++tg   A+Kk ++ + k+   +++ rEi++l+k++  ++ i++l++++   + l+l le +
+  emit_Pkinase_Pkinase-sample18   5 LVRKIGQGVLISTVKTVHRATGILPAIKKASNAESKN---RNMNREIAVLEKFRkyCKPILTLKGIYDFREVLVLSLETM 81 
+                                    689*************************999887665...579***********99************************ PP
+
+                                    TTEBHHHHHHHHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCS...BCTC CS
+                        Pkinase  81 eggelfdllsrkgalseeeakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelesssk...ltsf 157
+                                    + g    l+++  a + + ++   +++++g + +H+++++ rDl  +N+++ +   + i+ FG ++ ++++     l+  
+  emit_Pkinase_Pkinase-sample18  82 PIGIRVPLIHQTDAEDRTFIQLASYNTVQGNKDCHRNEFIERDLQGQNLICYRVALVNIMGFGTVCLITKDGGkpdLEYS 161
+                                    ***9999**99999999999999*****************************8888************998888899999 PP
+
+                                    CSCGGGS-HHHH...TTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHHSHH......TTS-HHHHH CS
+                        Pkinase 158 vgtseYmAPEvl...kskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqlelkelklkspelsslseeakd 234
+                                      t++Y APEv    ks++++k+v  +s+G+i++ l+  + ++++++    +++ ++q  + e++ k   +++   ++kd
+  emit_Pkinase_Pkinase-sample18 162 EYTKHYAAPEVTtsaKSRNVTKQVHEFSAGCIIIPLVYIEILYEGSRYVGLKKSLARQ--MGEKRRKQLAWEEKAAKLKD 239
+                                    ************99888999************************88888877777777..44667888899999****** PP
+
+                                    HHHHHT-SSGCCSTTHHHHHTSGGG CS
+                        Pkinase 235 llkkllkkdpkkRltaeellqhpwl 259
+                                    ++  l  ++p+  ++++ + +h w+
+  emit_Pkinase_Pkinase-sample18 240 IVAVLTLRKPDLEPSCMTVRNHVWM 264
+                                    ***********************97 PP
+
+>> emit_Pkinase_Pkinase-sample27  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   98.2   1.5   1.1e-30   7.6e-29       1     252 [.       1     272 [.       1     279 [] 0.90
+
+  Alignments for each domain:
+  == domain 1  score: 98.2 bits;  conditional E-value: 1.1e-30
+                                    EEEEEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHH...HHHHHHHHHHHHHSSTTB--EEEEEEE.SSEEEEE CS
+                        Pkinase   1 yevleklGeGsfgkVykaveketgkivAvKkikkekakkkke...kkvlrEikilkklkhpnivrlidvfee.kdelylv 76 
+                                    y v+++lG G+ +  +k +e+e  + +A K+i +++ +++     k+v++  +++++++h ++ r  +vfe+ ++++ +v
+  emit_Pkinase_Pkinase-sample27   1 YDVQTHLGGGNKAIAVKKIEAEGIRRMASKIIYTRSYTSEYAtgmKQVISDEEVISEVHHAYLTRTGQVFENaHQDVRMV 80 
+                                    678999********************************9998999**************************9889999** PP
+
+                                    EE--TTEBHHHHHHHHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEE.TTTE.......EEE-SGTTSEEC CS
+                        Pkinase  77 leyveggelfdllsrkgalseeeakkilkqilegleylHskgivHrDlKpeNiLld.ekge.......lKitDFGlakel 148
+                                    +e++++ + +++l+  +  +e++ + +  q++e+ ey+H+ ++v rDlK +N++ + + ++       +Ki   G+a+++
+  emit_Pkinase_Pkinase-sample27  81 TEMLHKFSAHEILR-TKLRQEKQFRWVSLQMVESPEYCHKFNFVRRDLKNSNVIGSlK-KMrewankrIKIETIGIAEQV 158
+                                    *************7.5889***********************************9944.444677788************ PP
+
+                                    CSSCS...BCTCCSCGGGS-HHHH.TTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHH.HH.....SH CS
+                        Pkinase 149 esssk...ltsfvgtseYmAPEvl.kskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqle.lk.....el 218
+                                    e s++    +  + t +Y A E   k++kyg++v   slG++    + ++ p++++++k+  +   +++e ++      +
+  emit_Pkinase_Pkinase-sample27 159 EASHQrfnESGTTFTLYYFAEETFrKGEKYGPSVEALSLGLVTTVAIKKNAPLNQKSNKKAGSVAGSTMEiADegsgmVE 238
+                                    **99987666778899********888***************************88888877777777665337878655 PP
+
+                                    H......TTS-HHHHHHHHHHT-SSGCCSTTHHH CS
+                        Pkinase 219 klkspelsslseeakdllkkllkkdpkkRltaee 252
+                                        +e ++++++a  +++ +l+k+ ++Rl +++
+  emit_Pkinase_Pkinase-sample27 239 VRRGKESREIKSAAAAFVRLILDKELRRRLLMND 272
+                                    6677888999*******************98876 PP
+
+>> emit_Pkinase_Pkinase-sample2  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   97.4   0.0   1.9e-30   1.3e-28       5     257 ..       5     263 ..       2     265 .] 0.85
+
+  Alignments for each domain:
+  == domain 1  score: 97.4 bits;  conditional E-value: 1.9e-30
+                                   EEEEEESSEEE.EEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE--TTEB CS
+                       Pkinase   5 eklGeGsfgkV.ykaveketgkivAvKkikkekakkkkekkvlrEikilkklkhpnivrlidvfeekdelylvleyvegge 84 
+                                    +lG+G++ +V + ++  ++++  A K i + + ++k+  +v++E ++ ++++ + i+ ++ v++  +    v++ ++ g+
+  emit_Pkinase_Pkinase-sample2   5 GTLGDGGMIVVdVAGIPVSQRESTASKDITTYEVESKRLAEVADEPRLKNRCNKNRILAYKLVLRMRRLNSAVIDKINLGD 85 
+                                   679999999997788999***********************************************999999999****999 PP
+
+                                   HHHHHH..HHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEE.TTTEEEE-SGTTSEECCSSCSBCTCCSCGG CS
+                       Pkinase  85 lfdlls..rkgalseeeakkilkqilegleylHskgivHrDlKpeNiLld.ekgelKitDFGlakelessskltsfvgtse 162
+                                   l  +         + +  k +++++l  l+yl+ +++vHrD+K +NiL + + ++ Ki+DF l + +e +  ++s  + ++
+  emit_Pkinase_Pkinase-sample2  86 LCIVELeaGTNEANTKANKLFTRKLLAELRYLYTEEVVHRDVKLSNILQQtQAEDAKIADFPLTAAVEYRIPYHSLLIARK 166
+                                   7655442234447777888999****************************66667************************** PP
+
+                                   GS-HHHHTTSTC.SHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHT.HH.HHSHH......TTS..-HHHHHHHHH CS
+                       Pkinase 163 YmAPEvlkskky.gkkvDvWslGvilyelltgkppfsaekekekvekeldq.le.lkelklkspelssl..seeakdllkk 238
+                                   Y +PEv++++   g+kv v+s G++l el ++ +p+++++e   ++  l+  +  +++++ + +e s++  + ea + +k+
+  emit_Pkinase_Pkinase-sample2 167 YASPEVIDNEIAgGEKVSVYSPGLVLRELEFQIEPWRKNEE---FSPSLNGdTNiVQTEQAELQETSNVrwPVEAYEKIKH 244
+                                   *******777777************************4444...444443311235566666666666666999******* PP
+
+                                   HT-SSGCCSTTHHHHHTSG CS
+                       Pkinase 239 llkkdpkkRltaeellqhp 257
+                                    l+ ++++Rlt ++l + p
+  emit_Pkinase_Pkinase-sample2 245 RLQAEHEERLTGSQLSDTP 263
+                                   ***********99987765 PP
+
+>> emit_Pkinase_Pkinase-sample7  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   96.2   0.0   4.8e-30   3.2e-28       5     259 .]       5     259 .]       1     259 [] 0.88
+
+  Alignments for each domain:
+  == domain 1  score: 96.2 bits;  conditional E-value: 4.8e-30
+                                   EEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE--TTEBH CS
+                       Pkinase   5 eklGeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklkhpnivrlidvfeekdelylvleyveggel 85 
+                                     lG+ + g V +  ++  +k+ A Kk++k ++k++    vl+E + l+ ++h++i+ ++dv +e+++++l++ +++++ +
+  emit_Pkinase_Pkinase-sample7   5 AVLGRSGGGWVNLNADQGCDKKLAFKKVEKLDKKQDA--LVLEEFSPLNAYDHSFIIAVLDVNREDETFILIMALAQMSGI 83 
+                                   5789999999*******************99877755..5*********************************99998876 PP
+
+                                   HHHHH..HHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEE.TTTEEEE-SGTTSEECCSSCS..BCTCCSCG CS
+                       Pkinase  86 fdlls..rkgalseeeakkilkqilegleylHskgivHrDlKpeNiLld.ekgelKitDFGlakelesssk..ltsfvgts 161
+                                   + + +  ++ +++e+ a+  +  i+  l y+H+++i  +D K+  +L+  e ++l+i+DFG+     ++ +  +     t 
+  emit_Pkinase_Pkinase-sample7  84 QPRNHadQSEIYEEKVANARMVGIVDLLLYMHRMHISPMDAKKGALLIAdEPKTLRIVDFGFNDSRPRQVSdeKLALWLTA 164
+                                   65555448889*************************************966666********99999988877888999** PP
+
+                                   GGS-HHHHTTSTC.SHHHHHHHHHHHHHHHHHSS-STTTSSCH.HHHHHHHHTHHHHSHH......TTS-HHHHHHHHHHT CS
+                       Pkinase 162 eYmAPEvlkskky.gkkvDvWslGvilyelltgkppfsaekek.ekvekeldqlelkelklkspelsslseeakdllkkll 240
+                                    Y +PE+lk  +y ++  D + +G+  ++ lt+++++ +  ++ +k+  +++    ++ k + + ++++++++ +l+  l+
+  emit_Pkinase_Pkinase-sample7 165 AYAPPEILKVLQYqSQRLDTY-CGIAEISTLTERLVYGEAYTNcSKAIINIR----ENIKVSLEVNNQIPKKLANLIAVLF 240
+                                   **********999999*****.8**************944333122233333....38899******************** PP
+
+                                   -SSGCCSTTHHHHHTSGGG CS
+                       Pkinase 241 kkdpkkRltaeellqhpwl 259
+                                   k+  ++R  +++ l h++l
+  emit_Pkinase_Pkinase-sample7 241 KEISESRAEVRDYLIHDFL 259
+                                   **************99986 PP
+
+>> emit_Pkinase_Pkinase-sample14  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   96.0   0.5   5.5e-30   3.6e-28       6     259 .]       6     272 .]       1     272 [] 0.83
+
+  Alignments for each domain:
+  == domain 1  score: 96.0 bits;  conditional E-value: 5.5e-30
+                                    EEEEESSEEEEEEE..ETTTTEEEEEEEEEHHCCCHHHH........HHHHHHHHHHHHHS.STTB--EEEEEEESSEEE CS
+                        Pkinase   6 klGeGsfgkVykav..eketgkivAvKkikkekakkkke........kkvlrEikilkklk.hpnivrlidvfeekdely 74 
+                                     + +G+++ V++ v  + +t+  vA+ + k++  ++++          + ++E+  ++++   +++  ++++fe++ +++
+  emit_Pkinase_Pkinase-sample14   6 LISQGTYAWVFSQVysKMKTKPLVAIQCPKVSPMSSNTGieedkhiaGEDREEMLHHASFAeYKYVYGILKAFENEAYIF 85 
+                                    56677777776544113368888999888887777766566673333333556666666668999999999999998888 PP
+
+                                    EEEE--TTEBHHHHHHHHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCS. CS
+                        Pkinase  75 lvleyveggelfdllsrkgalseeeakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelesssk. 153
+                                        + +g  + d++     ++e+++++ +++ l +l++lH+++  H DlK+ Ni  +++  +Ki DFGla+ l++    
+  emit_Pkinase_Pkinase-sample14  86 YQAGVENGVRFLDYY-----VEEQKIRSQIANSLATLKFLHQNESGHSDLKTTNITNERHASIKIDDFGLARFLKNAVAt 160
+                                    777777777777777.....78************************************9*****************9997 PP
+
+                                    .BCTCCSCGGGS-HHHH.....TTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHHSHH......TT CS
+                        Pkinase 154 .ltsfvgtseYmAPEvl.....kskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqlelkelklkspelss 227
+                                     + +  g+  Y+A E       ++k++ +k+ +W++G ++ye +  k +f++e +++k  + +d+     ++ + ++ +s
+  emit_Pkinase_Pkinase-sample14 161 dTAQDYGSLLYIAEEFYvkgisTGKMMYNKTSWWAMGTVVYEQIVSKKVFKKEVNRDKETRPIDKYISSVTDSQPRPSDS 240
+                                    778889*********98888877788899**********************99999988889999555566778888889 PP
+
+                                    S-HHHHHHHHHHT-SSGCCSTTHHHHHTSGGG CS
+                        Pkinase 228 lseeakdllkkllkkdpkkRltaeellqhpwl 259
+                                    l  e++++++ l +   ++Rl+a+e l+  w+
+  emit_Pkinase_Pkinase-sample14 241 LAAELREFISYLRSLVNTERLSAKERLRTVWF 272
+                                    9***************************9998 PP
+
+>> emit_Pkinase_Pkinase-sample9  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   95.6   0.0     7e-30   4.7e-28       7     247 ..       7     288 ..       1     303 [] 0.76
+
+  Alignments for each domain:
+  == domain 1  score: 95.6 bits;  conditional E-value: 7e-30
+                                   EEEESSEEEEEEEET....TTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHS..STTB--EEEEEEESSEEEEEEE--T CS
+                       Pkinase   7 lGeGsfgkVykavek....etgkivAvKkikkekakkkkekkvlrEikilkklk..hpnivrlidvfeekdelylvleyve 81 
+                                    G Gs g+V  +v+     +  k  AvK+  + ++k+++  k+++E++ + +++   ++   +++++ e+  + lv e v 
+  emit_Pkinase_Pkinase-sample9   7 AGFGSLGTVPDMVHLrlelRPAKLRAVKVTVVLTNKDST-GKLTNECQRVPSVNliDQYSTCVMSILLESALMALVDEDVA 86 
+                                   588999998777765111145688899998888888877.59******99999997788888889999999999******* PP
+
+                                   TEBHHHHHHHHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCS.BCTCCSCG CS
+                       Pkinase  82 ggelfdllsrkgalseeeakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelesssk.ltsfvgts 161
+                                   g+ l+++l+r  a+++     ++ +ilegl+ ++s +i+H DlK  N Ll++k++l+ +D G+a++ ++++  ++ ++g++
+  emit_Pkinase_Pkinase-sample9  87 GTLLMKILTRIAAFNDLLSGAMFPEILEGLKACYSSNILHLDLKNTNALLSRKRNLRKSDIGVATQPRRQKAfFKAYIGSR 167
+                                   *********************************************************************9999******** PP
+
+                                   GGS-HHHH..TTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHH.HH....SHH......TTS....... CS
+                       Pkinase 162 eYmAPEvl..kskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqle.lk....elklkspelssl....... 228
+                                    Y AP  +  + + +g +vD++++Gv+++ +l+gk p+++++ +++ ++   q + +     +++       ++       
+  emit_Pkinase_Pkinase-sample9 168 AYFAPNHVlaSLNWIGLTVDLYTYGVLCFVVLNGKFPYHQKDAQSILNNCRAQKKfFVaaglTTDIRESGRANFvqkgmfi 248
+                                   *****9987666778************************777777666555552221134442222222222224455555 PP
+
+                                   .....................-HHHHHHHHHHT-SSGCCS CS
+                       Pkinase 229 .....................seeakdllkkllkkdpkkR 247
+                                                        s ++ ++  + + kd  +R
+  emit_Pkinase_Pkinase-sample9 249 ldrsfyydqscdgwknppsnhSVNFLQIYAWTCVKDTINR 288
+                                   5555555555555555555555555555555555555555 PP
+
+>> emit_Pkinase_Pkinase-sample1  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   95.4   0.0   7.9e-30   5.3e-28       1     259 []       1     266 []       1     266 [] 0.86
+
+  Alignments for each domain:
+  == domain 1  score: 95.4 bits;  conditional E-value: 7.9e-30
+                                   EEEEEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHH.HHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE-- CS
+                       Pkinase   1 yevleklGeGsfgkVykaveketgkivAvKkikkekakkkke.kkvlrEikilkklkhpnivrlidvfeekdelylvleyv 80 
+                                   y+v ++lG+G+     +a +++ +   A+  + +e++k++ e +++ + i+++++l+ p++ r++  fe+  +l+++    
+  emit_Pkinase_Pkinase-sample1   1 YTVFSELGSGAGTDANQALKRTFSSPTALVALITENTKDTGEmQTACSSIQVHSQLDTPHVTRFVTKFESRMKLMVLGSTR 81 
+                                   67889*************************99999999998889*************************999998777666 PP
+
+                                   TTEB.HHHHHHHHSS--HHHHHHHHHHHHHHHHHHHHTT.EE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCSBCTCCS CS
+                       Pkinase  81 egge.lfdllsrkgalseeeakkilkqilegleylHskg.ivHrDlKpeNiLldekgelKitDFGlakelessskltsfvg 159
+                                   + ++   + ++  ++  e+++  ++kqil gl ++H+ + + H+D+K +N+ + +   + ++DFGl   ++ +  +t+ ++
+  emit_Pkinase_Pkinase-sample1  82 QRDDpSVNGVEIGQISAETTVPLFVKQILDGLGFIHEIKvFNHKDIKEANLAFPDGLYFYLADFGLIILISAH--MTDLCI 160
+                                   6665445555555567788999**************888256************6666*********999986..7***** PP
+
+                                   CGGGS-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHH.HHSHH......TTS-HHHHHHHHHH CS
+                       Pkinase 160 tseYmAPEvlkskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqle.lkelklkspelsslseeakdllkkl 239
+                                   t + ++PEv ++++y++ +Dv+ +++++   +tg++++  e+ k+ +++ +++ +    +++k p   +ls+++++  ++l
+  emit_Pkinase_Pkinase-sample1 161 TYTHRSPEVFTGQDYDRGMDVYEVALVVSAPMTGNHIMG-ENAKHVAKELMKDATsNAAVNEKPPFGLELSSKVRQRARNL 240
+                                   **************************************9.34433333333333334488999999999************ PP
+
+                                   T-SSGCCSTT......HHHHHTSGGG CS
+                       Pkinase 240 lkkdpkkRlt......aeellqhpwl 259
+                                   l+++p +Rl       ++++++ p++
+  emit_Pkinase_Pkinase-sample1 241 LHYQPCERLAklrsaaCHSAVKYPYF 266
+                                   *********98777777777777776 PP
+
+>> emit_Pkinase_Pkinase-sample26  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   94.8   0.8   1.3e-29   8.4e-28       1     258 [.       1     276 [.       1     277 [] 0.82
+
+  Alignments for each domain:
+  == domain 1  score: 94.8 bits;  conditional E-value: 1.3e-29
+                                    EEEEEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHH....HHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEE CS
+                        Pkinase   1 yevleklGeGsfgkVykaveketgkivAvKkikkekakkkke....kkvlrEikilkklkhpnivrlidvfeekdelylv 76 
+                                    y++  ++G+G+fg+  +      +k  +vK+i++ + kk+      +++++Ei+++   +h+++++l ++ +++++ ++v
+  emit_Pkinase_Pkinase-sample26   1 YTKPGEIGSGEFGSRLTQL---YHKSSCVKTIDNLSHKKDYLlllkRAYADEIELMLLASHKQVITLSESHTNNKNSVIV 77 
+                                    566789*******977666...7889999***999999888789989999****************************** PP
+
+                                    EE--TTEBHHHHHH...HHSS--HHHHHHHHHHHHH.HHHHHHHTTEE-SS-SGGGEEEETTTE..EEE-SGTTSEECCS CS
+                        Pkinase  77 leyveggelfdlls...rkgalseeeakkilkqile.gleylHskgivHrDlKpeNiLldekge..lKitDFGlakeles 150
+                                    l ++ + + f++     + +++ e++ k +++q +e  le+lH ++ +HrD+ p+NiL++++    lKi+DFG ++ +++
+  emit_Pkinase_Pkinase-sample26  78 LKMALQPSCFEVEDasnKTQTFMESQKKPYMTQSIEiQLEHLHTQCKLHRDIDPDNILFKQDVVeeLKISDFGSSQFVKN 157
+                                    ****9999776666554778899999999998866538**********************766578************** PP
+
+                                    SCSBCTCCSCGG...GS-HHHHTTSTCSHHHHHHHHHHHHHHHHH..SS-STTTSSCHHHHHHHHHTHHHH........S CS
+                        Pkinase 151 sskltsfvgtse...YmAPEvlkskkygkkvDvWslGvilyellt..gkppfsaekekekvekeldqlelk........e 217
+                                       + +  +t++    + +Ev  +++ ++ + vW +G ++  l++  g ++f   ++++ +e+ ++ +  +        +
+  emit_Pkinase_Pkinase-sample26 158 PA-MYEALITRYaddAITNEVTPATNETSFTSVWVIGTMIKDLFCspGVSIFATFNDTSMQEQAVRGMDPRgvdcmiqaD 236
+                                    99.7777777641225788888889999999************99667899**999999999999997633465767543 PP
+
+                                    HH......TTS-HHHHHHHHHHT-SSGCCSTTHHHHHTSGG CS
+                        Pkinase 218 lklkspelsslseeakdllkkllkkdpkkRltaeellqhpw 258
+                                    + +k+++++  ++  ++llk+ll+++   R+ ++ + + ++
+  emit_Pkinase_Pkinase-sample26 237 TGEKFARKN-TNSLKTKLLKSLLARKTALRMIIMVASAAKY 276
+                                    333333333.34455689********999998877766666 PP
+
+>> emit_Pkinase_Pkinase-sample22  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   93.1   0.3   4.1e-29   2.7e-27       4     259 .]       4     265 .]       1     265 [] 0.88
+
+  Alignments for each domain:
+  == domain 1  score: 93.1 bits;  conditional E-value: 4.1e-29
+                                    EEEEEEESSEEEEEEEETTTTEE.......EEEEEEEHHCCCHHHHHHHHHHHHHHHHHS...STTB--EEEEEEESSEE CS
+                        Pkinase   4 leklGeGsfgkVykaveketgki.......vAvKkikkekakkkkekkvlrEikilkklk...hpnivrlidvfeekdel 73 
+                                    ++  GeG++g+V+ ++++++g++       +AvK  ++e+++   + ++ rEi+++k++       i rl++ ++e   +
+  emit_Pkinase_Pkinase-sample22   4 EQVCGEGKTGRVFGGTRASRGDThyrltdgWAVKAKDVEDQEMIIHLNAGREITFIKHCTndnQWVIPRLHEKIREGGFV 83 
+                                    5678**********99998876544444448****************************9553334779*********** PP
+
+                                    EEEEE--TTEBHHHHHHHHSS--HH....HHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTE.EEE-SGTTSEEC CS
+                        Pkinase  74 ylvleyveggelfdllsrkgalsee....eakkilkqilegleylHskgivHrDlKpeNiLldekge.lKitDFGlakel 148
+                                    +++ eyv++ +l+++ s k  ++e     + +++  +i++ ++++H+++i   D KpeNi l++kge lKi  FGl++ +
+  emit_Pkinase_Pkinase-sample22  84 FILREYVMQLQLNSVGSVKLLITEFprrkQNQSFSVSIMSKVDHMHDEEIHGNDTKPENICLQQKGEaLKIRNFGLSRSV 163
+                                    *****************8888888755568889******************************99999************ PP
+
+                                    CSSCSBCTCCSCGGGS-HHHH.TTSTC.SHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHHSHH......T CS
+                        Pkinase 149 essskltsfvgtseYmAPEvl.kskky.gkkvDvWslGvilyelltgkppfsaekekekvekeldqlelkelklkspels 226
+                                    +++s l+   g+ e m+P ++ +++k+   + D  s G+i  + ++ k  +++ + +e   ++++        ++++e++
+  emit_Pkinase_Pkinase-sample22 164 TENSGLQAAFGDAECMSPRWIvQGNKHsYVSGDALSTGIIKTNAIAAKFACKQVEVNE---NMFT--------EQVEEKT 232
+                                    *********************97777757899********************444443...3333........4688899 PP
+
+                                    TS-HHHHHHHHHHT-SSGCCSTTHHHHHTSGGG CS
+                        Pkinase 227 slseeakdllkkllkkdpkkRltaeellqhpwl 259
+                                       ++a +l  + +++d+ +R+t e++ +h+w+
+  emit_Pkinase_Pkinase-sample22 233 YARKTALKLTFRRFTQDMAERVTSEKIHDHEWF 265
+                                    999*****************************8 PP
+
+>> emit_Pkinase_Pkinase-sample15  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   90.5   1.4   2.5e-28   1.7e-26       3     259 .]       3     275 .]       1     275 [] 0.88
+
+  Alignments for each domain:
+  == domain 1  score: 90.5 bits;  conditional E-value: 2.5e-28
+                                    EEEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHSSTTB--EEEEEEESSEEE.EEEE--T CS
+                        Pkinase   3 vleklGeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklkhpnivrlidvfeekdely.lvleyve 81 
+                                    v + +G G+ g V k + + tg + A   i k+++k+++  ++ +E ++ ++l+ + i++l ++  ++ +++ +++e + 
+  emit_Pkinase_Pkinase-sample15   3 VDDVMGCGTQGAVLKFRLTVTGSVKAKNAITKSEEKPQEFYAIHEENSFCNSLQMESIIELAGMHVDHLKVIlILFEPAF 82 
+                                    56789************************************************************998776637789999 PP
+
+                                    TEBHHHHHHHHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCSBCTCCSCG CS
+                        Pkinase  82 ggelfdllsrkgalseeeakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelessskltsfvgts 161
+                                     g++     ++ +++++ +k il++il++++  +++g+ H+Dl  +N ++ ++   Ki  F  ++  + +++ + ++ t 
+  emit_Pkinase_Pkinase-sample15  83 SGKFYCKAFEHDNFQMQALKAILWRILQAIHGHFNNGVAHKDLNIHNTMYVKSPSAKIQAFNPVTVAQIDKNRQRIISTY 162
+                                    99988777799********************************************************************* PP
+
+                                    GGS-HHHHTTSTCSHHHHHHHHHHHH.....HHHHHSS-STTTSSCHHHHHHHHHTHH...HH.......SHH......T CS
+                        Pkinase 162 eYmAPEvlkskkygkkvDvWslGvil.....yelltgkppfsaekekekvekeldqle...lk.......elklkspels 226
+                                    eY    ++++ k+ k+  +Ws+G+++     ++l   + pf++ + ++ v   ++q+    +k        ++++ + ++
+  emit_Pkinase_Pkinase-sample15 163 EYTMADIVHAVKMHKSGEIWSMGILIqyiamLSLAQFTAPFKDLTVESGVDFRARQHAvehYKesfgqhtLKTEAANSVE 242
+                                    ***********************986322224556678899988888888888888443343378886654456666667 PP
+
+                                    TS-HHHHHHHHHHT-SSGCCSTTHHHHHTSGGG CS
+                        Pkinase 227 slseeakdllkkllkkdpkkRltaeellqhpwl 259
+                                    +l++ a ++l ++ k+  k+Rl    +++ pwl
+  emit_Pkinase_Pkinase-sample15 243 DLPSLALKFLCNMTKVASKQRLENATAMDTPWL 275
+                                    77******************************7 PP
+
+>> emit_Pkinase_Pkinase-sample33  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   88.4   0.0   1.1e-27   7.3e-26       3     247 ..       3     248 ..       1     255 [. 0.88
+
+  Alignments for each domain:
+  == domain 1  score: 88.4 bits;  conditional E-value: 1.1e-27
+                                    EEEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE--TT CS
+                        Pkinase   3 vleklGeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklkhpnivrlidvfeekdelylvleyveg 82 
+                                      +++G+G  g Vy + e+ ++k +A Kk++++     +++++++E k    ++ + +++  +++ + ++ yl+   +e+
+  emit_Pkinase_Pkinase-sample33   3 PADRIGSGPHGAVYAGAEAYESKGFATKKLRHTPHYWVRHENIIDEAKQNMLFNDNRLIESQESIDQWQSSYLISTTLEE 82 
+                                    5679***************************************************************************7 PP
+
+                                    EBHHHHHHHHSS.--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCSBCTCCSCG CS
+                        Pkinase  83 gelfdllsrkga.lseeeakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelessskltsfvgts 161
+                                    + l+  + ++    +e+   + +k++++ +e+l + +i +r lKp  iL de + +K+ D+G a+  + s  +++ +gts
+  emit_Pkinase_Pkinase-sample33  83 R-LKAQVDENRDiKDEKLNISQAKHLFRIVEFLSNGNIRYRSLKPRTILSDELEIFKLLDWGGATARKFSR-KNTNIGTS 160
+                                    6.66666655551555556699*****************************8888********99988877.99****** PP
+
+                                    GGS-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHH..HHSHH......TTS-HHHHHHHHHH CS
+                        Pkinase 162 eYmAPEvlkskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqle..lkelklkspelsslseeakdllkkl 239
+                                    ++ A+  ++++ ++k v +W lGv +y l+  + p++ ++++++++ ++++ e  +++++ +   ++  +e+  d++   
+  emit_Pkinase_Pkinase-sample33 161 NFTANHQVTARVFEKRVLIWPLGVSIYALYYPTDPYERNEGDNQASCQAMEREgvADPTDVDLSGPTGKQETHGDMVLTA 240
+                                    *************************************9999998888887755534477777777777777777777777 PP
+
+                                    T-SSGCCS CS
+                        Pkinase 240 lkkdpkkR 247
+                                    l kd  +R
+  emit_Pkinase_Pkinase-sample33 241 LIKDAPSR 248
+                                    77776666 PP
+
+>> emit_Pkinase_Pkinase-sample32  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   86.5   0.1   4.2e-27   2.8e-25       8     257 ..      11     258 ..       7     260 .] 0.94
+
+  Alignments for each domain:
+  == domain 1  score: 86.5 bits;  conditional E-value: 4.2e-27
+                                    EEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHS.STTB--EEEEEEESSEEEEEEE--TTEBHH CS
+                        Pkinase   8 GeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklk.hpnivrlidvfeekdelylvleyveggelf 86 
+                                    G+G+ g+  + v++++  i+A+ + +k  +++k+  +v++E+k l+ l   + +v+ +   ++ +ely+  +++++++l+
+  emit_Pkinase_Pkinase-sample32  11 GSGTAGRQRSSVDQNRASIIACRQAQKFAQEDKQPAQVRSELKCLELLAaEEVLVKTLTQTHHFSELYVTGDVMSNQSLM 90 
+                                    9************************************************788889************************* PP
+
+                                    HHHHHHSS--HHHHHHHHHHHHHHHHHHH...HTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCSBCTCCSCGGG CS
+                        Pkinase  87 dllsrkgalseeeakkilkqilegleylH...skgivHrDlKpeNiLldekgelKitDFGlakelessskltsfvgtseY 163
+                                      +s+  ++ ++ + +i  ++l  +  lH   sk+i  r +K  Ni ++ +g +K+ DFGla e +++  +t ++ ++ Y
+  emit_Pkinase_Pkinase-sample32  91 GCVSKINIYIMKGLGEINFKVLAIVFTLHgfsSKNITNREVKERNIVIH-DGIIKLLDFGLAIEDHRTG-VTIMTLSRGY 168
+                                    ****9999999999999999999999999887999**************.**************99998.********** PP
+
+                                    S-HHHH.TTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHHSHH......TTS-HHHHHHHHHHT-S CS
+                        Pkinase 164 mAPEvl.kskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqlelkelklkspelsslseeakdllkkllkk 242
+                                       E++ +++ y++++  +s G+++  + +++++    ++++k  +e ++     +++ + e ++++ +++++  + +k 
+  emit_Pkinase_Pkinase-sample32 169 YGGELIaQDHCYSRHSAPFSFGCTMGDVQCETNVNDPANGSSKLDAERKK-----TDKGFYESTDVEYNITQVAVRGWKD 243
+                                    ******888889**********************9988888866655555.....89999******************** PP
+
+                                    SGCCSTTHHHHHTSG CS
+                        Pkinase 243 dpkkRltaeellqhp 257
+                                    + ++R++a+ ++q+p
+  emit_Pkinase_Pkinase-sample32 244 EVEDRISAQAMMQEP 258
+                                    ************987 PP
+
+>> emit_Pkinase_Pkinase-sample29  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   85.0   0.4   1.3e-26   8.4e-25       5     258 ..       5     261 ..       2     262 .] 0.83
+
+  Alignments for each domain:
+  == domain 1  score: 85.0 bits;  conditional E-value: 1.3e-26
+                                    EEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHH.HHHHHHHHHHHHHSSTTB--EEEEEEE.SSEEEEEEE--TT CS
+                        Pkinase   5 eklGeGsfgkVykaveketgkivAvKkikkekakkkke.kkvlrEikilkklkhpnivrlidvfee.kdelylvleyveg 82 
+                                    +++GeG+f++Vy+  +++ ++i+ +K++  e+a+kk++  + +   ki + +    i +++++f   ++ ++lvle+++g
+  emit_Pkinase_Pkinase-sample29   5 QTIGEGAFSTVYQKLNRSAQHIIGMKRLILEHASKKNKkMDSTYDSKIYRVILAHRITEIFKYFAYqQQAMTLVLEICRG 84 
+                                    78****************************999998887889999********999**99988876377888******** PP
+
+                                    EBHHHHHHHHSS.--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEE.TTTE..EEE-SGTTSEECCSSCSBCTCC CS
+                        Pkinase  83 gelfdllsrkga.lseeeakkilkqilegleylHskgivHrDlKpeNiLld.ekge..lKitDFGlakelessskltsfv 158
+                                    + lf ll++ ++  ++ ++ +i+kq+ eg  +   + +v+   K++Ni++d ++ e  l   D+  a+ ++ ++ + + +
+  emit_Pkinase_Pkinase-sample29  85 DLLFALLKNTKNaQPNYRLANITKQVSEGRWFYLTHMVVFVVAKKKNIFFDpKSCErqLTAKDYFAATLVNMQNAKVDDC 164
+                                    ********55552777899**********99999*****************54333569999************9***** PP
+
+                                    SCGGGS-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHH..SHH......TTS-HHHHHHH CS
+                        Pkinase 159 gtseYmAPEvlkskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqlelk..elklkspelsslseeakdll 236
+                                    g +eY APE l++++y +    Ws+G    + ++++  f +++ +++++    ++ +k  +++ + ++ s+++ + + l 
+  emit_Pkinase_Pkinase-sample29 165 GAKEYEAPETLRNTNYLE---NWSVGSFAEKSVAQQGDFTDQNPTQSIWL--AEVPAKqyKSTHSPDQHSQINATGIVLF 239
+                                    ***********9999965...5******************7777665444..4433333456677777778877766655 PP
+
+                                    HHHT-SSGCCSTTHHHHHTSGG CS
+                        Pkinase 237 kkllkkdpkkRltaeellqhpw 258
+                                     + l ++ + R+ ++el   +w
+  emit_Pkinase_Pkinase-sample29 240 LESLLEERRFRIAVSELAYREW 261
+                                    5555556677888888777776 PP
+
+>> emit_Pkinase_Pkinase-sample10  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   83.8   0.1   2.8e-26   1.8e-24       5     223 ..       5     228 ..       2     246 .. 0.88
+
+  Alignments for each domain:
+  == domain 1  score: 83.8 bits;  conditional E-value: 2.8e-26
+                                    EEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE--TTEB CS
+                        Pkinase   5 eklGeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklkhpnivrlidvfeekdelylvleyvegge 84 
+                                    + lG+G f kV k +  +++ +vA+K++k+++a++     ++  ++  + l+h  +v l++ f++ +++ l+ +yv++g+
+  emit_Pkinase_Pkinase-sample10   5 SMLGDGLFRKVDKTC--RDKVQVALKHLKTDNAQQAF---YRLGLAKSNDLNHILVVDLKRLFSNYHKMGLLAQYVRKGN 79 
+                                    679********9999..6999**********999866...578899999999**************************** PP
+
+                                    HHHHHHHHSS--HHHHHHHHHHHHHHHHHHHHTT.EE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCS...BCTCCSC CS
+                        Pkinase  85 lfdllsrkgalseeeakkilkqilegleylHskg.ivHrDlKpeNiLldekgelKitDFGlakelesssk...ltsfvgt 160
+                                    ++ ++    +l+   +k +++++  g++y++s g ++HrDlK +N+L  + +  K++D    + +e++ +    +++ gt
+  emit_Pkinase_Pkinase-sample10  80 MEARYPMTFVLDRGALKLLIAHVTMGIKYCYSYGfFIHRDLKISNLLAPTPDRSKVIDMLALQIVEKGVElagRRKYLGT 159
+                                    ******999***********************9978*************9999*****9888888888889999****** PP
+
+                                    GGGS-HHHH....TTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHH..SHH.... CS
+                        Pkinase 161 seYmAPEvl....kskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqlelk..elklksp 223
+                                    + ++ PE++    k +k+ k++D + l+v++ +l++++   s+ k+++  e +++++++   +++++++
+  emit_Pkinase_Pkinase-sample10 160 KFWRVPEIIredaKPSKMPKSADAFRLAVMVCTLINNDAEASHVKSTKMLEGITTEIVFSslTKEENTE 228
+                                    *********77655588899**********************999999999998887644343333333 PP
+
+>> emit_Pkinase_Pkinase-sample19  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   82.1   0.2     9e-26     6e-24       3     258 ..       3     258 ..       1     258 [. 0.85
+
+  Alignments for each domain:
+  == domain 1  score: 82.1 bits;  conditional E-value: 9e-26
+                                    EEEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE--TT CS
+                        Pkinase   3 vleklGeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklkhpnivrlidvfeekdelylvleyveg 82 
+                                    +++++G Gs g+V+++ + ++++ vAvK  + +  +  +   +l E ++l k + p  v+++++ + ++  ++  ey+++
+  emit_Pkinase_Pkinase-sample19   3 NIDEVGGGSHGVVFSVANVDESRRVAVKYNNLSYSSFAR--LILLETTVLPKADEPDTVEVYQAGSIQQLCHIQREYANN 80 
+                                    6789*************************9999777655..6************************************** PP
+
+                                    EBHHHHHH..HHSS--HH.HHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCS.BCTCC CS
+                        Pkinase  83 gelfdlls..rkgalsee.eakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelesssk.ltsfv 158
+                                     ++++  +  +k++l+ +   +k+l+q l +l+ + +    H+D+K++  ++++++ ++i DFG a ++ +++   +++ 
+  emit_Pkinase_Pkinase-sample19  81 HTMKEPRTpeHKTSLDVTnPSEKLLSQALVALDVMTDLWSAHMDVKSSETICERENGIRIEDFGQAIKVVEKKFyIKTRK 160
+                                    *9999888544444544326679******************************9999************9999889**** PP
+
+                                    SCGGGS-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHH.HHSHH......TTS-HHHHHHHH CS
+                        Pkinase 159 gtseYmAPEvlkskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqle.lkelklkspelsslseeakdllk 237
+                                    gt +  AP v++++k ++ vDvWs+  +      +++++++ ++++++ ++ +q   ++ +++    ++  +++   l++
+  emit_Pkinase_Pkinase-sample19 161 GTNDQYAPPVIERQKKSRYVDVWSCNTVRCR---NNSIYEEVNKNDTKVNQREQRRvVNSKSKRLVVKEPAEPSSYMLIR 237
+                                    ************************9988654...5778887777776666666633333444445555555777888*** PP
+
+                                    HHT-SSGCCSTTHHHHHTSGG CS
+                        Pkinase 238 kllkkdpkkRltaeellqhpw 258
+                                    ++l+   + Rl a e++  +w
+  emit_Pkinase_Pkinase-sample19 238 EVLAAALTGRLVAGEIVTREW 258
+                                    **************9999888 PP
+
+>> emit_Pkinase_Pkinase-sample24  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   79.3   0.1   6.8e-25   4.5e-23       6     256 ..       4     292 ..       1     294 [. 0.88
+
+  Alignments for each domain:
+  == domain 1  score: 79.3 bits;  conditional E-value: 6.8e-25
+                                    EEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHH..HHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE--TTE CS
+                        Pkinase   6 klGeGsfgkVykaveketgkivAvKkikkekakkkke..kkvlrEikilkklkhpnivrlidvfeekdelylvleyvegg 83 
+                                     +G+G+ +++ +++++ +g+  A   ++ ++++++ +   ++++ i i+k l+  +i + ++v e +++  ++++y+ ++
+  emit_Pkinase_Pkinase-sample24   4 AIGSGTPSNITQIMQSLKGRDCAYGPLDAKDKNNEIQaaISLTMGIVIMKMLSYTYITKQFKVHEGERYSGILVQYLAQT 83 
+                                    69**************************999999888788899**********************999999999998877 PP
+
+                                    B.HHHHHHHHSS--HHHHH...HHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTE.......EEE-SGTTSEECCSSC CS
+                        Pkinase  84 e.lfdllsrkgalseeeak...kilkqilegleylHskgivHrDlKpeNiLldekge.......lKitDFGlakelesss 152
+                                    + l  ++ +++ ++e+ +    ++lk+il g+e+lH+++  H+D Kp+N Lld+ ++       +K++ +  a  +++ss
+  emit_Pkinase_Pkinase-sample24  84 HgLVAYVAKQSDIPETLLTsgvDYLKKILLGVEFLHKRESYHKDSKPKNPLLDNMEQfvngptiVKMIIYSAAPLFKKSS 163
+                                    769999999999***95543349******************************777779999****************** PP
+
+                                    SBCTCCSCGGGS-HHHHTTSTC.SHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHH..........SHH.. CS
+                        Pkinase 153 kltsfvgtseYmAPEvlkskky.gkkvDvWslGvilyelltgkppfsaekekekvekeldqlelk..........elklk 221
+                                    + t  v   + mAPE+++++ + + + Dv s G +l   l+g+ +fs+  +k ++++ ++               +++  
+  emit_Pkinase_Pkinase-sample24 164 RITMEVSAVKHMAPELVDNEWFfDVEEDVMSQGAVLKRKLAGNVMFSDGLHKADHKRVTRVRY-IygcmlsffgaKEEIR 242
+                                    *****************888777************************7777666665555522.1234467777766666 PP
+
+                                    ....TTS...............-HHHHHHHHHHT-SSGCCSTTHHHHHTS CS
+                        Pkinase 222 spelssl...............seeakdllkkllkkdpkkRltaeellqh 256
+                                     + l+sl                +++ ++++   +   + Rlta++l qh
+  emit_Pkinase_Pkinase-sample24 243 AEVLKSLpkggyiahtsgptqpHSTMVEFIQPFAEAPNQLRLTAQKLNQH 292
+                                    66677779999999999999999************************999 PP
+
+>> emit_Pkinase_Pkinase-sample3  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   78.7   0.0     1e-24   6.7e-23       1     259 []       1     248 []       1     248 [] 0.88
+
+  Alignments for each domain:
+  == domain 1  score: 78.7 bits;  conditional E-value: 1e-24
+                                   EEEEEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHH.HHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE-- CS
+                       Pkinase   1 yevleklGeGsfgkVykaveketgkivAvKkikkekakkkke.kkvlrEikilkklkhpnivrlidvfeekdelylvleyv 80 
+                                   y+ ++++G+G +g++y++ + ++g+++AvK++ + ++ +k+    + + +k l+ + h+  v++ +  +e++  + v e++
+  emit_Pkinase_Pkinase-sample3   1 YQDEDEVGQGLSGTIYRCQSGKQGRTYAVKMLIQCNEWTKTLmGPIPNDLKRLEGVFHSLMVEITEQAREEKPWIQVYEMM 81 
+                                   78899**************************99998887777799************************************ PP
+
+                                   TTEBHHHHHHHHSS--HHHHHHHHHHHHHHHHHHHHTTEE-..SS-SGGGEEEETTTEEEE-SGTTSEECCSSCSBCTCC. CS
+                       Pkinase  81 eggelfdllsrkgalseeeakkilkqilegleylHskgivH..rDlKpeNiLldekgelKitDFGlakelessskltsfv. 158
+                                    +++ +++ s   + ++ + k++++++ +++ ++H   +vH  rD K +N+ + ek+ +K++DFG+a+   +++  +s++ 
+  emit_Pkinase_Pkinase-sample3  82 GKRDAETAGS--LTRDHMRYKEFVAELTSAVYFIHVGDMVHgaRDFKGKNLGIAEKKYVKVCDFGVASVAPQGN-PESRCg 159
+                                   *886665554..455667888********************99***************************9999.666662 PP
+
+                                   .SCGGGS-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHHSHH......TTS-HHHHHHHHH CS
+                       Pkinase 159 .gtseYmAPEvlkskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqlelkelklkspelsslseeakdllkk 238
+                                    g   Y  P ++++  + + +   +lG +   l   k p++          ++ ql + +++++++ +++ +++a +l++ 
+  emit_Pkinase_Pkinase-sample3 160 rGADSYTTPKMMQKLLHAQYTQSAALGTVAGLL---KAPWE----------ITLQLSFFDMDENTNFKTQAKQNALSLVEV 227
+                                   26899*******887777777777999988777...89999..........33343333457789999999********** PP
+
+                                   HT-SSGCCSTTHHHHHTSGGG CS
+                       Pkinase 239 llkkdpkkRltaeellqhpwl 259
+                                   + +   ++R  a+ +l+++w+
+  emit_Pkinase_Pkinase-sample3 228 VTHSALSDRHEAQRALDSNWF 248
+                                   ********************8 PP
+
+>> emit_Pkinase_Pkinase-sample17  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   70.8   1.4   2.6e-22   1.7e-20       2     258 ..       2     278 ..       1     279 [] 0.79
+
+  Alignments for each domain:
+  == domain 1  score: 70.8 bits;  conditional E-value: 2.6e-22
+                                    EEEEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHH.HHHHHHSSTTB--EEEEEEE.........SS CS
+                        Pkinase   2 evleklGeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEi.kilkklkhpnivrlidvfee.........kd 71 
+                                    +++++lG G+f+   k  +++ ++i+A+K+ +k ++++k ++++l+ i k++k l+ + i+  +               +
+  emit_Pkinase_Pkinase-sample17   2 QRERQLGYGGFALLRKTQQSAVNEIFAIKQSQKYSEDQKVQNEALQAIkKVFKGLREDAIIGKKLGNDAaiettpssvRK 81 
+                                    6789******************************9999999666666626899999999997653333344568888889 PP
+
+                                    EEEEEEE--TTEBHHHHHH..HHSS--HHHHH.HHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTE..EEE-SGTTSE CS
+                        Pkinase  72 elylvleyveggelfdlls..rkgalseeeak.kilkqilegleylHskgivHrDlKpeNiLldekge..lKitDFGlak 146
+                                     +++ +eyv+++ +++++   +k + + +e++   + ++l +l y+H  +++   lK +Ni  +++ +  +K+t FG ++
+  emit_Pkinase_Pkinase-sample17  82 AVIVSMEYVRESAVQTAVLrtNKRSSKCKEIQqATIDELLPALIYVHTGRVI--NLKGHNIVSSNRAQnsIKLTEFGESR 159
+                                    9999******999777665453334444555527899**************9..6*********766668*********9 PP
+
+                                    ECCSSCSBCTCCSC..GGGS-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-ST.TTSSCHHHHHHHHHTHHHH....... CS
+                        Pkinase 147 elessskltsfvgt..seYmAPEvlkskkygkkvDvWslGvilyelltgkppf.saekekekvekeldqlelk....... 216
+                                      ++    ++++ +  ++  APE+++++ y ++ D+W+ G i +e    ++ f  +++ + + ++ + +   +       
+  emit_Pkinase_Pkinase-sample17 160 MAHDLCAERKVIRSiiHQNEAPEIIQYSAYVHEYDMWAPGSISLETGYLSTEFfDGKRAELICRSPVCN---Qiggdrtv 236
+                                    99987764444444115668**********************999866555550544444444444433...23455678 PP
+
+                                    SHH......TTS-HHHHHHHHHHT-SSGCCSTTHHHHHTSGG CS
+                        Pkinase 217 elklkspelsslseeakdllkkllkkdpkkRltaeellqhpw 258
+                                     +++k ++ ++ +++ k+l +k ++  +++Rl++    ++pw
+  emit_Pkinase_Pkinase-sample17 237 AMQFKCEQIQHNDSKHKQLSHKEMHTLQRHRLNVPTFQDDPW 278
+                                    889999999999*********************999999998 PP
+
+>> emit_Pkinase_Pkinase-sample20  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   68.5   0.0   1.3e-21   8.8e-20       3     259 .]       3     267 .]       1     267 [] 0.86
+
+  Alignments for each domain:
+  == domain 1  score: 68.5 bits;  conditional E-value: 1.3e-21
+                                    EEEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE--TT CS
+                        Pkinase   3 vleklGeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklkhpnivrlidvfeekdelylvleyveg 82 
+                                    +l  +G+G+ + Vy + +k  g+++  K++++ k+ ++++ ++ r  k+ + + h++i +l++ f+  + +y+v    + 
+  emit_Pkinase_Pkinase-sample20   3 TLPLIGHGAQADVYVCESKLHGDEIFQKTLRQVKILNETQ-DTPRGSKMKAYVMHQKITNLYEDFNLVSWIYFVSKTQPR 81 
+                                    5678********************************9885.99************************************* PP
+
+                                    EBHHHHHH.....HHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTE...EEE-SGTTSEECCSSCSB CS
+                        Pkinase  83 gelfdlls.....rkgalseeeakkilkqilegleylHskgivHrDlKpeNiLldekge...lKitDFGlakelessskl 154
+                                    g l ++++     +   + e ++ ++ +q+++++e +H k+i  r +K++ +L +++ge   l+++DF  a e  +s ++
+  emit_Pkinase_Pkinase-sample20  82 GRLITWYRldnadNAPYVREFKIAQLQYQLIQSMELVHYKKIDKRSIKDNLVLRQRNGEsdtLQVVDFRPADEPVDSPHF 161
+                                    ******999998544559******************************97777778777899****************** PP
+
+                                    CTCCSCG...GGS-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHHSHH......TTS-HH CS
+                        Pkinase 155 tsfvgts...eYmAPEvlkskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqlelkelklkspelsslsee 231
+                                    +++vgt       A E +++k   + vD++s++ ++  ++  + pf++  +    e+++d+  l ++k++ +       +
+  emit_Pkinase_Pkinase-sample20 162 MEIVGTAinlGLAADECIDAKAARSFVDYFSYASLVTFVVVSRAPFHEIASFA--ENKMDRGPLANVKETGNASGVSITK 239
+                                    *****96333689**********************************444433..3333332234545555555555567 PP
+
+                                    HHHHHHHHT-SSGCCSTTHHHHHTSGGG CS
+                        Pkinase 232 akdllkkllkkdpkkRltaeellqhpwl 259
+                                    + + ++ ++k+d  +R  + ++++ +wl
+  emit_Pkinase_Pkinase-sample20 240 VVKQVRAIMKVDFAERTRIFQAIKLDWL 267
+                                    77778999999*****999999999986 PP
+
+>> emit_Pkinase_Pkinase-sample25  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   66.3   2.7   6.2e-21   4.1e-19       8     249 ..       6     271 ..       3     283 .] 0.86
+
+  Alignments for each domain:
+  == domain 1  score: 66.3 bits;  conditional E-value: 6.2e-21
+                                    EEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE--TTEBHHH CS
+                        Pkinase   8 GeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklkhpnivrlidvfeekdelylvleyveggelfd 87 
+                                    G+G+ +   ++ + +  +++ +K+ +k +++   + +  + +++ ++ ++++iv +++ f ++ e+y+++++ + g+l +
+  emit_Pkinase_Pkinase-sample25   6 GNGQNSLACNCADIH-IQKFTCKTSRKLSKNRVGD-TSDESLEVNQTKDSRQIVLVFQNFIDQYEVYVITQVRSVGNLRT 83 
+                                    889999999999655.5667889988888777765.4444566666666****************************999 PP
+
+                                    HHH.......HHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCS....... CS
+                        Pkinase  88 lls.......rkgalseeeakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelesssk....... 153
+                                    l         +  +++e+e ++  k+i +g +y Hs ++     K +N++   + ++K++DF  a++l  +++       
+  emit_Pkinase_Pkinase-sample25  84 LTGpeqargaNTVVFHEKEGSETSKTINRGTHYFHSVNVTGVKTKASNVMTR-QVHMKMIDFSAARKLYVQNQdpedlse 162
+                                    99899999976777**************************************.9*************9998888999999 PP
+
+                                    ........BCTCCSCGGGS....-HHHHTTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHH.HHSHH. CS
+                        Pkinase 154 ........ltsfvgtseYm....APEvlkskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqle.lkelkl 220
+                                            ++  +   eY+    +P v +++++ +++Dv+s+  +l+ +l ++++++a+k++++++   d+   l + k 
+  emit_Pkinase_Pkinase-sample25 163 qfenpnglVDRKTLNCEYLqegpSPGVWRESMFNSHIDVYSVTNMLIGILVKQTVLRAKKHENTYNTAGDNQAiLYHIKT 242
+                                    9998888866666777776555567888***********************************9999999955444899* PP
+
+                                    .....TTS-HHHHHHHHHHT-SSGCCSTT CS
+                        Pkinase 221 kspelsslseeakdllkkllkkdpkkRlt 249
+                                    ++++ s+  ++a+ l++kll+ + ++R  
+  emit_Pkinase_Pkinase-sample25 243 HVERTSNARKKAITLIEKLLRAEGEQRTP 271
+                                    **************************964 PP
+
+>> emit_Pkinase_Pkinase-sample36  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   58.5   0.0   1.5e-18     1e-16       6     259 .]       6     326 .]       3     326 .] 0.83
+
+  Alignments for each domain:
+  == domain 1  score: 58.5 bits;  conditional E-value: 1.5e-18
+                                    EEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHH.HHHHHHHHHHHHHSSTTB--EEEEEEESSEEEEEEE--TTEB CS
+                        Pkinase   6 klGeGsfgkVykaveketgkivAvKkikkekakkkke.kkvlrEikilkklkhpnivrlidvfeekdelylvleyvegge 84 
+                                     +G G+f +V+k++  +  + +A  +++   ++++++  +  +E ++ + ++ + i++l+  ++++++ ++ +e  e++ 
+  emit_Pkinase_Pkinase-sample36   6 PIGPGQFRRVIKCM--KVFNYFAACTVEALPEDEWEDvIQDNEEASVGRVVRPNVIIQLLTHINKSKRQTVTMERRENKG 83 
+                                    69************..566777777888877777777688899999999999**********************998876 PP
+
+                                    .HHHHHHHHSS--HHHHHHHHHHHHHHHHHHHHTTEE-SS-SGGGEEEETTTEEEE-SGTTSEECCSSCS.BCTCCSCGG CS
+                        Pkinase  85 .lfdllsrkgalseeeakkilkqilegleylHskgivHrDlKpeNiLldekgelKitDFGlakelesssk.ltsfvgtse 162
+                                      f  +  ++ +++ +  +i  q+l +l ylH+ +  + DlK eN+ +  ++  K+t  G ak  ++     +++ gts+
+  emit_Pkinase_Pkinase-sample36  84 vSFANVDGEMLIKPPDRGEIGMQLL-ALCYLHHLKGSYADLKWENLEFWVEELHKLTVHGGAKYDTNADApDKTMQGTSN 162
+                                    35566668899*********99976.9*******************9998999*********98777766699******* PP
+
+                                    GS-HHHH..........TTSTCSHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHHHH...........SHH.. CS
+                        Pkinase 163 YmAPEvl..........kskkygkkvDvWslGvilyelltgkppfsaekekekvekeldqlelk...........elklk 221
+                                    + A E              ++y+ ++ +WslG+i + l+ gk+p+ + + + + +++  +   +           e+++ 
+  emit_Pkinase_Pkinase-sample36 163 FGADEEDfagahdavkpVPSPYKCAIELWSLGIIPFYLFVGKTPYDDIEMRRTDNQNGPHAA-RpiclysreaphETRK- 240
+                                    ***997666665544444499*************************7766665555544422.2344444555542222. PP
+
+                                    ....TTS......................................................-HHHHHHHHHHT-SSGCCS CS
+                        Pkinase 222 spelssl......................................................seeakdllkkllkkdpkkR 247
+                                                                                                    a dl  +l+k +p  R
+  emit_Pkinase_Pkinase-sample36 241 ------AqqaakkltslgsehtskgtifeddpstedegftcpmeqftalqetptsvpvslpAVRAFDLYFDLVKTEPAYR 314
+                                    ......13344556888*****************************************99999999************** PP
+
+                                    TTHHHHHTSGGG CS
+                        Pkinase 248 ltaeellqhpwl 259
+                                    +++e++++h+ +
+  emit_Pkinase_Pkinase-sample36 315 PSIENIIRHQIF 326
+                                    ********9876 PP
+
+>> emit_Pkinase_Pkinase-sample6  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !   57.6   0.4   2.8e-18   1.9e-16       4     249 ..       4     271 ..       1     276 [. 0.77
+
+  Alignments for each domain:
+  == domain 1  score: 57.6 bits;  conditional E-value: 2.8e-18
+                                   EEEEEEESSEEEEEEEETTTTEEEEEEEEEHHCCCHHHHHHHHHHHHHHHHHS.STTB...--EEEEEEESSEEEEEEE-- CS
+                       Pkinase   4 leklGeGsfgkVykaveketgkivAvKkikkekakkkkekkvlrEikilkklk.hpni...vrlidvfeekdelylvleyv 80 
+                                   l+ +G+G+f+ +++a  +et+      ++k  k+k+++++ +l E + l  lk h+ni   v l+++++e   + +v    
+  emit_Pkinase_Pkinase-sample6   4 LKAIGKGNFAICKEAAVRETNAALGYMELKDVKEKSQMQSLMLGEENTLLFLKvHQNIgeaVALVSSISEAVVFAIVRSNT 84 
+                                   689********************************99999******************44455555555555566666666 PP
+
+                                   TTEBHHHHHHHHSS--HHHHHHHHHHHHHHHH.........H.HHHTTEE-SS-SGGGEEEETTTE...EEE-SGTTSEEC CS
+                       Pkinase  81 eggelfdllsrkgalseeeakkilkqilegle.........y.lHskgivHrDlKpeNiLldekge...lKitDFGlakel 148
+                                   e+    d+l+ +++++  +++  +++i +g++         y l   givH+D+K   +L++ +     +K+tDF  a  +
+  emit_Pkinase_Pkinase-sample6  85 ENVWTGDRLTSQSTIKAGQLELDIERINHGIQspqfrvgtnYaLRLLGIVHKDIKER-VLVQGNIAgkkIKLTDFVSAISF 164
+                                   666688888888889988888888888777752222222223245677*******77.77773322457************ PP
+
+                                   CSSCSBCTCCSCGGGS-HHHHTTSTC.SHHHHHHHHHHHHHHHHHSS-STTTSSCHHHHHHHHHTHH.HH..SHH...... CS
+                       Pkinase 149 essskltsfvgtseYmAPEvlkskky.gkkvDvWslGvilyelltgkppfsaekekekvekeldqle.lk..elklkspel 225
+                                   +  +++ s+++t +  APE+  + ++ +++   WslG+ l+  ++ k  ++a + ++ ++ e +    ++    + +++e 
+  emit_Pkinase_Pkinase-sample6 165 SGAQEKYSYTVTCYVYAPELTANLEFiSEEDTAWSLGISLLICYSPKGTYKALNVQNGNQVEDQGGDtATsnRFDDTFREG 245
+                                   *********************998885777779*****************9877776433333332232245556666666 PP
+
+                                   TTS..-HHHHHHHHHHT-SSGCCSTT CS
+                       Pkinase 226 ssl..seeakdllkkllkkdpkkRlt 249
+                                   +++   ++  +++++ll++d ++R+ 
+  emit_Pkinase_Pkinase-sample6 246 KQIhsYRQSVEIVRDLLHQDCENRIK 271
+                                   666546678899***********985 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (259 nodes)
+Target sequences:                       2735  (767780 residues searched)
+Passed MSV filter:                        91  (0.0332724); expected 54.7 (0.02)
+Passed bias filter:                       84  (0.030713); expected 54.7 (0.02)
+Passed Vit filter:                        42  (0.0153565); expected 2.7 (0.001)
+Passed Fwd filter:                        41  (0.0149909); expected 0.0 (1e-05)
+Initial search space (Z):               2735  [actual number of targets]
+Domain search space  (domZ):              41  [number of targets reported over threshold]
+# CPU time: [normalized]
+# Mc/sec: [normalized]
+//
+# Alignment of 41 hits satisfying inclusion thresholds saved to: ali.sto
+[ok]

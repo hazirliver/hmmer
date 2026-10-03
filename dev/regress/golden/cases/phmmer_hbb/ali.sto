@@ -1,0 +1,204 @@
+# STOCKHOLM 1.0
+#=GF ID HBB_HUMAN
+#=GF DE Human beta hemoglobin.
+#=GF AU phmmer (HMMER 3.4)
+
+#=GS HBB_HUMAN/1-146                        DE [subseq from] Human beta hemoglobin.
+#=GS HBB_CALAR/1-146                        DE [subseq from] HBB_CALAR
+#=GS HBB_MANSP/1-146                        DE [subseq from] HBB_MANSP
+#=GS HBB_URSMA/1-146                        DE [subseq from] HBB_URSMA
+#=GS HBB_RABIT/1-146                        DE [subseq from] HBB_RABIT
+#=GS HBB_SUNMU/1-146                        DE [subseq from] HBB_SUNMU
+#=GS HBB_EQUHE/1-146                        DE [subseq from] HBB_EQUHE
+#=GS HBB_TRIIN/1-146                        DE [subseq from] HBB_TRIIN
+#=GS HBB_TUPGL/1-146                        DE [subseq from] HBB_TUPGL
+#=GS HBB_SPETO/1-146                        DE [subseq from] HBB_SPETO
+#=GS HBB_SPECI/1-146                        DE [subseq from] HBB_SPECI
+#=GS HBE_PONPY/1-146                        DE [subseq from] HBE_PONPY
+#=GS HBB_TACAC/1-146                        DE [subseq from] HBB_TACAC
+#=GS HBB_ORNAN/1-146                        DE [subseq from] HBB_ORNAN
+#=GS HBB_COLLI/1-146                        DE [subseq from] HBB_COLLI
+#=GS HBB_LARRI/1-146                        DE [subseq from] HBB_LARRI
+#=GS HBB1_VAREX/1-146                       DE [subseq from] HBB1_VAREX
+#=GS HBBL_RANCA/1-146                       DE [subseq from] HBBL_RANCA
+#=GS HBB2_XENTR/1-145                       DE [subseq from] HBB2_XENTR
+#=GS HBB2_TRICR/1-145                       DE [subseq from] HBB2_TRICR
+#=GS HBA_MESAU/3-140                        DE [subseq from] HBA_MESAU
+#=GS HBA_AILME/2-140                        DE [subseq from] HBA_AILME
+#=GS HBA4_SALIR/2-141                       DE [subseq from] HBA4_SALIR
+#=GS HBA_PONPY/2-140                        DE [subseq from] HBA_PONPY
+#=GS HBA_PROLO/2-140                        DE [subseq from] HBA_PROLO
+#=GS HBA_MACFA/2-140                        DE [subseq from] HBA_MACFA
+#=GS HBAD_CHLME/2-140                       DE [subseq from] HBAD_CHLME
+#=GS HBA2_BOSMU/4-140                       DE [subseq from] HBA2_BOSMU
+#=GS HBA2_GALCR/2-140                       DE [subseq from] HBA2_GALCR
+#=GS HBAD_PASMO/2-140                       DE [subseq from] HBAD_PASMO
+#=GS HBA_COLLI/3-140                        DE [subseq from] HBA_COLLI
+#=GS HBA_MACSI/2-140                        DE [subseq from] HBA_MACSI
+#=GS HBA_FRAPO/4-140                        DE [subseq from] HBA_FRAPO
+#=GS HBA_ERIEU/4-140                        DE [subseq from] HBA_ERIEU
+#=GS HBAZ_HORSE/2-140                       DE [subseq from] HBAZ_HORSE
+#=GS HBA_TRIOC/7-140                        DE [subseq from] HBA_TRIOC
+#=GS HBA_PHACO/6-140                        DE [subseq from] HBA_PHACO
+#=GS HBA_PAGLA/3-140                        DE [subseq from] HBA_PAGLA
+#=GS HBA_ANSSE/4-140                        DE [subseq from] HBA_ANSSE
+#=GS MYG_LYCPI/8-146                        DE [subseq from] MYG_LYCPI
+#=GS MYG_SAISC/8-146                        DE [subseq from] MYG_SAISC
+#=GS MYG_PROGU/8-146                        DE [subseq from] MYG_PROGU
+#=GS emit_globins4_globins4-sample37/29-156 DE [subseq from] emit_globins4_globins4-sample37
+#=GS MYG_MOUSE/8-146                        DE [subseq from] MYG_MOUSE
+#=GS emit_globins4_globins4-sample16/13-147 DE [subseq from] emit_globins4_globins4-sample16
+#=GS MYG_HORSE/8-146                        DE [subseq from] MYG_HORSE
+#=GS MYG_ESCGI/6-146                        DE [subseq from] MYG_ESCGI
+#=GS emit_globins4_globins4-sample36/1-139  DE [subseq from] emit_globins4_globins4-sample36
+#=GS emit_globins4_globins4-sample26/23-151 DE [subseq from] emit_globins4_globins4-sample26
+#=GS emit_globins4_globins4-sample18/7-138  DE [subseq from] emit_globins4_globins4-sample18
+#=GS emit_globins4_globins4-sample11/18-146 DE [subseq from] emit_globins4_globins4-sample11
+#=GS emit_globins4_globins4-sample13/3-152  DE [subseq from] emit_globins4_globins4-sample13
+#=GS emit_globins4_globins4-sample15/43-147 DE [subseq from] emit_globins4_globins4-sample15
+#=GS MYG_MUSAN/6-130                        DE [subseq from] MYG_MUSAN
+#=GS emit_globins4_globins4-sample1/32-125  DE [subseq from] emit_globins4_globins4-sample1
+#=GS emit_globins4_globins4-sample8/7-140   DE [subseq from] emit_globins4_globins4-sample8
+#=GS emit_globins4_globins4-sample19/7-137  DE [subseq from] emit_globins4_globins4-sample19
+#=GS emit_globins4_globins4-sample32/27-148 DE [subseq from] emit_globins4_globins4-sample32
+#=GS emit_globins4_globins4-sample7/41-129  DE [subseq from] emit_globins4_globins4-sample7
+#=GS emit_globins4_globins4-sample34/31-138 DE [subseq from] emit_globins4_globins4-sample34
+#=GS emit_globins4_globins4-sample21/11-128 DE [subseq from] emit_globins4_globins4-sample21
+#=GS emit_globins4_globins4-sample6/46-150  DE [subseq from] emit_globins4_globins4-sample6
+#=GS emit_globins4_globins4-sample4/25-126  DE [subseq from] emit_globins4_globins4-sample4
+#=GS emit_globins4_globins4-sample2/26-132  DE [subseq from] emit_globins4_globins4-sample2
+#=GS emit_globins4_globins4-sample25/24-74  DE [subseq from] emit_globins4_globins4-sample25
+
+HBB_HUMAN/1-146                                VHLTPEEKSAVTALWGKV..N..V..D..E..V..G..GEALGRLL.VVYPWT...Q.RFFESFGDLSTPDAVM.....GN.PKVKAH...GKK.VLGA.F...SDG....LAH.LD...N...L.KG.TFATL.SELHCD..KLHVDPENFRLLGNV.LVCV.LAHHFGKEF.TPPVQAAYQKVVAGVANALAHKYH
+#=GR HBB_HUMAN/1-146                        PP 8*****************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.***********************9
+HBB_CALAR/1-146                                VHLTGEEKSAVTALWGKV..N..V..D..E..V..G..GEALGRLL.VVYPWT...Q.RFFESFGDLSTPDAVM.....NN.PKVKAH...GKK.VLGA.F...SDG....LTH.LD...N...L.KG.TFAHL.SELHCD..KLHVDPENFRLLGNV.LVCV.LAHHFGKEF.TPVVQAAYQKVVAGVANALAHKYH
+#=GR HBB_CALAR/1-146                        PP 8*****************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.***********************9
+HBB_MANSP/1-146                                VHLTPEEKTAVTTLWGKV..N..V..D..E..V..G..GEALGRLL.VVYPWT...Q.RFFDSFGDLSSPDAVM.....GN.PKVKAH...GKK.VLGA.F...SDG....LNH.LD...N...L.KG.TFAQL.SELHCD..KLHVDPENFKLLGNV.LVCV.LAHHFGKEF.TPQVQAAYQKVVAGVANALAHKYH
+#=GR HBB_MANSP/1-146                        PP 8*****************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.***********************9
+HBB_URSMA/1-146                                VHLTGEEKSLVTGLWGKV..N..V..D..E..V..G..GEALGRLL.VVYPWT...Q.RFFDSFGDLSSADAIM.....NN.PKVKAH...GKK.VLNS.F...SDG....LKN.LD...N...L.KG.TFAKL.SELHCD..KLHVDPENFKLLGNV.LVCV.LAHHFGKEF.TPQVQAAYQKVVAGVANALAHKYH
+#=GR HBB_URSMA/1-146                        PP 8*****************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.***********************9
+HBB_RABIT/1-146                                VHLSSEEKSAVTALWGKV..N..V..E..E..V..G..GEALGRLL.VVYPWT...Q.RFFESFGDLSSANAVM.....NN.PKVKAH...GKK.VLAA.F...SEG....LSH.LD...N...L.KG.TFAKL.SELHCD..KLHVDPENFRLLGNV.LVIV.LSHHFGKEF.TPQVQAAYQKVVAGVANALAHKYH
+#=GR HBB_RABIT/1-146                        PP 8*****************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.***********************9
+HBB_SUNMU/1-146                                VHLSGEEKACVTGLWGKV..N..E..D..E..V..G..AEALGRLL.VVYPWT...Q.RFFDSFGDLSSASAVM.....GN.PKVKAH...GKK.VLHS.L...GEG....VAN.LD...N...L.KG.TFAKL.SELHCD..KLHVDPENFRLLGNV.LVVV.LASKFGKEF.TPPVQAAFQKVVAGVANALAHKYH
+#=GR HBB_SUNMU/1-146                        PP 8*****************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.***********************9
+HBB_EQUHE/1-146                                VQLSGEEKAAVLALWDKV..N..E..E..E..V..G..GEALGRLL.VVYPWT...Q.RFFDSFGDLSNPAAVM.....GN.PKVKAH...GKK.VLHS.F...GEG....VHH.LD...N...L.KG.TFAQL.SELHCD..KLHVDPENFRLLGNV.LVVV.LARHFGKDF.TPELQASYQKVVAGVANALAHKYH
+#=GR HBB_EQUHE/1-146                        PP 57899*************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.***********************9
+HBB_TRIIN/1-146                                VHLTPEEKALVIGLWAKV..N..V..K..E..Y..G..GEALGRLL.VVYPWT...Q.RFFEHFGDLSSASAIM.....NN.PKVKAH...GEK.VFTS.F...GDG....LKH.LE...D...L.KG.AFAEL.SELHCD..KLHVDPENFRLLGNV.LVCV.LARHFGKEF.SPEAQAAYQKVVAGVANALAHKYH
+#=GR HBB_TRIIN/1-146                        PP 8*****************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.***********************9
+HBB_TUPGL/1-146                                VHLSGEEKAAVTGLWGKV..D..L..E..K..V..G..GQSLGSLL.IVYPWT...Q.RFFDSFGDLSSPSAVM.....SN.PKVKAH...GKK.VLTS.F...SDG....LNH.LD...N...L.KG.TFAKL.SELHCD..KLHVDPENFRLLGNV.LVRV.LACNFGPEF.TPQVQAAFQKVVAGVANALAHKYH
+#=GR HBB_TUPGL/1-146                        PP 8*****************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.***********************9
+HBB_SPETO/1-146                                VHLTDGEKNAISTAWGKV..N..A..A..E..I..G..AEALGRLL.VVYPWT...Q.RFFDSFGDLSSASAVM.....GN.AKVKAH...GKK.VIDS.F...SNG....LKH.LD...N...L.KG.TFASL.SELHCD..KLHVDPENFKLLGNM.IVIV.MAHHLGKDF.TPEAQAAFQKVVAGVANALSHKYH
+#=GR HBB_SPETO/1-146                        PP 8*****************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.***********************9
+HBB_SPECI/1-146                                VHLSDGEKNAISTAWGKV..H..A..A..E..V..G..AEALGRLL.VVYPWT...Q.RFFDSFGDLSSASAVM.....GN.AKVKAH...GKK.VIDS.F...SNG....LKH.LD...N...L.KG.TFASL.SELHCD..KLHVDPENFKLLGNM.IVIV.MAHHLGKDF.TPEAQAAFQKVVAGVANALAHKYH
+#=GR HBB_SPECI/1-146                        PP 7*****************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.***********************9
+HBE_PONPY/1-146                                VHFTAEEKAAVTSLWSKM..N..V..E..E..A..G..GEALGRLL.VVYPWT...Q.RFFDSFGNLSSPSAIL.....GN.PKVKAH...GKK.VLTS.F...GDA....IKN.MD...N...L.KT.TFAKL.SELHCD..KLHVDPENFKLLGNV.MVII.LATHFGKEF.TPEVQAAWQKLVSAVAIALAHKYH
+#=GR HBE_PONPY/1-146                        PP 7*****************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.***********************9
+HBB_TACAC/1-146                                VHLSGSEKTAVTNLWGHV..N..V..N..E..L..G..GEALGRLL.VVYPWT...Q.RFFESFGDLSSADAVM.....GN.AKVKAH...GAK.VLTS.F...GDA....LKN.LD...N...L.KG.TFAKL.SELHCD..KLHVDPENFNRLGNV.LVVV.LARHFSKEF.TPEAQAAWQKLVSGVSHALAHKYH
+#=GR HBB_TACAC/1-146                        PP 7*****************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.***********************9
+HBB_ORNAN/1-146                                VHLSGGEKSAVTNLWGKV..N..I..N..E..L..G..GEALGRLL.VVYPWT...Q.RFFEAFGDLSSAGAVM.....GN.PKVKAH...GAK.VLTS.F...GDA....LKN.LD...D...L.KG.TFAKL.SELHCD..KLHVDPENFNRLGNV.LIVV.LARHFSKDF.SPEVQAAWQKLVSGVAHALGHKYH
+#=GR HBB_ORNAN/1-146                        PP 79****************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.***********************9
+HBB_COLLI/1-146                                VHWSAEEKQLITSIWGKV..N..V..A..D..C..G..AEALARLL.IVYPWT...Q.RFFSSFGNLSSATAIS.....GN.PNVKAH...GKK.VLTS.F...GDA....VKN.LD...N...I.KG.TFAQL.SELHCD..KLHVDPENFRLLGDI.LVII.LAAHFGKDF.TPECQAAWQKLVRVVAHALARKYH
+#=GR HBB_COLLI/1-146                        PP 7999**************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.***********************9
+HBB_LARRI/1-146                                VHWSAEEKQLITGLWGKV..N..V..A..D..C..G..AEALARLL.IVYPWT...Q.RFFASFGNLSSPTAIN.....GN.PMVRAH...GKK.VLTS.F...GEA....VKN.LD...N...I.KN.TFAQL.SELHCD..KLHVDPENFRLLGDI.LIIV.LAAHFAKDF.TPDSQAAWQKLVRVVAHALARKYH
+#=GR HBB_LARRI/1-146                        PP 7999**************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.***********************9
+HBB1_VAREX/1-146                               VHWTAEEKQLICSLWGKI..D..V..G..L..I..G..GETLAGLL.VIYPWT...Q.RQFSHFGNLSSPTAIA.....GN.PRVKAH...GKK.VLTS.F...GDA....IKN.LD...N...I.KD.TFAKL.SELHCD..KLHVDPTNFKLLGNV.LVIV.LADHHGKEF.TPAHHAAYQKLVNVVSHSLARRYH
+#=GR HBB1_VAREX/1-146                       PP 799***************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.***********************9
+HBBL_RANCA/1-146                               VHWTAEEKAVINSVWQKV..D..V..E..Q..D..G..HEALTRLF.IVYPWT...Q.RYFSTFGDLSSPAAIA.....GN.PKVHAH...GKK.ILGA.I...DNA....IHN.LD...D...V.KG.TLHDL.SEEHAN..ELHVDPENFRRLGEV.LIVV.LGAKLGKAF.SPQVQHVWEKFIAVLVDALSHSYH
+#=GR HBBL_RANCA/1-146                       PP 799***************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.***********************9
+HBB2_XENTR/1-145                               VHWTAEEKATIASVWGKV..D..I..E..Q..D..G..HDALSRLL.VVYPWT...Q.RYFSSFGNLSNVSAVS.....GN.VKVKAH...GNK.VLSA.V...GSA....IQH.LD...D...V.KS.HLKGL.SKSHAE..DLHVDPENFKRLADV.LVIV.LAAKLGSAF.TPQVQAVWEKLNATLVAALSHGY-
+#=GR HBB2_XENTR/1-145                       PP 799***************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.*********************98.
+HBB2_TRICR/1-145                               VHLTAEDRKEIAAILGKV..N..V..D..S..L..G..GQCLARLI.VVNPWS...R.RYFHDFGDLSSCDAIC.....RN.PKVLAH...GAK.VMRS.I...VEA....TKH.LD...N...L.RE.YYADL.SVTHSL..KFYVDPENFKLFSGI.VIVC.LALTLQTDF.SCHKQLAFEKLMKGVSHALGHGY-
+#=GR HBB2_TRICR/1-145                       PP 8*****************..*..*..*..*..*..*..********.******...*.****************.....**.******...***.****.*...***....***.**...*...*.**.*****.******..************999.8888.99*******.*********************87.
+HBA_MESAU/3-140                                ---SAKDKTNISEAWGKIggH..A..G..E..Y..G..AEALERMF.FVYPTT...K.TYFPHF------DVSH.....GS.AQVKGH...GKK.VADA.L...TNA....VGH.LD...D...L.PG.ALSAL.SDLHAH..KLRVDPVNFKLLSHC.LLVT.LANHHPADF.TPAVHASLDKFFASVSTVLTSKY-
+#=GR HBA_MESAU/3-140                        PP ...6789999*******9444..7..8..*..*..*..********.******...*.***999......4557.....99.9*****...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.********************999.
+HBA_AILME/2-140                                --LSPADKTNVKATWDKIggH..A..G..E..Y..G..GEALERTF.ASFPTT...K.TYFPHF-DLS-----P.....GS.AQVKAH...GKK.VADA.L...TTA....VGH.LD...D...L.PG.ALSAL.SDLHAH..KLRVDPVNFKLLSHC.LLVT.LASHHPAEF.TPAVHASLDKFFSAVSTVLTSKY-
+#=GR HBA_AILME/2-140                        PP ..789************9444..7..8..*..*..*..********.******...*.***999.777.....4.....88.89****...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.********************999.
+HBA4_SALIR/2-141                               --LSAKDKANVKAIWGKIlpK..S..D..E..I..G..EQALSRML.VVYPQT...K.AYFSHWASVA-----P.....GS.APVKKH...GIT.IMNQ.I...DDC....VGH.MD...D...L.FG.FLTKL.SELHAT..KLRVDPTNFKILAHN.LIVV.IAAYFPAEF.TPEIHLSVDKFLQQLALALAEKY-
+#=GR HBA4_SALIR/2-141                       PP ..5678999********9556..8..*..*..*..*..********.******...*.***9998764.....5.....88.89****...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.**********************9.
+HBA_PONPY/2-140                                --LSPADKTNVKTAWGKV..G..AhaG..D..Y..G..AEALERMF.LSFPTT...K.TYFPHF-DLS-----H.....GS.AQVKDH...GKK.VADA.L...TNA....VAH.VD...D...M.PN.ALSAL.SDLHAH..KLRVDPVNFKLLSHC.LLVT.LAAHLPAEF.TPAVHASLDKFLASVSTVLTSKY-
+#=GR HBA_PONPY/2-140                        PP ..7899***********9..7..5227..9..9..*..********.******...*.***999.676.....5.....88.99****...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.********************999.
+HBA_PROLO/2-140                                --LSPADKANIKATWDKIggH..A..G..E..Y..G..GEALERTF.ASFPTT...K.TYFPHF-DLS-----P.....GS.AQVKAH...GKK.VADA.L...TLA....VGH.LD...D...L.PG.ALSAL.SDLHAY..KLRVDPVNFKLLSHC.LLVT.LACHHPAEF.TPAVHASLDKFFTSVSTVLTSKY-
+#=GR HBA_PROLO/2-140                        PP ..789************9444..7..8..*..*..*..********.******...*.***999.777.....4.....88.89****...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.********************999.
+HBA_MACFA/2-140                                --LSPADKTNVKAAWGKVggH..A..G..E..Y..G..AEALERMF.LSFPTT...K.TYFPHF-DLS-----H.....GS.AQVKGH...GKK.VADA.L...TLA....VGH.VD...D...M.PQ.ALSAL.SDLHAH..KLRVDPVNFKLLSHC.LLVT.LAAHLPAEF.TPAVHASLDKFLASVSTVLTSKY-
+#=GR HBA_MACFA/2-140                        PP ..789************9444..7..8..*..*..*..********.******...*.***999.676.....5.....89.99****...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.********************999.
+HBAD_CHLME/2-140                               --LTADDKKLLTQLWEKVagH..Q..E..E..F..G..SEALQRMF.LTYPQT...K.TYFPHF-DL-----HP.....GS.EQVRGH...GKK.VAAA.L...GNA....VKS.LD...N...L.SQ.ALSEL.SNLHAY..NLRVDPANFKLLAQC.FQVV.LATHLGKDY.SPEMHAAFDKFLSAVAAVLAEKY-
+#=GR HBAD_CHLME/2-140                       PP ..7999***********9555..7..9..9..*..*..********.******...*.***999.55.....46.....99.9*****...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.**********************9.
+HBA2_BOSMU/4-140                               ----AADKGNVKAAWGKVggH..A..A..E..Y..G..AEALERMF.LSFPTT...K.TYFPHF-DLS-----H.....GS.AQVKGH...GAK.VAAA.L...TKA....VGH.LD...D...L.PG.ALSEL.SDLHAH..KLRVDPVNFKLLSHS.LLVT.LASHLPSDF.TPAVHASLDKFLANVSTVLTSKY-
+#=GR HBA2_BOSMU/4-140                       PP ....668999********444..7..8..9..*..*..********.******...*.***999.676.....5.....89.99****...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.********************999.
+HBA2_GALCR/2-140                               --LSPTDKSNVKAAWEKV..GahA..G..D..Y..G..AEALERMF.LSFPTT...K.TYFPHF-DLS-----H.....GS.TQVKGH...GKK.VADA.L...TNA....VLH.VD...D...M.PS.ALSAL.SDLHAH..KLRVDPVNFKLLRHC.LLVT.LACHHPAEF.TPAVHASLDKFMASVSTVLTSKY-
+#=GR HBA2_GALCR/2-140                       PP ..789************9..7225..7..9..9..*..********.******...*.***999.676.....6.....99.9*****...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.********************999.
+HBAD_PASMO/2-140                               --LTAEDKKLIQQIWGKL..GgaE..E..E..I..G..ADALWRMF.HSYPST...K.TYFPHF-DLS-----Q.....GS.DQIRGH...GKK.VVAA.L...SNA....IKN.LD...N...L.SQ.ALSEL.SNLHAY..NLRVDPVNFKFLSQC.LQVS.LATRLGKEY.SPEVHSAVDKFMSAVASVLAEKY-
+#=GR HBAD_PASMO/2-140                       PP ..899************9..7335..8..9..*..*..********.******...*.***999.666.....7.....99.9*****...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.**********************9.
+HBA_COLLI/3-140                                ---SANDKSNVKAVFAKI..GgqA..G..D..L..G..GEALERLF.ITYPQT...K.TYFPHF-DLS-----H.....GS.AQIKGH...GKK.VAEA.L...VEA....ANH.ID...D...I.AG.ALSKL.SDLHAQ..KLRVDPVNFKLLGHC.FLVV.VAVHFPSLL.TPEVHASLDKFVLAVGTVLTAKY-
+#=GR HBA_COLLI/3-140                        PP ...6678999******99..6336..7..9..*..*..********.******...*.***999.676.....5.....88.99****...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.*******************9999.
+HBA_MACSI/2-140                                --LSPADKTNVKDAWGKVggH..A..G..E..Y..G..AEALERMF.LSFPTT...K.TYFPHF-DLS-----H.....GS.AQVKGH...GKK.VADA.L...TLA....VGH.VD...D...M.PQ.ALSAL.SDLHAH..KLRVDPVNFKLLSHC.LLVT.LAAHLPAEF.TPAVHASLDKFLASVSTVLTSKY-
+#=GR HBA_MACSI/2-140                        PP ..7899***********9444..7..8..*..*..*..********.******...*.***999.676.....5.....89.99****...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.********************999.
+HBA_FRAPO/4-140                                ----AADKNNVKGIFGKI..SshA..E..D..Y..G..AEALERMF.ITYPST...K.TYFPHF-DLS-----H.....GS.AQVKGH...GKK.VVAA.L...IEA....ANH.ID...D...I.AG.TLSKL.SDLHAH..KLRVDPVNFKLLGQC.FLVV.VAIHHPSAL.TPEVHASLDKFLCAVGNVLTAKY-
+#=GR HBA_FRAPO/4-140                        PP ....56899999*****9..6337..8..9..*..*..********.******...*.***999.676.....5.....89.99****...***.****.*...***....***.**...*...*.**.*****.******..***************.9999.999999***.********************999.
+HBA_ERIEU/4-140                                ----ATDKANVKTFWGKL..GghG..G..E..Y..G..GEALDRMF.QAHPTT...K.TYFPHF-DLN-----P.....GS.AQVKGH...GKK.VADA.L...TTA....VNN.LD...D...V.PG.ALSAL.SDLHAH..KLRVDPVNFKLLSHC.LLVT.LALHHPADF.TPAVHASLDKFLATVATVLTSKY-
+#=GR HBA_ERIEU/4-140                        PP ....56899999*****9..6225..7..*..*..*..********.******...*.***999.665.....4.....88.99****...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.********************999.
+HBAZ_HORSE/2-140                               --LTKAERTMVVSIWGKI..S..MqaD..A..V..G..TEALQRLF.SSYPQT...K.TYFPHF-DL-----HE.....GS.PQLRAH...GSK.VAAA.V...GDA....VKS.ID...N...V.AG.ALAKL.SELHAY..ILRVDPVNFKFLSHC.LLVT.LASRLPADF.TADAHAAWDKFLSIVSSVLTEKY-
+#=GR HBAZ_HORSE/2-140                       PP ..78999**********9..7..5339..9..*..*..********.******...*.***999.44.....57.....9*.******...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.*********************99.
+HBA_TRIOC/7-140                                -------KTNVKTVFTKItgH..A..E..D..Y..G..AETLERMF.ITYPPT...K.TYFPHF-D-----LHH.....GS.AQIKAH...GKK.VVGA.L...IEA....VNH.ID...D...I.AG.ALSKL.SDLHAQ..KLRVDPVNFKLLGQC.FLVV.VAIHHPSVL.TPEVHASLDKFLCAVGNVLSAKY-
+#=GR HBA_TRIOC/7-140                        PP .......55566666665224..7..8..9..*..*..********.******...*.***999.4.....457.....99.9*****...***.****.*...***....***.**...*...*.**.*****.******..***************.9999.999999***.********************999.
+HBA_PHACO/6-140                                ------DKNNVKGIFTKIagH..A..E..E..Y..G..AEALERMF.ITYPST...K.TYFPHF-DLS-----H.....GS.AQIKGH...GKK.VVAA.L...IEA....VNH.ID...D...I.TG.TLSKL.SDLHAH..KLRVDPVNFKLLGQC.FLVV.VAIHHPSAL.TPEVHASLDKFLCAVGTVLTAKY-
+#=GR HBA_PHACO/6-140                        PP ......566666666666446..8..9..*..*..*..********.******...*.***999.676.....5.....88.99****...***.****.*...***....***.**...*...*.**.*****.******..***************.9999.999999***.*******************9999.
+HBA_PAGLA/3-140                                ---SSADKNNIKATWDKIgsH..A..G..E..Y..G..AEALERTF.ISFPTT...K.TYFPHF-DLS-----H.....GS.AQVKAH...GKK.VADA.L...TLA....VGH.LE...D...L.PN.ALSAL.SDLHAY..KLRVDPVNFKLLSHC.LLVT.LACHHPAEF.TPAVHSALDKFFSAVSTVLTSKY-
+#=GR HBA_PAGLA/3-140                        PP ...56689999******9434..7..8..*..*..*..********.******...*.***999.676.....5.....89.99****...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.********************999.
+HBA_ANSSE/4-140                                ----AADKGNVKTVFGKIggH..A..E..E..Y..G..AETLQRMF.QTFPQT...K.TYFPHF-DL-----QP.....GS.AQIKAH...GKK.VAAA.L...VEA....ANH.ID...D...I.AG.ALSKL.SDLHAQ..KLRVDPVNFKFLGHC.FLVV.LAIHHPSLL.TPEVHASMDKFLCAVATVLTAKY-
+#=GR HBA_ANSSE/4-140                        PP ....56788899999**9445..8..9..*..*..*..********.******...*.***999.55.....45.....89.99****...***.****.*...***....***.**...*...*.**.*****.******..***************.****.*********.*******************9999.
+MYG_LYCPI/8-146                                --------QIVLNIWGKV..E..T..D..L..A..GhgQEVLIRLF.KNHPET...L.DKFDKFKHLKTEDEMK.....GS.EDLKKH...GNT.VLTA.L...GGI....LKK.KG...H...H.EA.ELKPL.AQSHAT..KHKIPVKYLEFISDA.IIQV.LQNKHSGDF.HADTEAAMKKALELFRNDIAAKY-
+#=GR MYG_LYCPI/8-146                        PP ........567889****..*..*..9..8..7..532699*****.******...*.****************.....**.******...***.****.*...*99....999.99...*...*.**.*****.******..*99999999******.****.**99999**.************99999999998.
+MYG_SAISC/8-146                                --------QLVLNIWGKV..E..A..DipS..H..G..QEVLISLF.KGHPET...L.EKFDKFKHLKSEDEMK.....AS.EELKKH...GTT.VLTA.L...GGI....LKK.KG...Q...H.EA.ELKPL.AQSHAT..KHKIPVKYLELISDA.IVHV.LQKKHPGDF.GADAQGAMKKALELFRNDMAAKY-
+#=GR MYG_SAISC/8-146                        PP ........567889****..8..8..7336..7..9..9*******.******...*.****************.....**.******...***.****.*...999....999.99...9...9.**.*****.******..*99999999******.****.*998899**.************99999999998.
+MYG_PROGU/8-146                                --------QLVLNVWGKV..E..G..D..L..SghG..QEVLIRLF.KGHPET...L.EKFDKFKHLKAEDEMR.....AS.EELKKH...GTT.VLTA.L...GGI....LKK.KG...Q...H.AA.ELAPL.AQSHAT..KHKIPVKYLEFISEA.IIQV.LQSKHPGDF.GADAQGAMSKALELFRNDIAAKY-
+#=GR MYG_PROGU/8-146                        PP ........567889****..9..8..8..6..5116..799*****.******...*.****************.....**.******...***.****.*...999....999.99...9...9.99.*****.******..*999999999*****.****.*9888889*.************99999999998.
+emit_globins4_globins4-sample37/29-156         ------------------..K..I..Q..A..M..G..EEFVSRLI.YLTPVA...K.DYAQKIKDVSTKEKAL.....EKiRDIKLS...ASD.VLDA.L...SSG....VAA.LE...E...SsVA.VFRAM.AEFHIY..NMQVEKECWELYAFM.TIHT.MGAQWSEDM.MAHMEAAFERALTSVAKLLAKK--
+#=GR emit_globins4_globins4-sample37/29-156 PP ....................4..5..6..7..9..9..9*******.******...*.***********99887.....762569***...***.****.*...***....***.98...6...5168.9****.******..***************.****.*********.*******************988..
+MYG_MOUSE/8-146                                --------QLVLNVWGKV..E..A..D..L..A..GhgQEVLIGLF.KTHPET...L.DKFDKFKNLKSEEDMK.....GS.EDLKKH...GCT.VLTA.L...GTI....LKK.KG...Q...H.AA.EIQPL.AQSHAT..KHKIPVKYLEFISEI.IIEV.LKKRHSGDF.GADAQGAMSKALELFRNDIAAKY-
+#=GR MYG_MOUSE/8-146                        PP ........567889****..*..*..9..8..7..632689999**.******...*.****************.....**.******...***.****.*...***....*99.99...9...9.99.9****.******..*99999999******.****.*999999**.************99999999998.
+emit_globins4_globins4-sample16/13-147         VELTSASKASPLVIWGTV..E..M..Q..G..F..G..AEILLRTA.QSKNDS...G.KRFDAFKDGKTQALLK.....GN.KTVTST...GLA.VMDA.L...LTA....MAS.SD...SnmeI.KE.KIAKL.GLEHGH..PLVCDPETFR--STI.VICV.LQHEPVTNM.ESTLHASVDDML------------
+#=GR emit_globins4_globins4-sample16/13-147 PP 57899999999*******..*..*..*..*..*..*..********.999999...9.9***************.....**.******...***.****.*...***....**9.99...53447.89.99999.999***..*********9..579.****.***877766.666666665554............
+MYG_HORSE/8-146                                --------QQVLNVWGKV..E..A..D..I..A..GhgQEVLIRLF.TGHPET...L.EKFDKFKHLKTEAEMK.....AS.EDLKKH...GTV.VLTA.L...GGI....LKK.KG...H...H.EA.ELKPL.AQSHAT..KHKIPIKYLEFISDA.IIHV.LHSKHPGNF.GADAQGAMTKALELFRNDIAAKY-
+#=GR MYG_HORSE/8-146                        PP ........567889****..*..9..9..8..7..532699*****.******...*.************9999.....**.******...***.****.*...*99....999.99...*...*.**.*****.******..*999999999*****.****.987777789.***********999999999998.
+MYG_ESCGI/6-146                                ------EWQLVLNIWAKV..E..A..D..V..A..GhgQDILIRLF.KGHPET...L.EKFDKFKHLKTEAEMK.....AS.EDLKKH...GNT.VLTA.L...GGI....LKK.KG...H...H.EA.ELKPL.AQSHAT..KHKIPIKYLEFISDA.IIHV.LHSRHPGDF.GADAQAAMNKALELFRKDIAAKY-
+#=GR MYG_ESCGI/6-146                        PP ......55678889****..*..9..9..8..7..63157899***.******...*.************9999.....**.******...***.****.*...*99....999.99...*...*.**.*****.******..*99999999******.****.*8888889*.*********99887777777776.
+emit_globins4_globins4-sample36/1-139          ---TGEEKAVIQIAWKKA..S..E.yG..T..Y..G..VRPAIRLV.IGAPVT...L.KFLDHFKDMPMADQLA.....EN.THVQSE...SKL.IFTA.F...TSI....IMH.LK...Q...K.NK.NILKI.LSTN-G..GFYVSPQVLNLLFMI.MARV.LNTNHAEEF.SANSRSESRFASQAVSAAIA----
+#=GR emit_globins4_globins4-sample36/1-139  PP ...5799*********99..7..5.14..5..6..6..67788999.9*****...*.****************.....**.******...***.****.*...***....***.*8...7...6.65.55544.4444.5..79*************.****.*99999***.98776655555555555555....
+emit_globins4_globins4-sample26/23-151         ------------------..-..T..N..E..V..G..DDIEIQLY.ELLPTH...QiKFFLDFSELGVAEAGF.....GD.LDVRYD...GKS.IFRE.V...NDA....LAK.QD..eD...M.KR.SFAAL.IGLDST..NESLCLVNYPVVSSA.LMIV.ITRQGGKKVgGSPLNGSFQSGFATEAQHLANVY-
+#=GR emit_globins4_globins4-sample26/23-151 PP .......................6..7..8..9..9..99888999.999987...768***************.....**.******...***.****.*...***....**9.87..47...9.**.*****.*****9..9999***********.****.******9973579******99999999999877.
+emit_globins4_globins4-sample18/7-138          ---TKQESSVVSKVWGVE..H.aI..Q..E..T.kG..AQIYVRLF.KQHPAV...Q.AFYDKFDDLRLPDCMQ.....KS.EMLRFI...VVQ.IAQP.L...DDN....VKS.VK...-...-.DG.ALAAL.GEKHAL..KKKVG--LFYIQCSA.LEAV.LAGDTQGEE.GIPIFAAFAKIMNMI---------
+#=GR emit_globins4_globins4-sample18/7-138  PP ...67899********87..6.35..6..6..5.26..67889***.******...*.****************.....**.*****9...99*.**9*.*...*99....987.75.........59.*****.*****9..99886..68899999.****.**9988888.88999***9998665.........
+emit_globins4_globins4-sample11/18-146         ------------------..-..-..-..-..F..G..PMVLDKMF.VAYATT...N.SFFDSFK---TQDAVAyasekKE.NAMKRH...GDS.VKGA.L...CKAvyqsLKM.GT...K...L.KG.LPLRQ.SGYEAR..PVQKDEKNGKFKGTE.ILCS.LPAALTTEF.IASSHGAYDKVIGGCSKATQSFF-
+#=GR emit_globins4_globins4-sample11/18-146 PP ................................5..6..77899***.******...*.*****96...4444431101134.45899*...***.***9.8...7651111455.57...8...9.99.99999.99****..***************.****.*********.**************999876655.
+emit_globins4_globins4-sample13/3-152          --LSEGEKQAVLAAWGES..D..I..S..D..T.fA..ATSFWEILeFMYTSSarsS.EFFPRFLDLSTTDTVK.....VA.RDLEWF...KDR.VIEK.LpssEYQ....LEH.LE...N...Q.LN.KMSVV.SKVHRR..KVKLRPTYFNFVNDV.HLNTtAAAKLEIDF.S-AVPGSNQKLVLIAAGQLGHK--
+#=GR emit_globins4_globins4-sample13/3-152  PP ..67789***********..*..9..7..7..6.15..5556665523454431115.79*************9.....98.888888...777.7665.4110457....99*.**...*...*.**.*****.******..**************9.76551556677777.6.689999***99999999998..
+emit_globins4_globins4-sample15/43-147         ------------------..-..-..-..-..-..-..--------.------...-.-KIDRLSKRTTKDASV.....PS.ARQSIH...GES.ALNA.L...SAI....FSA.IS...H...LmKH.KVSHF.ADLDGK..RFATDPEFFELLNAA.VVTT.LGPHMSDE-.TDKANGKFQHLLKGIGKRMHDKY-
+#=GR emit_globins4_globins4-sample15/43-147 PP ...........................................................556667778999999.....99.******...***.9999.9...876....666.65...5...4277.78889.99****..***************.****.****9877..78899**********99998887.
+MYG_MUSAN/6-130                                ----------VNSVWSAV..E..S..DltA..I..G..QNILLRLF.EQYPES...Q.NHFPKFKNKSLGE-LK.....DT.ADIKAQ...ADT.VLSA.L...GNI....VKK.KG...S...H.SQ.PVKAL.AATHIT..THKIPPHYFTKITTI.AVDV.LSEMYPSEM.NAQVQAAFSGAF------------
+#=GR MYG_MUSAN/6-130                        PP ..........77899988..7..6..6337..8..9..99******.******...*.********99876.67.....89.99****...***.****.9...999....988.88...8...8.88.89999.999**9..999************.****.*********.*******98655............
+emit_globins4_globins4-sample1/32-125          ------------------..-..-..G..G..V..G..NSIIVKFL.SVEETV...K.RTFRRFDTLHTNNDVT.....GK.DRVKKH...GVKgVVNK.V...DDL....VVN.ISeffN...I.R-.AITTV.SKESCL..ILDTDKEIFELLSDI.IF--.---------.------------------------
+#=GR emit_globins4_globins4-sample1/32-125  PP ..........................4..6..8..8..88999999.9*****...*.****************.....**.******...*6637888.8...887....777.761115...5.4..46799.******..************998.75.....................................
+emit_globins4_globins4-sample8/7-140           -------KAFLKIRWGEI..E..C..A.iE..A..Y..GE--DPLI.TVVPRA...I.QVHDHFKTLATPGRLR.....HS.EQFKGR...SAK.ILAA.L...VAS....FRI.VD...K...E.EDySLGSL.SELQKA..ALMVDVNYVGEIGGAnIADT.LGAQVPNEF.VAAVNASLQKIMCSVEAR------
+#=GR emit_globins4_globins4-sample8/7-140   PP .......55566779988..6..4..2.13..3..3..44..4699.99****...*.****************.....**.******...***.****.*...***....999.99...8...7.753789**.******..*****999888887625568.9999*****.***********9998655......
+emit_globins4_globins4-sample19/7-137          ------EGSFVANKWAKV..K..S..K..RqiV..K..AELLAAFI.VTMDST...L.EADQSLNTLATADTLI.....LE.KTMNAH...GVR.IEDA.F...YNG....FAE.AP...K..rQ.KL.TFVGA.PGLESR..GQVVEAEYLRVLSQS.LSAV.VDSAPEDDF.TYAKQASLNNAI------------
+#=GR emit_globins4_globins4-sample19/7-137  PP ......567788889999..7..6..4..3238..8..99******.******...*.****************.....**.******...***.****.*...***....**9.87...5..26.89.*****.******..99*************.***9.999999999.999998877665............
+emit_globins4_globins4-sample32/27-148         ------------------..-..-..-..-..-..-..-EILAKMF.TSVPAN...R.RLLSKLSQFETAEALH.....GS.KTWKDHfvhKTS.YVGE.I...LKR....LAN.GD...S...C.AElLYGSL.NNQHAI..SSEVEPKYFEQIASV.MLAT.VDAKFTQTF.GAVRHAAYSKTSEGVREVVAQ---
+#=GR emit_globins4_globins4-sample32/27-148 PP .......................................7789999.999***...*.****************.....**.999976221566.7899.9...999....999.99...9...7.542799**.******..***************.****.*********.***************998876...
+emit_globins4_globins4-sample7/41-129          ------------------..-..-..-..-..-..-..--------.-VQPGA...S.PFFPKFH-VAKSDEVF.....RI.DHILSH...TGR.INPS.F...EEI....VAK.VD...A...G.LT.AKLSA.SQLHCN..KLECPAQNLPLISAV.IIYI.LYERAPRVY.L-----------------------
+#=GR emit_globins4_globins4-sample7/41-129  PP ................................................67889...9.9999996.67789999.....99.9*****...***.****.*...***....***.**...8...6.66.67788.9*****..***************.***9.988776666.5.......................
+emit_globins4_globins4-sample34/31-138         ------------------..-..-..-..-..-..-..-------L.SSFPRN...R.VYFQK-SKLLTDEMAD.....SR.SYSKGK...AVK.AAAA.V...GEG....VAH.ID...V...R.D-.NDSDR.LQLMLA..IRNVDLSSFQVMSEA.LAAV.IAVKRARDF.TGLVTNATNNVSHNIAYTL-----
+#=GR emit_globins4_globins4-sample34/31-138 PP .............................................4.557777...7.77765.4566776666.....66.666777...778.8899.9...***....***.*9...6...5.5..55566.678888..89*************.****.*********.**99999998888887665.....
+emit_globins4_globins4-sample21/11-128         VHLEPHLTSSTKIIWNVV..EstA..C..E..E..G..IDGLVLLI.VQKPPT...E.EPQTQFEHSITYNDIM.....AL.NDVDKY...RAP.VLAQ.L...AEK....QSDtME...P...H.HM.TLRRL.SDIFAK..YLQVDSTSFRLLAAR.IVYV.IP-------.------------------------
+#=GR emit_globins4_globins4-sample21/11-128 PP 79*************998..6225..6..8..8..9..99999999.99****...*.******9999999999.....99.999999...9**.***9.9...998....764256...6...7.78.9999*.******..************998.8887.75................................
+emit_globins4_globins4-sample6/46-150          ------------------..-..-..-..-..-..-..--------.------...M.KFGSDFLPLSHKDSLS.....KY.SQAQWH...GQK.VFSWkR...APS....SMG.YG...G...F.KA.EKRDL.SELHAG..PYTVLADNLDILEAAgLILA.LHDKFAGEY.DSQYAAAMQRVRAAAKAKL-----
+#=GR emit_globins4_globins4-sample6/46-150  PP ........................................................5.788889999*******.....**.******...***.*87413...445....556.68...9...9.99.99***.******..*********99975427777.7778*****.**********988765555.....
+emit_globins4_globins4-sample4/25-126          ----------------KR..D..V..R..K..V..G..VEVLCYLF.KRHPQT...A.GFFDHFQFRSTRDTMK.....AS.PSLVST...ASV.LARA.E...SNA....VQK.IG...-...M.Q-.MFAVLiAYFNCHawSISLHIPKLKCLLNL.IITI.KTIQ-----.------------------------
+#=GR emit_globins4_globins4-sample4/25-126  PP ................55..7..8..8..9..*..*..********.******...*.****************.....**.**9988...877.7777.7...776....666.54.......3.2..23332133344311333334455566666.6666.5555..............................
+emit_globins4_globins4-sample2/26-132          ---------TANTVWAQVtaN..I..D..N..H..A..SEKLHRLV.ISRDRF...P.SFMDSFEGIQGHVVIA.....VG.LNRLSH...SAR.GFSA.I...AST....ATH.MP...A...A.EG.TCSKY.SREHAK..AMKVFVPWFKLIVET.TIKK.L--------.------------------------
+#=GR emit_globins4_globins4-sample2/26-132  PP .........556789886559..9..*..*..*..*..********.******...*.******9999887776.....66.66779*...***.****.*...***....***.**...*...*.**.*****.******..999999999998776.6655.5.................................
+emit_globins4_globins4-sample25/24-74          ------------------..-..-..-..-..-..-..SSIAINLA.NNGPYT...S.ENFPSSTELITSEEVK.....GN.DVSRAH...AVR.VIDA.Y...KGF....L--.--...-...-.--.-----.------..---------------.----.---------.------------------------
+#=GR emit_globins4_globins4-sample25/24-74  PP ......................................44444556.667***...*.****************.....**.******...***.****.9...765....5......................................................................................
+#=GC PP_cons                                   7999999999999****9..8..8..8..9..9..9..999*****.******...*.*******999**9998.....99.99****...***.****.*...*99....999.99...9...9.99.99***.******..***************.*9**.*999*****.***********9**9999999999
+#=GC RF                                        xxxxxxxxxxxxxxxxxx..x..x..x..x..x..x..xxxxxxxx.xxxxxx...x.xxxxxxxxxxxxxxxx.....xx.xxxxxx...xxx.xxxx.x...xxx....xxx.xx...x...x.xx.xxxxx.xxxxxx..xxxxxxxxxxxxxxx.xxxx.xxxxxxxxx.xxxxxxxxxxxxxxxxxxxxxxxx
+//

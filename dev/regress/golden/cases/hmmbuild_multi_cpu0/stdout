@@ -1,0 +1,19 @@
+# hmmbuild :: profile HMM construction from multiple sequence alignments
+# HMMER 3.4 (Aug 2023); http://hmmer.org/
+# Copyright (C) 2023 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# input alignment file:             in.sto
+# output HMM file:                  out.hmm
+# number of worker threads:         0
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+# idx name                  nseq  alen  mlen eff_nseq re/pos description
+#---- -------------------- ----- ----- ----- -------- ------ -----------
+1     fn3                     98   117    85    12.20  0.669 Fibronectin type III domain
+2     RRM_1                   79    80    71    11.11  0.793 RNA recognition motif. (a.k.a. RRM, RBD, or RNP domain)
+3     Pkinase                 38   419   259     2.57  0.590 Protein kinase domain
+4     LuxC                    13   445   400     1.99  0.590 Acyl-CoA reductase (LuxC)
+5     test                    10    20    20     1.96  2.634 
+
+# CPU time: [normalized]

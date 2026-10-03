@@ -1,0 +1,10 @@
+# alimask :: append modelmask line to a multiple sequence alignment
+# HMMER 3.4 (Aug 2023); http://hmmer.org/
+# Copyright (C) 2023 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# input alignment file:             data/fn3.sto
+# output alignment file:            out.sto
+# alignment range:                  5-30
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+

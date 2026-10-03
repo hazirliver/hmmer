@@ -1,0 +1,562 @@
+# hmmsearch :: search profile(s) against a sequence database
+# HMMER 3.4 (Aug 2023); http://hmmer.org/
+# Copyright (C) 2023 Howard Hughes Medical Institute.
+# Freely distributed under the BSD open source license.
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# query HMM file:                  fx/LuxC.hmm
+# target sequence database:        data/protdb.fa
+# max ASCII text line length:      unlimited
+# sequence reporting threshold:    E-value <= 50
+# domain reporting threshold:      E-value <= 50
+# sequence inclusion threshold:    E-value <= 1e-05
+# domain inclusion threshold:      E-value <= 1e-05
+# sequence search space set to:    1000
+# domain search space set to:      1000
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Query:       LuxC  [M=400]
+Accession:   PF05893.5
+Description: Acyl-CoA reductase (LuxC)
+Scores for complete sequences (score includes all domains):
+   --- full sequence ---   --- best 1 domain ---    -#dom-
+    E-value  score  bias    E-value  score  bias    exp  N  Sequence                Description
+    ------- ------ -----    ------- ------ -----   ---- --  --------                -----------
+    1.7e-65  217.4   0.1      2e-65  217.1   0.1    1.0  1  emit_LuxC_LuxC-sample6   
+    1.8e-61  204.2   0.6    2.1e-61  203.9   0.6    1.0  1  emit_LuxC_LuxC-sample12  
+    3.9e-57  189.9   1.6    5.1e-57  189.5   1.6    1.0  1  emit_LuxC_LuxC-sample33  
+    4.4e-56  186.4   0.0    5.7e-56  186.0   0.0    1.0  1  emit_LuxC_LuxC-sample7   
+      5e-55  182.9   0.0    5.5e-55  182.8   0.0    1.0  1  emit_LuxC_LuxC-sample20  
+    1.1e-54  181.7   1.8    1.5e-54  181.3   1.8    1.0  1  emit_LuxC_LuxC-sample23  
+    1.4e-54  181.5   0.2    1.6e-54  181.3   0.2    1.0  1  emit_LuxC_LuxC-sample28  
+    4.1e-54  179.9   0.0    4.6e-54  179.8   0.0    1.0  1  emit_LuxC_LuxC-sample38  
+    5.4e-54  179.5   1.0    5.9e-54  179.4   1.0    1.0  1  emit_LuxC_LuxC-sample36  
+    5.9e-54  179.4   0.0    6.5e-54  179.3   0.0    1.0  1  emit_LuxC_LuxC-sample2   
+    1.9e-50  167.8   0.0    2.3e-50  167.5   0.0    1.0  1  emit_LuxC_LuxC-sample1   
+    2.5e-50  167.4   0.3    2.8e-50  167.3   0.3    1.0  1  emit_LuxC_LuxC-sample11  
+    7.8e-50  165.8   0.0    8.7e-50  165.7   0.0    1.0  1  emit_LuxC_LuxC-sample40  
+    1.4e-49  165.0   2.0    1.7e-49  164.7   2.0    1.0  1  emit_LuxC_LuxC-sample24  
+    4.6e-49  163.3   0.1    5.1e-49  163.1   0.1    1.0  1  emit_LuxC_LuxC-sample30  
+    1.1e-48  162.0   0.0    1.5e-48  161.6   0.0    1.0  1  emit_LuxC_LuxC-sample3   
+      2e-48  161.2   0.5    2.3e-48  161.0   0.5    1.0  1  emit_LuxC_LuxC-sample9   
+    2.4e-48  160.9   0.1      3e-48  160.6   0.1    1.0  1  emit_LuxC_LuxC-sample27  
+    3.7e-48  160.3   0.1    4.1e-48  160.1   0.1    1.0  1  emit_LuxC_LuxC-sample37  
+    6.5e-48  159.5   0.6    7.6e-48  159.3   0.6    1.0  1  emit_LuxC_LuxC-sample5   
+    5.8e-47  156.4   0.1    7.1e-47  156.1   0.1    1.0  1  emit_LuxC_LuxC-sample32  
+    8.9e-47  155.8   0.1    1.1e-46  155.5   0.1    1.0  1  emit_LuxC_LuxC-sample22  
+    1.6e-43  145.1   0.7    5.6e-43  143.2   0.7    1.7  1  emit_LuxC_LuxC-sample17  
+    1.8e-42  141.6   0.1    2.1e-42  141.4   0.1    1.0  1  emit_LuxC_LuxC-sample8   
+    2.2e-42  141.3   4.7    2.4e-42  141.1   4.7    1.0  1  emit_LuxC_LuxC-sample19  
+    7.1e-42  139.6   0.1      9e-42  139.3   0.1    1.0  1  emit_LuxC_LuxC-sample26  
+    8.2e-42  139.4   0.0    9.7e-42  139.2   0.0    1.0  1  emit_LuxC_LuxC-sample21  
+    9.1e-42  139.3   0.4      1e-41  139.1   0.4    1.0  1  emit_LuxC_LuxC-sample31  
+    4.2e-41  137.1   1.2    5.3e-41  136.7   1.2    1.0  1  emit_LuxC_LuxC-sample35  
+    5.6e-41  136.7   0.3    6.2e-41  136.5   0.3    1.0  1  emit_LuxC_LuxC-sample14  
+    1.8e-40  135.0   0.0      2e-40  134.8   0.0    1.0  1  emit_LuxC_LuxC-sample39  
+    3.8e-40  133.9   0.0    4.4e-40  133.7   0.0    1.0  1  emit_LuxC_LuxC-sample15  
+    8.4e-40  132.8   0.7      1e-39  132.5   0.7    1.0  1  emit_LuxC_LuxC-sample13  
+    7.1e-39  129.7   2.7    8.2e-39  129.5   2.7    1.0  1  emit_LuxC_LuxC-sample29  
+    4.3e-38  127.2   0.2    5.4e-38  126.8   0.2    1.0  1  emit_LuxC_LuxC-sample4   
+    7.6e-38  126.3   0.1    9.5e-38  126.0   0.1    1.0  1  emit_LuxC_LuxC-sample10  
+    2.7e-37  124.6   5.0    2.9e-37  124.4   5.0    1.0  1  emit_LuxC_LuxC-sample16  
+      2e-36  121.7   0.1    2.5e-36  121.3   0.1    1.0  1  emit_LuxC_LuxC-sample18  
+      6e-36  120.1   0.5    7.8e-36  119.7   0.5    1.0  1  emit_LuxC_LuxC-sample34  
+    1.8e-30  102.0   0.2    2.3e-30  101.7   0.2    1.1  1  emit_LuxC_LuxC-sample25  
+
+
+Domain annotation for each sequence (and alignments):
+>> emit_LuxC_LuxC-sample6  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  217.1   0.1     2e-65     2e-65      28     398 ..      19     395 ..       6     397 .] 0.95
+
+  Alignments for each domain:
+  == domain 1  score: 217.1 bits;  conditional E-value: 2e-65
+                    LuxC  28 r......yirelakilgyeeemlkalka....lmallskeaLkdllereLgqpeildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrlv 398
+                             r       i++  k+ +y+ +++  lk+    l++++  +++++ ++reL+q+++l+ ++p  ++ ++ +p+    +l  +N+ l++++si+ ++L k  + lk+S+      ++l+ks+  ++ad+ +++s+s++y+++ d+ l+++++ +++vv++wGG+ Ai++  ++ + + +++++++ki ++vvdk+ +l++  +++ +Di ++d + C  p+v++v+ +d  ++++++++   +Lekr +i+P  +++  e++++ ++r+  +l++l+  ++ +v + +q++ ++++ + +ll++Pl  t++v +++d    +++++  r++ tvgl ++++++ +++    + G++ri+ + +++ + +G+ +D +y +q + 
+  emit_LuxC_LuxC-sample6  19 RkavqfaGIQTTIKTRNYHLALVS-LKNttgdLIQIFLNRHIQQNINRELEQKNALRHLDPGITKGIRKSPREDDGKLYGSNASLVIMCSISTTILKKCNCTLKPSKRKRKRRQRLVKSFQAMQADGAMLKSMSIMYFPQMDNRLAKNLITDVNVVMVWGGRTAIDWCPNRHRMEERVMMHDHKIIFSVVDKPLKLAAIQKQFPQDILIFDFNDCGCPRVILVHGSDREQPHAIKQKQ-RSLEKRGEIWPVEAPQRRERNKTLRQRRV-RLDMLFMRKFVYV-GFKQAYELVVESKASLLVHPLVSTIYVWHYNDGVSRMKLIRVGRKIDTVGLNPAQARIIHFDTAAGLTGAKRITGSDMITPGGQGHMFDPIYYIQSFD 395
+                             444444467888888999999998.7888899************************************************************************************************************************************************************************************************************97.9**********************999998.****999997777.99999*99999999*******************************************************************************99886 PP
+
+>> emit_LuxC_LuxC-sample12  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  203.9   0.6   2.1e-61   2.1e-61      16     399 ..      20     411 ..       4     412 .] 0.94
+
+  Alignments for each domain:
+  == domain 1  score: 203.9 bits;  conditional E-value: 2.1e-61
+                     LuxC  16 vaqrlkdeeysrr.yirelakilgyeeemlkalkalmallskeaLkdllereLgqpeildeflprke...syekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeiv..qnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkea....alekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkeselkelae..klaaaGverivevGemnlfrsGephDgvyaLqrlvr 399
+                              +a  + +    r+ yi  l+ +  y + +++ +k  m ++ k+a+++l++++L+    lde++p+ +    y+k ++ ++vv ++agN + + +  + +g+++kn+ llk S s+  l+ +l+ s a    + +l++ + + y++++d+ ++e i     a+vvi  G   A++ i+++++ ++ lik+G+k++l v+++e+    ++++a+++ A+ + ++dQ AC+ p  + + ++d +++++f+++ a+ L  + ++ P  ++ + ++   +++++ + l ++++  +k    ++ + tv+l e+ + ++s l r + vk+vp  +d+++++  + t Qtv l+v+  + +   e   +a+ G ++i ++Ge  ++r G +hD+v  +  +v+
+  emit_LuxC_LuxC-sample12  20 AAIHWTNS---RKaYITPLNSVSFYATRVATLMKLWMPYFVKQAIETLVQNDLKGDTQLDEWHPKYDhsnDYVKSSASAMVVFVTAGNEACIHILDVDKGIMTKNEYLLKRSVSERRLTLELALSVATWANESPLKELVTIYYYEDHDHLVAELIDsvRSANVVIELGITTALQEIAEQKPINCSLIKWGQKLGLHVLNQETkivpTIQAALRGYAHAVRFWDQCACSEPADLVFIKADSSDPEKFVKKAAAPLYTQRNMPPGFATKEFDQIYAKQDMTLIILVAIMFTIRKSLFPNNLHSTVLLGENTAAAESTLIRRASVKQVPLRKDALRQIDGAST-QTVTLMVNGIHEEGKIEeaSVALGGLDKILPAGEYREYRIGIAHDAVTSMALMVQ 411
+                              55556666...778****************99999****************************98888899*********************************************************************************99954489******************************************9999************************999888899*************************9999999999********************9*******************************************98.******98655544433114899*************************9998875 PP
+
+>> emit_LuxC_LuxC-sample33  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  189.5   1.6   5.1e-57   5.1e-57       9     398 ..      10     403 ..       5     404 .. 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 189.5 bits;  conditional E-value: 5.1e-57
+                     LuxC   9 ildlleevaqrlkdeeysrryirelakilgyeeemlkalka..lmallskeaLkdllereLgqpeildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkea...alekaaeavAk.DicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeq.ellnsPl.srtvnvkavpdiedvveyvtknrt.lQtvgl.avkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrlv 398
+                              i+  l e+ ++ +++ ++++   ++a++ +y + +   +++  ++ +l++++L +++ ++L++ ++l  + +rk +y +a p+++++h+++gNv l+ vm ++ +++++n  + +vSss  ++ ++l+ksl + ++d t++ +i  v  ++ +  +++ ++++a+ v  wGG  ++++iv+   ++++++k Gp i + v   +    +l   a+++A+ D   y+Q  C S +v f +   + ++ +f+++La +Le+ +  +P ++ +i   ++ +++ ++     +l ++ +  + +++kw+++l +++ e+l++P   +++++++++ i+ +v++  + +t +Qt +l ++++++ ++ + kla aG +r+++ G+ + f+sG +h + + Lq+++
+  emit_LuxC_LuxC-sample33  10 IIASLSEATNATASNYNEKKEAADFANVASYMHYLTD-VQSldMATQLDRSSLLKIISNNLENLSVLQGYNERKLCYRRAPPRRISMHVVSGNVLLVSVMQVAPAIVARNLQISRVSSSWVDVGSQLAKSLTRKNEDETILIAIRLVSHPDASLIVATDCIKKAEIVDRWGGGRSVTWIVSAFGEQCHMLKMGPTIPFNVNRLAMrtqDLMRCATGLAEvDLLPYNQSRCTSKRVAFWSRTATMEVSKFVHRLATQLERLSSEVPSMKMQIFVWVNLINTVRN-----VLIAGVGDKEVQANKWRLTLGHNGhEMLMEPHqGKVLEIRHLNGIDGAVPVFYSIETgTQTASLaIADAKKCERSSSKLADAGKTRLADIGVTSSFHSGMHHQAEFVLQYIS 403
+                              8899999999999996666688899999999988888.576779**********************************************************************************************************************************************************9854443566999999999966***********************************************************9999.....5555555556789*****998776599*****89*********************999******55566666777889******************************9975 PP
+
+>> emit_LuxC_LuxC-sample7  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  186.0   0.0   5.7e-56   5.7e-56      23     398 ..      21     390 ..       6     391 .. 0.96
+
+  Alignments for each domain:
+  == domain 1  score: 186.0 bits;  conditional E-value: 5.7e-56
+                    LuxC  23 eeysrr.yirelakilgyeeemlkalkalmallskeaLkdllereLgqpeildeflprke.syekaqpkglvvhllagNvpllpvmsil.eglLvknvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivk.klkpgvdlikfGpkiSlavvdkea.alekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrlv 398
+                                ++r y r+ +ki++y+++ ++  k+l +l+s+ +Lk++   e+ +++ l +++  ++ ++ +  p g + h+++gNv l++v+ ++ ++ L++  +l+   +s  f+a+ + +++++++ + +  +sisvv + ++d+++++++ + + +v+awGG  A+  i++ + + + + i +Gp iSl++++ +   +e  ++++  D++ +dQ +C+++q v+ + +d+a + e+ + +a++L+k ++   + + s  + a+  + r++++l+ + ++  kv+ +++ +++v++++  e +n+ +++  +v  + + +d++e +++n+   ++++ ++e +++e a+ l+a G  r    Ge++  r G+ph g y L+rl 
+  emit_LuxC_LuxC-sample7  21 G--KFRwYNRDQTKIDSYDDQKVA--KTLGDLCSRLSLKRVAVPEITDTDTLNQLDSGGYsCFYRITPAGSS-HVMPGNVSLIAVVNMSfQAKLARCLCLVHHNFSARFMANSIESQMIQCSRSRPFGQSISVVWYGEDDESIPKHV-EVFAAVSAWGGVTAVVEIQAvETAISHQAIGYGPTISLSMLELASsHTERQYNRLMSDVAKFDQGSCSASQYVLTDIGDQAVPAEVDKGIANNLNKDQRLSKNKTGSVTKDANSLDIRRMVTLRDTSFDLPKVWAGDELQYMVVVRNY-ETANEATKKKCTVILAGKQHDAAEALKPNK---SISVLPNEMMAAEAAK-LMALGRLRPWLRGEITVKRPGQPHFGFYGLKRLF 390
+                             4..567799999*********996..79*****************************9999*********99.*************99559*******************************************77999999**999.*******************99*********************98878999**************************************************************************************************.*******9999999999999*********5...8************999.********************************95 PP
+
+>> emit_LuxC_LuxC-sample20  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  182.8   0.0   5.5e-55   5.5e-55       4     398 ..       4     410 ..       1     412 [] 0.90
+
+  Alignments for each domain:
+  == domain 1  score: 182.8 bits;  conditional E-value: 5.5e-55
+                     LuxC   4 lkleeildlleevaqrlkdeeysrr...yirelakilgyeeemlkalkalmallskeaLkdllereLgqpeildeflprke..syekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssd.pflaaallksladvdadhtlarsisvvyw.ks..sdtkleeeivqnaDvviawGGeeAikaivkklkpg.vdlikfGpkiSlavvdkea..alekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseek.kvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrt..lQtvglavkeselkelaeklaaaGverivevGemnl.frsGephDgvyaLqrlv 398
+                               +l e+l++l  ++ +lk+++ +rr   +i +++k+  + ee l +  ++m  +sk++L+d+l++e+ +    ++f+p+     ++k +p g v  ++ gNv++ ++   le+ L +++n+l  S  d ++l+++ll++ ad da  ++++ +sv+yw ++   ++ l ++ ++ a   i   G++Aik ++++l+++ ++li fG    l+   +++  a+ +a+ +v   i+vydQ  C+S++ +f + + ++ +r fa++L ++L ++a+++P++  + + a    +kr    ++ + +e+  +++ +++q +++++s+++ ++++Pl+r+++v+++  ie v+++++++ t  + tv+ + k++ +++  + laa Gve iv +Ge+++ ++ G+ h +   L  lv
+  emit_LuxC_LuxC-sample20   4 CQLGETLEMLGLFGASLKNKKSERRyarIIVRVEKAIRIPEEFLVF--GSMPAISKSKLHDTLDNEIAKNGLTENFRPQYRnaPFSKPSPHGRVEYVVGGNVAVYALKQNLEAGLLRAENMLTASGYDaKVLTNKLLAKVADFDAGERILEGMSVMYWvRKtvTSARLTQNPMAFAQTAIFDQGHDAIKQVTSQLPAQsKELIGFGTTFALTKNMPKEeyAVWEALYGVFGGIAVYDQAYCFSTRSMFEDHEPNSIPRTFADRLTNHLGREAQHIPELLIDAQSARGLNTKRSG--IEEVTQEQVgQQIPDTSQIFRIVISQADFIAFQPLNRVIYVCHYMVIETVLRRLQEWATvrIKTVSAYFKNQTAAKITNLLAACGVEQIVTAGENQDkATLGTNHPSTQTLPCLV 410
+                              5678999*************99999887888999999999999976..9****************************665555******************************************877257899************************744225788**************************988652689****99999765554457999*****************************999*******************************99999999..66666665536779*******************************************8889*********************************986257899999888887777 PP
+
+>> emit_LuxC_LuxC-sample23  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  181.3   1.8   1.5e-54   1.5e-54       7     395 ..       7     397 ..       2     399 .. 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 181.3 bits;  conditional E-value: 1.5e-54
+                     LuxC   7 eeildlleevaqrlkdeeysrryirelakilgyeeemlka.lkalmallskeaLkdllereLgqpeildeflprke.syekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksladvdadhtlarsisvvy.wkssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkea.alekaaeavAkDicvydQqAClSpqvvfve...sddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseek...kvvsekdqkwtvilseeqellnsPl.srtvnvkavpdiedvveyvtkn.rt..lQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLq 395
+                              e +l++ + +a ++++++   r+i e++k++++++ +l a l++  +l+sk++L++ ++r+++ p  l++++ ++e s+    +k l+v+++  N p+ + ++i++++L++n+ +lkv +     a ++l+s++dv+++  +++ +s+vy w++sd ++ e + + +D++i+ GG++A+ +  +++k  +  + fGpk  + ++ ++   + + a +vAk i vy Q AC++pq+vf++   ++d ++l +++ eL+++ ++ +  +P+   +  e++  ++  a  +++  + e     ++  +k+q+wt+i++e  ++ ++ l +r + vk +++  +v   +++  r   +Q ++++++ se+ +la+  aaaG e + ++Ge+++ ++Ge  D +++L 
+  emit_LuxC_LuxC-sample23   7 ERVLKITAVFARSISNDDSFARMISEVNKVTVLSDRLLIAlLQNETELISKRSLETYVKRDMKAPPTLERWDTEDEySFYSKNAKSLIVKVVKENLPIAIYIAIIHSILCQNCQVLKVGQ-----AKFFLESFKDVKSE--IMDGLSIVYkWNRSDVQIGELLAASSDGIIHTGGKQALYWTCHEVKFIMLQVAFGPKEVIHLIPRDVsIISEQAINVAKSIGVYPQLACSAPQTVFFNgigKQDPDTLVAVVTELESKVAHVNYQYPATLCDTSERNRKARPHAV-NMEEGMVELTnwaDQ-VNKNQNWTLIIQEWLIFCPETLeNREAVVKSYNET-NVQLAINQVvRVlpTQLIAISEFTSEKRQLAA--AAAGSEQVLPSGEADKREAGEKEDCMVFLA 397
+                              78999************99999****************999999****************************77777****************************************965.....7899*********5..********988******************************************************996789*************************9844467888888999************************999988887.999999887744244.499*****************************987.44444444322223799***9*9999999999..***************************996 PP
+
+>> emit_LuxC_LuxC-sample28  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  181.3   0.2   1.6e-54   1.6e-54      10     399 ..      10     399 ..       4     400 .] 0.95
+
+  Alignments for each domain:
+  == domain 1  score: 181.3 bits;  conditional E-value: 1.6e-54
+                     LuxC  10 ldlleevaqrlkdeeysrryirelakilgyeeemlkalkalmallskeaLkdllereLgqpeildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeiv.qnaDvviawGGeeAikaivk.klkpgvdlikfGpkiSlavvdkea....alekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrt.lQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrlvr 399
+                               +++ee++ +l+d+ +    i +l++++ y  + l+  ++l   l+ + L ++l +    p+ ldef+p ++++     kg++vhll +  p +  +  ++g+ v+n++++kv ++++ l a++  ++     + +l+ +i   y + +++k++   v  na++v+ +G e++++++v  + k + +++k+G   Sl v +++     a+++ + ++A+D c+  Qq+ClS+qv+++      ++r++ e+L+++L+k+  i P ++ls+ + a+ + k++e  l+  ++++ +  +++++++ +++ ++ e+  + +++t+nvk++++i  v+ey  ++r  lQt g a+ ++ ++++ ++++++G ++++ vG++ ++ sG +hDg +aL+r v+
+  emit_LuxC_LuxC-sample28  10 TGAVEEISSDLEDQ-HANGKIIRLKETKRYPFTSLQN-HTLKFSLEDSLLSEKLWSHALMPAQLDEFVPCNDKFTMPEVKGKIVHLLTSFGPDSEWVLYANGVYVGNQIWFKVAAQESSLLAQFNTKMPPWHNKCELTIEIKAHYGNTGNMKVSSLTVaTNANAVMLFGLEDSVSSAVTeQGKRTEKDVKWGCEASLNVEQRPHdqnlAVRESFARFATDACTAKQQSCLSTQVILLP--SVLQVRNVWEKLQQKLDKYRPITPGLTLSQPAPAKAQLKTKE--LESFFEDNTGALQQSQTDFVLLQIQKLEETCQAFFQTANVKQLSSIARVLEYGPPKRReLQTKG-APTKNATHYRWHEITQRGTSKVCIVGMIMEYASGRSHDGAVALNRVVK 399
+                              56789999999999.44448889************96.7788999999******99999*************************************************************************************99********9988689************998877699*****************9999999999*****************************..47****************************************..999*****************************************************888*****.9********************************************997 PP
+
+>> emit_LuxC_LuxC-sample38  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  179.8   0.0   4.6e-54   4.6e-54       2     398 ..       2     401 ..       1     403 [] 0.93
+
+  Alignments for each domain:
+  == domain 1  score: 179.8 bits;  conditional E-value: 4.6e-54
+                     LuxC   2 anlkleeildlleevaqrlkdeeysrr...yirelakilgyeeemlkalka...lmallskeaLkdllereLgqpeild.eflprke.syekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksladvdadh.....tlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrlv 398
+                              a+++++++++++++ + + ++    r+   yi ++ +++++e e  + l++   +++ l+++aL +++++e+ q  +ld ++lp ++ +  ka +k +  h+++gN  + +++ +++ +Lvkn    k+Sss++ + aa+ ++l+  ++       ++a ++s  y+ ++++++ ++ v+++ + + wGG +++++ +k+ k   ++i++G k ++ +++++a ++++++a+ +Di+ +  + C+Spq ++v     +++r+   ++a + +++   ++k   +++e  + +++r+  k   +l++e+    ++  +  v + +++++ln+Pl   +++++++d+ ++ ++v  ++   + ++ + e+e++++ae + a+G er+  +G +++++ G+++D+vy+L++l+
+  emit_LuxC_LuxC-sample38   2 AKPDVDNTMNCIATLGSEPHSS---RKfdiYIVQIGEMTPLEFEFTT-LQGeerAVINLKPNALFEMINKEMLQLMALDaNYLPAGYnRLGKARAKPKLRHFISGNCVTAGITVVINDILVKNLR-TKPSSSESEILAAITAELIIREIAYnsgskPIAYTLSREYFTQKSESIDQKGVSRSHGPVEWGGFSSLESTSKPEKGYLNVISHGMKSGFGIIGEDAHITATVSAFTTDIIDFLRRGCVSPQSMYVL--VRSSPRNTFPQMARSKNNNRGLVEKNRIEFHEIYKDEDTRKL-KPITTLDAEYSSR-DEYLSHAVSIIKKGASLNQPLLSGIYLHPLNDVAEAQRRVLDDQGAASQSVTPSEKEINRRAE-VKAHGLERVPMLGNNKNGKGGTAWDAVYFLKELS 401
+                              57899***********999999...44457*************9998.555556************************9568899999***********************************86.7*************9999865554455788************************************************************************************************9..57999999999*************************999998.7778899999888.89999999999999*****************************987777788**********9.********************************96 PP
+
+>> emit_LuxC_LuxC-sample36  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  179.4   1.0   5.9e-54   5.9e-54       3     398 ..       3     386 ..       1     388 [] 0.96
+
+  Alignments for each domain:
+  == domain 1  score: 179.4 bits;  conditional E-value: 5.9e-54
+                     LuxC   3 nlkleeildlleevaq.rlkdeeysrryirelakilgyeeemlkalka..lmallskeaLkdllereLgqpeildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivk.klkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrt.lQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrlv 398
+                              +l++e+++ ++++va+ +++ ee ++   ++++++l+ ++e ++ +++  ++ +++k+++ + l+r+L++  +l e + + + y++++p+  +v  ++ N+ ++ + s+ +gl+ +nvnl+k Ss+++   +a+++++ d d +++ ++++sv+ +++s+++++e +    D v awGGe+A++ai + ++++ + +i+++   S+ + + ++ +++ a+ +A+ i      AC +  ++f+e++de +++ ++  L e+Le +a+  +k + ++de  +++++  +a+++++l ++++vv    + w  + s    +l++P+  +++vk +++++dv+e++++  t   ++ + v+e+ ++e+ +      ++++  +   + +  G+ hD +  + r++
+  emit_LuxC_LuxC-sample36   3 HLDIEAVIYVAKRVAKdAWATEETNQSELKDIDTFLQAKNEPVALFETniIVTWIRKNSVPTSLDRNLEENLVLSEPIMQIPAYQRWLPRSPIVRTTSNNSLGSQMASVCQGLIFGNVNLVKKSSAEE---SAFIRPIFDRDNKGPFSKNLSVLEFPDSNQQIAEAL----D-VLAWGGEYASTAIPEnYQRAACPIINWDNSESFLFTTISTHARSLADSAADQINATYVSACPAQLFLFYEASDEPNVKIVQATL-ESLESNAELKEKEKIQKDEDHEFQRDSFNAEVQMILGDDFEVVITWTTGWATVHSRV--VLQNPMLSMLYVKGAERKQDVAEFLQETFTdCRSCRITVEEKVDEEFPD------AKKVLALSHKSSAVTGKLHDVMPVMMRMI 386
+                              6899*********99736999988888****************99999999***************************************************************************97...689*******************************99....5.66*************9**************************************999***************************.9******************************************9******9999887..9***************************888******************......99999***************999998875 PP
+
+>> emit_LuxC_LuxC-sample2  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  179.3   0.0   6.5e-54   6.5e-54       3     397 ..       3     405 ..       1     408 [] 0.94
+
+  Alignments for each domain:
+  == domain 1  score: 179.3 bits;  conditional E-value: 6.5e-54
+                    LuxC   3 nlkleeildlleevaqrlkdeeysrryirelakilgyeeemlka.lkalmallskeaLkdllereL.gqpeildefl..prkesyekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksladvdadh........tlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesdde..aklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrt.lQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrl 397
+                             +l+l++ +d   ++ q l  +++    +++l+ +  ++   +++ l ++ ++++k+  +  +e  L ++ ++l ef   ++ ++ ek++ +g+v+h+la N  ll   +i+e++L+k  n + +S+s +++++a++k l+dv+a++         l ++is + +++s++ l   ++ + D+via+G ++A+k+++++l++g   ik+G ++ +av ++ +  e  ++++   +++++Q++ ++p  ++ve++ e   k++ fae+L  + +k   i+ + + +  e++ + ++ ae +l++ + ++k+ +   ++   +i + e++ +n P++r vnvk+++d++ + e+++ ++t +  v ++++e++++   ++l a G+e++ +    +  + G++hD  + L+ +
+  emit_LuxC_LuxC-sample2   3 DLTLTAAVDYRGQYEQLLLAPHNASPQVDDLEGAFHIKSVSVQQpLSKMFKFCRKDLPRPCIEYHLpEESNSLKEFSnkYQTDRAEKRFRRGVVYHWLAYNILLLSQSAIIEAILTKRTNTFSPSASISGVTVAMYKALIDVNASQlekprngdVLIAYISAMIYSKSKMILGPLAMLQKDGVIAYGMRDASKNASEELPYGTSYIKHGKRYEFAVCERLTRDEPRYKEI---VAFLNQESTFAPTGILVEEAREalEKPQDFAEKLWVEVDKPFVIWTANQINATEKSYVLNEAAE-TLRMRMHKKKATY--VNTCG-LISTAENINANAPTYRLVNVKRIEDLDGLYEVIHVAQTdIKEVNIYCYEQSTESYIARLHALGAEKVLPRRCGKPVDIGKSHDHQRDLDAI 405
+                             67888889999999999999988888**************************************************9667777**************************************************************9*******9999*************************************************************999888888877...89****************8754226899************************************.********99888..44555.5566666**********************************************99999*************************99988876 PP
+
+>> emit_LuxC_LuxC-sample1  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  167.5   0.0   2.3e-50   2.3e-50      20     398 ..      24     406 ..      12     408 .] 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 167.5 bits;  conditional E-value: 2.3e-50
+                    LuxC  20 lkdeeysrr.yirelakilgyeeemlka..lkalmallskeaLkdllereLgq.peildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvk.nvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivk.klkpgvdlikfGpkiSlavvdkea..alekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrlv 398
+                             ++ +++  + +i++l++i  + ++ +k+  + +++ + ++++ k  ++ eLg+  + l +f+p  ++yek q +++vv +la+N+ l  + +i eglL+  ++ ++ +S++  +++  l+ +l+ ++ +  +a +isv+ ++ ++++l  +  ++ D v+a+ G++  + + + +  ++++ i+f     l+ vd+e   + ++ ++ + +D   ydQ  C+Sp++v+    ++++++ef  eL+ +L+ r++ +P+ +++ +++ +i +  + ++ +++l +   v++++  +w+++  ++ e  +sP +r + +  +++    +++++kn t+Qt ++a +++++ ++++kl+ +Gv+r   vG m + ++G++ D++  L+ lv
+  emit_LuxC_LuxC-sample1  24 WSPPHNYAMhVINTLDTIEMVTDATVKQseVLGAVLISQRDSTKFGVQPELGSlGRWLNRFDPSVNEYEKEQMRAIVVTNLASNSHLENIKAICEGLLANgGCEIFEPSADHGGMSCDLAIELILIKFS-AIALAISVLTFEPQNKELLLRTAAREDEVVAYDGSSLARPVGNgEPGASKNKIQFQGLQALERVDRESdeEGNDIYTDATEDSLQYDQAPCFSPKAVYATILNKKDIKEFT-ELSDELKARKRLYPRFKKEWENSFKIPRLHQVLDTAQMLLGV--VMHGHLLAWIIVTIPTAEKNKSPQNRAIGLPDISRFCHNAKSINKNVTIQTLSFAGNDKNTYRFDDKLTTQGVTRSLSVGLMGHVKNGNQIDSLIGLTTLV 406
+                             55554444449************99998444459999**************661689*****************************************96156799**********************7.9**********666666666666*********999999999997889999****************99777899***********************************97.699*****************************8888888887..99***********************************************************************************************9998 PP
+
+>> emit_LuxC_LuxC-sample11  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  167.3   0.3   2.8e-50   2.8e-50       5     395 ..       5     388 ..       1     393 [] 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 167.3 bits;  conditional E-value: 2.8e-50
+                     LuxC   5 kleeildlleevaqrlkdeeysrryirelakilgyeeemlkalkalmallskeaLkdllereLgqpeildeflprke.syekaqpkglvvhllagNvpllpvmsileglL.vknvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaiv....k.klkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLq 395
+                              k+++ +d+le++++r+k++   +r+i++ ++   +e + l+    +m +l++++L ++l++e + ++ + + ++r++     ++  g   h la+Nvpl +++ i++++L ++n+ l+++S+s+pf  +    ++  +++   ++r++ ++  +s+++  ++e+ +       w G +A ++ +    + +++++ d+i +G  +Sl +++  + +++a++++A  i ++ Q+AC+    +f +++ +a ++++a+ L  +L++++ i++k +++i+e + + +++ +   k l++++++v    + +w v l+++q+++ ++l+r v +++++d   + ++v+++   Qt++l  + +++ + ++ +++ G+e+  e  +mn +r+G+phD  + + 
+  emit_LuxC_LuxC-sample11   5 KVKDYVDFLENCGDRVKSK--RKRIINQAERSEDFESANLNE---AMLFLDPRSLVAVLQKEGNAVANISNVMKRQQgILHCYVTHGYNAHELAANVPLPGFV-ISMAILySGNEALIRPSASSPFCLTCPNYKFSVISS--WILRRVGIL--SSHKQGTAKEMKNPHQIECQWNGGSAFHTNRperwSpPVRTKTDVIIWGVHKSLVLIEITTGIDAAYNGIALAILSFMQKACMYHAYIFSDKAKKAYAHAVANLLITKLNRKTVIIEKTATDIQEGNRVCRNELN--NKLLFKQDQGVRMTMKCSWEVDLNPQQVEYLHCLNRRVLMCELNDRTALSRFVKSASA-QTISLRRDRRNMYKIDD-IMKVGAEKALEINAMNPGRVGKPHDPCMLIV 388
+                              78999**************..777999999999999988886...*****************************99965666899*************98876.777777589**********************99999..6********..***********99999999*******9886522222378899*************************************************************************************99988877..567899999***********************************************97.*****999999999999.*************************876655 PP
+
+>> emit_LuxC_LuxC-sample40  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  165.7   0.0   8.7e-50   8.7e-50       3     395 ..       3     398 ..       1     403 [. 0.95
+
+  Alignments for each domain:
+  == domain 1  score: 165.7 bits;  conditional E-value: 8.7e-50
+                     LuxC   3 nlkleeildlleevaqrlkdeeysrryirelakilgyeeemlka.lkalmallskeaLkdllereLgqpeildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseek..kvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedv.veyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLq 395
+                              +++++e ++l++e++++++ ++   r + +++ki++y +eml++ ++++ ++ + +++       Lgq+++l  f+ r+++ e     g+v h  a   p+l++ +il+g L++n+ l+k S+       +l  +l d++a+   ++ i v+y++++++++ e+ ++ +  +  +G e+A++++ ++ +  ++ i+ G+    +++d++a++++ ++++A +i +++Q  Cl   +v   +d  ++++++ +e ae+++++  ++P+++++ +e+   +++r e ++ +l+ +    + +++ ++++++ +++++++  + l+rtv+v+ +++i++v  +y+  ++ +Qt++++v++++++ ++ ++ + G   iv+v+  + +++Gep  g+   q
+  emit_LuxC_LuxC-sample40   3 APPIKELVELINEFGKKWRIPRVADRDVYDFTKITKYVREMLNIkVNRILKVQRLDSILSHFAAGLGQRDFLNTFVFRNNRQEDTINDGIVAHKKAKTLPILGFLAILHGKLAGNMSLFKGSKVTGLDLRRLEDELGDHQAKASPSNGIGVLYFEAGNDEMDEKTMDGMHIRTECGKEQALDWVFNCEEGAKRTIQLGQSNNAEFFDENAKTNDISQNLASEIYSLNQIHCLTGSCVPKRADIPQNYDKVLSEAAEKIAESLARIPRVQNQTEEKRTDENQRGE-EVFALIVGRMsaNTFENLSARYLIRWEDQMNVGLEVLERTVEVQTYSKISEVgSQYMADAKSVQTIAMIVNDNRRASRSLQIELPGSADIVPVQLKHPHDAGEPMAGIGDVQ 398
+                              7899***************************************988888888888888888899****************************************************************************************************************************************************************************************************************************.7777776655347779999*********************************4466777777******************************************99987666 PP
+
+>> emit_LuxC_LuxC-sample24  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  164.7   2.0   1.7e-49   1.7e-49       8     399 ..       8     391 ..       3     392 .] 0.90
+
+  Alignments for each domain:
+  == domain 1  score: 164.7 bits;  conditional E-value: 1.7e-49
+                     LuxC   8 eildlleevaqrlkdeeysrryirelakilgyeeemlkalkalmallskeaLkdllereL.gqpeildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrt.lQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrlvr 399
+                              + ++++++  +++  +    +++  ++   g++   +  l+a  +  sk+  +d+l++eL  +p+ l++fl++ ++++k   +gl  h+l gN  l+++  +  + L   v  +  S+ +  +aa++ k++a v    +   +++ +  k + ++l +   ++a  v++ GG++ ++ ++++++  +  i +Gpk+S+a++ ++ ++++  ++vAkD +vydQ AC++++  +ve d ea  +e+a + +    +r + +Pk +   +++++  +++ + +l y ++   k  ++++q+ ++i  ++ ++ n  l + ++v+avp+ edv++yv++ ++ + t+  + ++s+++ +a+ l+ +Gv+++     +   ++   hDg  aL ++vr
+  emit_LuxC_LuxC-sample24   8 ALVNCANQEKEQWLRD--AVKTVSLIPVEAGFDGLTVF-LHAERQASSKKDSEDILDQELiRNPHCLERFLEQSDRFSKIKNRGLE-HVLTGNNMLVVMHKMRTSALPSPVFFIEQSMKEALTAAFMNKEFAAVIG--HAHSHLALLTLKTHFEELTQAKTHRAGTVVIHGGRYVVNFATEPKPGLSTEILYGPKTSVAMLRDAMEINEPHRQVAKDLIVYDQYACAATRDDLVECDVEAVKQELAAARSDRVSRRLTEIPKKVHHLKQKSNNVQNEMQEQL-YQFAMTCKG-NKHHQNGSIIKGKN-KIDNDSLRKPLEVVAVPRYEDVADYVEELEKsTYTMF-IIYDSNADAMAHSLMDRGVDICDAKADAIAIDAVSGHDGFSALIKMVR 391
+                              6799999999999988..77888889988888888885.999*******************************************9.*********************************************9987..5899*********************************************************************************************99888889999999999************998887766555555344.444444444.489*******9999.9****************************88677776.5666777777888*******9965555555555599**********98 PP
+
+>> emit_LuxC_LuxC-sample30  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  163.1   0.1   5.1e-49   5.1e-49       3     398 ..       3     407 ..       1     409 [] 0.90
+
+  Alignments for each domain:
+  == domain 1  score: 163.1 bits;  conditional E-value: 5.1e-49
+                     LuxC   3 nlkleeildlleevaqrlkdeeysrr..yirelakilgyeeemlka.lka....lmallskeaLkdllereLgqpeildeflprke.syek.aqpkglvvhl..lagNvpllpv.msileglLvknvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklr.efaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrlv 398
+                              + ++++ild+l e+++  + ++ys++  +i  ++++ +  ++++ + lk     l a++++++Lk+l++ +L++ +  de+ ++++ s+ + + +    vh   + gNvp++ + ++ ++ +L +n   ++ S+  + +  +l +sl+++ + +++ ++is v   s+d+++e  + +++  + + GG e++++i k  + +v++ikfGp++Sl+v++++a l++ a+++ +   v dQ+  +S+q      dd  +++ +  ++L ++L+   + l+++++s++e  ++  +++     y++ e+++v++++  +    +s   e++ + + r + v+++++   +v +++++   Q +gl+    +++el    ++ G +r+++vG+++l+++G +hD+ + L+ + 
+  emit_LuxC_LuxC-sample30   3 EASTHAILDFLTECSKFSNHPHYSKMkgVIGLVPNAYATADTAALQeLKVgnqqLQAMCKRNRLKELVDDDLEKSSLRDEWEETNNgSFGHtYRAEVGRVHRgdTRGNVPGSDLsIAKIQNILERNSSQIRFSAKMQETEEQLRRSLINIAPLQRIQNTISTV-LVSKDQEVEPAVGDQSLLILVPGGAETVSSIYKGYRLNVRWIKFGPRVSLEVIGEAAGLNNEATEIQHQAYVSDQNGSSSTQICPTR-DDLHSIQpQPTQRL-AELAFGLECLEQLQESFKELTEMDITQTAKPKMYTFTENRNVIKSQFPSRAAQISFL-EVISHMTRRDILVHEIDSRAAAVALINEQVGAQNCGLCLGRMQAPELGSDKIKPGTNRLTQVGRNHLYKVGVAHDAARTLDAFF 407
+                              57899**********************999999887766665555559988999****************************999985544133333334544499******8636779******************************************99.899*******************************************************************************99999.55666551667788.99*****************999988888877889999999***88888877777777.99***************************99*************************************************9886 PP
+
+>> emit_LuxC_LuxC-sample3  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  161.6   0.0   1.5e-48   1.5e-48      34     398 ..      38     398 ..      13     399 .. 0.90
+
+  Alignments for each domain:
+  == domain 1  score: 161.6 bits;  conditional E-value: 1.5e-48
+                    LuxC  34 akilgyeeemlkalkalmallskeaLkdllereLgqpeildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaea.vAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeq.........ellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrlv 398
+                             +++l+ + + +  l+++   +++e L + + + ++qp+ild+f+p k++ ek   +  vv  lagNv   +  +il++lLv+  n+ k S+s+++++  + + ++d+ ++h+++r+i vv      t+  + ivq  D++ a+G  e+i++ +  ++p++ ++++G+k Sl+++ ++++++k  e+ +Ak i  + Qq+C+S q +fv  d+    +e++ e  e+++++++  +k+ +s +e + ++   +e    +   +++k  ++   +w + + ++          e+l++ l+rt+++  v++i++++++ +k+ t Q+v l+ + s++ +++     a  +riv+v  ++ ++ G  hDg   Lq +v
+  emit_LuxC_LuxC-sample3  38 ETYLSGQSTPFYLLEKAGGTCRRELLIEPVTTHFDQPDILDDFHPGKAKSEKDALLTFVVYALAGNVVSCAALAILQSLLVGTINIKKHSASEQVTTFPVEARFIDLVYKHPVLRQIYVV-----LTTGTKVIVQTDDAILAYGTAESIHVFSFGKEPSKSIVHWGSKGSLSILRHADEVAKLTEGiIAKHIEPFGQQSCMSEQGLFVL-DGYGRSQEVSLEQ-EQIQQQEEPSEKMDQSGGEVSSYAVIHNE---GAGKGKQRKGEEGAGGAWGICRIKTTvmsaenspdEELVHALQRTITLTFVDEISQAIKREKKWATFQSVFLFDDWSKFRRRDL----ADTNRIVNVSFAEGGDPGDEHDGASSLQIFV 398
+                             44444455555559999*******************************************************************************************************.....56666789999**********************************************999846*********************.7788889998886.99*****************9999999998...55666666777888999999999988889999999*****************************99*****9999998888876....678*************************887 PP
+
+>> emit_LuxC_LuxC-sample9  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  161.0   0.5   2.3e-48   2.3e-48       3     398 ..       3     399 ..       1     401 [] 0.89
+
+  Alignments for each domain:
+  == domain 1  score: 161.0 bits;  conditional E-value: 2.3e-48
+                    LuxC   3 nlkleeildlleevaqrlkdeeysrr.yirelakilgyeeemlka.lkalmallskeaLkd..llereLgqpeildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvknvnllkv..Sssdpfla.aallksladvdadhtlarsisvvyw.kssdtkleeeivqnaDvviawGGeeAikaivk.klkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPl.srtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGver.ivevGemnlfrsGephDgvyaLqrlv 398
+                             +++l+ + +++e+va +lk+e+   +   r+++  + y+e+  k+ l ++m  ++k+++ +  + e e ++ ++  e + + ++  ka+p+g+ +h++  Nvp++p++  l + +++ vnl+k   S+ d  ++ +a+ +++ ++d    l+rs+sv+ + ++++ kl++++v+ + v+  wG  +A++++++ +  + ++++k+G +iS+ +vd +a+l+k +++ A D++ y    C Spq+v v+      +  fa +L+e+ +k+   +P a+ +++++a++++ ++  +l  l+  e  ++ + + + +++ s+    l +P+ srtv + +v+   d+ +  +  ++  + +   +    ++l+  l+++Gv++ iv++G mnl  +  ph  ++ ++ ++
+  emit_LuxC_LuxC-sample9   3 QYELTIVTQFAETVAPSLKNERAVGQaFKRTMHIQTEYNENRQKVgLSSVMTTCNKDNVMNasFTEYETESLHFALETQADRNGLAKAFPRGKLIHIFDKNVPVSPLWTALASYVAGLVNLMKLteSIGDMWTNvSAIGNEFRQHDT--LLTRSLSVITFsRQETLKLSQKAVKISGVMLGWGNLKALRWLISkYTSKAFRILKWGERISFLLVDYAATLDKSVDRTASDMVAYAAVQC-SPQNVKVD---RTLITIFAACLKEEVKKQPVEFPVAQSDQAARAKYTESETA-DLMSLFGWESYMY-KFKLAQLITPSDPVRRLTNPFvSRTVPLSKVSIRLDATDAAQLTTN--SRSSLIALLPCNKLDGVLIRHGVSKiIVKMGTMNLTAEKDPHQNMRSMNSIL 399
+                             567788899************877778999**************99*************873357777799999999999999****************************************74477788876257889******9..6**********9999**************************88779999***************************************99.8******9...889*********************************99998.8877777775555.********************99*********966666655544433..33334444456678888999***86269******************999876 PP
+
+>> emit_LuxC_LuxC-sample27  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  160.6   0.1     3e-48     3e-48       4     395 ..       4     395 ..       1     398 [. 0.88
+
+  Alignments for each domain:
+  == domain 1  score: 160.6 bits;  conditional E-value: 3e-48
+                     LuxC   4 lkleeildlleevaqrlkdeeysrr..yirelakilgyeeemlka.lkalmallskeaLkdllereLgqpeildeflprke.syekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaa..eavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrtlQtvgl.....avkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLq 395
+                              ++l +  d++e+ a++ ++eey+    +   + ++  y ++ l   +++++  l+ ++L +++er+L + + l +++++k+  y+  +pkg v h  +gN pl+++ si+e+ L +++  +k  ssd   ++al++ ++++d d tl++++s + w  + + l++         iawGGe+++k++ +  ++gv+l+ +G k Sl+ v + +al++ +  ++v  Dic+ dQq C+S q+vfv   d+a   +  +eL++ L+++ ++l ++e+   e a  +  +  + l+++l++ k     k+  w++i+  e ++  + ++r v +  ++++e vv y   +r   t+ l      + ++e+ +++  l  +Gv   v+vG m+l + G++h g + ++
+  emit_LuxC_LuxC-sample27   4 VDLSAYTDVAEQLAKSCRSEEYTGGadMSTAMLNFVLYPQTGLGWiVDSVIVTLNLSELARVIERDLVRADCLSNLDKTKAeDYVMGLPKGTVSHTKPGNTPLSAILSIAETYLIRAAVPFKKISSDFANQHALVNDFLKLDLDPTLLKQLSRIAWVTDVNILSQMY-----PAIAWGGEDTVKVL-EIEEKGVQLMAHGRKDSLMGVYDTDALDSSIcgRGVSGDICRVDQQCCASKQCVFVARIDAARSAR-IHELSSYLDRELTKLSTLEK---EDASLALSEDALILTQALDKAKLLTVMKSGIWSIIYVRE-KEKTKEIYRHVLIEMLNEVEIVVIYTGFERVFVTINLecsryEPRQAERCHRDGDLDGKGVAHAVRVGCMDLRQLGKAHQGYVVMN 395
+                              677788899**************99889999************9999******************************99998**************************************************************************98877777766.....789********976.566789*************9999997777664489**********************886666555.6899******9999888765...45555556666679******9999999************.888889*************777766666665888888432112445667788999**************************98876 PP
+
+>> emit_LuxC_LuxC-sample37  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  160.1   0.1   4.1e-48   4.1e-48       3     400 .]       3     417 .]       1     417 [] 0.94
+
+  Alignments for each domain:
+  == domain 1  score: 160.1 bits;  conditional E-value: 4.1e-48
+                     LuxC   3 nlkleeildlleevaqrlkdeeysrr...yirelakilgyeeemlkalka....lmallskeaLkdllereLgqpeildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksladvdadhtlarsisvvyw.kssdtkleeeiv...qnaD..vviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkea..alekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrt.lQtvgl.avkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrlvrl 400
+                              + +++ ildl+e   +rl+ ++y+      i +++ ++g  ++ +  l +       +   +aL + + + L+q  ilde +  +e+++ ++ ++ +  ++ gN+  l++  +   +L+k   +l  S+s++ +a ++++ l d +++ +l++++ v+   +++   +++ +     +aD   vi+ GG+ Ai  + + + pg+++ k+G  +Sl v  k+   ++ +aa+ +A+D + + Q+AClS qv+f+ s  +++lr+++ +L +aL++++ +l k+  + + aa+ +++ + a++   +++e+ + +   ++ t+++  ++++  +P++ +v    +++ e v++ v k+ + lQt+   a k + l+e  ++l   Gv r+  +G+ +  + G ++Dg +a+++l+r+
+  emit_LuxC_LuxC-sample37   3 ATRVDGILDLVEMLNNRLSLDKYEGSnteLISSIESTDGATNQRVSGLSRqskaEPVYSATRALFQAVASKLPQLIILDEPQVYEERFMGWSTRRRTSAFFTGNSYNLVFACLKSLVLAKSRTVLHFSFSSHAIADEVVSGLSDGEPSVPLSDKLMVLAKtPGQLLDIKRDFTngdVHADlaIVIVQGGSGAILHVEADVLPGAQMSKYGRCLSLKVTKKAItgTVSNAAHIMADDAAAWKQEACLSHQVLFFASTRANTLRALKAALGAALAHETSKLNKLLINAGPAAEDTMTSQIADIMIHFFNERLQTQAGTKRMTIAVPATKSSKHKPIYHVVINDYIESWERVCKGVIKEADaLQTIQTiALKTKLLAEGIKELPVTGVFRVYASGKFESKYGGVAFDGCVAMKDLTRY 417
+                              678999*****************988788899999999988888887766565456678899***************************************************999******************************************98889999999999866646663368999*****************************999888999************************************************************************************999999**************************************999999***97527777888999999*********************************996 PP
+
+>> emit_LuxC_LuxC-sample5  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  159.3   0.6   7.6e-48   7.6e-48      23     399 ..      17     402 ..       8     403 .] 0.91
+
+  Alignments for each domain:
+  == domain 1  score: 159.3 bits;  conditional E-value: 7.6e-48
+                    LuxC  23 eeysrryirelakilgyeeemlka.lka......lmallskeaLkdllereLgqpeildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeivqnaDvvi..awGGeeAikaivkklkpgvdlikfGpkiSlavvdkea.......alekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrt.lQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrlvr 399
+                             + ++ +y ++l  ++gyee   +  +k+       m+l++   + ++l++ L+  +  d f  ++++ye  + kg++ h  ++N+p++p+ ++ eg+L k +n ++v+ sd++++++llk l  + + h l ++ +v+  ks++ ++ +  +q+  v i  a  G++A  +i+++l    + + f+p   +  +++++       a  ++ + +  D  ++dQ+AC S++ vf++ +++   +++ ++L  + ek+a+il++  ++  +a++ ++++  +++++ll+++ +  +  +++  +i++ + ++++ Pl+++   ++++ +  v+ +v+ ++t   t g+ ++ + +  +++++ + G +r+v++G++n+++ G+ hD + +L+++++
+  emit_LuxC_LuxC-sample5  17 QLNETHYKKKLLVMTGYEEMPTNKaFKKelaiidKMDLIRGALVVKFLDSKLKAYDLQDHFATNASQYEDDVCKGITAHAQPSNAPMSPIAAMTEGVLKKTCNCMQVPGSDQGMTSELLKGLQGLAPGHALIEAFAVL--KSDTGHMDQDTSQRNSVGIklAVSGNAAYASIRGPLTMRTQTLRFDPS-DMHAFESSKsdrkvyeASGETKSTITGDTTIWDQKACKSARDVFLKRSGKEIDKKITQKLTVSTEKNATILERRIENRLNASELKQRQIAVEVSALLKNQVD--EALSKAHNIIWEYQ-SEYQLPLNQFRGTQKLSGV--VASSVEIDQTkSSTKGVGPDFAWDSVRDDTMNNGGYSRLVPSGKVNHADFGGIHDEMNNLKYMLQ 402
+                             334455888888999999988888788877777789999999999*********************************************************************************************..788888888887665554423899***********************6.5788888877899999999999**************************99999*************************************999999999954..55788899***999.9******************..99999999888899***********************************************9975 PP
+
+>> emit_LuxC_LuxC-sample32  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  156.1   0.1   7.1e-47   7.1e-47      10     381 ..      10     379 ..       4     401 .. 0.88
+
+  Alignments for each domain:
+  == domain 1  score: 156.1 bits;  conditional E-value: 7.1e-47
+                     LuxC  10 ldlleevaqrlkdeeysrryirelakilgyeeemlkalkalmallskeaLkdllereLgqpeildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaa..allksladvdadhtlarsisvvywkssdtkleeeiv....qnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeq...ellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnl 381
+                              l+l++e  + ++d+   ++++  ++  ++y + ++    ++++ l+k a++++l+++L+q++  d   ++++ y    p+g    + agN p+  ++ ++ +lL+knv+++k+S s+    +  a    l  +d + +l   ++vvy++s+  ++ ++++     n D v  wGGe  i +++k    ++d +kfG+k  + + d++ a e+   + AkDic ydQ ACl++q  fv ++++ +   ++e+++ ++  + +   + e+s ++++a+  k++  +++ l +  ++++ + +++++vi++       + n ++++++ +++ + ++  +++v++ ++lQt + av ++el el++ ++++G +ri +   +n 
+  emit_LuxC_LuxC-sample32  10 LQLAAELDKIFNDD---KKCEFLIQVRDSYTPRQIM--ANAIHTLRKVAINHVLHHNLKQRHYKDLIPYQQKPYLYIGPRGDY-DINAGNKPV-TLTLLVSSLLAKNVCIFKTSVSNMKKKHgcATNDRLQPLDLTEELFCVVAVVYFESHALTVIHKLSmntgYNTDSVTRWGGEVKIYIMSKLRTRNIDHVKFGHKAAFVLRDSKLAREDPPVHYAKDICKYDQMACLASQYSFVLQAEGYDSGVVVENIKREFSVYMEATRRGEASMNDSNAFVVKTEA-SVRILEQTTEHQILGPSENFLVIWNGPRedkLENNTCFKTCI-MVNFETAS-EMDVVSPYEDLQTLSSAVRQKELIELDK-MILSGHSRINPKTHNNP 379
+                              56777888888888...7899999999999999885..489****************************************97.********7.578899****************9988772255568*******************9999998888876666789************************************************************************************************************9998877.89988888889999**********865433244555555555.56788884.589*****99******************.*********99988875 PP
+
+>> emit_LuxC_LuxC-sample22  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  155.5   0.1   1.1e-46   1.1e-46      13     392 ..      13     397 ..       3     398 .] 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 155.5 bits;  conditional E-value: 1.1e-46
+                     LuxC  13 leevaqrlkdeeysrryirelakilgyeeemlkalkalmallskeaLkdllereLgqpeildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvknvnllkvS..ssdpflaaal.lksladvdadhtlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivk.klkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQq.AClSpqvvfvesdd....eaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtv.ilseeqellnsPlsrtvnvkavpdiedvveyvtknrt.lQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvy 392
+                              l  ++  +++ +++ r  ++  +i+ y++   k l +   +++++aL +l+e+++ ++++++++++r +  + +qp+++ + +++gNv +l v+ +++glL+ n+ l++ S   s++  a+al ++sl dv      a ++s+  w ss+ +  +  +++ D  i +G+++ +++++   +k++ d+ +++p  Sl+ + +   ++kaa+ +A D    +Q+ AC  p  v  +s++    +++lr+++ eL++a+e+ a      +++  ++a++++ +a+a ++  l e+++ ++ +++  +v i++e+q++ln++  r  ++k+v  +++++ +++ + t +Qt+g+a    +l e+++ ++  G+ ri  +Ge++  ++G ++ gv 
+  emit_LuxC_LuxC-sample22  13 LVPTGIHWDNSTWEARLTQRTMNIDTYHHPIYKNLGKGEGQCKRKALTHLVEHDMRKQFSMRSWQERFKYIIPMQPLRIAITIMPGNVIGLTVVHLSQGLLSWNAELFRASdhCSSKKNANALgVASLFDVRF----ATRVSIPAWGSSKLEFCRI-MSCGDEYISYGSDYGLTSVAVrGVKAHWDDSEHDPAQSLCTLKEVGFYDKAAHTIAADALHSEQRfACCQPESVTCNSNEsefqHKSLRRVKGELQAAMENDAPATVLIQPDHCAKAEFTELEAQAAIAIELTENFHHYKASENPILVtIRREAQKSLNKCKRRLFTIKKVMGKKELILLIEFQATwTQTIGIAYSFMSLIEMSN-FITLGAARILMMGENQGIDEGMHWSGVN 397
+                              6667889*********9999999**********9999*************************************************************************95524555555554899999877....89********999999865.5****************999989*****************************************77**********9885222256899***********************************************99988888887725567789*************************************************.************************9986 PP
+
+>> emit_LuxC_LuxC-sample17  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  143.2   0.7   5.6e-43   5.6e-43      10     397 ..      10     406 ..       7     409 .] 0.89
+
+  Alignments for each domain:
+  == domain 1  score: 143.2 bits;  conditional E-value: 5.6e-43
+                     LuxC  10 ldlleevaqrlk.deeysrryirelakilgyeeemlkalka.lmallskeaLkdllereLgqpeildeflprkesyekaqpkglvvhllagNvpllpvmsil.eglLvknvnllkvS..ssdpflaaallksladvdadhtlarsisvvyw.kssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkea....alekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkeselke..laeklaaa..GverivevGe.mnlfrsGephDgvyaLqrl 397
+                              +++ ++v q l  d++y++++i+el++++++++++  +l + ++++l+k++L+++l+++ + ++ ld++ p+k++++ka +   +++ +    p + v s + +   ++   ll     ++d+  a++ l s+ad +++  ++r++  v + +s++t ++++++q  ++   wG  +Aikai+k++ + ++++k Gp+ S+ vv +      +++  +++vA+D+ ++    Cl +q+vfve d + +++   + L ++L+k a+     +++i  a   ++ + + +++y l e++kv   ++q+w++i++    + n   +r + +  v++ + ++++++ ++ lQ+v+++  ++ + +  +  kl+aa  Gve+iv++G+ +++ + G  h g+y + +l
+  emit_LuxC_LuxC-sample17  10 IEITYTVVQYLVgDNKYEFKAIEELRAFTKLSKNLHGYLAGvSINWLQKSSLYEFLNQDAEARHNLDKWEPNKQRFVKAHAALYIMKRFIPETPPIDVQSNVdMYFPARRSRLLEGDdlAQDQPRAYESLFSFADAESSPLIKRHVTQV-FsSSGTTRMSTKLSQVKNGT-TWGNLDAIKAIRKEKMSPCNDMKEGPRFSFQVVKQIHygsgEIQGYVRQVANDVHCLSAAQCLWTQNVFVELD-TTAIEIYRDVLCKKLAKPANTE--ITTNISTACYKENSKGNQTMSYNLMEHEKVNRTTKQAWLLIQTVL-CEDNTLAKRYIIMTIVERTSFAMKMIHTQEFLQSVAIFFRNTPTSYgtFRSKLLAAgpGVEIIVNLGKyVSRIYRGYKHEGMYDMGDL 406
+                              7788888887752778********************9988889**************************************9999998888888888888661555588888887643378999999999*********9*********.559**********9999998.9**********************************9999********************************66.*****************99875..55555556655666666679************************9.8888888**********************77******8877665544478888887347********73699***********99887 PP
+
+>> emit_LuxC_LuxC-sample8  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  141.4   0.1   2.1e-42   2.1e-42      29     399 ..      27     392 ..       2     393 .] 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 141.4 bits;  conditional E-value: 2.1e-42
+                    LuxC  29 yirelakilgyeeemlkalkalmallskeaLkdllereLgqpeildeflprkesyek.aqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSla....vvdkea...alekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrlvr 399
+                              + +la++l++++e +k+   +m  +++++++d+l +eL + + ++e+ p  ++ ek +++++  vh  ++N     v+  ++++  + v+l +vSss+  + + l   + ++ a  + +++i++   +s+d ++++e+v++ D  iawG  eA +++   +  +  ++   pk+ +a    +v++++   +++k  +++A++icv+d +AC S+ ++f++    +k+++++ eLa +   +  +lP+ +++++e+a +++++a+         e+k  ++++ +++ i  +e e +n P+ r+ +v +  ++e+++ + + + tl ++ +a  e+ + +l++++a+aG  r++ v +  l+ +Ge++ +  +L++l++
+  emit_LuxC_LuxC-sample8  27 EEYQLAEFLPVNTEPFKI--ISMGEMEPDNIYDILSTELAELSLMREWEPLSDQHEKeMFARRNLVHESSANTNFTEVYVAVRSIKNGDVCLAQVSSSNTNALIHL--GFGQCTAANEHMKEIAIC--ESEDGTINQEVVSKIDIDIAWGTGEAFNNVLDGQTCQNAVVPSNPKYAFArnalLVNRSQpayDMDKKRHHIAHEICVFDNKACHSTSTIFFSYPTLVKAKKAVWELAVKNMVHISVLPQKAPDKKEEALTERAKAM------TGREYKTLEQEAPHFRRIPMHEIEKVNCPVLRF-TVEESAKLENALYVFNVQATLESMKVASRERGILYLQRHMAEAGLYRLTGVSQFRLGCAGESYEATEPLTDLTK 392
+                             56789***********98..799******************************88873689************************************987666655..78899998899*******..*************************************************85554677777999******************************************************************99888777......89999*****************99******998.799*****999999999999****************************************************97 PP
+
+>> emit_LuxC_LuxC-sample19  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  141.1   4.7   2.4e-42   2.4e-42       3     397 ..       3     395 ..       1     398 [] 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 141.1 bits;  conditional E-value: 2.4e-42
+                     LuxC   3 nlkleeildlleevaqrlkdeeysrryirelakilgyeeemlkalkalmallskeaLkdllereLgqpeildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkle.eeivqnaDvviawGGeeAikaivkklkpgvdlikf..GpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnv.kavpdiedvveyvtknrt.lQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrl 397
+                              ++k ++ ++++   a+ l +++ + +   +l+++l   ++m+ +   l ++  ++aL +ll++ L   +il+ + ++ +sy++ +++ +v+ +la+ v  lp +++ ++lLv+ v   k+ +   fl++++ ++  +     +larsi+v+y +++d + + +++  + ++++++GGe+A +a++ k++ +   + +   p+ S+  vdk+++l    +++ ++++++ Q A +S+q   + +d  a+ +++  +Lae+  +  + ++k+++s+ ++a+  ++r       l+++ +    e+++  t i+ ++q+l+ +     v v   +++ +++++y++k  + +  v+ ++ +++ +el+++laa+Gv+riv+  ++++fr+G+phD    L++ 
+  emit_LuxC_LuxC-sample19   3 DQKYTDFIEMASIHAKVLMSTQCELMKKVSLTAHLLRCQNMRLV---LLRYTLRSALSALLQQILVADAILEAWCEETASYSEQSAQQMVFNMLASDVLFLPYTYLGMSLLVQEVDFKKPGAGQRFLSYEFHAEVRETFTAMDLARSIAVLYKRQKDSSFKyHKAAYHNEGIVHYGGESAHEALIFKAPVTYLSVGYigQPQRSMVAVDKATKLLRQRTQAKEEVIRFPQTAGVSTQDTQLRTDAPADNDAVEAQLAENPTQTLETIEKVARSKPQSAEAFNDRSS----DLIKKADSDKLEESKMMTKIYAQDQVLIAKVAIDYVLVgLMLQRPFQIMNYLNKVSEkVPKVSKVECAARVAELNQMLAANGVTRIVKPKMNSDFRAGQPHDTTASLNKQ 395
+                              567789999************99999999999999999999987...9*******************************************************************************************************9988888876256668999*************************998669**********************************************************************************999....444444433447777778888888888888877777772578999**********999*********************************************9999875 PP
+
+>> emit_LuxC_LuxC-sample26  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  139.3   0.1     9e-42     9e-42       6     382 ..       6     374 ..       3     385 .. 0.93
+
+  Alignments for each domain:
+  == domain 1  score: 139.3 bits;  conditional E-value: 9e-42
+                     LuxC   6 leeildlleevaqrlkdeeysrryirelakilgyeeemlkalka..lmallskeaLkdllereLgqpeildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksladvdadh..tlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGver....ivevGemnlf 382
+                              ++ i+dl+ ++   +++++ + ++i +  ++ +  e +l+  ++  +++++s  a+++++++ +  +    +++ +ke+    +pkg+  h++  Nv ++ + s+ +g L  + n +++S+ +p +  +l+++l  +++d    l+  is  ++++ + +l  e+v++ D++ +  G ++   ++   k++++++ +Gp     +v+++ ++ek++++vA D  ++dQ  Cl++++vf     +a+++++ +eL +aL+k +  + + +++++ +  i +++a+a+l ++l +e  v s  + +++v+++ + ++++ Pl rtv  +av+d     ++++k +   t+g+a  +s+  e++e  +  G++r    i++v e++++
+  emit_LuxC_LuxC-sample26   6 VQVIVDLAPTATTHVSSDRLTIKAIMRWGATSQHTESALNE-ERrtAAEFFSAGAVRKFINQIFLPRTQEKRLHVQKERHFATFPKGIC-HFVGCNVLTSEFLSMKKGNLFAGGNAVQPSIVEPEFLDELIRPLTTLSSDErvALLPDISLFPFQAVEVALRSEVVAHCDAILIVRGASTNGFVA---KSHIKILAHGP----LFVEEKVDIEKVIDEVAYDFQTFDQAVCLAARNVFGI---GADAHAIEQELNQALAKDTPLVAAFVKDQAGSEMILEAEADAHLIQSLTDESYVKSVRNRSYRVLIERHSVVAVGPLARTVHFRAVQDF-KFTRQLQKPK---TIGIATIASRVFEFKEGAVTVGADRdiaqIIKVKEVSDY 374
+                              6789**************99999999999999999999987.4456******************8888899999*************87.*********************************************999888557899****************************9999988875...789********....69***********************************...899*************************************************999*********************************9.99*****995...7**********************9854445556555555 PP
+
+>> emit_LuxC_LuxC-sample21  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  139.2   0.0   9.7e-42   9.7e-42       4     398 ..       4     408 ..       2     410 .] 0.90
+
+  Alignments for each domain:
+  == domain 1  score: 139.2 bits;  conditional E-value: 9.7e-42
+                     LuxC   4 lkleeildlleevaqrlkdeeysrr..yirelakilgyeeemlkalka.lmallskeaLkdllereLgqpeildeflprkesyekaqpkgl.vvhllagN...vpll.pvmsileglLvknvnllkvSssdpf..laaallksladvdadhtlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklref.....aeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeq.ellnsPl.srtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrlv 398
+                              +++ +i+d++e+ ++r+++++ + +   +r+l+k++ y  + l+ l+  + ++ +  a+k++l++ Lg++   de l +  +y++  p +l +v+++++    +p++  + ++l+g++  nv l k++    +  +a +++++l++ d+  ++a+++svv  ++++tklee +      v+a+GGe+  + +++++k+   ++ +Gp iS++++++ +++e+ + +   D+   +  AC  p v+  e  +  ++r f     ++eL e+Le ++k+l+++e+ +++ a+ ++++ + k    l ++++  se+  ++tv++++ + +l+ +P   rt+ +  +p   d ++++    ++  +g+  +++++   + k+a++ v+ri +    n  ++G ++Dg ++L rl+
+  emit_LuxC_LuxC-sample21   4 IPMLTIIDIAEHNSDRWSNTKGQLQygKVRKLTKVTIYAFAGLRSLDLwVQEFAKEPAVKKFLNHSLGKRVYFDENLGTSGEYQHVHPGRLpIVKFMSAGilgAPGMhKISAVLMGIIDTNVFLKKIPTGPAGcsMADEIIQTLIMYDIADPIAEYMSVV--NRDKTKLEELF--VIQEVVAYGGEQQKRRAASQAKYALPIVTYGPHISICIMQDWTNVEEPLAHQSADVQPPEFDACKVPTVIASE--ELLEVRPFtasdsQNEL-ESLETSQKKLEEQENAKKALAKSKKAQSQSKQLGGLRGQAHKSSETRCNYTVTITDSGkALITKPNsLRTIDLNDLPATRDNAQLIAATSEIVNCGILYYQKSKVAHKIKIASEAVSRILPQDLSNCNDEGFSYDGFFNLGRLT 408
+                              67789***************99999999****************99995555666679******************************8876899999872224544247789***************98765227889*********************..9**********..8999******************************************************************888..45665555222215677.89***************99999999999989899999999999999******98877658999**989*********************99******9999888888888********************************97 PP
+
+>> emit_LuxC_LuxC-sample31  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  139.1   0.4     1e-41     1e-41      22     399 ..      29     420 ..       3     421 .] 0.88
+
+  Alignments for each domain:
+  == domain 1  score: 139.1 bits;  conditional E-value: 1e-41
+                     LuxC  22 deeysrryirelakilgyeeemlkalka..lmallskeaLkdllereLgqpeildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksladvdadh...............tlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkea........alekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvk.avpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrlvr 399
+                               ++y r yi +++ i++y  + l+ lk+   m + + ++ ++++++ L+  e   ++ +++ s++ka p+gl +h l+ N+pl+  m + +++L  n  +l+ +s +  + + ll+sl+dvd++                +l+ s sv+y+ +s++ l e i + aD v a+  + Ai+ i+k  ++ +++ ++G+ iS+  + ++a        + e+ ++ +  D +++dQ  ClS q v ++s+ + +l  ++++   +  +  +  P  ++  +e+ a ++   e  ++ + + + ++v +k+ + +++  ++++ +  P +r++++k +vp+++dv e++++   + +  +  + +++ +l++     G +r ++v++ +l  +  p Dg+ +L +l++
+  emit_LuxC_LuxC-sample31  29 RKNYVREYIVDMQDIDKYYFNILTSLKQvvCMSYADLQQFNNIIREGLDPDETALKYEETERSFSKARPRGLRLH-LSKNAPLSSSMWLGQSILETNSLILRAPSGETPAKISLLQSLCDVDESAkratgsiiqlaarynQLSVSFSVLYYAKSSQYLTEDI-HMADQVTAYEADRAIEYIMKDTRHDFKVSQWGHGISVFELAEMAekgravgeTFENEFRYLVSDCVFFDQPLCLSNQEVNIMSS-AHSLATVKSMCMREVGELMTEKPPNATKTAESMAKKRSGSE--MS-AQNYDLGQVIQKKSR-LMMEINANKAAHRPYYRCATLKyEVPKAFDVSERINSY--IGSNRIRHNHQSTTRLQH-AETGGGTRGTKVQKDHLTSK--PADGIINLGYLTE 420
+                              4678888****************99**9999*****************77777778*****************99.699********************************************99*************************************.************************************999999999***999999999*************************88.88999998888777765555555555555555444444444..33.344444555355555.4555556699***********868**************..559999999999999988.9999***********99999..********99975 PP
+
+>> emit_LuxC_LuxC-sample35  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  136.7   1.2   5.3e-41   5.3e-41       4     391 ..       4     402 ..       1     409 [. 0.87
+
+  Alignments for each domain:
+  == domain 1  score: 136.7 bits;  conditional E-value: 5.3e-41
+                     LuxC   4 lkleeildlleevaqrlkdeeysrr...yirelakilgyeeemlka.lkalmallskeaLkdllereLgqpeildeflprkesyekaqpkglvvhllagNv...pllpvmsileglLvknvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklrefa.eeLaeaLekrakilPkaelsideaaaisskraeaklky.....l...lseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrt.lQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgv 391
+                              ++ ++++++le++++ +  +ey++     +++l++  +y  +  +a +   +a+l    L + +e+eL+ ++ l+e + r ++  ++ ++  + h + gNv    l  v+ ++ +++++n+++      d+ ++ +l +s+   +  h+  +++s+v + s +++ + +i +  +v      eeA ++i+ + +++ dl+ +Gp  S+av+d +a  +   e +A+ i+ +dQ+ ClSp  v++  dd+ +  +++ +eLa+  + ra+++ k+ ++ +++a ++ +r  +++++     +   +++   v +   ++w+v +++ ++ +++ +  t+++ +v +i ++ +    +r  +Q++g+ v+++  +  a+ l+++Gv+r ve+G++ + ++  ++D +
+  emit_LuxC_LuxC-sample35   4 VTKQKMVNALETMRKLWTINEYNKLnggDENNLTMSESYMFDRPEArIILHAAVLGDGGLVEYIEQELDMTHTLRETIIRVKRKAQMEGLN-SAHAITGNVdrfVLRKVTPLAGAMISRNCCIQHAHVEDNAAVEKLNASFFGYSFRHEDHKQLSIVVYMSLQQQYAPSITAGLEVKQCLCPEEAAELIATHHRYQNDLLRYGPEGSFAVLDASAGSK-KPELLADRIILLDQNRCLSPWDVYLGVDDAMATAAIKtSELAQ--DVRARHYNKLINQSAQNADMILNRSIINFNQageieCiwtVQGRLVVEKLAITSWLVCIKDLDAKIPNGTMNTIYIEHVTKIVEITKEALVRRLeTQSCGVLVWSTDVPAEAKGLIKHGVDRGVESGYNAKEDQ--QFDKM 402
+                              56789******************9989988888888888777776645558999************************9999855555554.45*******44346679999****************************************************************************************************998765.579***********************99988877776257765..66899999999999999999999888777762222221113333344577889*********************************9988888779*********************************99887..77766 PP
+
+>> emit_LuxC_LuxC-sample14  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  136.5   0.3   6.2e-41   6.2e-41       4     394 ..       4     398 ..       1     404 [] 0.88
+
+  Alignments for each domain:
+  == domain 1  score: 136.5 bits;  conditional E-value: 6.2e-41
+                     LuxC   4 lkleeildlleevaqrlkdeeysrr....yirelakilgyeeemlkalkalmallskeaLkdllereL.gqpeildeflprkesyekaqpkglvvhllagNvpllpv...msileglLvknvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeiv.qnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkes.elkelaeklaaaGverivevGemnlfrsGephDgvyaL 394
+                              + +++  ++ +++ + +++ + +          lak+  + e m+++  a+++++++  ++++++r+L ++   +  f++r+++y++ q  g  vh+  gN   l+       +++++  +    kvS+ + ++a++    ++  d+  +++r++  +++ +++++l+  i  ++  +v+  GG+e+ + i++++k ++  i fG+++S+ +v+k++++ + ae + kD  +++Q+AC+ p  +++ s+ +   r++  eL++aL +r+ i  k        +  +++ + a ++ ++++      +++q w+   ++   +l++Pl   + v   ++i + ++y+++ ++   vgl++++s +l++++e  a++G++ ++e+G+ +++ +G+++ +v++ 
+  emit_LuxC_LuxC-sample14   4 PAVNALRNIHATFIDIWDNRQLELAnytgENLGLAKMVMMVEGMVEFAGASIDFFEQVYIRNVMQRNLkESETLMSTFIYRDDEYVEVQMGGGKVHVAHGNGLALAKdgdALCAQSIVRVAPYFPKVSKVSTVTANEKTWGILATDSAAEVKRTVKLLNFTEPKAQLKALIArECTTAVVQLGGRETPSKIIQEQKLKKTSIAFGAQTSFFLVTKPDKASQHAELANKDSHFFEQNACAGPNKLYLTSA-NTRRRKLLLELEQALVQRTPIAIKGRDPNRRFSREARRDRSAAIATVMQQPGVKTAKTNQVWL---RQ--HELEHPLRAALGVAMFEKIVQTLKYLSNVEKFVAVGLMEYSSgHLANFKESCALKGASFVTEAGQTHRAAHGGSWSAVFQA 398
+                              5677778889999999999999888865555679999999999**98777******************88999999*************999999******999975333678999999999*************************************************98899***********************************************************************88.889999************999988876666655555555565777777766433345555553...33..479**************************8899****988653899*****************************999875 PP
+
+>> emit_LuxC_LuxC-sample39  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  134.8   0.0     2e-40     2e-40       4     399 ..       4     403 ..       1     404 [] 0.93
+
+  Alignments for each domain:
+  == domain 1  score: 134.8 bits;  conditional E-value: 2e-40
+                     LuxC   4 lkleeildlleevaqrlkdeeysrr....yirelakilgyeeemlkalkalmallskeaLkdllereL.gqpeildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvknvnllkvS..ssdpflaaallksladvdadhtlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvv.sekdqkwtvilseeq....ellnsPl..srtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrlvr 399
+                               +l  i+d++ +  q +++  y+rr    + +e++k   + ++ +       +  +k++++dl+e eL  q++++de++  ++      ++g  ++   g ++l  + +  ++lL k+  +++    ++d+f+ ++++k++a  d+ ++l  s sv+  ++ d kl+  +++ +D v+aw G++A + i ++ +p++++i +G+++   ++ ++   ++ ++++A++ ++++Q A +  q+vf+  d+++  r+  +++ +   +  +++ +  l++ +++++  k+++ kl++++++++ +    +dq+w ++  e+q    +  + P+  +  v+vka+ ++   ++ v+ +  lQ +g+  +++ + ++ + la+ G  r    G + + r+  ph gv+aL +l++
+  emit_LuxC_LuxC-sample39   4 KDLSLIMDCMSRPVQHWRSV-YTRRagffACDEMEKNADLINDNIY----FLHKPQKDEIEDLIEGELgRQQAVIDELIALEAVNAVTRAQGSALQAKRGAAALFSLLATEQALLLKGSAIIRFEdeAADSFTPVNVYKTIAGTDSRGRLFTSASVIDNPATDRKLQVVVINFFDEVSAWCGNSAASCINEYRAPECEVIGYGARTTWKLIPEALRFDAMISQIAENWAMLNQGAQSTEQFVFFL-DQGIRQRQPLDDIDARSVRGYHMIDAGLLEFTQRVKVVLKTNFQKLDAMVFSKQMYEeRFQDQEWPLLPYETQipeeVYPPAPVamNDLVKVKAAREA-LTCQNVHLC--LQAIGMDKFNATKSNFLASLAKDGFARGSLYGDNPICRK-MPHNGVFALAELTN 403
+                              577889**************.****999999999999999999996....58999*************88999******99998888888999999***************************853379*******************************************************************************************************************9.779*************************************************9977746789******999998875334455544888888888888.678888888..9*****9999999999999********************.***********987 PP
+
+>> emit_LuxC_LuxC-sample15  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  133.7   0.0   4.4e-40   4.4e-40      36     397 ..      33     400 ..       4     403 .] 0.88
+
+  Alignments for each domain:
+  == domain 1  score: 133.7 bits;  conditional E-value: 4.4e-40
+                     LuxC  36 ilgyeeemlka.lkalmallskeaLkdllereLgqpeildeflprkesyekaqp.......kglvvhllagNvpllpvmsileglLvknvnllkvSss...dpflaaallksladvdadhtlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesd..deaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrl 397
+                               ++++    +a +k++ +  s++ L ++l++  +++ +ld++ +rk+  ++a p         +v +l  + +  + +  +l +lL   + ++++  +   +++    l + + d    +tl+ +isvv w +++ ++e + +q+++ v+  G+++Ai+ + ++  +g  li+f p+ S+a +d ++++    + +A D    dQ AC+S+ vvf+  +  ++a+l + +  ++ +L++ ++ l  +  + ++++ + ++r++  l+++ + + ++ ++ + ++++i +e+ ++  ++++r+v + ++++ +d++  + +++ lQ   ++   + + ++++    +Gv+ri    ++++fr G p D ++ L  l
+  emit_LuxC_LuxC-sample15  33 SHKIKFSETRAsIKTILETYSRDDLSKTLDSAVKDQTALDRLSHRKDFLSRATPgdthyrlTDIVKQLCHASADQIMILILLAALLISDELICRSDNQvvlEQGHFKHLHHIFTDFFRFTTLSPRISVVFWTKNKGTIEPRNLQQMNCVVTPGSRSAIREAEEEECKGTFLISFAPQRSFAAIDGPTKILRSTTTFARDLLAADQDACASTNVVFYPGKlrGAASLTQPQGPISGNLAQDSDCLGVVRWDVNDNNDVHMQRTQ--LEKVYALGVDQNKSFQSDYRIIAEETRSEKLECIERCVGLTPISKDNDIAVKIANRQ-LQQACVIYIHKPIWNRDA----HGVMRIFAKVYNKQFRGGIPKDDMRHLRAL 400
+                              455555555555899********************************8888888333332245777888999**********************87644448888889999999999999************************************************************************************************7432278889999999*******************************..88888888889999************************************9999986.788888889999999999....**************************9987 PP
+
+>> emit_LuxC_LuxC-sample13  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  132.5   0.7     1e-39     1e-39       2     397 ..       2     405 ..       1     407 [. 0.84
+
+  Alignments for each domain:
+  == domain 1  score: 132.5 bits;  conditional E-value: 1e-39
+                     LuxC   2 anlkleeildlleevaqrlkdeeysrryirelakilgyeeemlka.lkalmallskeaLkdllereLgqpeildeflprke.syekaqpkglvvhllagNvpllpvmsileglLv........knvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeivqnaDvviaw.....GGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseek.kvvsekdqkwtvilseeqellnsPlsrtv.nvkavpdiedvveyvtknrt.lQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrl 397
+                              ++l+le+il++ e++ +++++ +y++ + r++ +   y+++  +  l+   +  ++eaL+++l+  L++p+ ld+++ + + s+++++ +g +vh++agNv l++ +s+++g+L          +v++  ++++ p++ a++l++ + +++  + ++++ v+ + +s + l++++   aD ++ w     GG    k  ++++ +  + i f  ++ +  + +++++e++ ++ A+ +c +d +A +   ++f+  +    l+e++e +  ++      +P++ +s+ + +  +++ ++ + k++l+     v ++++++w +++s ++   ++   +++ +v     + dv+  v+ nr  +Qt +l+ ++s+++ +a+ +a +G+++iv+  +++++r     D+ y Lq++
+  emit_LuxC_LuxC-sample13   2 HSLRLEAILKITEKFDKAWRNFKYKF-VRRDISTDNEYQNKEHRRlLDVEEIAAKPEALYAVLRPMLKDPAPLDKWVRQIYqSFMQYLEPGTIVHFFAGNVGLVATTSVSQGILQsilwnneqNGVCMAGTPIAVPGIDAEILRTTLAHNEISETKAHLEVLMYFRSPNVLYQQFF-IADYRVDWvssrfGGGRNAKYDQEPSSELYQAIIFNFRVAMDEIPEPDDVEETPDQEAHQVCLLDVHADSQGSNIFYIRS----LNELVEII-MSFSSLDSSYPAQRPSETDDVMKQATLTM-RQKQSLQVTLrIVLQKTSKEWAILVSYNKGQEVKACAKSIkKVEFGGVVRDVASGVKRNRRaIQTWALVQAQSRREARAASFAVKGASIIVHNKVNDRMRT--LIDAYYMLQKI 405
+                              7899****************997765.455666666666655555488888999***********************88887**************************999888533333332468***********************************999888899999984.5555554444444999999***********************************************************55....56655544.56677777788888888887777766666.4455555555155699**********988666666666661566667789*********999************************************999..99999999986 PP
+
+>> emit_LuxC_LuxC-sample29  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  129.5   2.7   8.2e-39   8.2e-39      50     396 ..      43     398 ..       3     402 .] 0.86
+
+  Alignments for each domain:
+  == domain 1  score: 129.5 bits;  conditional E-value: 8.2e-39
+                     LuxC  50 lmallskeaLkdllereLgqpeildeflprke..syekaqpkglvvhllagNvpllpvmsileglLvknvnl...lkvSssdpflaaallksladvdadhtlarsisvvyw..kssdtkleeeiv.qnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkea...alekaaeavAkDicvydQqAClSpq..vvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqr 396
+                              ++  +ske L+ ++  eL++  i+de+l  k+  +  k+     + h +++ +pl++ m +l+++++ nvnl   +kv +s ++l + +++ ++ v+ +  ++r++++ +w    s  +++++++  ++ ++++wG+  A++++++ ++++++ +k++  +S+  v+++    + +++aea+A Di+   Q  C+  +   +fv+++d+ +l+    +++e+ ++  +  P+  l++ + +a ++   + ++     +  k v++k  ++t+i se+ ++ ++Pl  +v++ +++d++ v+   +   +l +++l+++ s+  + + + a  G + i+e+G m++ +   + Dg+  L+ 
+  emit_LuxC_LuxC-sample29  43 IAFSVSKEGLRWKIVAELNKSVIIDEWLTMKKkaGTRKWIHENES-HTIPALAPLVAQMGVLRSIITSNVNLtrmIKVAISQSYLEIGVMEAIVPVKNNEAMTRKLAIENWteLTSRSQINQTVYwTRFGAMVIWGSLGAVQWLSHTVPNKSRRVKHDDEKSFGSVGNDGnkaKKDEVAEALAVDIINILQDQCADCKlgLIFVDTADGMSLHMYL-QIKEKSAQVRTLPPQRHLDDSAVVADIKSVIDEDFGVRKPAT-KTVQDKTLEFTLISSEQ-QDSMQPLLAVVFLSQIKDKKAVITHYHMSGELGSCSLSCDWSSESMTDSTAAVGGTTAIAESGPMQIVDTVSHSDGLATLET 398
+                              556689**********************55554599999999998.*************************833357899*******************************7556889******999***************************************9876666999***********99999999988446*********998665.577888888888888888888877766665553444333333.7777*********9999.99**************************988***************************************9999**999975 PP
+
+>> emit_LuxC_LuxC-sample4  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  126.8   0.2   5.4e-38   5.4e-38       4     386 ..       4     378 ..       2     387 .. 0.92
+
+  Alignments for each domain:
+  == domain 1  score: 126.8 bits;  conditional E-value: 5.4e-38
+                    LuxC   4 lkleeildlleevaqrlkdeeysrr..yirelakilgyeeemlkalkalmallskeaLkdllereL.gqpeildeflprkesy.ekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaallksla..dvdadhtlarsisvvywkssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnlfrsGe 386
+                             +++e +++ll+ +  ++ d+ y+r   ++ +l+ki+ y+++ +k    l  + + ++  ++le  L g+ ++l+ f    + y ++ +       + + N    + m++  gl++    +l  S + +f    l++ ++  +vd+  ++  si     ++ +++l+   ++  ++v++ GG+e +++++++l++ +++  +G+k+++a++ +++++++ ++ vA+Di+v+d +AC+++ +++ve++d++++ +  + L+  L  +++  Pk++++ +  ++++++ ae+kl+ +l+  ++v+   +q+  v   ++   +++P+ r+  +++ +++  +v++++++     + l+ + ++l +++ +l++aGv+  v v +  ++++  
+  emit_LuxC_LuxC-sample4   4 VNSEVVIGLLKACESEIGDQGYERNprIEAQLKKIHLYDDTKMKC---LPTVPDESKTVEVLELRLfGSLQFLETFSLLTNAYkVHIFLYEAFTDIESTNKTAFGAMAVGAGLVTSSTWWLTASGDKQFNDRYLANAMLitQVDSGVQVEPSICAR--RKCQQTLSSVTYSVEEKVVVLGGNEHMQSAIGQLRSIAQVYVYGSKVGFAMIARNKTATQSYTDVAHDIAVFDINACFATITILVEASDGVQYTKYTSTLSTRLTDYQEGTPKVQRQLKTYSNVRHNLAEIKLERTLDYRAGVF--FAQDQYVYTVNAVFYIMQPTDRV--LHPTKRL-ALVPLIRNK----LCPLFTWFANLVQMQFNLVEAGVDVAVAVRMSGDATEHD 378
+                             67899*******************998899*************98...9999************************977776625777888888******************************99999999999887622677777777777777..************************************************************************************************************************************************..566666666677789*******8..69****9.99***9998....49**************************99999988844 PP
+
+>> emit_LuxC_LuxC-sample10  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  126.0   0.1   9.5e-38   9.5e-38      35     384 ..      41     405 ..       4     415 .. 0.86
+
+  Alignments for each domain:
+  == domain 1  score: 126.0 bits;  conditional E-value: 9.5e-38
+                     LuxC  35 kilgyeeemlkalkalmallskeaLkdllereLgqpeildeflprke...syekaqpkglvvhllagNvpllpvmsileglLvknvnllkvS..ssdpflaaallksladvdadhtlarsisvvywkssdtkleeeiv.....qnaDvviawGGeeAikaivk....klkpgvdlikfGpkiSlavvdkea..alekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklk..yllseekkvvsekdqkwtvilseeq..ellnsPlsrtvnvkavpdiedvveyvtknrtlQtvgl.avkeselkelaeklaaaGverivevGemnlfrs 384
+                              + +  e +++k+ ++l+a++ k+   + l + L++p+  de ++  +   +yek  p +++vh++a N+p  +++s ++ +L  ++nl +    +s+p l +all+s + ++a +t+ r++s +y +++ + ++++ +        + v+aw G+  i a++     +l+++ +++k+G +iS+ v++ke+  a++ka +++A+Di +    A +   v f+   de++ +e a+e   +++   + +P+ el+i e a+ +s r +  l    l  ++++ +  + q +++++++     + +++++r v+++a+ ++  v +++ k+  +Qtv++  +k  +++  ++++ + Gv+riv  Ge +++++
+  emit_LuxC_LuxC-sample10  41 HEQMEEYALVKY-QKLIAFVTKDTNSRSLANLLDRPDTQDEHIYGVSkagGYEKLRPMAKSVHVIAPNAPNAALYSAAQPILLHACNLRRFArtKSSPALLIALLESYVSHNARTTVIRHVSRLYHHKEVNRIKDTNSgcfviGFLENVVAWVGSPVILAVADdkadNLNANLRWLKYGIRISIPVITKETvdAYRKANTNIATDIHSQQTSAGVMMNVAFYF--DEIQQEEYAHEKNPSIAPTHRQIPECELDILEVAEKKSIRIKEILGfvGLEVDKADHIDLEPQYFMLVFEQLRlgDICMQCIERLVTICALIKLARVPDVLAKW--VQTVSVdKPKRDSRNGKKQTIHSLGVNRIVS-GEESDAQH 405
+                              444444555664.77****************************7655568**************************************998533799**************************************9873333355699*********9999873122456789*****************999***************999************..8******************************9999887776633321023345557888889999999999877799***************************..8*****8899999999*************96.55554444 PP
+
+>> emit_LuxC_LuxC-sample16  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  124.4   5.0   2.9e-37   2.9e-37       3     396 ..       3     393 ..       1     397 [] 0.90
+
+  Alignments for each domain:
+  == domain 1  score: 124.4 bits;  conditional E-value: 2.9e-37
+                     LuxC   3 nlkleeildlleevaqrlkdeeysrr.yirelakilgyeeemlka.lkalmallskeaLkdllereLgqpeildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvk..nvnllkvSssdpflaaallksladvdadhtlarsisvvywkssdtkleeeivqna..DvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqr 396
+                              + k +++l ++  +a+ ++ + y+   + ++l+++ ++ +   ka lk l a+l  + L  + e++L + + ld++    +     +  g+vvh+  gNv    v s +++l  +  n nl+kv   d ++++al++ + + +    ++r i ++ +++  ++l++  vq+a  D   ++G+ eA ++++ ++  +  +      iS+ vv+   al++ + ++A+D ++++Q+AC++p++v ve +   ++ e +++L e L++++k + +  ++ +++   ++  ++  l+ ++  +     +++    v++++e + + +P+  t++ ++ ++     ++++++r +  +gla k+s++  +++ + ++G  r+++  e + f+ Gep D+v+ L+ 
+  emit_LuxC_LuxC-sample16   3 AAKRNQVLAIITLTAEGIEVK-YELTrMPDNLQRLVALVTMNSKAeLKHLLAILVYQGLASVFENDLLSDFRLDKLARALQTILNNLISGVVVHVRQGNVVYACVLSTIKALENQnnNYNLVKVQDNDIVTTQALASDISRFQD--LISRGIVILLFNDVLATLNDGYVQKAncDILGVFGSPEAHDTVSRHKHVQNYDPAIVKHISIKVVNMRSALQENS-QAAHDAICLEQEACAAPRMVIVELNRDREIAEYVHKLIEDLAQQKKNYHEEPAEYEAEKCHREPSQQRALAIAFVRQSSKL-KSSSPGVVMRKDE-SRYANPTAETIKTVPSDQG---SKQLHERRFTSAIGLAKKSSRFSLFSRAVKEKGTLRVCNDVEEDVFDMGEPNDAVRKLHM 393
+                              56789*************999.988779999***999999999999******************************************************************87611568*********************999..6**********************6652267779************99888888788889************9986.68**********************************************999888888888888888888888888887666.4455555555555.9********9987777766...9******989***********************************************985 PP
+
+>> emit_LuxC_LuxC-sample18  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  121.3   0.1   2.5e-36   2.5e-36      25     386 ..      26     392 ..       8     406 .. 0.89
+
+  Alignments for each domain:
+  == domain 1  score: 121.3 bits;  conditional E-value: 2.5e-36
+                     LuxC  25 ysrr.yirelakilgyeeemlkalkalmallskeaLkdllereL.gqpeildeflprkesyekaqpkglvvhllagNvpllpvmsileglLvknvnllkvSssdpflaaa..llksladvdadhtlarsisvvywkssdtkle..eeivqnaDvviawG..GeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrt.lQtvglavkeselkelaeklaaaGverivevGemnlfrsGe 386
+                               +rr   ++l +  ++ ++ ++    ++ +++ ++L +++ + L +q ++ ++f+ ++e+ ++a+p ++  +++ g  p ++++ + +g++++n+ ll+ S   +++ +a     +l ++  + t  r   v+ w+++d++++  +++++ a++v+ wG  ++   ++ v  lk  +++ikf +++S+  +++  +l k a++vAk+      +A + p+++fv+++ + ++  + ++L + L+++ k l  ++ +  + a    +++ a  + ++ ee+   ++++ + + i +     l+ Pl r +++ +++d +++v++v+k+ t +Q+++ +v++++l     +la+ G   +v+ G ++++++G 
+  emit_LuxC_LuxC-sample18  26 QTRRpNKDDLMEKFAIGRADVRL---AIFWCDDSNLTQVIIEPLgKQWNSQRDFISKEEKSVRALPGRIEAKFINGLQPFVVFFNLDRGIITRNESLLQASWEANGTKYAddAHVELTRMAVNDTSGRVTKVIEWPGHDHEISpgTSFLAVAEAVVKWGnaSRGGGNSGVDDLKRACRIIKF-ARKSMKWLGSLRKLSKMAQKVAKELDKMVERAAITPHALFVKQECNGAYSIAIRMLRNDLANKRKQLQVLSIETRAYAVGNLQTETAGDSGVFVEEAVTRQSEQSEHRFISDSLRTTLMLPLGRAIFLPQISDHKEIVRVVRKRATaIQSCSQIVNDKSLSLSRLELANDGSPAVVRQGLVTDHHEGD 392
+                              45666667777777777777776...99****************9999******************************************************99999876336678888888888888888***********8446777**********433446677788***********.789*****************************************999************************99999998888888867777777777777999999*****************************************************9998889**************99998874 PP
+
+>> emit_LuxC_LuxC-sample34  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  119.7   0.5   7.8e-36   7.8e-36      26     395 ..      20     383 ..       6     385 .. 0.89
+
+  Alignments for each domain:
+  == domain 1  score: 119.7 bits;  conditional E-value: 7.8e-36
+                     LuxC  26 srryirelakilgyeeemlkalkalmallskeaLkdllereLgqpeildeflprkesyekaqpkglvvhllagNvpllpv..msileglLvknvnllkvSssdpflaaallksladvdadh..........tlarsisvvyw.kssdtkleeeivqnaDvviawGGeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesddeaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLq 395
+                              s+ +  +l+++  y+++++     l ++ ++e+L++ l  eL+++  ld   + ++ y    p gl  +    N+ +++   m   +  +v n  + +  +sd+++ a ++   a++ + h          +l+++i  + + +ssd +++ ++ + aD+++ +G ++  + ++ + k+ v+++    k S+  v k++   +  +++A +i+++dQq ClS q  f+++ + ++ +e+++e    ++k  + +P +e+s+++a   s+k+++    ++++ +k+   e ++kw++i+s++q +   P  rt+ +++ + ++ v+ ++++++t Q++     ++   +l+  +++  ++ ++ vG+  + rsG+ph  +++++
+  emit_LuxC_LuxC-sample34  20 SQLHLLKLEQAFDYDDTVAL----LTNFARREELETSLTLELQHRTELDTEFHSAQTYLPTTPSGLLSKTSMTNSKIMVAtgMQCKNDAVVPNLTIYRAAKSDSDMIAIVVTRSANCTIRHefalknyeqsRLSDYIGLIMFaHSSDLAVHASAFATADGRVKCGANQYEHYAIRPNKQLVRMVTLEYKASFPSVHKSE---DEHDELALEIISFDQQGCLSDQSAFMDTTNRSQREEMSDES--TIRKFRELVPLVEASDEQALVESKKEQK--EPKMFNRQKEGAAEPETKWLLIYSDTQPVEHMPPMRTAALRETNVLKLVCAMINNAHT-QSCN---PKTDYRYLK--VMK--ISYVIAVGMRPRDRSGGPHCHMLNMK 383
+                              44478899999999999985....89***********************999999**************99999988877124556899********************************************************************************************************999876...56789*********************************975..9*********999987665444444444..4667777777778*******************************************98.***9...444444443..344..799****************9999987 PP
+
+>> emit_LuxC_LuxC-sample25  
+   #    score  bias  c-Evalue  i-Evalue hmmfrom  hmm to    alifrom  ali to    envfrom  env to     acc
+ ---   ------ ----- --------- --------- ------- -------    ------- -------    ------- -------    ----
+   1 !  101.7   0.2   2.3e-30   2.3e-30      32     400 .]      41     424 .]       7     424 .] 0.83
+
+  Alignments for each domain:
+  == domain 1  score: 101.7 bits;  conditional E-value: 2.3e-30
+                     LuxC  32 elakilgyeeemlka..lka.lmallskeaLkdllereLgqpeildeflprke........syekaqpkgl.vvhllagN....vpllpvmsileglLvkn.vnllkvSssdpflaaallksladvdadhtlarsisvvyw.kssdtkleeeivqnaDvviawG.GeeAikaivkklkpgvdlikfGpkiSlavvdkeaalekaaeavAkDicvydQqAClSpqvvfvesd.....deaklrefaeeLaeaLekrakilPkaelsideaaaisskraeaklkyllseekkvvsekdqkwtvilseeqellnsPlsrtvnvkavpdiedvveyvtknrtlQtvglavkeselkelaeklaaaGverivevGemnlfrsGephDgvyaLqrlvrl 400
+                              +l++ + y +    +  lka   +ll++++ ++++e+eL+++e ++e+++ ++         ++     g   +h++a+N    +p+++++ + + lL  + +   k+ s +    a+  ++l+ + ++  l  s+sv+y  ++++ ++++++++++D+  awG  ++A++ i++ + + +d+++f+    ++ v++++ ++ + + vA++  +yd + C+ ++++f  +       ++++++++++La+aL ++ + + +++  ++++ +is   a+      l++ +++  +++ + ++++se+   + + ++ +  + +vpd+  + + + + +tlQt  +a++   +    +   ++G+++i + G +++++    hDg+  L+r+ ++
+  emit_LuxC_LuxC-sample25  41 TLHAKHTYFNVKKDFtgLKAqNSILLKPRNYETVVETELEKKECMEELIEGDDsstffksqLFVNHTCMGDdPCHVVASNggfpAPIVGFVIVEKKLLKEGgQAFAKSASKSTTGIAEAWNNLKYLYKN-VLESSLSVIYIfPAEQGTVAKSLSSEFDGTNAWGiVDDASEFIASDKVEIFDMVMFDEAACMMPVGESKFYNRTHDDVATESQSYDYRHCATTRALFHTKVvsaviSGNEIKNIQDDLAQALVHSLQAFQASASLEEQQRKISYIDAK----IKLNNADNQPLDSALDTLLLQSEGYMKYRKDMHNFNRINHVPDLVMARRCIAPLQTLQTALVAANRILMTTYTK--RRHGIQIIRQTGLNEIMTT--CHDGLPKLSRMFEW 424
+                              55555555544444334788788999***********************8877664443333333444443259******88888*************8761555555555555566677777777776.9*********77**********************6699***********************************************************87642223358999******************9999888888888888888....56666777778999*********************************************997776665555555..7*****************9..**********9887 PP
+
+
+
+Internal pipeline statistics summary:
+-------------------------------------
+Query model(s):                            1  (400 nodes)
+Target sequences:                       2735  (767780 residues searched)
+Passed MSV filter:                        97  (0.0354662); expected 54.7 (0.02)
+Passed bias filter:                       84  (0.030713); expected 54.7 (0.02)
+Passed Vit filter:                        41  (0.0149909); expected 2.7 (0.001)
+Passed Fwd filter:                        40  (0.0146252); expected 0.0 (1e-05)
+Initial search space (Z):               1000  [as set by --Z on cmdline]
+Domain search space  (domZ):            1000  [as set by --domZ on cmdline]
+# CPU time: [normalized]
+# Mc/sec: [normalized]
+//
+[ok]
