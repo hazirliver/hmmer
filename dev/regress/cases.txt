@@ -33,6 +33,21 @@ hmmsearch_thresh      hmmsearch -E 50 --domE 50 --incE 1e-5 --incdomE 1e-5 -Z 10
 hmmsearch_T           hmmsearch -T 10 --domT 5 --F1 0.05 --F2 0.01 --F3 0.001 fx/globins4.hmm data/protdb.fa
 hmmsearch_stdin_hmm   cat fx/fn3.hmm | hmmsearch --tblout t.tbl - data/protdb.fa
 hmmsearch_seed0       hmmsearch --seed 1234 --tblout t.tbl --noali fx/Pkinase.hmm data/protdb.fa
+# multi-query x threads x several 1000-seq blocks; -Z unset (Z = #targets counted per query)
+hmmsearch_multi_cpu1  hmmsearch --noali --acc --cpu 1 fx/minipfam.hmm data/protdb.fa
+hmmsearch_multi_cpu3  hmmsearch --noali --acc --cpu 3 fx/minipfam.hmm data/protdb.fa
+hmmsearch_multi_tables_cpu4 hmmsearch --cpu 4 --tblout t.tbl --domtblout t.domtbl --pfamtblout t.pfam -o main.out fx/minipfam.hmm data/protdb.fa
+hmmsearch_multi_max_ali_cpu8 hmmsearch --cpu 8 --max -A ali.sto --tblout t.tbl -o main.out fx/minipfam.hmm data/protdb.fa
+# target subsets (--restrictdb_*; the start key needs an SSI index)
+hmmsearch_restrictdb_key cp data/protdb.fa db.fa && esl-sfetch --index db.fa >/dev/null && hmmsearch --cpu 2 --restrictdb_stkey shuf_emit_Pkinase_Pkinase-sample37-shuffled-0 --restrictdb_n 1200 --tblout t.tbl -o main.out fx/minipfam.hmm db.fa && rm db.fa db.fa.ssi
+hmmsearch_restrictdb_n_cpu0 hmmsearch --cpu 0 --restrictdb_n 1500 --tblout t.tbl -o main.out fx/minipfam.hmm data/protdb.fa
+# query models from a pressed (binary) file
+hmmsearch_h3m_query   cp fx/minipfam.hmm db.hmm && hmmpress db.hmm >/dev/null && hmmsearch --tblout t.tbl -o main.out db.hmm.h3m data/protdb.fa && rm db.hmm*
+# non-rewindable targets: one query works; several queries are a fatal error (today)
+hmmsearch_gz_single   gzip -nc data/protdb.fa > db.fa.gz && hmmsearch --tblout t.tbl -o main.out fx/fn3.hmm db.fa.gz; rc=$?; rm -f db.fa.gz; exit $rc
+hmmsearch_gz_multi_err gzip -nc data/protdb.fa > db.fa.gz && hmmsearch --tblout t.tbl -o main.out fx/minipfam.hmm db.fa.gz; rc=$?; rm -f db.fa.gz; exit $rc
+hmmsearch_stdin_db    cat data/protdb.fa | hmmsearch --tblout t.tbl -o main.out fx/fn3.hmm -
+hmmsearch_stdin_multi_err cat data/protdb.fa | hmmsearch --tblout t.tbl -o main.out fx/minipfam.hmm -
 
 # ---------- hmmpress / hmmscan ----------
 hmmpress_protdb       cp fx/minipfam.hmm db.hmm && hmmpress db.hmm && rm db.hmm

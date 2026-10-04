@@ -1,0 +1,13 @@
+#                                                               --- full sequence ---- --- best 1 domain ---- --- domain number estimation ----
+# target name        accession  query name           accession    E-value  score  bias   E-value  score  bias   exp reg clu  ov env dom rep inc description of target
+#------------------- ---------- -------------------- ---------- --------- ------ ----- --------- ------ -----   --- --- --- --- --- --- --- --- ---------------------
+#
+# Program:         hmmsearch
+# Version:         3.4 (Aug 2023)
+# Pipeline mode:   SEARCH
+# Query file:      fx/minipfam.hmm
+# Target file:     db.fa
+# Option settings: hmmsearch -o main.out --tblout t.tbl --cpu 2 --restrictdb_stkey shuf_emit_Pkinase_Pkinase-sample37-shuffled-0 --restrictdb_n 1200 fx/minipfam.hmm db.fa 
+# Current dir:     [normalized]
+# Date:            [normalized]
+# [ok]
