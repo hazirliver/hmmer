@@ -1,0 +1,46 @@
+# A/B workloads for dev/perf/ab.sh (see dev/profiling/PLAN.md §3-§4).
+#
+# Format:  <name> <sets> <program arguments...>
+#   sets      comma-separated set names; the first set listed decides the verdict metric:
+#             cpu -> cycles:u (deterministic --cpu 0 runs), anything else -> wall time
+#   D/        the benchmark data dir (~/.cache/hmmer-bench/derived-*, see dev/bench)
+#   F/        ab fixtures dir (made on demand by the @fixture lines below)
+#   $NCPU     number of online CPUs
+# Each run executes in its own empty dir; every file it writes, plus stdout and stderr,
+# is compared between A and B after the dev/bench normalization (dates, timings).
+#
+# Threaded runs with E-value thresholds set -Z to the true number of targets. Without -Z,
+# each worker uses its own running sequence count as Z (src/p7_pipeline.c:580), so which
+# unreported borderline hits stay in the hit list depends on thread scheduling. The longest
+# kept name sets column widths in the main output and --tblout (src/p7_tophits.c:1134),
+# making those widths flaky upstream. Reported hits/E-values equal the -Z-less run's.
+# Serial (--cpu 0) runs are deterministic and keep the default Z.
+#
+# Fixtures: @fixture <file it creates> <shell command>, run in F/ with the A snapshot's
+# programs first on PATH, only when <file> is missing.
+@fixture Pfam-A.hmm.h3m  ln -sf D/Pfam-A.hmm Pfam-A.hmm && hmmpress Pfam-A.hmm > /dev/null
+
+# ---- cpu: single-threaded, deterministic; judge by cycles:u (instructions:u shown too)
+W1_hitters_10k      cpu        --cpu 0 -o main.out -A ali.sto --tblout t.tbl --domtblout t.dom D/pfam_hitters.hmm D/sprot_10k.fa
+W2_mix_10k          cpu        --cpu 0 -o main.out --tblout t.tbl --domtblout t.dom D/pfam_len_mix.hmm D/sprot_10k.fa
+W3_m200_sprot       cpu        --cpu 0 --noali -o main.out --tblout t.tbl --domtblout t.dom D/kern_M200.hmm D/sprot.fa
+W4_med_longseqs     cpu        --cpu 0 -o main.out --domtblout t.dom D/pfam_len_med.hmm D/sprot_long.fa
+W5_med_1k_max       cpu        --cpu 0 --max -o main.out --domtblout t.dom D/pfam_len_med.hmm D/sprot_1k.fa
+
+# ---- scale: reader-bound thread scaling; judge by interleaved wall time
+X1_p100_50k_c4      scale      --cpu 4 -Z 51857 --noali -o main.out --tblout t.tbl D/pfam_100.hmm D/sprot_50k.fa
+X1_p100_50k_c8      scale      --cpu 8 -Z 51857 --noali -o main.out --tblout t.tbl D/pfam_100.hmm D/sprot_50k.fa
+X1_p100_50k_cN      scale      --cpu $NCPU -Z 51857 --noali -o main.out --tblout t.tbl D/pfam_100.hmm D/sprot_50k.fa
+X2_m200_sprot_cN    scale      --cpu $NCPU -Z 570420 --noali -o main.out --tblout t.tbl --domtblout t.dom D/kern_M200.hmm D/sprot.fa
+
+# ---- query: per-query fixed costs (many models x small DB)
+X3_p1k_s1k_c0       query      --cpu 0 -o main.out --tblout t.tbl D/pfam_1k.hmm D/sprot_1k.fa
+X3_p1k_s1k_cN       query      --cpu $NCPU -Z 999 -o main.out --tblout t.tbl D/pfam_1k.hmm D/sprot_1k.fa
+X4_pfamA_txt_c0     query      --cpu 0 -o main.out --tblout t.tbl D/Pfam-A.hmm D/q_pick5.fa
+X4_pfamA_txt_cN     query      --cpu $NCPU -Z 5 -o main.out --tblout t.tbl D/Pfam-A.hmm D/q_pick5.fa
+X4_pfamA_h3m_c0     query      --cpu 0 -o main.out --tblout t.tbl F/Pfam-A.hmm.h3m D/q_pick5.fa
+X4_pfamA_h3m_cN     query      --cpu $NCPU -Z 5 -o main.out --tblout t.tbl F/Pfam-A.hmm.h3m D/q_pick5.fa
+
+# ---- milestone: realistic annotation run (~1 min per run today); --cut_ga thresholds are
+# bit scores, so no -Z is needed for determinism
+X5_human_pfam1k_cN  milestone  --cpu $NCPU --cut_ga --tblout t.tbl --domtblout t.dom -o /dev/null D/pfam_1k.hmm D/human.fa

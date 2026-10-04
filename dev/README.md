@@ -10,6 +10,8 @@ It exits 0 only if everything passes. It takes about 45 s on 16 cores. `dev/chec
 
 To also measure speed, run `dev/check.sh --bench [S|M|L]`. This adds a speed benchmark on large real datasets (Swiss-Prot, Pfam, Dfam, hg38 chr21, Rfam and E. coli). Each benchmark case also has its outputs hash-checked against goldens. Tier S takes about 5 min, M about 30 min and L hours. See [`bench/README.md`](bench/README.md).
 
+For optimization work, `dev/perf/snap.sh` freezes the current binaries and `dev/perf/ab.sh` compares two builds run by run: outputs must be byte-identical on large real inputs, and speed is compared with interleaved runs and CPU counters. See [`perf/README.md`](perf/README.md) and the step plan in [`profiling/PLAN.md`](profiling/PLAN.md).
+
 ## What it does
 
 | Step | What it runs | Fails when |
@@ -28,7 +30,7 @@ Logs go to `build-dev/{configure,make,make-dev,check}.log`.
 
 - `data/`: the fixed inputs. They're tutorial and testsuite alignments, plus `protdb.fa`, a synthetic protein db of 2,735 sequences. It contains real globins, planted homologs emitted from 5 profiles, shuffled decoys and i.i.d. random sequences. `make-data.sh` records how `protdb.fa` was made.
 - `fixtures.txt`: commands that run serially first. They build the HMMs and query files that the cases use. These outputs are golden-checked too.
-- `cases.txt`: 75 commands that run in parallel, each in its own directory. They cover every user-facing program: hmmbuild (weighting, effective-number, prior and `--hand` variants), hmmsearch (all table formats, `-A`, thresholds, `--max`, stdin), hmmpress, hmmscan, phmmer, jackhmmer (checkpoints), nhmmer (strands, FM index via makehmmerdb, alignment query), nhmmscan, hmmalign (all output formats, `--mapali`, `--trim`), hmmemit, hmmsim, hmmstat, hmmconvert (including the binary round-trip), hmmfetch, hmmlogo and alimask. The cases also cover error paths and threading. Several searches run with `--cpu 0`, the default and `--cpu 8`.
+- `cases.txt`: 86 commands that run in parallel, each in its own directory. They cover every user-facing program: hmmbuild (weighting, effective-number, prior and `--hand` variants), hmmsearch (all table formats, `-A`, thresholds, `--max`, stdin, multi-query at several thread counts, `--restrictdb_*`, pressed query files, gzip and stdin targets), hmmpress, hmmscan, phmmer, jackhmmer (checkpoints), nhmmer (strands, FM index via makehmmerdb, alignment query), nhmmscan, hmmalign (all output formats, `--mapali`, `--trim`), hmmemit, hmmsim, hmmstat, hmmconvert (including the binary round-trip), hmmfetch, hmmlogo and alimask. The cases also cover error paths and threading. Several searches run with `--cpu 0`, the default and `--cpu 8`.
 - `golden/`: the expected results. For each case it holds `stdout`, `stderr`, `exitcode` and every file the case wrote.
 
 **Normalization:** only volatile lines are masked, in both text and binary files:
