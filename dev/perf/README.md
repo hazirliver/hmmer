@@ -8,9 +8,11 @@ These tools answer two questions for every optimization step in [`../profiling/P
 The golden regression (`dev/check.sh`) and the bench hashes (`dev/bench.sh`) check outputs against stored goldens. `ab.sh` instead compares two binaries directly, run by run, on large inputs.
 
 ```
-dev/perf/snap.sh                                   # before the change: freeze binaries -> bench-results/bins/<sha>/
+dev/perf/snap.sh --rev HEAD --perf                 # A: the commit before the step -> bench-results/bins/<sha>-perf/
 # ... change code, then dev/check.sh ...
-dev/perf/ab.sh <sha> --set cpu                     # B defaults to build-dev/src/hmmsearch
+B=$(dev/perf/snap.sh --perf)                       # B: the working tree, same flags
+dev/perf/ab.sh <sha>-perf $B/hmmsearch --set cpu
+dev/perf/ab.sh f8bebd8e --set cpu                  # B defaults to build-dev/src/hmmsearch (default flags)
 dev/perf/ab.sh <sha> --set scale,query --reps 5
 dev/perf/ab.sh <sha> build-xchk/src/hmmsearch --set all --check-only   # outputs only, e.g. a crosscheck build
 dev/perf/ab.sh x --list --set all                  # show workloads
@@ -18,9 +20,20 @@ dev/perf/ab.sh x --list --set all                  # show workloads
 
 ## `snap.sh`
 
-- Rebuilds `build-dev` (or `--build-dir`) so the binaries match the source tree.
+```
+dev/perf/snap.sh --rev HEAD --perf     # a commit, built in a temporary worktree, layout-stable flags
+dev/perf/snap.sh --perf                # the working tree, same flags (build dir build-perf/)
+dev/perf/snap.sh                       # the working tree as built in build-dev (default -O3)
+dev/perf/snap.sh --cflags "-O3 ..."    # any flags; --name NAME overrides the snapshot name
+```
+
+- `--perf` means `CFLAGS="-O3 -falign-functions=64"`. **Use it on both sides of a step's A/B.**
+  - In a default build, editing one file shifts every later function in the link by a few bytes. That changes the cache-line alignment of the SSE kernels and moves cycles by 1-3% on workloads that never run the edited code.
+  - Measured on step 1.1: W5 (`--max`, bias filter not called) was 1.1-1.6% "slower" with an identical instruction count. With both sides aligned it was within noise.
+- `--rev` builds a commit in a temporary `git worktree` that shares the pinned `easel/` checkout. It needs no stashing, and the working tree is never touched.
+- Without `--rev`, it builds the working tree so the binaries match the source.
 - Copies `hmmsearch` and the other search programs to `bench-results/bins/<name>/`, together with an `info.txt` (git sha, branch, Easel sha, flags, binary hash).
-- `<name>` is the short HEAD sha. When tracked files are modified it becomes `<sha>-dirty-<hash of the diff>`.
+- `<name>` is the short sha, plus `-dirty-<hash of the diff>` when tracked files are modified, plus `-perf` (or `-cf<hash>` for other flags).
 - HMMER links libhmmer and libeasel statically (only libc and libm are shared), so a copied binary is a complete snapshot.
 
 ## `ab.sh A [B]`
