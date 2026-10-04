@@ -66,19 +66,22 @@ Consequences:
 
 ```
 git checkout -b perf/<id>-<slug> dev        # or one branch per phase, one commit per step
-dev/perf/snap.sh                            # A := binaries built from HEAD -> bench-results/bins/<sha>/
+dev/perf/snap.sh --rev HEAD --perf          # A := HEAD built with layout-stable flags -> bench-results/bins/<sha>-perf/
 # ... implement the step ...
 dev/check.sh                                # build + make check + golden: must be ALL PASSED
 dev/bench.sh run S --cases hmmsearch --reps 1 --baseline none      # real-data hashes
 # kernel-rewrite steps only: shadow-execute old and new code, abort on any bit difference
 HMMER_BUILD_DIR=$PWD/build-xchk CFLAGS="-O3 -Dp7_CROSSCHECK" dev/check.sh --quick
 dev/perf/ab.sh <sha> build-xchk/src/hmmsearch --set all --check-only     # crosscheck over real data
-# speed + A-vs-B output identity on the step's workload set(s)
-dev/perf/ab.sh <sha> --set <cpu|scale|query|milestone>      # B defaults to build-dev/src/hmmsearch
+# speed + A-vs-B output identity on the step's workload set(s), both sides layout-stable
+B=$(dev/perf/snap.sh --perf)                # B := working tree, same flags
+dev/perf/ab.sh <sha>-perf $B/hmmsearch --set <cpu|scale|query|milestone>
 # record the numbers in PROGRESS.md and the commit message, then commit
 ```
 
 Tool details are in [`dev/perf/README.md`](../perf/README.md).
+
+**Why `--perf` builds.** The step 1.1 measurement showed that editing one file shifts every later function in the link by a few bytes. That changes the 64-byte alignment of the SSE kernels and moves cycles by 1-3% on workloads that never run the edited code. W5 got 1.1-1.6% "slower" with an identical instruction count. Step A/Bs therefore build both sides with `-O3 -falign-functions=64` (`snap.sh --perf`), which removes the artifact. Default `-O3` builds are compared once per phase, against the phase's start, to catch effects that only show in the shipped configuration.
 
 **Accept a step when all of the following hold:**
 
@@ -136,7 +139,7 @@ Legend:
 | | **X4** `Pfam-A.hmm` (text, and pressed `.h3m`) `× q_pick5.fa` @ 0/N | 22k queries × tiny DB |
 | milestone | **X5** `pfam_1k × human --cut_ga` @ N | Realistic annotation (57 s today) |
 
-### Phase 1 — bias filter (S2: 4-12% of CPU) · warm-up phase that exercises the protocol
+### Phase 1 — bias filter (S2: 4-12% of CPU) · **done** (1.1 measured and dropped, 1.2 kept; see PROGRESS.md)
 
 | Step | Change (files) | BI | Measure / Expect |
 |---|---|---|---|
@@ -144,6 +147,14 @@ Legend:
 | **1.2** | Replace `esl_hmm_Forward` with a static 2-state streaming forward in `p7_bg.c` that needs no matrix. It must keep the exact operation order: `0.0 + dp0·t0k + dp1·t1k`, then `· eo`, divide by the row max, and store `(float) log(max)`. The float running sum must be accumulated in `i` order (identical to summing `sc[1..L+1]` afterwards). The old call stays under `p7_CROSSCHECK` | Same IEEE ops in the same order. No FMA on the SSE build. Crosscheck asserts bitwise equality | W3, W4 `cycles:u`. Expect S2 to drop ~2× (the `log()` stays), i.e. 2-6% of total CPU |
 
 Out of scope, because it isn't byte-identical: a cheaper `log` (`logf`, or a periodic log of a running product).
+
+Outcome:
+
+- **1.1:** identical outputs; −0.15% to −0.5% instructions, below the cycles floor. Dropped, because 1.2 removes the matrix altogether.
+- **1.2:** filter CPU went from 9.4% to 2.8% of W3. Cycles fell 1.2-4.3% (layout-stable builds) and 1.8-5.0% (default `-O3`) on every workload that runs the filter.
+- **What's left:** the per-row `log()` and a division-bound dependency chain (row i needs row i−1's max). Both are inherent to doing the same operations in the same order.
+
+**Candidate (unscheduled):** `-falign-functions=64` as a default build flag. The aligned base was 0.9-1.9% faster than the default base on W2-W4 and 0.5% slower on W5. It doesn't affect outputs. It needs its own A/B across all sets before it's proposed.
 
 ### Phase 2 — parse the target DB once (Bottleneck #1: 3.5-4× wall at scale)
 

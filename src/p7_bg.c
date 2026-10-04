@@ -12,6 +12,7 @@
  */
 #include <p7_config.h>
 
+#include <math.h>
 #include <string.h>
 
 #include "easel.h"
@@ -451,6 +452,58 @@ p7_bg_SetFilter(P7_BG *bg, int M, const float *compo)
 }
 
 
+/* filter_forward()
+ * The bias filter's Forward score in nats: esl_hmm_Forward() specialized
+ * to the two-state filter HMM <hmm>. Instead of an (L+1) x M matrix, one
+ * scaled row is kept in two scalars, and the per-row log scale factors are
+ * summed as they're made. The float operations are the same as in
+ * esl_hmm_Forward(), in the same order: each row is 0 + d0*t0k + d1*t1k,
+ * times the emission odds, divided by the row max; each scale factor is
+ * (float) log(max); they're summed left to right. The score is therefore
+ * bitwise identical (utest_FilterScore() checks it).
+ */
+static float
+filter_forward(const ESL_DSQ *dsq, int L, const ESL_HMM *hmm)
+{
+  const float *t0    = hmm->t[0];
+  const float *t1    = hmm->t[1];
+  float        logsc = 0.0;
+  float        d0, d1;		/* previous row, scaled */
+  float        n0, n1;		/* current row          */
+  float        max, endsc;
+  int          i;
+
+  if (L == 0) return log(hmm->pi[2]);
+
+  d0  = hmm->eo[dsq[1]][0] * hmm->pi[0];
+  d1  = hmm->eo[dsq[1]][1] * hmm->pi[1];
+  max = 0.0;
+  max = ESL_MAX(d0, max);
+  max = ESL_MAX(d1, max);
+  d0 /= max;
+  d1 /= max;
+  logsc += (float) log(max);
+
+  for (i = 2; i <= L; i++)
+    {
+      n0  = 0.0;  n0 += d0 * t0[0];  n0 += d1 * t1[0];  n0 *= hmm->eo[dsq[i]][0];
+      n1  = 0.0;  n1 += d0 * t0[1];  n1 += d1 * t1[1];  n1 *= hmm->eo[dsq[i]][1];
+      max = 0.0;
+      max = ESL_MAX(n0, max);
+      max = ESL_MAX(n1, max);
+      d0  = n0 / max;
+      d1  = n1 / max;
+      logsc += (float) log(max);
+    }
+
+  endsc  = 0.0;
+  endsc += d0 * t0[2];
+  endsc += d1 * t1[2];
+  logsc += (float) log(endsc);
+  return logsc;
+}
+
+
 /* Function:  p7_bg_FilterScore()
  * Synopsis:  Calculates the filter null model score.
  *
@@ -470,14 +523,24 @@ p7_bg_SetFilter(P7_BG *bg, int M, const float *compo)
 int
 p7_bg_FilterScore(P7_BG *bg, const ESL_DSQ *dsq, int L, float *ret_sc)
 {
-  ESL_HMX *hmx = esl_hmx_Create(L, bg->fhmm->M); /* optimization target: this can be a 2-row matrix, and it can be stored in <bg>. */
-  float nullsc;		                  	 /* (or it could be passed in as an arg, but for sure it shouldn't be alloc'ed here */
-  
-  esl_hmm_Forward(dsq, L, bg->fhmm, hmx, &nullsc);
+  float nullsc;
+
+  ESL_DASSERT1(( bg->fhmm->M == 2 ));
+  nullsc = filter_forward(dsq, L, bg->fhmm);
+
+#ifdef p7_CROSSCHECK
+  { /* shadow-execute the generic Forward this replaces; any bit difference is fatal */
+    ESL_HMX *hmx = esl_hmx_Create(L, bg->fhmm->M);
+    float    refsc;
+    esl_hmm_Forward(dsq, L, bg->fhmm, hmx, &refsc);
+    esl_hmx_Destroy(hmx);
+    if (memcmp(&refsc, &nullsc, sizeof(float)) != 0)
+      esl_fatal("p7_CROSSCHECK: p7_bg_FilterScore() %a != esl_hmm_Forward() %a (L=%d)", nullsc, refsc, L);
+  }
+#endif
 
   /* impose the length distribution */
   *ret_sc = nullsc + (float) L * logf(bg->p1) + logf(1.-bg->p1);
-  esl_hmx_Destroy(hmx);
   return eslOK;
 }
 
@@ -587,6 +650,55 @@ utest_ReadWrite(ESL_RANDOMNESS *rng)
   free(fq);
   remove(tmpfile);
 }
+
+/* utest_FilterScore()
+ * p7_bg_FilterScore() must be bitwise identical to the generic
+ * esl_hmm_Forward() path it replaced, for any filter composition, any
+ * target length (including 0 and 1) and any residue code.
+ */
+static void
+utest_FilterScore(ESL_RANDOMNESS *rng, int alphatype, int nseq)
+{
+  char          msg[] = "bg FilterScore unit test failed";
+  ESL_ALPHABET *abc   = esl_alphabet_Create(alphatype);
+  P7_BG        *bg    = p7_bg_Create(abc);
+  ESL_HMX      *hmx   = esl_hmx_Create(100, 2);
+  float        *compo = malloc(sizeof(float) * abc->K);
+  ESL_DSQ      *dsq   = NULL;
+  float         sc, refsc;
+  int           M, L, i, n;
+
+  if (!abc || !bg || !hmx || !compo) esl_fatal(msg);
+  for (n = 0; n < nseq; n++)
+    {
+      /* filter HMM: random model length and composition, sometimes very skewed */
+      M = 1 + esl_rnd_Roll(rng, 2000);
+      if (esl_dirichlet_FSampleUniform(rng, abc->K, compo) != eslOK) esl_fatal(msg);
+      if (n % 3 == 0) { esl_vec_FScale(compo, abc->K, 0.01); compo[esl_rnd_Roll(rng, abc->K)] += 0.99; }
+      if (p7_bg_SetFilter(bg, M, compo) != eslOK) esl_fatal(msg);
+
+      /* target: lengths 0, 1, 2 and up to 5000; mostly canonical residues, plus every other code */
+      L = (n < 3) ? n : esl_rnd_Roll(rng, 5000);
+      if ((dsq = realloc(dsq, sizeof(ESL_DSQ) * (L+2))) == NULL) esl_fatal(msg);
+      dsq[0] = dsq[L+1] = eslDSQ_SENTINEL;
+      for (i = 1; i <= L; i++)
+        dsq[i] = (esl_random(rng) < 0.9) ? esl_rnd_Roll(rng, abc->K) : esl_rnd_Roll(rng, abc->Kp);
+      if (n % 5 == 1) for (i = 1; i <= L/2; i++) dsq[i] = 0; /* a long low-complexity run */
+      p7_bg_SetLength(bg, L);
+
+      if (p7_bg_FilterScore(bg, dsq, L, &sc) != eslOK) esl_fatal(msg);
+      if (esl_hmx_GrowTo(hmx, L, 2)          != eslOK) esl_fatal(msg);
+      esl_hmm_Forward(dsq, L, bg->fhmm, hmx, &refsc);
+      refsc = refsc + (float) L * logf(bg->p1) + logf(1.-bg->p1);
+      if (memcmp(&sc, &refsc, sizeof(float)) != 0)
+        esl_fatal("%s: L=%d M=%d: %a != %a", msg, L, M, sc, refsc);
+    }
+  free(dsq);
+  free(compo);
+  esl_hmx_Destroy(hmx);
+  p7_bg_Destroy(bg);
+  esl_alphabet_Destroy(abc);
+}
 #endif /*p7BG_TESTDRIVE*/
 
 
@@ -625,6 +737,8 @@ main(int argc, char **argv)
   if (be_verbose) printf("p7_bg unit test: rng seed %" PRIu32 "\n", esl_randomness_GetSeed(rng));
 
   utest_ReadWrite(rng);
+  utest_FilterScore(rng, eslAMINO, 2000);
+  utest_FilterScore(rng, eslDNA,    500);
 
   esl_randomness_Destroy(rng);
   esl_getopts_Destroy(go);
