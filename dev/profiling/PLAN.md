@@ -180,7 +180,7 @@ Decided 2026-10-04: the cache is opt-in, its cap defaults from the host, and `.g
 | **3.5** *(measured: barrier stall)* | Query-parallel mode with `--dbcache` and a small cached db (≤ 2M residues): each worker searches whole queries against all cached targets, in file order, with its own pipeline; the master prints jobs in query order (3.5a: output moved into `output_results()`). After 3.4b, X3 `--dbcache` @ 16 kept only ~4.7 of 16 cores busy: per-query hand-offs and the barrier cost ~1.4 ms for ~5 ms of CPU work | Each query is searched serially in file order, so its output equals `--cpu 0` even without `-Z`. Model errors (`--cut_ga`) and read errors are reported in order | X3, X4 `--dbcache`; X5 `--dbcache` must not regress |
 | ~~3.5 (original)~~ | Overlap query q's merge and output with query q+1's search, using double-buffered per-thread results. Do it only if the post-3.4 profile shows a barrier stall | Output order unchanged | X5 |
 
-### Phase 4 — stochastic-traceback domain stage (D2: 12-41% of CPU on realistic and hit-rich runs)
+### Phase 4 — stochastic-traceback domain stage (D2: 12-41% of CPU on realistic and hit-rich runs) · **done** (4.3 measured and dropped; 4.8 added and dropped; see PROGRESS.md)
 
 Sub-profile of D2 on W1 (perf, `--cpu 1`, % of all CPU):
 
@@ -208,6 +208,7 @@ Every step must keep the RNG stream exactly the same: the same number and order 
 | **4.5** | `p7_Null2_ByTrace` (`src/impl_sse/null2.c`): delete the insert-state term. Insert counts are never incremented (line 163 bins every k>0 state into the M slot), so `sv += +0.0` on `sv ≥ +0` is a bitwise no-op | Exact: x + (+0) = x for x ≥ +0 | W1, W5. Expect ~1% of W1 |
 | **4.6** | Same function: hoist the per-q count load out of the K loop (q outer, x inner, in two halves of ~10 accumulators to avoid spills). The per-x accumulation stays in ascending q | Same per-lane add order | W1, W5. Keep only if faster |
 | **4.7** | `p7_spensemble.c`: a specialized single-linkage with the link test inlined (no callback), producing **the same cluster numbering** as `esl_cluster_SingleLinkage`. Add a unit test against the Easel routine on random sample sets | Same assignments, checked by the test | W1, W5. Expect ~1.5% |
+| 4.8 *(added)* | `p7_spensemble.c`: skip the overlap divide when `nov <= 0` (exact for `n > 0`, `min_overlap > 0`) | Same predicate, checked by the utest | W5. Dropped: rarely fires, 2% slower |
 
 Out of scope, because it isn't byte-identical: fewer than 200 samples, a different RNG, or a deterministic replacement for sampling.
 
