@@ -198,11 +198,29 @@ p7_Null2_ByTrace(const P7_OPROFILE *om, const P7_TRACE *tr, int zstart, int zend
       for (q = 0; q < Q; q++)
 	{
 	  sv = _mm_add_ps(sv, _mm_mul_ps(wrk->dpf[0][q*3 + p7X_M], *rp)); rp++;
-	  sv = _mm_add_ps(sv,            wrk->dpf[0][q*3 + p7X_I]); /* insert emission odds implicitly 1.0 */
-	  //	  sv = _mm_add_ps(sv, _mm_mul_ps(wrk->dpf[0][q*3 + p7X_I], *rp)); rp++;
+	  /* The insert term, sv += I count (emission odds implicitly 1.0), is
+	   * left out: the loop above bins every k > 0 element into the M slot,
+	   * so I counts are +0, and sv + (+0) == sv bitwise for sv >= +0 or NaN.
+	   */
 	}
       esl_sse_hsum_ps(sv, &(null2[x]));
       null2[x] += xfactor;
+#ifdef p7_CROSSCHECK
+      { /* shadow-execute the original loop, insert term included; any bit difference is fatal */
+	__m128  xv = _mm_setzero_ps();
+	__m128 *xp = om->rfv[x];
+	float   ref;
+	for (q = 0; q < Q; q++)
+	  {
+	    xv = _mm_add_ps(xv, _mm_mul_ps(wrk->dpf[0][q*3 + p7X_M], *xp)); xp++;
+	    xv = _mm_add_ps(xv,            wrk->dpf[0][q*3 + p7X_I]);
+	  }
+	esl_sse_hsum_ps(xv, &ref);
+	ref += xfactor;
+	if (memcmp(&ref, &(null2[x]), sizeof(float)) != 0)
+	  esl_fatal("p7_CROSSCHECK: p7_Null2_ByTrace() null2[%d] %a != reference %a", x, null2[x], ref);
+      }
+#endif
     }
   /* now null2[x] = \frac{f_d(x)}{f_0(x)} for all x in alphabet,
    * 0..K-1, where f_d(x) are the ad hoc "null2" residue frequencies
