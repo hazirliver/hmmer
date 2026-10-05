@@ -1,0 +1,3 @@
+Warning: the target database needs more than the --dbcache limit (1 MB);
+         it is read again for each query instead. Raise the limit with --dbcache_max <MB>.
+Target sequence file db.fa.gz isn't rewindable and doesn't fit in the --dbcache limit (1 MB); can't search it with multiple queries

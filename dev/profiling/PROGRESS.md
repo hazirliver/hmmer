@@ -23,3 +23,4 @@ One row per step of [`PLAN.md`](PLAN.md). A is the snapshot before the step, B i
 | 2.2 | | scale | X2 1 query × Swiss-Prot @ 16, `--dbcache` | wall | 1.02 s → 1.17 s | 1.15 (was 1.39) | 5.0% | Arena copy: instructions B/A 1.007. Remaining cost: sys time from first-touching ~430 MB, lowered by huge pages (1.26 → 1.15). RSS 547 MB (was 653) |
 | 2.2 | | scale | X1 p100 × 50k @ 8 / 16, `--dbcache` | wall | 8.43 / 9.43 s → 2.72 / 2.60 s | 0.32 / 0.28 | 5.5-11.7% | Unchanged from 2.1 |
 | 2.2 | | query | X3 @ 0 / 16, `--dbcache` | wall | 4.92 / 6.47 s → 3.67 / 4.97 s | 0.75 / 0.77 | 3.1-4.1% | |
+| 2.3 | "dbcache: --dbcache_max" | — | protdb, 1 MB limit | functional | — | — | — | Over the limit: warning, results identical to uncached (`--cpu` 0 and 3); a `.gz` target gives a clear fatal error; with 2 MB the `.gz` multi-query works. The help column for "Other expert options" is 4 characters wider (longer option name) |

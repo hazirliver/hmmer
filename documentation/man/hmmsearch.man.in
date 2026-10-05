@@ -370,6 +370,32 @@ The string
 is case-insensitive (\fBfasta\fR or \fBFASTA\fR both work).
 
 .TP
+.B \-\-dbcache
+Keep the target sequence database in memory, so it is read and parsed
+only once instead of once per query. This speeds up searches with many
+query profiles, especially with several worker threads, where reading
+the database otherwise limits the speed. Results are the same as without
+the option. With a single query it only costs time and memory, so don't
+use it then. It also allows searching several queries against a
+.I seqfile
+that can't be rewound, such as a gzip-compressed file or standard input.
+The memory used is about the database's residues plus its name and
+description lines, plus a few hundred bytes per sequence.
+
+.TP
+.BI \-\-dbcache_max " <n>"
+With
+.BR \-\-dbcache ,
+limit the cache to
+.I <n>
+megabytes. The default is half of the memory available to the process
+(physical memory, or a lower container memory limit). If the database
+needs more than the limit, a warning is printed and it is read again for
+each query, as without
+.BR \-\-dbcache ;
+a database that can't be rewound then can only be searched with a single query.
+
+.TP
 .BI \-\-cpu " <n>"
 Set the number of parallel worker threads to 
 .IR <n> .

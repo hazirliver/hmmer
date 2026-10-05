@@ -25,6 +25,7 @@
 #include "esl_mpi.h"
 #endif 
 
+#include <unistd.h>       /* sysconf(): default --dbcache_max */
 #if defined(__linux__)
 #include <sys/mman.h>     /* madvise(MADV_HUGEPAGE) for the --dbcache arena */
 #endif
@@ -103,6 +104,7 @@ static ESL_OPTIONS options[] = {
   { "--seed",       eslARG_INT,    "42",  NULL, "n>=0",  NULL,  NULL,  NULL,            "set RNG seed to <n> (if 0: one-time arbitrary seed)",         12 },
   { "--tformat",    eslARG_STRING,  NULL, NULL, NULL,    NULL,  NULL,  NULL,            "assert target <seqfile> is in format <s>: no autodetection",  12 },
   { "--dbcache",    eslARG_NONE,   FALSE, NULL, NULL,    NULL,  NULL,  NULL,            "keep <seqdb> in memory: read it once for all queries",        12 },
+  { "--dbcache_max",eslARG_INT,     NULL, NULL, "n>0",   NULL,"--dbcache",NULL,         "memory limit for --dbcache, in MB [default: half of RAM]",   12 },
 
 #ifdef HMMER_THREADS 
   { "--cpu",        eslARG_INT, p7_NCPU,"HMMER_NCPU","n>=0",NULL,  NULL,  CPUOPTS,      "number of parallel CPU workers to use for multithreads",      12 },
@@ -177,6 +179,8 @@ typedef struct {
   int             pass_eof;     /* the current pass has reached its end                 */
   int64_t         nseq;         /* number of sequences cached                           */
   uint64_t        nbytes;       /* bytes of the arena in use                            */
+  uint64_t        maxbytes;     /* limit (--dbcache_max); above it the cache is dropped */
+  int             dropped;      /* TRUE: over the limit; targets are read per query     */
 
   char          **chunk;        /* arena: strings and digital sequences of cached seqs  */
   int             nchunk;
@@ -191,7 +195,8 @@ typedef struct {
   const ESL_ALPHABET *abc;
 } DBCACHE;
 
-static DBCACHE *dbcache_Create(const ESL_ALPHABET *abc, int ncarrier);
+static DBCACHE *dbcache_Create(const ESL_ALPHABET *abc, int ncarrier, uint64_t maxbytes);
+static uint64_t dbcache_DefaultMax(void);
 static void     dbcache_StartPass(DBCACHE *dbc);
 static void     dbcache_EndPass(DBCACHE *dbc);
 static int      dbcache_NextBlock(DBCACHE *dbc, ESL_SQFILE *dbfp, int *n_targetseqs, ESL_SQ_BLOCK *rdblk, ESL_SQ_BLOCK **ret_blk);
@@ -318,6 +323,7 @@ output_header(FILE *ofp, const ESL_GETOPTS *go, char *hmmfile, char *seqfile)
   }
   if (esl_opt_IsUsed(go, "--tformat")    && fprintf(ofp, "# targ <seqfile> format asserted:  %s\n",             esl_opt_GetString(go, "--tformat"))    < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");
   if (esl_opt_IsUsed(go, "--dbcache")    && fprintf(ofp, "# target db cached in memory:      yes\n")                                                   < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");
+  if (esl_opt_IsUsed(go, "--dbcache_max")&& fprintf(ofp, "# target db cache limit:           %d MB\n",         esl_opt_GetInteger(go, "--dbcache_max")) < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");
 #ifdef HMMER_THREADS
   if (esl_opt_IsUsed(go, "--cpu")        && fprintf(ofp, "# number of worker threads:        %d\n",             esl_opt_GetInteger(go, "--cpu"))       < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");  
 #endif
@@ -498,8 +504,11 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       output_header(ofp, go, cfg->hmmfile, cfg->dbfile);
       esl_sqfile_SetDigital(dbfp, abc); //ReadBlock requires knowledge of the alphabet to decide how best to read blocks
 
-      if (esl_opt_GetBoolean(go, "--dbcache") && (dbc = dbcache_Create(abc, ncpus * 2)) == NULL)
-	p7_Fail("Failed to allocate the target sequence cache");
+      if (esl_opt_GetBoolean(go, "--dbcache"))
+	{
+	  uint64_t maxbytes = esl_opt_IsOn(go, "--dbcache_max") ? (uint64_t) esl_opt_GetInteger(go, "--dbcache_max") << 20 : dbcache_DefaultMax();
+	  if ((dbc = dbcache_Create(abc, ncpus * 2, maxbytes)) == NULL) p7_Fail("Failed to allocate the target sequence cache");
+	}
 
       for (i = 0; i < infocnt; ++i)
 	{
@@ -541,7 +550,11 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       if (nquery > 1 && ! (dbc && dbc->complete))
       {
         if (! esl_sqfile_IsRewindable(dbfp))
+        {
+          if (dbc && dbc->dropped)
+            esl_fatal("Target sequence file %s isn't rewindable and doesn't fit in the --dbcache limit (%" PRIu64 " MB); can't search it with multiple queries", cfg->dbfile, dbc->maxbytes >> 20);
           esl_fatal("Target sequence file %s isn't rewindable; can't search it with multiple queries", cfg->dbfile);
+        }
 
         if (! esl_opt_IsUsed(go, "--restrictdb_stkey") )
           esl_sqfile_Position(dbfp, 0); //only re-set current position to 0 if we're not planning to set it in a moment
@@ -1360,7 +1373,7 @@ mpi_worker(ESL_GETOPTS *go, struct cfg_s *cfg)
 
 /* dbcache_*: the --dbcache in-memory target database (see DBCACHE). */
 static DBCACHE *
-dbcache_Create(const ESL_ALPHABET *abc, int ncarrier)
+dbcache_Create(const ESL_ALPHABET *abc, int ncarrier, uint64_t maxbytes)
 {
   DBCACHE *dbc = NULL;
   int      status;
@@ -1378,6 +1391,8 @@ dbcache_Create(const ESL_ALPHABET *abc, int ncarrier)
   dbc->pass_eof     = FALSE;
   dbc->nseq         = 0;
   dbc->nbytes       = 0;
+  dbc->maxbytes     = maxbytes;
+  dbc->dropped      = FALSE;
   dbc->nchunk       = 0;
   dbc->nchunkalloc  = 16;
   dbc->used         = 0;
@@ -1394,6 +1409,53 @@ dbcache_Create(const ESL_ALPHABET *abc, int ncarrier)
  ERROR:
   dbcache_Destroy(dbc);
   return NULL;
+}
+
+/* dbcache_DefaultMax()
+ * Default --dbcache limit: half of the memory available to this process,
+ * i.e. physical RAM or, if lower, a cgroup (container) memory limit.
+ */
+static uint64_t
+dbcache_DefaultMax(void)
+{
+  uint64_t mem = 0;
+#if defined(_SC_PHYS_PAGES) && defined(_SC_PAGESIZE)
+  long     npages = sysconf(_SC_PHYS_PAGES);
+  long     psize  = sysconf(_SC_PAGESIZE);
+  if (npages > 0 && psize > 0) mem = (uint64_t) npages * (uint64_t) psize;
+#endif
+#if defined(__linux__)
+  {
+    const char *cgfile[] = { "/sys/fs/cgroup/memory.max", "/sys/fs/cgroup/memory/memory.limit_in_bytes" };
+    unsigned long long lim;
+    FILE *fp;
+    int   i;
+    for (i = 0; i < 2; i++)
+      if ((fp = fopen(cgfile[i], "r")) != NULL)
+        {
+          if (fscanf(fp, "%llu", &lim) == 1 && lim > 0 && (mem == 0 || lim < mem)) mem = lim; /* "max" = no limit */
+          fclose(fp);
+        }
+  }
+#endif
+  return (mem > 0) ? mem / 2 : (uint64_t) 4 << 30;   /* unknown: 4 GB */
+}
+
+/* Over the limit: free what's cached; from now on, targets are read per query. */
+static void
+dbcache_drop(DBCACHE *dbc)
+{
+  int i;
+  for (i = 0; i < dbc->nchunk; i++) free(dbc->chunk[i]);
+  dbc->nchunk  = 0;
+  dbc->nblk    = 0;
+  dbc->nseq    = 0;
+  dbc->used    = dbc->chunksize = 0;
+  dbc->nbytes  = 0;
+  dbc->dropped = TRUE;
+  fprintf(stderr, "Warning: the target database needs more than the --dbcache limit (%" PRIu64 " MB);\n"
+                  "         it is read again for each query instead. Raise the limit with --dbcache_max <MB>.\n",
+          dbc->maxbytes >> 20);
 }
 
 static void
@@ -1545,14 +1607,18 @@ dbcache_NextBlock(DBCACHE *dbc, ESL_SQFILE *dbfp, int *n_targetseqs, ESL_SQ_BLOC
       return eslEOF;
     }
 
-  if (*n_targetseqs == 0) { rdblk->count = 0; dbc->pass_eof = dbc->complete = TRUE; return eslEOF; }
+  if (*n_targetseqs == 0) { rdblk->count = 0; dbc->pass_eof = TRUE; dbc->complete = ! dbc->dropped; return eslEOF; }
 
   status = esl_sqio_ReadBlock(dbfp, rdblk, -1, *n_targetseqs, /*max_init_window=*/FALSE, FALSE);
-  if (status == eslEOF) dbc->pass_eof = dbc->complete = TRUE;
+  if (status == eslEOF) { dbc->pass_eof = TRUE; dbc->complete = ! dbc->dropped; }
   if (status != eslOK)  return status;
 
   *n_targetseqs -= rdblk->count;
-  if ((status = dbcache_addblock(dbc, rdblk)) != eslOK) return status;
+  if (! dbc->dropped)
+    {
+      if ((status = dbcache_addblock(dbc, rdblk)) != eslOK) return status;
+      if (dbc->nbytes > dbc->maxbytes) dbcache_drop(dbc);
+    }
   *ret_blk = rdblk;
   return eslOK;
 }

@@ -54,6 +54,9 @@ hmmsearch_dbcache_tables_cpu4 hmmsearch --dbcache --cpu 4 --tblout t.tbl --domtb
 hmmsearch_dbcache_restrict_cpu0 cp data/protdb.fa db.fa && esl-sfetch --index db.fa >/dev/null && hmmsearch --dbcache --cpu 0 --restrictdb_stkey shuf_emit_Pkinase_Pkinase-sample37-shuffled-0 --restrictdb_n 1200 --tblout t.tbl -o main.out fx/minipfam.hmm db.fa && rm db.fa db.fa.ssi
 hmmsearch_dbcache_gz_multi gzip -nc data/protdb.fa > db.fa.gz && hmmsearch --dbcache --cpu 2 --tblout t.tbl -o main.out fx/minipfam.hmm db.fa.gz; rc=$?; rm -f db.fa.gz; exit $rc
 hmmsearch_dbcache_stdin_multi cat data/protdb.fa | hmmsearch --dbcache --cpu 0 --tblout t.tbl -o main.out fx/minipfam.hmm -
+# over the --dbcache_max limit: warning, then read per query (same results); a .gz target can't be re-read
+hmmsearch_dbcache_cap_fallback hmmsearch --dbcache --dbcache_max 1 --cpu 2 --tblout t.tbl -o main.out fx/minipfam.hmm data/protdb.fa
+hmmsearch_dbcache_cap_gz_err gzip -nc data/protdb.fa > db.fa.gz && hmmsearch --dbcache --dbcache_max 1 --cpu 2 --tblout t.tbl -o main.out fx/minipfam.hmm db.fa.gz; rc=$?; rm -f db.fa.gz; exit $rc
 
 # ---------- hmmpress / hmmscan ----------
 hmmpress_protdb       cp fx/minipfam.hmm db.hmm && hmmpress db.hmm && rm db.hmm

@@ -1,0 +1,2 @@
+Warning: the target database needs more than the --dbcache limit (1 MB);
+         it is read again for each query instead. Raise the limit with --dbcache_max <MB>.
