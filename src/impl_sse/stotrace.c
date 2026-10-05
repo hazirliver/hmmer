@@ -182,8 +182,7 @@ select_m(ESL_RANDOMNESS *rng, const P7_OPROFILE *om, const P7_OMX *ox, int i, in
   u.v = _mm_mul_ps(mpv, *tp); tp++;  path[1] = u.p[r];
   u.v = _mm_mul_ps(ipv, *tp); tp++;  path[2] = u.p[r];
   u.v = _mm_mul_ps(dpv, *tp);        path[3] = u.p[r];
-  esl_vec_FNorm(path, 4);
-  return state[esl_rnd_FChoose(rng, path, 4)];
+  return state[choose(rng, path, 4)];
 }
 
 /* D(i,k) is reached from M(i, k-1) or D(i,k-1). */
