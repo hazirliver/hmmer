@@ -13,3 +13,4 @@ One row per step of [`PLAN.md`](PLAN.md). A is the snapshot before the step, B i
 | 1.2 | | cpu | W2 mix | cycles:u (`--perf`) | 10.857G → 10.725G | **0.988** | 0.59% | |
 | 1.2 | | cpu | W5 `--max` | cycles:u (`--perf`) | 11.850G → 11.818G | 0.997 (~) | 1.06% | Bias filter isn't used with `--max`; instructions B/A 1.0000 |
 | 1.2 | | cpu | W1-W5 | cycles:u (default `-O3` vs f8bebd8) | — | 0.986 / 0.982 / **0.950** / 0.971 / 1.010 | 0.2-1.6% | W5's +1.0% has identical instructions: a layout artifact |
+| Phase 1 milestone | 2547ac9 | milestone | X5 pfam_1k × human `--cpu 16` | wall (default `-O3` vs f8bebd8, 3 reps) | 58.73 s → 57.78 s | 0.984 (~) | 2.39% | Instructions −2.7%, but at 16 threads wall time is reader-bound (Phase 2's target). `dev/check.sh --bench M`: all 121 hashes match. Its 0.920 overall ratio vs the 10-03 baseline is mostly machine drift (untouched kernels 0.877), so the baseline was re-saved from this run |
