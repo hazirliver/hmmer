@@ -127,6 +127,36 @@ p7_Null2_ByExpectation(const P7_OPROFILE *om, const P7_OMX *pp, float *null2)
  *            and the residue posterior probability matrix. See 
  *            <p7_GNull2_ByTrace()>  documentation.
  */
+/* null2_byresidue()
+ * null2[x] for residues x0..x0+nx-1: the usage-weighted sum of emission
+ * odds over the M cells, plus <xfactor>. The insert term (sv += I count,
+ * emission odds implicitly 1.0) is left out: p7_Null2_ByTrace() bins every
+ * k > 0 element into the M slot, so I counts are +0, and sv + (+0) == sv
+ * bitwise for sv >= +0 or NaN. q is the outer loop so that the <nx> sums
+ * are independent add chains; each one still adds in ascending q, exactly
+ * as the residue-at-a-time loop did. <nx> is a constant at each call site,
+ * so the sums stay in registers.
+ */
+static inline void
+null2_byresidue(const P7_OPROFILE *om, const P7_OMX *wrk, int Q, int x0, const int nx, float xfactor, float *null2)
+{
+  __m128 sv[10];
+  __m128 mv;
+  int    q, j;
+
+  for (j = 0; j < nx; j++) sv[j] = _mm_setzero_ps();
+  for (q = 0; q < Q; q++)
+    {
+      mv = wrk->dpf[0][q*3 + p7X_M];
+      for (j = 0; j < nx; j++) sv[j] = _mm_add_ps(sv[j], _mm_mul_ps(mv, om->rfv[x0+j][q]));
+    }
+  for (j = 0; j < nx; j++)
+    {
+      esl_sse_hsum_ps(sv[j], &(null2[x0+j]));
+      null2[x0+j] += xfactor;
+    }
+}
+
 int
 p7_Null2_ByTrace(const P7_OPROFILE *om, const P7_TRACE *tr, int zstart, int zend, P7_OMX *wrk, float *null2)
 {
@@ -137,7 +167,6 @@ p7_Null2_ByTrace(const P7_OPROFILE *om, const P7_TRACE *tr, int zstart, int zend
   float  norm;
   float  xfactor;
   __m128 sv;
-  __m128 *rp;
   int    q, r;
   int    x;
   int    z;
@@ -191,21 +220,12 @@ p7_Null2_ByTrace(const P7_OPROFILE *om, const P7_TRACE *tr, int zstart, int zend
    * over all emission vectors used in paths explaining the domain.
    */
   xfactor =  XMXo(0,p7X_N) + XMXo(0,p7X_C) + XMXo(0,p7X_J);
+  for (x = 0; x + 10 <= om->abc->K; x += 10) null2_byresidue(om, wrk, Q, x, 10, xfactor, null2);
+  for (     ; x + 4  <= om->abc->K; x += 4)  null2_byresidue(om, wrk, Q, x,  4, xfactor, null2);
+  for (     ; x      <  om->abc->K; x += 1)  null2_byresidue(om, wrk, Q, x,  1, xfactor, null2);
+#ifdef p7_CROSSCHECK
   for (x = 0; x < om->abc->K; x++)
     {
-      sv = _mm_setzero_ps();
-      rp = om->rfv[x];
-      for (q = 0; q < Q; q++)
-	{
-	  sv = _mm_add_ps(sv, _mm_mul_ps(wrk->dpf[0][q*3 + p7X_M], *rp)); rp++;
-	  /* The insert term, sv += I count (emission odds implicitly 1.0), is
-	   * left out: the loop above bins every k > 0 element into the M slot,
-	   * so I counts are +0, and sv + (+0) == sv bitwise for sv >= +0 or NaN.
-	   */
-	}
-      esl_sse_hsum_ps(sv, &(null2[x]));
-      null2[x] += xfactor;
-#ifdef p7_CROSSCHECK
       { /* shadow-execute the original loop, insert term included; any bit difference is fatal */
 	__m128  xv = _mm_setzero_ps();
 	__m128 *xp = om->rfv[x];
@@ -220,8 +240,8 @@ p7_Null2_ByTrace(const P7_OPROFILE *om, const P7_TRACE *tr, int zstart, int zend
 	if (memcmp(&ref, &(null2[x]), sizeof(float)) != 0)
 	  esl_fatal("p7_CROSSCHECK: p7_Null2_ByTrace() null2[%d] %a != reference %a", x, null2[x], ref);
       }
-#endif
     }
+#endif
   /* now null2[x] = \frac{f_d(x)}{f_0(x)} for all x in alphabet,
    * 0..K-1, where f_d(x) are the ad hoc "null2" residue frequencies
    * for this envelope.
