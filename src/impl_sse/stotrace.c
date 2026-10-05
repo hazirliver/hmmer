@@ -15,6 +15,7 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <string.h>
 
 #include <xmmintrin.h>		/* SSE  */
 #include <emmintrin.h>		/* SSE2 */
@@ -35,6 +36,7 @@ static inline int select_c(ESL_RANDOMNESS *rng, const P7_OPROFILE *om, const P7_
 static inline int select_j(ESL_RANDOMNESS *rng, const P7_OPROFILE *om, const P7_OMX *ox, int i);
 static inline int select_e(ESL_RANDOMNESS *rng, const P7_OPROFILE *om, const P7_OMX *ox, int i, int *ret_k);
 static inline int select_b(ESL_RANDOMNESS *rng, const P7_OPROFILE *om, const P7_OMX *ox, int i);
+static inline int choose  (ESL_RANDOMNESS *rng, float *p, const int n);
 
 
 /*****************************************************************
@@ -120,6 +122,38 @@ p7_StochasticTrace(ESL_RANDOMNESS *rng, const ESL_DSQ *dsq, int L, const P7_OPRO
  * index of the state we move to next.
  */
 
+/* choose()
+ * esl_vec_FNorm(p, n) followed by esl_rnd_FChoose(rng, p, n), inlined.
+ * The float and double operations are the same, in the same order, so
+ * the choice, the normalized <p> and the RNG draws are bitwise identical
+ * (utest_choose() checks this against Easel). <n> is a constant at each
+ * call site, so the loops unroll and the calls are gone.
+ */
+static inline int
+choose(ESL_RANDOMNESS *rng, float *p, const int n)
+{
+  float  fsum = 0.;
+  float  y, t, c = 0.0;
+  double norm = 0.0;
+  double sum  = 0.0;
+  double roll;
+  int    i;
+
+  for (i = 0; i < n; i++) { y = p[i] - c; t = fsum + y; c = (t-fsum)-y; fsum = t; } /* esl_vec_FSum()    */
+  if (fsum != 0.0) for (i = 0; i < n; i++) p[i] /= fsum;                            /* esl_vec_FNorm()   */
+  else             for (i = 0; i < n; i++) p[i] = 1. / (float) n;
+
+  roll = esl_random(rng);                                                           /* esl_rnd_FChoose() */
+  for (i = 0; i < n; i++) norm += p[i];
+  for (i = 0; i < n; i++)
+    {
+      sum += (double) p[i];
+      if (roll < (sum / norm) ) return i;
+    }
+  esl_fatal("unreached code was reached. universe collapses.");
+  return 0; /*notreached*/
+}
+
 /* M(i,k) is reached from B(i-1), M(i-1,k-1), D(i-1,k-1), or I(i-1,k-1). */
 static inline int
 select_m(ESL_RANDOMNESS *rng, const P7_OPROFILE *om, const P7_OMX *ox, int i, int k)
@@ -179,8 +213,7 @@ select_d(ESL_RANDOMNESS *rng, const P7_OPROFILE *om, const P7_OMX *ox, int i, in
 
   u.v = _mm_mul_ps(mpv, tmdv); path[0] = u.p[r];
   u.v = _mm_mul_ps(dpv, tddv); path[1] = u.p[r];
-  esl_vec_FNorm(path, 2);
-  return state[esl_rnd_FChoose(rng, path, 2)];
+  return state[choose(rng, path, 2)];
 }
 
 /* I(i,k) is reached from M(i-1, k) or I(i-1,k). */
@@ -199,8 +232,7 @@ select_i(ESL_RANDOMNESS *rng, const P7_OPROFILE *om, const P7_OMX *ox, int i, in
 
   u.v = _mm_mul_ps(mpv, *tp); tp++;  path[0] = u.p[r];
   u.v = _mm_mul_ps(ipv, *tp);        path[1] = u.p[r];
-  esl_vec_FNorm(path, 2);
-  return state[esl_rnd_FChoose(rng, path, 2)];
+  return state[choose(rng, path, 2)];
 }
 
 /* N(i) must come from N(i-1) for i>0; else it comes from S */
@@ -220,8 +252,7 @@ select_c(ESL_RANDOMNESS *rng, const P7_OPROFILE *om, const P7_OMX *ox, int i)
 
   path[0] = ox->xmx[(i-1)*p7X_NXCELLS+p7X_C] * om->xf[p7O_C][p7O_LOOP];
   path[1] = ox->xmx[    i*p7X_NXCELLS+p7X_E] * om->xf[p7O_E][p7O_MOVE] * ox->xmx[i*p7X_NXCELLS+p7X_SCALE];
-  esl_vec_FNorm(path, 2);
-  return state[esl_rnd_FChoose(rng, path, 2)];
+  return state[choose(rng, path, 2)];
 }
 
 /* J(i) is reached from E(i) or J(i-1). */
@@ -233,8 +264,7 @@ select_j(ESL_RANDOMNESS *rng, const P7_OPROFILE *om, const P7_OMX *ox, int i)
 
   path[0] = ox->xmx[(i-1)*p7X_NXCELLS+p7X_J] * om->xf[p7O_J][p7O_LOOP];
   path[1] = ox->xmx[    i*p7X_NXCELLS+p7X_E] * om->xf[p7O_E][p7O_LOOP] * ox->xmx[i*p7X_NXCELLS+p7X_SCALE];
-  esl_vec_FNorm(path, 2);
-  return state[esl_rnd_FChoose(rng, path, 2)];
+  return state[choose(rng, path, 2)];
 }
 
 /* E(i) is reached from any M(i, k=1..M) or D(i, k=2..M). */
@@ -285,8 +315,7 @@ select_b(ESL_RANDOMNESS *rng, const P7_OPROFILE *om, const P7_OMX *ox, int i)
 
   path[0] = ox->xmx[i*p7X_NXCELLS+p7X_N] * om->xf[p7O_N][p7O_MOVE];
   path[1] = ox->xmx[i*p7X_NXCELLS+p7X_J] * om->xf[p7O_J][p7O_MOVE];
-  esl_vec_FNorm(path, 2);
-  return state[esl_rnd_FChoose(rng, path, 2)];
+  return state[choose(rng, path, 2)];
 }
 /*---------------------- end, step selection --------------------*/
 
@@ -399,6 +428,64 @@ main(int argc, char **argv)
 #ifdef p7STOTRACE_TESTDRIVE
 #include "esl_getopts.h"
 
+/* utest_choose()
+ * choose() must give the same choice, the same normalized vector and
+ * the same RNG stream as esl_vec_FNorm() + esl_rnd_FChoose(). Inputs
+ * include zeros, denormals, wide dynamic range, and near-ties: a third
+ * RNG with the same seed peeks the next roll, and p[] is built so that
+ * a cumulative sum lands on it, leaving the outcome to rounding.
+ */
+static void
+utest_choose(int seed, int n, int ntrials)
+{
+  char            msg[] = "choose() unit test failed";
+  ESL_RANDOMNESS *ra    = esl_randomness_CreateFast(seed);  /* Easel     */
+  ESL_RANDOMNESS *rb    = esl_randomness_CreateFast(seed);  /* choose()  */
+  ESL_RANDOMNESS *rp    = esl_randomness_CreateFast(seed);  /* peek      */
+  ESL_RANDOMNESS *rx    = esl_randomness_CreateFast(seed+1);/* inputs    */
+  float           pa[4], pb[4];
+  double          roll, s;
+  int             trial, i, j, ia, ib;
+
+  for (trial = 0; trial < ntrials; trial++)
+    {
+      roll = esl_random(rp);
+      switch (trial % 5) {
+      case 0: /* wide dynamic range, some zeros */
+	for (i = 0; i < n; i++)
+	  pa[i] = (esl_rnd_Roll(rx, 8) == 0) ? 0. : (float) ldexp(esl_random(rx), esl_rnd_Roll(rx, 121) - 60);
+	break;
+      case 1: /* near-tie at a random boundary j: sum(p[0..j]) = roll * s */
+      case 2:
+	j = esl_rnd_Roll(rx, n-1);
+	s = ldexp(1.0, esl_rnd_Roll(rx, 41) - 20);
+	for (i = 0; i <= j; i++) pa[i] = (float) (roll       * s / (j+1));
+	for (     ; i <  n; i++) pa[i] = (float) ((1.0-roll) * s / (n-j-1));
+	break;
+      case 3: /* denormals */
+	for (i = 0; i < n; i++) pa[i] = (float) (esl_random(rx) * 1e-40);
+	break;
+      case 4: /* all zero but maybe one */
+	for (i = 0; i < n; i++) pa[i] = 0.;
+	if (esl_rnd_Roll(rx, 2)) pa[esl_rnd_Roll(rx, n)] = (float) esl_random(rx);
+	break;
+      }
+      for (i = 0; i < n; i++) pb[i] = pa[i];
+
+      esl_vec_FNorm(pa, n);
+      ia = esl_rnd_FChoose(ra, pa, n);
+      ib = choose(rb, pb, n);
+      if (ia != ib)                              esl_fatal("%s: trial %d, choice %d != %d", msg, trial, ib, ia);
+      if (memcmp(pa, pb, sizeof(float) * n) != 0) esl_fatal("%s: trial %d, normalized p differs", msg, trial);
+    }
+  if (esl_random(ra) != esl_random(rb)) esl_fatal("%s: RNG streams diverged", msg);
+
+  esl_randomness_Destroy(ra);
+  esl_randomness_Destroy(rb);
+  esl_randomness_Destroy(rp);
+  esl_randomness_Destroy(rx);
+}
+
 /* tests: 
  *   1. each sampled trace must validate.
  *   2. each trace must be <= viterbi trace score
@@ -500,6 +587,9 @@ main(int argc, char **argv)
   if (p7_ProfileConfig(hmm, bg, gm, L, p7_LOCAL)    != eslOK) esl_fatal("failed to config profile");
   if ((om = p7_oprofile_Create(gm->M, abc))         == NULL)  esl_fatal("failed to create optimized profile");
   if (p7_oprofile_Convert(gm, om)                   != eslOK) esl_fatal("failed to convert profile");
+
+  utest_choose(esl_opt_GetInteger(go, "-s"), 2, 100000);
+  utest_choose(esl_opt_GetInteger(go, "-s"), 4, 100000);
 
   /* Test with randomly generated (iid) sequence */
   if ((dsq = malloc(sizeof(ESL_DSQ) *(L+2)))  == NULL)  esl_fatal("malloc failed");
