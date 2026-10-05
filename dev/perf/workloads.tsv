@@ -49,3 +49,4 @@ X4_pfamA_h3m_cN_dbc query      --cpu $NCPU --dbcache -Z 5 -o main.out --tblout t
 # ---- milestone: realistic annotation run (~1 min per run today); --cut_ga thresholds are
 # bit scores, so no -Z is needed for determinism
 X5_human_pfam1k_cN  milestone  --cpu $NCPU --cut_ga --tblout t.tbl --domtblout t.dom -o /dev/null D/pfam_1k.hmm D/human.fa
+X5_human_pfam1k_cN_dbc milestone --cpu $NCPU --dbcache --cut_ga --tblout t.tbl --domtblout t.dom -o /dev/null D/pfam_1k.hmm D/human.fa

@@ -46,6 +46,28 @@
  * to search (known from the previous pass), and wakes only those; at
  * the end it sets <quit>.
  */
+/* Query-parallel mode: with a small target db wholly cached, one worker
+ * searches all targets for a query, while other workers search other
+ * queries; there is no per-query barrier. The master prints the results
+ * in query order. A job holds one query and its results. The mode is
+ * decided by the db size alone, so all queries after the first (which
+ * fills the cache) use it or none do: switching modes would make each
+ * target-parallel query wait for the slowest query-parallel one.
+ */
+typedef struct {
+  int               nquery;      /* query number, for the output                         */
+  P7_HMM           *hmm;
+  P7_PROFILE       *gm;
+  P7_OPROFILE      *om;          /* used (and length-reconfigured) by the job's worker    */
+  P7_TOPHITS       *th;
+  P7_PIPELINE       stats;       /* copy of the worker's pipeline after the search; its
+                                    pointers are NULL: the output only reads its scalars */
+  ESL_STOPWATCH    *w;
+  int               status;      /* eslOK, or eslEINVAL from p7_pli_NewModel()            */
+  char              errbuf[eslERRBUFSIZE];
+  int               done;        /* TRUE: searched, waiting for the master to print it    */
+} QP_JOB;
+
 typedef struct {
   pthread_mutex_t   mutex;
   pthread_cond_t   *go;          /* [0..nworkers-1] master -> worker: new pass, or quit */
@@ -57,7 +79,22 @@ typedef struct {
   int               nblocks;     /* nonempty blocks in the last pass; 0 = unknown yet   */
   int               nseqs;       /* targets in the last pass; 0 = unknown yet           */
   int               quit;        /* TRUE: workers exit                                  */
+  QP_JOB          **wjob;        /* [0..nworkers-1] query-parallel job given to a worker, or NULL */
+  int              *idle;        /* stack of workers without a job                      */
+  int               nidle;
+  const ESL_GETOPTS *go_opts;    /* for p7_pipeline_Reinit() in query-parallel jobs     */
+  struct dbcache_s *dbc;         /* the target db cache (--dbcache), or NULL            */
 } WORKER_GATE;
+
+#define QP_MAXRES 2000000  /* query-parallel mode when the cached target db has up to this many residues */
+
+/* the query-parallel jobs in flight, in query order: job[k % njobs] for head <= k < tail */
+typedef struct {
+  QP_JOB           *job;
+  int               njobs;
+  uint64_t          head;        /* next job to print */
+  uint64_t          tail;        /* next job to fill  */
+} QP_QUEUE;
 #endif
 
 #ifdef HMMER_THREADS
@@ -226,7 +263,7 @@ struct cfg_s {
 #define DBCACHE_CHUNK (64 * 1024 * 1024)  /* arena chunk size (bytes); a multiple of 2MB      */
 #define DBCACHE_ALIGN (2 * 1024 * 1024)   /* chunk alignment, so chunks can use huge pages   */
 
-typedef struct {
+typedef struct dbcache_s {
   ESL_SQ_BLOCK  **blk;          /* cached blocks, in file order                         */
   int             nblk;
   int             nalloc;
@@ -234,6 +271,7 @@ typedef struct {
   int             next;         /* in a cached pass: next block to hand out             */
   int             pass_eof;     /* the current pass has reached its end                 */
   int64_t         nseq;         /* number of sequences cached                           */
+  int64_t         nres;         /* number of residues cached                            */
   uint64_t        nbytes;       /* bytes of the arena in use                            */
   uint64_t        maxbytes;     /* limit (--dbcache_max); above it the cache is dropped */
   int             dropped;      /* TRUE: over the limit; targets are read per query     */
@@ -269,6 +307,14 @@ typedef struct {
 
 static int  output_results(const OUTPUTS *outs, const ESL_GETOPTS *go, const ESL_ALPHABET *abc, int textw, const P7_HMM *hmm, int nquery,
 			   P7_TOPHITS *th, P7_PIPELINE *pli, ESL_STOPWATCH *w);
+#ifdef HMMER_THREADS
+static void qp_Create    (QP_QUEUE *qp, int njobs);
+static int  qp_Submit    (QP_QUEUE *qp, WORKER_GATE *gate, const OUTPUTS *outs, const ESL_GETOPTS *go, const ESL_ALPHABET *abc, int textw,
+			  P7_HMM *hmm, int nquery, P7_PROFILE **next_gm, P7_OPROFILE **next_om, const P7_BG *bg);
+static int  qp_OutputNext(QP_QUEUE *qp, WORKER_GATE *gate, const OUTPUTS *outs, const ESL_GETOPTS *go, const ESL_ALPHABET *abc, int textw);
+static int  qp_Drain     (QP_QUEUE *qp, WORKER_GATE *gate, const OUTPUTS *outs, const ESL_GETOPTS *go, const ESL_ALPHABET *abc, int textw);
+static void qp_Destroy   (QP_QUEUE *qp);
+#endif
 static int  serial_master(ESL_GETOPTS *go, struct cfg_s *cfg);
 static int  serial_loop  (WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc);
 
@@ -276,6 +322,7 @@ static int  serial_loop  (WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs,
 static int  thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc);
 static void pipeline_thread(void *arg);
 static void search_pass(WORKER_INFO *info);
+static void search_query(WORKER_INFO *info, WORKER_GATE *gate, QP_JOB *job);
 static void query_prep_Start(QUERY_PREP *prep, P7_HMMFILE *hfp, ESL_ALPHABET *abc, int nthreads);
 static void query_prep_Next (QUERY_PREP *prep, P7_HMM **ret_hmm, P7_PROFILE **ret_gm, P7_OPROFILE **ret_om, int *ret_hstatus);
 static void query_prep_Stop (QUERY_PREP *prep);
@@ -516,6 +563,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
   WORKER_GATE      gate;
   QUERY_PREP       prep;
   int              prep_started = FALSE;
+  QP_QUEUE         qp;
 #endif
   P7_PROFILE      *next_gm  = NULL;              /* profiles of the next query, if prefetched       */
   P7_OPROFILE     *next_om  = NULL;
@@ -575,19 +623,27 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       queue = esl_workqueue_Create(ncpus * 2);
       ESL_ALLOC(gate.go,    sizeof(pthread_cond_t) * ncpus);
       ESL_ALLOC(gate.wpass, sizeof(int)            * ncpus);
+      ESL_ALLOC(gate.wjob,  sizeof(QP_JOB *)       * ncpus);
+      ESL_ALLOC(gate.idle,  sizeof(int)            * ncpus);
       if (pthread_mutex_init(&gate.mutex, NULL) != 0 || pthread_cond_init(&gate.done, NULL) != 0)
         esl_fatal("Failed to initialize the worker thread gate");
       for (i = 0; i < ncpus; i++)
         {
           if (pthread_cond_init(&gate.go[i], NULL) != 0) esl_fatal("Failed to initialize the worker thread gate");
           gate.wpass[i] = 0;
+          gate.wjob[i]  = NULL;
+          gate.idle[i]  = ncpus - 1 - i;   /* worker 0 on top */
         }
+      gate.nidle    = ncpus;
+      gate.go_opts  = go;
+      gate.dbc      = NULL;                /* set once the cache exists */
       gate.nworkers = ncpus;
       gate.pass     = 0;
       gate.nrunning = 0;
       gate.nblocks  = 0;
       gate.nseqs    = 0;
       gate.quit     = FALSE;
+      qp_Create(&qp, 2 * ncpus);
     }
 #endif
 
@@ -606,6 +662,9 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 	{
 	  uint64_t maxbytes = esl_opt_IsOn(go, "--dbcache_max") ? (uint64_t) esl_opt_GetInteger(go, "--dbcache_max") << 20 : dbcache_DefaultMax();
 	  if ((dbc = dbcache_Create(abc, ncpus * 2, maxbytes)) == NULL) p7_Fail("Failed to allocate the target sequence cache");
+#ifdef HMMER_THREADS
+	  if (ncpus > 0) gate.dbc = dbc;
+#endif
 	}
 
       for (i = 0; i < infocnt; ++i)
@@ -651,6 +710,22 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       P7_OPROFILE     *om      = NULL;       /* optimized query profile                  */
 
       nquery++;
+
+#ifdef HMMER_THREADS
+      /* With a small target db wholly cached, each query is searched by
+       * one worker, while other workers search the next queries; results
+       * are printed in query order. Otherwise the targets of each query are
+       * split across all workers (below).
+       */
+      if (ncpus > 0 && dbc && dbc->complete && dbc->nres <= QP_MAXRES)
+	{
+	  if ((status = qp_Submit(&qp, &gate, &outs, go, abc, textw, hmm, nquery, &next_gm, &next_om, info->bg)) != eslOK) return status;
+	  query_prep_Next(&prep, &hmm, &next_gm, &next_om, &hstatus);
+	  continue;
+	}
+      if (ncpus > 0 && (status = qp_Drain(&qp, &gate, &outs, go, abc, textw)) != eslOK) return status;
+#endif
+
       esl_stopwatch_Start(w);
 
       /* seqfile may need to be rewound (multiquery mode), unless every target is cached */
@@ -759,6 +834,10 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 #endif
     } /* end outer loop over query HMMs */
 
+#ifdef HMMER_THREADS
+  if (ncpus > 0 && (status = qp_Drain(&qp, &gate, &outs, go, abc, textw)) != eslOK) return status;   /* before any read error */
+#endif
+
   switch(hstatus) {
   case eslEOD:       p7_Fail("read failed, HMM file %s may be truncated?", cfg->hmmfile);      break;
   case eslEFORMAT:   p7_Fail("bad file format in HMM file %s",             cfg->hmmfile);      break;
@@ -799,6 +878,9 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       pthread_mutex_destroy(&gate.mutex);
       free(gate.go);
       free(gate.wpass);
+      free(gate.wjob);
+      free(gate.idle);
+      qp_Destroy(&qp);
 
       esl_workqueue_Reset(queue);
       while (esl_workqueue_Remove(queue, (void **) &block) == eslOK)
@@ -1498,6 +1580,7 @@ dbcache_Create(const ESL_ALPHABET *abc, int ncarrier, uint64_t maxbytes)
   dbc->next         = 0;
   dbc->pass_eof     = FALSE;
   dbc->nseq         = 0;
+  dbc->nres         = 0;
   dbc->nbytes       = 0;
   dbc->maxbytes     = maxbytes;
   dbc->dropped      = FALSE;
@@ -1558,6 +1641,7 @@ dbcache_drop(DBCACHE *dbc)
   dbc->nchunk  = 0;
   dbc->nblk    = 0;
   dbc->nseq    = 0;
+  dbc->nres    = 0;
   dbc->used    = dbc->chunksize = 0;
   dbc->nbytes  = 0;
   dbc->dropped = TRUE;
@@ -1683,7 +1767,10 @@ dbcache_addblock(DBCACHE *dbc, const ESL_SQ_BLOCK *src)
   b->first_seqidx = src->first_seqidx;
 
   for (i = 0; i < src->count; i++)
-    if ((status = dbcache_copyseq(dbc, src->list + i, b->list + i)) != eslOK) return status;
+    {
+      if ((status = dbcache_copyseq(dbc, src->list + i, b->list + i)) != eslOK) return status;
+      dbc->nres += src->list[i].n;
+    }
   dbc->blk[dbc->nblk++] = b;
   dbc->nseq += src->count;
   return eslOK;
@@ -1972,6 +2059,7 @@ pipeline_thread(void *arg)
   WORKER_INFO   *info;
   ESL_THREADS   *obj;
   WORKER_GATE   *gate;
+  QP_JOB        *job;
 
   impl_Init();
 
@@ -1981,12 +2069,30 @@ pipeline_thread(void *arg)
   info = (WORKER_INFO *) esl_threads_GetData(obj, workeridx);
   gate = info->gate;
 
-  /* one pass over the targets per query, until the master says quit */
+  /* a share of one pass over the targets per query, or a whole query
+   * in query-parallel mode, until the master says quit
+   */
   for (;;)
     {
       pthread_mutex_lock(&gate->mutex);
-      while (gate->wpass[workeridx] == pass && ! gate->quit) pthread_cond_wait(&gate->go[workeridx], &gate->mutex);
+      while (gate->wpass[workeridx] == pass && gate->wjob[workeridx] == NULL && ! gate->quit) pthread_cond_wait(&gate->go[workeridx], &gate->mutex);
       if (gate->quit) { pthread_mutex_unlock(&gate->mutex); break; }
+
+      if ((job = gate->wjob[workeridx]) != NULL)
+	{
+	  pthread_mutex_unlock(&gate->mutex);
+
+	  search_query(info, gate, job);
+
+	  pthread_mutex_lock(&gate->mutex);
+	  job->done              = TRUE;
+	  gate->wjob[workeridx]  = NULL;
+	  gate->idle[gate->nidle++] = workeridx;
+	  pthread_cond_signal(&gate->done);
+	  pthread_mutex_unlock(&gate->mutex);
+	  continue;
+	}
+
       pass = gate->wpass[workeridx];
       pthread_mutex_unlock(&gate->mutex);
 
@@ -1999,6 +2105,46 @@ pipeline_thread(void *arg)
 
   esl_threads_Finished(obj, workeridx);
   return;
+}
+
+/* search_query()
+ * Query-parallel mode: search all cached targets, in file order, for
+ * one query, with this worker's pipeline and null model, as the serial
+ * search does.
+ */
+static void
+search_query(WORKER_INFO *info, WORKER_GATE *gate, QP_JOB *job)
+{
+  P7_PIPELINE  *pli = info->pli;
+  ESL_SQ_BLOCK *blk;
+  ESL_SQ       *dbsq;
+  int           b, i;
+
+  p7_pipeline_Reinit(pli, gate->go_opts);
+  job->status = p7_pli_NewModel(pli, job->om, info->bg);
+  if (job->status == eslEINVAL) { strcpy(job->errbuf, pli->errbuf); return; }
+
+  for (b = 0; b < gate->dbc->nblk; b++)
+    {
+      blk = gate->dbc->blk[b];
+      for (i = 0; i < blk->count; i++)
+	{
+	  dbsq = blk->list + i;
+	  p7_pli_NewSeq(pli, dbsq);
+	  p7_bg_SetLength(info->bg, dbsq->n);
+	  p7_oprofile_ReconfigLength(job->om, dbsq->n);
+
+	  p7_Pipeline(pli, job->om, info->bg, dbsq, NULL, job->th);
+
+	  p7_pipeline_Reuse(pli);   /* cached targets are read-only: no esl_sq_Reuse() */
+	}
+    }
+
+  job->stats     = *pli;
+  job->stats.oxf = job->stats.oxb = job->stats.fwd = job->stats.bck = NULL;
+  job->stats.r   = NULL;
+  job->stats.ddef = NULL;
+  job->stats.hfp = NULL;
 }
 
 /* search_pass()
@@ -2044,6 +2190,156 @@ search_pass(WORKER_INFO *info)
 
   status = esl_workqueue_WorkerUpdate(info->queue, block, NULL);
   if (status != eslOK) esl_fatal("Work queue worker failed");
+}
+
+/* qp_Create()
+ * An empty queue of <njobs> query-parallel jobs.
+ */
+static void
+qp_Create(QP_QUEUE *qp, int njobs)
+{
+  int i;
+  int status;
+
+  qp->njobs = njobs;
+  qp->head  = qp->tail = 0;
+  ESL_ALLOC(qp->job, sizeof(QP_JOB) * njobs);
+  for (i = 0; i < njobs; i++)
+    {
+      qp->job[i].hmm = NULL;
+      qp->job[i].gm  = NULL;
+      qp->job[i].om  = NULL;
+      if ((qp->job[i].th = p7_tophits_Create())    == NULL) goto ERROR;
+      if ((qp->job[i].w  = esl_stopwatch_Create()) == NULL) goto ERROR;
+    }
+  return;
+
+ ERROR:
+  esl_fatal("Failed to allocate the query-parallel jobs");
+}
+
+/* qp_Submit()
+ * Hand query <hmm> (number <nquery>) to an idle worker, with its profiles
+ * from the prefetch helpers (<*next_gm>, <*next_om>; taken over), or built
+ * here. While waiting for a free job or an idle worker, print the jobs
+ * that are done, in order.
+ */
+static int
+qp_Submit(QP_QUEUE *qp, WORKER_GATE *gate, const OUTPUTS *outs, const ESL_GETOPTS *go, const ESL_ALPHABET *abc, int textw,
+	  P7_HMM *hmm, int nquery, P7_PROFILE **next_gm, P7_OPROFILE **next_om, const P7_BG *bg)
+{
+  QP_JOB *job;
+  int     w;
+  int     ready;
+  int     status;
+
+  if (qp->tail - qp->head == (uint64_t) qp->njobs && (status = qp_OutputNext(qp, gate, outs, go, abc, textw)) != eslOK) return status;
+
+  job = &(qp->job[qp->tail % qp->njobs]);
+  job->nquery = nquery;
+  job->hmm    = hmm;
+  if (*next_om)
+    {
+      job->gm  = *next_gm;  *next_gm = NULL;
+      job->om  = *next_om;  *next_om = NULL;
+    }
+  else
+    {
+      job->gm = p7_profile_Create (hmm->M, abc);
+      job->om = p7_oprofile_Create(hmm->M, abc);
+      p7_ProfileConfig(hmm, bg, job->gm, 100, p7_LOCAL); /* as in serial_master() */
+      p7_oprofile_Convert(job->gm, job->om);
+    }
+  p7_tophits_Reuse(job->th);
+  job->status = eslOK;
+  job->done   = FALSE;
+  esl_stopwatch_Start(job->w);
+
+  pthread_mutex_lock(&gate->mutex);
+  while (gate->nidle == 0)
+    {
+      if (qp->head < qp->tail && qp->job[qp->head % qp->njobs].done)
+	{
+	  pthread_mutex_unlock(&gate->mutex);
+	  if ((status = qp_OutputNext(qp, gate, outs, go, abc, textw)) != eslOK) return status;
+	  pthread_mutex_lock(&gate->mutex);
+	}
+      else pthread_cond_wait(&gate->done, &gate->mutex);
+    }
+  w = gate->idle[--gate->nidle];
+  gate->wjob[w] = job;
+  pthread_cond_signal(&gate->go[w]);
+  pthread_mutex_unlock(&gate->mutex);
+  qp->tail++;
+
+  /* print what's done already, without waiting */
+  for (;;)
+    {
+      pthread_mutex_lock(&gate->mutex);
+      ready = (qp->head < qp->tail && qp->job[qp->head % qp->njobs].done);
+      pthread_mutex_unlock(&gate->mutex);
+      if (! ready) break;
+      if ((status = qp_OutputNext(qp, gate, outs, go, abc, textw)) != eslOK) return status;
+    }
+  return eslOK;
+}
+
+/* qp_OutputNext()
+ * Wait for the oldest job in flight, print its results as the
+ * target-parallel path would, and free its query.
+ */
+static int
+qp_OutputNext(QP_QUEUE *qp, WORKER_GATE *gate, const OUTPUTS *outs, const ESL_GETOPTS *go, const ESL_ALPHABET *abc, int textw)
+{
+  QP_JOB *job = &(qp->job[qp->head % qp->njobs]);
+  FILE   *ofp = outs->ofp;
+  int     status;
+
+  pthread_mutex_lock(&gate->mutex);
+  while (! job->done) pthread_cond_wait(&gate->done, &gate->mutex);
+  pthread_mutex_unlock(&gate->mutex);
+
+  if (fprintf(ofp, "Query:       %s  [M=%d]\n", job->hmm->name, job->hmm->M)  < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");
+  if (job->hmm->acc)  { if (fprintf(ofp, "Accession:   %s\n", job->hmm->acc)  < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed"); }
+  if (job->hmm->desc) { if (fprintf(ofp, "Description: %s\n", job->hmm->desc) < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed"); }
+  if (job->status == eslEINVAL) p7_Fail(job->errbuf);
+
+  if ((status = output_results(outs, go, abc, textw, job->hmm, job->nquery, job->th, &(job->stats), job->w)) != eslOK) return status;
+
+  p7_oprofile_Destroy(job->om);  job->om  = NULL;
+  p7_profile_Destroy (job->gm);  job->gm  = NULL;
+  p7_hmm_Destroy     (job->hmm); job->hmm = NULL;
+  qp->head++;
+  return eslOK;
+}
+
+/* qp_Drain()
+ * Print all jobs in flight, in order.
+ */
+static int
+qp_Drain(QP_QUEUE *qp, WORKER_GATE *gate, const OUTPUTS *outs, const ESL_GETOPTS *go, const ESL_ALPHABET *abc, int textw)
+{
+  int status;
+
+  while (qp->head < qp->tail)
+    if ((status = qp_OutputNext(qp, gate, outs, go, abc, textw)) != eslOK) return status;
+  return eslOK;
+}
+
+static void
+qp_Destroy(QP_QUEUE *qp)
+{
+  int i;
+
+  for (i = 0; i < qp->njobs; i++)
+    {
+      p7_tophits_Destroy   (qp->job[i].th);
+      esl_stopwatch_Destroy(qp->job[i].w);
+      p7_oprofile_Destroy  (qp->job[i].om);
+      p7_profile_Destroy   (qp->job[i].gm);
+      p7_hmm_Destroy       (qp->job[i].hmm);
+    }
+  free(qp->job);
 }
 
 /* query_prep_Start()

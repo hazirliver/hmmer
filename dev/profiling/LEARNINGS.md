@@ -65,6 +65,10 @@ These are practical lessons from doing [`PLAN.md`](PLAN.md) step by step. The me
    - `p7_ProfileConfig` copies RF/MM/CS only when the HMM has them. A reused `P7_PROFILE` must go through `p7_profile_Reuse` first, or the previous query's RF line leaks into the next query's alignments.
 6. **Gotcha:** on the protein path, `esl_sqio_ReadBlock` does **not** reset block slots. `sqascii_Read` expects them already `esl_sq_Reuse`'d (only the DNA branch resets them itself). Whoever owns a block between reads must reset it.
 
+6. **Scheduling-only changes still change *how often* nondeterminism shows.** Splitting blocks smaller (3.3c, first version) made the upstream width variation appear in 9 of 10 threaded runs instead of 0 of 10: each worker's running Z was smaller, so more borderline hits were kept. Check a threaded no-`-Z` case 10 times before and after.
+7. **Don't switch execution modes per item when switching has a barrier cost.** Per-query mode choice put a drain before every switch: 1.52× slower on X5. Decide once per run from something fixed (db size).
+8. **Find the real limit before optimizing the planned one.** Per-thread `perf script -F tid,period` sums showed, in turn: thread creation (sys), the wake-up storm (kernel spinlocks), the single helper (64% of samples), then latency with no thread saturated (4.7 of 16 cores busy). Each pointed to a different fix than the plan had.
+
 ## Verification habits
 
 - **Run a negative control for every new checker.**
