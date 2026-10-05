@@ -37,6 +37,7 @@ static inline int select_j(ESL_RANDOMNESS *rng, const P7_OPROFILE *om, const P7_
 static inline int select_e(ESL_RANDOMNESS *rng, const P7_OPROFILE *om, const P7_OMX *ox, int i, int *ret_k);
 static inline int select_b(ESL_RANDOMNESS *rng, const P7_OPROFILE *om, const P7_OMX *ox, int i);
 static inline int choose  (ESL_RANDOMNESS *rng, float *p, const int n);
+static inline int trace_append(P7_TRACE *tr, int st, int k, int i);
 
 
 /*****************************************************************
@@ -77,13 +78,20 @@ p7_StochasticTrace(ESL_RANDOMNESS *rng, const ESL_DSQ *dsq, int L, const P7_OPRO
   int   k;			/* position in model 1..M */
   int   s0, s1;			/* choice of a state */
   int   status;			
+#ifdef p7_CROSSCHECK
+  P7_TRACE *xtr = p7_trace_Create(); /* shadow trace built by p7_trace_Append() */
+#endif
   
   if (tr->N != 0) ESL_EXCEPTION(eslEINVAL, "trace not empty; needs to be Reuse()'d?");
 
   i = L;			
   k = 0;
-  if ((status = p7_trace_Append(tr, p7T_T, k, i)) != eslOK) return status;
-  if ((status = p7_trace_Append(tr, p7T_C, k, i)) != eslOK) return status;
+  if ((status = trace_append(tr, p7T_T, k, i)) != eslOK) return status;
+  if ((status = trace_append(tr, p7T_C, k, i)) != eslOK) return status;
+#ifdef p7_CROSSCHECK
+  p7_trace_Append(xtr, p7T_T, k, i);
+  p7_trace_Append(xtr, p7T_C, k, i);
+#endif
   s0 = tr->st[tr->N-1];
   while (s0 != p7T_S)
     {
@@ -100,15 +108,57 @@ p7_StochasticTrace(ESL_RANDOMNESS *rng, const ESL_DSQ *dsq, int L, const P7_OPRO
       }
       if (s1 == -1) ESL_EXCEPTION(eslEINVAL, "Stochastic traceback choice failed");
 
-      if ((status = p7_trace_Append(tr, s1, k, i)) != eslOK) return status;
+      if ((status = trace_append(tr, s1, k, i)) != eslOK) return status;
+#ifdef p7_CROSSCHECK
+      p7_trace_Append(xtr, s1, k, i);
+#endif
 
       if ( (s1 == p7T_N || s1 == p7T_J || s1 == p7T_C) && s1 == s0) i--;
       s0 = s1;
     } /* end traceback, at S state */
 
+#ifdef p7_CROSSCHECK
+  if (xtr->N != tr->N ||
+      memcmp(xtr->st, tr->st, sizeof(char) * tr->N) != 0 ||
+      memcmp(xtr->k,  tr->k,  sizeof(int)  * tr->N) != 0 ||
+      memcmp(xtr->i,  tr->i,  sizeof(int)  * tr->N) != 0)
+    esl_fatal("p7_CROSSCHECK: stochastic trace differs from p7_trace_Append() (N=%d)", tr->N);
+  p7_trace_Destroy(xtr);
+#endif
+
   tr->M = om->M;
   tr->L = L;
   return p7_trace_Reverse(tr);
+}
+
+/* trace_append()
+ * p7_trace_Append() for the traceback loop: the same contents, inlined,
+ * with p7_trace_Grow() called only when the trace is full.
+ */
+static inline int
+trace_append(P7_TRACE *tr, int st, int k, int i)
+{
+  int status;
+
+  if (tr->N >= tr->nalloc && (status = p7_trace_Grow(tr)) != eslOK) return status;
+
+  switch (st) {
+  case p7T_N:
+  case p7T_C:
+  case p7T_J: tr->i[tr->N] = ( (tr->st[tr->N-1] == st) ? i : 0); tr->k[tr->N] = 0; break;
+  case p7T_X:
+  case p7T_S:
+  case p7T_B:
+  case p7T_E:
+  case p7T_T: tr->i[tr->N] = 0; tr->k[tr->N] = 0; break;
+  case p7T_D: tr->i[tr->N] = 0; tr->k[tr->N] = k; break;
+  case p7T_M:
+  case p7T_I: tr->i[tr->N] = i; tr->k[tr->N] = k; break;
+  default:    ESL_EXCEPTION(eslEINVAL, "no such state; can't append");
+  }
+  tr->st[tr->N] = st;
+  tr->N++;
+  return eslOK;
 }
 /*------------------ end, stochastic traceback ------------------*/
 
