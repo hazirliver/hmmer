@@ -263,8 +263,6 @@ These numbers come from the stage shares in `README.md` §4-§6. Each phase's mi
 3. **Easel (Phase 5):** fork into the user's GitHub and pin through `dev/easel.ref`.
 4. **Non-byte-identical speedups:** not for now. Every step in this plan must be byte-identical.
 
-**Open:**
-
-5. **Threaded determinism (§2).** Should threaded runs without `-Z` be made deterministic, equal to `--cpu 0`? This fixes an upstream flake in column widths. It's not a speedup, and it can change threaded outputs, so it would get its own golden review.
+5. **Whitespace-only differences (decided 2026-10-05):** acceptable. When results are 100% the same but a column is padded one character wider or narrower (the upstream threaded `-Z` flake, §2), the step still counts as correct. `ab.sh` reports these as `ws` (accepted with a note) instead of `DIFF`. No fix to upstream threaded determinism is planned. Golden regression cases stay strict, since they are deterministic.
 
 Track measured results per step in `dev/profiling/PROGRESS.md`. Use one row per step: step, commit, workload, metric, A → B, ratio, and the A/A spread.

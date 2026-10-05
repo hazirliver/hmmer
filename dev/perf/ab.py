@@ -22,7 +22,7 @@ either binary's reps.
 Exit status: 0 ok; 1 outputs differ, nondeterministic or a run failed;
 3 a slowdown with --fail-on-slowdown. See dev/profiling/PLAN.md §3.
 """
-import argparse, datetime, json, os, re, shutil, statistics, subprocess, sys, time
+import argparse, datetime, hashlib, json, os, re, shutil, statistics, subprocess, sys, time
 
 HERE = os.path.dirname(os.path.realpath(__file__))
 ROOT = os.path.realpath(os.path.join(HERE, "..", ".."))
@@ -36,6 +36,7 @@ EVENTS = ["task-clock", "instructions:u", "cycles:u"]
 # metric -> (label, smallest relative change that can count, lower is better)
 FLOOR = {"cycles": 0.005, "instructions": 0.001, "wall": 0.02, "task_clock": 0.01}
 OWN_FILES = {".perf", ".rusage"}
+WS = re.compile(rb"[ \t]+")
 RED, GRN, YEL, BLD, DIM = bench.RED, bench.GRN, bench.YEL, bench.BLD, bench.DIM
 
 
@@ -147,15 +148,42 @@ def run_once(binary, args, cwd, use_perf, timeout):
     return r
 
 
+def ws_hash(path):
+    """Hash after the dev/bench normalization AND collapsing runs of blanks / trailing blanks.
+    Two text files with equal ws_hash differ at most in column padding (accepted, see PLAN.md §6)."""
+    h = hashlib.sha256()
+    with open(path, "rb") as f:
+        if b"\0" in f.read(8192): return None          # binary: no whitespace tolerance
+        f.seek(0)
+        for line in f:
+            if line[:1] in (b"D", b"#", b"r"):
+                t = line.decode("latin-1")
+                for rx, rep in bench.TEXT_RULES: t = rx.sub(rep, t)
+                line = t.encode("latin-1")
+            h.update(WS.sub(b" ", line).rstrip() + b"\n")
+    return h.hexdigest()
+
+
 def hash_run(cwd):
+    """{relpath: (exact normalized hash, whitespace-insensitive hash)}"""
     files = {}
     for dp, dns, fs in os.walk(cwd):
         for f in fs:
             p = os.path.join(dp, f)
             rel = os.path.relpath(p, cwd)
-            if rel in OWN_FILES or os.path.islink(p): continue
-            files[rel] = bench.norm_hash(p)
+            if rel in OWN_FILES or rel.endswith(".norm") or os.path.islink(p): continue
+            files[rel] = (bench.norm_hash(p), ws_hash(p))
     return files
+
+
+def compare(h1, h2):
+    """-> ('same'|'ws'|'diff', [differing files])"""
+    keys = sorted(set(h1) | set(h2))
+    bad = [k for k in keys if h1.get(k, (None,))[0] != h2.get(k, (None,))[0]]
+    if not bad: return "same", []
+    if all(k in h1 and k in h2 and h1[k][1] is not None and h1[k][1] == h2[k][1] for k in bad):
+        return "ws", bad
+    return "diff", bad
 
 
 def normalized_copy(path):
@@ -259,7 +287,7 @@ def main():
         args = expand(w["args"], data)
         metric = "cycles" if w["sets"][0] == "cpu" and use_perf else "wall"
         runs = {"A": [], "B": []}
-        ref, ref_dir, problems = {}, {}, []
+        ref, ref_dir, problems, notes = {}, {}, [], []
         nrun = a.warmup + a.reps
         print(f"\n{BLD(w['name'])}  {DIM(w['args'])}", flush=True)
         for i in range(nrun):
@@ -272,26 +300,31 @@ def main():
                     problems.append(f"{v} run {i}: exit {r.get('rc')}"); failed = True
                 if v not in ref:
                     ref[v], ref_dir[v] = h, cwd
-                elif h != ref[v]:
-                    bad = sorted(k for k in set(h) | set(ref[v]) if h.get(k) != ref[v].get(k))
-                    problems.append(f"{v} run {i} differs from its first run: {', '.join(bad)} (NONDETERMINISTIC)")
-                    print(RED(f"  {v}{i} DIFFERS"))
-                    show_diff(ref_dir[v], cwd, bad); failed = True
-                    continue
+                else:
+                    kind, bad = compare(ref[v], h)
+                    if kind == "ws":
+                        notes.append(f"{v} run {i} vs its first run: whitespace-only ({', '.join(bad)})")
+                    elif kind == "diff":
+                        problems.append(f"{v} run {i} differs from its first run: {', '.join(bad)} (NONDETERMINISTIC)")
+                        print(RED(f"  {v}{i} DIFFERS"))
+                        show_diff(ref_dir[v], cwd, bad); failed = True
+                        continue
                 if i >= a.warmup: runs[v].append(r)
                 if cwd not in ref_dir.values() and not a.keep: shutil.rmtree(cwd)
                 print(DIM(f"  {v}{i} {r['wall']:.2f}s") + ("" if r.get("rc") == 0 else RED(f" rc={r.get('rc')}")), end="", flush=True)
         print()
-        same = ref["A"] == ref["B"]
-        if not same:
-            bad = sorted(k for k in set(ref["A"]) | set(ref["B"]) if ref["A"].get(k) != ref["B"].get(k))
+        kind, bad = compare(ref["A"], ref["B"])
+        same = kind != "diff"
+        if kind == "ws":
+            notes.append(f"A vs B: whitespace-only differences ({', '.join(bad)})")
+        if kind == "diff":
             problems.append(f"OUTPUT DIFFERS A vs B: {', '.join(bad)}"); failed = True
             show_diff(ref_dir["A"], ref_dir["B"], bad)
         elif not a.keep and not problems:
             for d in ref_dir.values(): shutil.rmtree(d, ignore_errors=True)
 
         row = dict(name=w["name"], sets=w["sets"], args=w["args"], metric=metric, identical=same,
-                   problems=problems, files=sorted(ref["A"]), runs=runs, verdicts={})
+                   output=kind, notes=notes, problems=problems, files=sorted(ref["A"]), runs=runs, verdicts={})
         for m in ("cycles", "instructions", "task_clock", "wall"):
             xa = [r[m] for r in runs["A"] if m in r]; xb = [r[m] for r in runs["B"] if m in r]
             if xa and xb:
@@ -303,12 +336,14 @@ def main():
         if row["verdicts"].get(metric, {}).get("verdict") == "SLOWER": slower = True
         results.append(row)
         for p in problems: print(RED("  " + p))
+        for n in notes: print(YEL("  note: " + n))
 
     # ---------------------------------------------------------------- report
     print("\n" + BLD("==> A/B summary") + f"  (ratio = B/A, <1 is faster; spread = (max-min)/median over reps)")
     print(f"  {'workload':20s} {'out':5s} {'metric':12s} {'A':>9s} {'B':>9s} {'ratio':>7s} {'spread':>7s}  verdict   {'instr B/A':>9s} {'wall B/A':>8s}  rss A→B MB")
     for row in results:
-        out = GRN("same ") if row["identical"] and not row["problems"] else RED("DIFF ")
+        out = (RED("DIFF ") if row["problems"] or not row["identical"]
+               else YEL("ws   ") if row["output"] == "ws" or row["notes"] else GRN("same "))
         vm = row["verdicts"].get(row["metric"])
         ins = row["verdicts"].get("instructions", {}).get("ratio")
         wal = row["verdicts"].get("wall", {}).get("ratio")
@@ -337,7 +372,9 @@ def main():
     print(f"  results: {out}")
     if failed:
         print(RED(BLD("FAILED: outputs differ or a run failed"))); return 1
-    print(GRN(BLD("outputs identical")) + (RED("; SLOWER on some workloads") if slower else ""))
+    ws = [r["name"] for r in results if r["output"] == "ws" or r["notes"]]
+    print(GRN(BLD("outputs identical")) + (YEL(f" (whitespace-only differences: {', '.join(ws)})") if ws else "")
+          + (RED("; SLOWER on some workloads") if slower else ""))
     return 3 if slower and a.fail_on_slowdown else 0
 
 

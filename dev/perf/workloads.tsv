@@ -14,7 +14,8 @@
 # unreported borderline hits stay in the hit list depends on thread scheduling. The longest
 # kept name sets column widths in the main output and --tblout (src/p7_tophits.c:1134),
 # making those widths flaky upstream. Reported hits/E-values equal the -Z-less run's.
-# Serial (--cpu 0) runs are deterministic and keep the default Z.
+# Serial (--cpu 0) runs are deterministic and keep the default Z. X1_..._defZ keeps the
+# default (no -Z) on purpose: ab.sh accepts whitespace-only (column padding) differences.
 #
 # Fixtures: @fixture <file it creates> <shell command>, run in F/ with the A snapshot's
 # programs first on PATH, only when <file> is missing.
@@ -31,6 +32,7 @@ W5_med_1k_max       cpu        --cpu 0 --max -o main.out --domtblout t.dom D/pfa
 X1_p100_50k_c4      scale      --cpu 4 -Z 51857 --noali -o main.out --tblout t.tbl D/pfam_100.hmm D/sprot_50k.fa
 X1_p100_50k_c8      scale      --cpu 8 -Z 51857 --noali -o main.out --tblout t.tbl D/pfam_100.hmm D/sprot_50k.fa
 X1_p100_50k_cN      scale      --cpu $NCPU -Z 51857 --noali -o main.out --tblout t.tbl D/pfam_100.hmm D/sprot_50k.fa
+X1_p100_50k_cN_defZ scale      --cpu $NCPU --noali -o main.out --tblout t.tbl D/pfam_100.hmm D/sprot_50k.fa
 X2_m200_sprot_cN    scale      --cpu $NCPU -Z 570420 --noali -o main.out --tblout t.tbl --domtblout t.dom D/kern_M200.hmm D/sprot.fa
 
 # ---- query: per-query fixed costs (many models x small DB)

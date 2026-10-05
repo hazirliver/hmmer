@@ -45,7 +45,7 @@ dev/perf/snap.sh --cflags "-O3 ..."    # any flags; --name NAME overrides the sn
 | Set | Workloads | Verdict metric | Targets |
 |---|---|---|---|
 | `cpu` | W1-W5 at `--cpu 0` | `cycles:u` | Single-thread CPU work: filters and domain stage |
-| `scale` | X1 `pfam_100 × sprot_50k` @ 4/8/N, X2 `kern_M200 × sprot` @ N | wall | Reader bottleneck, thread scaling |
+| `scale` | X1 `pfam_100 × sprot_50k` @ 4/8/N (plus @ N without `-Z`), X2 `kern_M200 × sprot` @ N | wall | Reader bottleneck, thread scaling |
 | `query` | X3 `pfam_1k × sprot_1k` @ 0/N, X4 Pfam-A (text and `.h3m`) × 5 seqs @ 0/N | wall | Per-query fixed costs |
 | `milestone` | X5 `pfam_1k × human --cut_ga` @ N | wall | Realistic annotation run |
 
@@ -59,6 +59,7 @@ Data comes from the bench dataset (`dev/bench.sh prepare`). Fixtures such as the
 - **Output identity.**
   - Every file a run leaves, plus stdout and stderr, is hashed after the dev/bench normalization: dates, CPU time, Mc/s and thread count are masked.
   - A must equal B. Every rep must also equal its binary's first rep; a mismatch is reported as NONDETERMINISTIC.
+  - Files that differ **only in blanks** (runs of spaces collapsed, trailing blanks ignored, text files only) are classified `ws`. They're accepted, printed as a note and shown as `ws` in the summary. Anything else is `DIFF`, which is a failure. This tolerates the upstream threaded column-width flake (`PLAN.md` §2) while still catching any change of content.
   - When files differ, the first lines of a unified diff are printed and the run dirs are kept under `bench-results/ab/work/`.
 - **Verdict.**
   - ratio = median(B) / median(A).
