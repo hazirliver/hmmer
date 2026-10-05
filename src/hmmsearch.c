@@ -258,6 +258,17 @@ static void     dbcache_EndPass(DBCACHE *dbc);
 static int      dbcache_NextBlock(DBCACHE *dbc, ESL_SQFILE *dbfp, int *n_targetseqs, ESL_SQ_BLOCK *rdblk, ESL_SQ_BLOCK **ret_blk);
 static void     dbcache_Destroy(DBCACHE *dbc);
 
+/* the output streams for a search's results */
+typedef struct {
+  FILE *ofp;         /* main output                         */
+  FILE *afp;         /* -A alignments, or NULL              */
+  FILE *tblfp;       /* --tblout, or NULL                   */
+  FILE *domtblfp;    /* --domtblout, or NULL                */
+  FILE *pfamtblfp;   /* --pfamtblout, or NULL               */
+} OUTPUTS;
+
+static int  output_results(const OUTPUTS *outs, const ESL_GETOPTS *go, const ESL_ALPHABET *abc, int textw, const P7_HMM *hmm, int nquery,
+			   P7_TOPHITS *th, P7_PIPELINE *pli, ESL_STOPWATCH *w);
 static int  serial_master(ESL_GETOPTS *go, struct cfg_s *cfg);
 static int  serial_loop  (WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc);
 
@@ -486,6 +497,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
   int              dbfmt    = eslSQFILE_UNKNOWN; /* format code for sequence database file          */
   ESL_STOPWATCH   *w;
   int              textw    = 0;
+  OUTPUTS          outs;                          /* the output streams, for output_results()       */
   int              nquery   = 0;
   int              status   = eslOK;
   int              hstatus  = eslOK;
@@ -548,6 +560,11 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
   if (esl_opt_IsOn(go, "--tblout"))    { if ((tblfp    = fopen(esl_opt_GetString(go, "--tblout"),    "w")) == NULL)  esl_fatal("Failed to open tabular per-seq output file %s for writing\n", esl_opt_GetString(go, "--tblout")); }
   if (esl_opt_IsOn(go, "--domtblout")) { if ((domtblfp = fopen(esl_opt_GetString(go, "--domtblout"), "w")) == NULL)  esl_fatal("Failed to open tabular per-dom output file %s for writing\n", esl_opt_GetString(go, "--domtblout")); }
   if (esl_opt_IsOn(go, "--pfamtblout")){ if ((pfamtblfp = fopen(esl_opt_GetString(go, "--pfamtblout"), "w")) == NULL)  esl_fatal("Failed to open pfam-style tabular output file %s for writing\n", esl_opt_GetString(go, "--pfamtblout")); }
+  outs.ofp       = ofp;
+  outs.afp       = afp;
+  outs.tblfp     = tblfp;
+  outs.domtblfp  = domtblfp;
+  outs.pfamtblfp = pfamtblfp;
 
 #ifdef HMMER_THREADS
   /* initialize thread data */
@@ -727,39 +744,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       }
 
       /* Print the results.  */
-      p7_tophits_SortBySortkey(info->th);
-      p7_tophits_Threshold(info->th, info->pli);
-      p7_tophits_Targets(ofp, info->th, info->pli, textw); if (fprintf(ofp, "\n\n") < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");
-      p7_tophits_Domains(ofp, info->th, info->pli, textw); if (fprintf(ofp, "\n\n") < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");
-
-      if (tblfp)     p7_tophits_TabularTargets(tblfp,    hmm->name, hmm->acc, info->th, info->pli, (nquery == 1));
-      if (domtblfp)  p7_tophits_TabularDomains(domtblfp, hmm->name, hmm->acc, info->th, info->pli, (nquery == 1));
-      if (pfamtblfp) p7_tophits_TabularXfam(pfamtblfp, hmm->name, hmm->acc, info->th, info->pli);
-  
-      esl_stopwatch_Stop(w);
-      p7_pli_Statistics(ofp, info->pli, w);
-      if (fprintf(ofp, "//\n") < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");
-
-      /* Output the results in an MSA (-A option) */
-      if (afp) {
-	ESL_MSA *msa = NULL;
-
-	if (p7_tophits_Alignment(info->th, abc, NULL, NULL, 0, p7_ALL_CONSENSUS_COLS, &msa) == eslOK)
-	  {
-	    esl_msa_SetName     (msa, hmm->name, -1);
-	    esl_msa_SetAccession(msa, hmm->acc,  -1);
-	    esl_msa_SetDesc     (msa, hmm->desc, -1);
-	    esl_msa_FormatAuthor(msa, "hmmsearch (HMMER %s)", HMMER_VERSION);
-
-	    if (textw > 0) esl_msafile_Write(afp, msa, eslMSAFILE_STOCKHOLM);
-	    else           esl_msafile_Write(afp, msa, eslMSAFILE_PFAM);
-	  
-	    if (fprintf(ofp, "# Alignment of %d hits satisfying inclusion thresholds saved to: %s\n", msa->nseq, esl_opt_GetString(go, "-A")) < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");
-	  } 
-	else { if (fprintf(ofp, "# No hits satisfy inclusion thresholds; no alignment saved\n") < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed"); }
-	  
-	esl_msa_Destroy(msa);
-      }
+      if ((status = output_results(&outs, go, abc, textw, hmm, nquery, info->th, info->pli, w)) != eslOK) return status;
 
       p7_oprofile_Destroy(info->om);
       p7_oprofile_Destroy(om);
@@ -1761,6 +1746,56 @@ dbcache_Destroy(DBCACHE *dbc)
   free(dbc);
 }
 
+
+/* output_results()
+ * Print one query's results: per-target and per-domain hit lists, the
+ * tabular outputs, the pipeline statistics and the -A alignment. Stops
+ * the query's stopwatch <w> before the statistics.
+ *
+ * Throws:    <eslEWRITE> on a write failure.
+ */
+static int
+output_results(const OUTPUTS *outs, const ESL_GETOPTS *go, const ESL_ALPHABET *abc, int textw, const P7_HMM *hmm, int nquery,
+	       P7_TOPHITS *th, P7_PIPELINE *pli, ESL_STOPWATCH *w)
+{
+  FILE *ofp = outs->ofp;
+  FILE *afp = outs->afp;
+
+  p7_tophits_SortBySortkey(th);
+  p7_tophits_Threshold(th, pli);
+  p7_tophits_Targets(ofp, th, pli, textw); if (fprintf(ofp, "\n\n") < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");
+  p7_tophits_Domains(ofp, th, pli, textw); if (fprintf(ofp, "\n\n") < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");
+
+  if (outs->tblfp)     p7_tophits_TabularTargets(outs->tblfp,    hmm->name, hmm->acc, th, pli, (nquery == 1));
+  if (outs->domtblfp)  p7_tophits_TabularDomains(outs->domtblfp, hmm->name, hmm->acc, th, pli, (nquery == 1));
+  if (outs->pfamtblfp) p7_tophits_TabularXfam(outs->pfamtblfp, hmm->name, hmm->acc, th, pli);
+
+  esl_stopwatch_Stop(w);
+  p7_pli_Statistics(ofp, pli, w);
+  if (fprintf(ofp, "//\n") < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");
+
+  /* Output the results in an MSA (-A option) */
+  if (afp) {
+    ESL_MSA *msa = NULL;
+
+    if (p7_tophits_Alignment(th, abc, NULL, NULL, 0, p7_ALL_CONSENSUS_COLS, &msa) == eslOK)
+      {
+	esl_msa_SetName     (msa, hmm->name, -1);
+	esl_msa_SetAccession(msa, hmm->acc,  -1);
+	esl_msa_SetDesc     (msa, hmm->desc, -1);
+	esl_msa_FormatAuthor(msa, "hmmsearch (HMMER %s)", HMMER_VERSION);
+
+	if (textw > 0) esl_msafile_Write(afp, msa, eslMSAFILE_STOCKHOLM);
+	else           esl_msafile_Write(afp, msa, eslMSAFILE_PFAM);
+
+	if (fprintf(ofp, "# Alignment of %d hits satisfying inclusion thresholds saved to: %s\n", msa->nseq, esl_opt_GetString(go, "-A")) < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");
+      }
+    else { if (fprintf(ofp, "# No hits satisfy inclusion thresholds; no alignment saved\n") < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed"); }
+
+    esl_msa_Destroy(msa);
+  }
+  return eslOK;
+}
 
 static int
 serial_loop(WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc)
