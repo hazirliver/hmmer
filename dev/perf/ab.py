@@ -113,13 +113,13 @@ def perf_ok():
         return False
 
 
-def run_once(binary, args, cwd, use_perf, timeout):
+def run_once(binary, args, cwd, use_perf, timeout, extra=""):
     """Run `hmmsearch args` (argv[0] = 'hmmsearch', so outputs don't embed the path)."""
     bindir = os.path.join(cwd, ".bin")
     os.makedirs(bindir); os.symlink(binary, os.path.join(bindir, "hmmsearch"))
     env = dict(os.environ, PATH=bindir + os.pathsep + os.environ["PATH"], LC_ALL="C", TZ="UTC")
     env.pop("HMMER_NCPU", None)
-    cmd = ["hmmsearch"] + args.split()
+    cmd = ["hmmsearch"] + extra.split() + args.split()
     if use_perf:
         cmd = ["perf", "stat", "-x,", "-o", os.path.join(cwd, ".perf"), "-e", ",".join(EVENTS), "--"] + cmd
     cmd = ["/usr/bin/time", "-q", "-o", os.path.join(cwd, ".rusage"), "-f", "%U %S %M %x"] + cmd
@@ -148,6 +148,27 @@ def run_once(binary, args, cwd, use_perf, timeout):
     return r
 
 
+EXTRA_RULES = []   # (regex, replacement) for B-only options' traces; set from --b-args in main()
+
+def norm_line(line):
+    if line[:1] in (b"D", b"#", b"r"):
+        t = line.decode("latin-1")
+        for rx, rep in bench.TEXT_RULES: t = rx.sub(rep, t)
+        for rx, rep in EXTRA_RULES:      t = rx.sub(rep, t)
+        line = t.encode("latin-1")
+    return line
+
+
+def exact_hash(path):
+    """dev/bench normalization (+ masks for B-only options); binary files as in dev/bench."""
+    with open(path, "rb") as f:
+        if b"\0" in f.read(8192): return bench.norm_hash(path)
+        f.seek(0)
+        h = hashlib.sha256()
+        for line in f: h.update(norm_line(line))
+    return h.hexdigest()
+
+
 def ws_hash(path):
     """Hash after the dev/bench normalization AND collapsing runs of blanks / trailing blanks.
     Two text files with equal ws_hash differ at most in column padding (accepted, see PLAN.md §6)."""
@@ -156,11 +177,7 @@ def ws_hash(path):
         if b"\0" in f.read(8192): return None          # binary: no whitespace tolerance
         f.seek(0)
         for line in f:
-            if line[:1] in (b"D", b"#", b"r"):
-                t = line.decode("latin-1")
-                for rx, rep in bench.TEXT_RULES: t = rx.sub(rep, t)
-                line = t.encode("latin-1")
-            h.update(WS.sub(b" ", line).rstrip() + b"\n")
+            h.update(WS.sub(b" ", norm_line(line)).rstrip() + b"\n")
     return h.hexdigest()
 
 
@@ -172,7 +189,7 @@ def hash_run(cwd):
             p = os.path.join(dp, f)
             rel = os.path.relpath(p, cwd)
             if rel in OWN_FILES or rel.endswith(".norm") or os.path.islink(p): continue
-            files[rel] = (bench.norm_hash(p), ws_hash(p))
+            files[rel] = (exact_hash(p), ws_hash(p))
     return files
 
 
@@ -191,11 +208,7 @@ def normalized_copy(path):
     out = path + ".norm"
     with open(path, "rb") as f, open(out, "wb") as o:
         for line in f:
-            if line[:1] in (b"D", b"#", b"r"):
-                t = line.decode("latin-1")
-                for rx, rep in bench.TEXT_RULES: t = rx.sub(rep, t)
-                line = t.encode("latin-1")
-            o.write(line)
+            o.write(norm_line(line))
     return out
 
 
@@ -250,8 +263,14 @@ def main():
     ap.add_argument("--keep", action="store_true", help="keep all run dirs (default: keep only mismatching ones)")
     ap.add_argument("--fail-on-slowdown", action="store_true")
     ap.add_argument("--list", action="store_true", help="list workloads and exit")
+    ap.add_argument("--b-args", default="", help="extra options for B only (e.g. --dbcache); their echo in output headers is masked")
     a = ap.parse_args()
 
+    for opt in a.b_args.split():
+        # the option's token in a table's "# Option settings:" line, and its header echo line
+        EXTRA_RULES.append((re.compile(r"^(# Option settings:.*?) " + re.escape(opt) + r"(?= |$)", re.M), r"\1"))
+    if "--dbcache" in a.b_args.split():
+        EXTRA_RULES.append((re.compile(r"^# target db cached in memory:.*\n?", re.M), ""))
     ncpu = os.cpu_count()
     fixtures, wls = load_workloads(os.path.join(HERE, "workloads.tsv"), ncpu)
     sets = None if a.set == "all" else set(a.set.split(","))
@@ -276,7 +295,7 @@ def main():
     os.makedirs(work, exist_ok=True)
     load = os.getloadavg()[0]
     print(BLD(f"A: {da.get('name')}  {A}"))
-    print(BLD(f"B: {db.get('name')}  {B}"))
+    print(BLD(f"B: {db.get('name')}  {B}") + (f"  + {a.b_args}" if a.b_args else ""))
     print(f"set={a.set} workloads={len(wls)} reps={a.reps} warmup={a.warmup} perf={'yes' if use_perf else 'no'} ncpu={ncpu}")
     if load > 1.0: print(YEL(f"WARNING: load average {load:.1f} > 1; timings will be noisy"))
     if A == B or da.get("hmmsearch") and da.get("hmmsearch") == db.get("hmmsearch"):
@@ -294,7 +313,8 @@ def main():
             for v in (("A", "B") if i % 2 == 0 else ("B", "A")):
                 cwd = os.path.join(work, w["name"], f"{v}{i}")
                 os.makedirs(cwd)
-                r = run_once(A if v == "A" else B, args, cwd, use_perf and i >= a.warmup, a.timeout)
+                r = run_once(A if v == "A" else B, args, cwd, use_perf and i >= a.warmup, a.timeout,
+                             a.b_args if v == "B" else "")
                 h = hash_run(cwd)
                 if r.get("rc") != 0:
                     problems.append(f"{v} run {i}: exit {r.get('rc')}"); failed = True
@@ -362,7 +382,7 @@ def main():
 
     os.makedirs(RESULTS, exist_ok=True)
     out = os.path.join(RESULTS, tag + ".json")
-    json.dump(dict(date=stamp, A=da, B=db, set=a.set, reps=a.reps, warmup=a.warmup, perf=use_perf,
+    json.dump(dict(date=stamp, A=da, B=db, b_args=a.b_args, set=a.set, reps=a.reps, warmup=a.warmup, perf=use_perf,
                    load_avg=load, machine=dict(ncpu=ncpu, host=os.uname().nodename), workloads=results),
               open(out, "w"), indent=1)
     if not any(os.scandir(work)) or (not a.keep and not failed):

@@ -1,0 +1,4 @@
+# Cases whose output is expected to change when `dev/check.sh --force-opt <OPT>` forces
+# <OPT> onto every hmmsearch call. Format: <OPT> <case name>   # reason
+--dbcache hmmsearch_gz_multi_err      # with --dbcache, multi-query on a .gz target works (no rewind needed)
+--dbcache hmmsearch_stdin_multi_err   # likewise for stdin targets

@@ -18,7 +18,7 @@ WORK="$BUILD/regress-work"
 JOBS="${JOBS:-$(nproc 2>/dev/null || echo 4)}"
 
 DO_SETUP=1 DO_BUILD=1 DO_CHECK=1 DO_REGRESS=1 UPDATE=0 SQCLEVEL=2 CLEAN=0 FILTER=""
-BENCH_TIER="" BENCH_ARGS=()
+BENCH_TIER="" BENCH_ARGS=() FORCE_OPT=""
 
 usage() {
   cat <<EOF
@@ -29,6 +29,9 @@ Usage: dev/check.sh [options]
   --no-regress       skip the golden regression
   --update-golden    rewrite dev/regress/golden from the current build
   --cases REGEX      only run regression cases whose name matches REGEX
+  --force-opt OPT    regression with every hmmsearch run given OPT (e.g. --dbcache): outputs
+                     must equal the goldens once OPT's own echo lines are masked; cases listed
+                     in dev/regress/force-opt.expected-diff are skipped for that OPT
   --full             'make check' at sqc level 3 (adds valgrind tests; needs valgrind)
   --clean            wipe the build dir and rebuild from scratch
   --bench [S|M|L]    also run the speed benchmark tier (default S; ~5 min / ~30 min / hours)
@@ -48,6 +51,7 @@ while [[ $# -gt 0 ]]; do
     --no-regress)    DO_REGRESS=0 ;;
     --update-golden) UPDATE=1 ;;
     --cases)         FILTER="$2"; shift ;;
+    --force-opt)     FORCE_OPT="$2"; DO_BUILD=0; DO_CHECK=0; shift ;;
     --full)          SQCLEVEL=3 ;;
     --clean)         CLEAN=1 ;;
     --bench)         BENCH_TIER=S; if [[ "${2:-}" =~ ^[SML]$ ]]; then BENCH_TIER=$2; shift; fi ;;
@@ -158,6 +162,7 @@ normalize() {
         -e 's/^# CPU time:.*/# CPU time: [normalized]/' \
         -e 's/^# Mc\/sec:.*/# Mc\/sec: [normalized]/' \
         -e 's/^run time: .*/run time: [normalized]/' \
+        "${FORCE_SED[@]}" \
         "$f"
     else
       # binary (e.g. hmmpress .h3m/.h3p, hmmconvert -b): ctime is a 24-char C string
@@ -182,6 +187,23 @@ regress() {
   cp -r "$REG/data/." "$WORK/data/" && chmod -R a-w "$WORK/data"
 
   export PATH="$BUILD/src:$BUILD/easel/miniapps:$PATH"
+  FORCE_SED=()
+  local -a skip=()
+  if [[ -n "$FORCE_OPT" ]]; then
+    # a wrapper first on PATH runs the real hmmsearch with the forced option; argv[0] stays "hmmsearch"
+    mkdir -p "$WORK/force-bin"
+    printf '#!/usr/bin/env bash\nfor a in "$@"; do [[ "$a" == %q ]] && exec -a hmmsearch %q "$@"; done\nexec -a hmmsearch %q %s "$@"\n' \
+      "$FORCE_OPT" "$BUILD/src/hmmsearch" "$BUILD/src/hmmsearch" "$FORCE_OPT" > "$WORK/force-bin/hmmsearch"
+    chmod +x "$WORK/force-bin/hmmsearch"
+    export PATH="$WORK/force-bin:$PATH"
+    # mask the option's own traces: its header echo line, and its token in "# Option settings:"
+    case "$FORCE_OPT" in
+      --dbcache) FORCE_SED=(-e '/^# target db cached in memory:/d') ;;
+    esac
+    FORCE_SED+=(-e "/^# Option settings:/s/ ${FORCE_OPT}( |\$)/\1/")
+    mapfile -t skip < <(awk -v o="$FORCE_OPT" '$1==o {print $2}' "$REG/force-opt.expected-diff" 2>/dev/null)
+    echo "forcing '$FORCE_OPT' on every hmmsearch; expected to differ (skipped): ${skip[*]:-none}"
+  fi
   unset HMMER_NCPU
   export LC_ALL=C TZ=UTC
 
@@ -204,6 +226,8 @@ regress() {
   local -a names=()
   while read -r name cmd; do
     [[ -n "$FILTER" && ! "$name" =~ $FILTER ]] && continue
+    [[ " ${skip[*]:-} " == *" $name "* ]] && continue
+    [[ -n "$FORCE_OPT" && " $cmd " == *" $FORCE_OPT "* ]] && continue   # already uses it: covered by the normal run
     names+=("$name")
     mkdir -p "$out/cases/$name"
     ln -s "$WORK/data" "$out/cases/$name/data"
@@ -220,6 +244,9 @@ regress() {
   echo "ran ${#names[@]} cases in $((SECONDS - t0))s"
   chmod -R u+w "$WORK"   # inputs were read-only only while cases ran
 
+  if [[ $UPDATE == 1 && -n "$FORCE_OPT" ]]; then
+    record regress FAIL "--update-golden can't be combined with --force-opt"; return 1
+  fi
   if [[ $UPDATE == 1 ]]; then
     if [[ -n "$FILTER" ]]; then
       for name in "${names[@]}"; do rm -rf "$golden/cases/$name"; mkdir -p "$golden/cases"; cp -r "$out/cases/$name" "$golden/cases/"; done
@@ -234,7 +261,7 @@ regress() {
   [[ -d "$golden" ]] || { record regress FAIL "no golden outputs; run with --update-golden first"; return 1; }
   local -a bad=()
   local scope="fx cases"
-  [[ -n "$FILTER" ]] && scope="fx $(printf 'cases/%s ' "${names[@]}")"
+  [[ -n "$FILTER" || ${#skip[@]} -gt 0 ]] && scope="fx $(printf 'cases/%s ' "${names[@]}")"
   local s
   for s in $scope; do
     local d

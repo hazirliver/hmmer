@@ -71,6 +71,8 @@ Data comes from the bench dataset (`dev/bench.sh prepare`). Fixtures such as the
 
 Options: `--workloads REGEX`, `--reps`, `--warmup`, `--check-only` (one untimed run each, outputs only), `--no-perf`, `--keep`, `--label`.
 
+**B-only options.** `--b-args="--dbcache"` (use the `=` form) adds options to B's command line only, for example to compare a new opt-in feature against the old default. The option's own traces (its header echo line and its token in a table's `# Option settings:` line) are masked before comparing, so everything else must still be identical.
+
 ## Measured noise (A/A, same binary on both sides)
 
 Machine: 16-vCPU Xeon 8468 VM, idle. Measured on 2026-10-04 with 5 reps per side.

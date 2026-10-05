@@ -75,6 +75,9 @@ To add coverage, append a line to `cases.txt` with the format `<name> <shell com
 --no-regress       skip golden regression
 --update-golden    rewrite goldens from the current build
 --cases REGEX      restrict the regression to matching cases
+--force-opt OPT    rerun the regression with OPT added to every hmmsearch call (for example
+                   --dbcache); outputs must equal the goldens once OPT's echo lines are masked.
+                   Cases in regress/force-opt.expected-diff are skipped
 --full             make check at sqc level 3 (valgrind tests; needs valgrind)
 --clean            rebuild from scratch
 -j N               parallelism (default: nproc)
