@@ -513,6 +513,8 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       for (i = 0; i < infocnt; ++i)
 	{
 	  info[i].bg         = p7_bg_Create(abc);
+	  info[i].pli        = NULL;  /* created for the first query, then reinitialized for each next one */
+	  info[i].th         = NULL;
 	  info[i].reuse_seqs = (dbc == NULL);
 #ifdef HMMER_THREADS
 	  info[i].queue = queue;
@@ -578,10 +580,16 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 
       for (i = 0; i < infocnt; ++i)
       {
-        /* Create processing pipeline and hit list */
-        info[i].th  = p7_tophits_Create();
+        /* Create processing pipeline and hit list, or reset the ones from the previous query */
+        if (info[i].pli == NULL)
+        {
+          info[i].th  = p7_tophits_Create();
+          info[i].pli = p7_pipeline_Create(go, om->M, 100, FALSE, p7_SEARCH_SEQS); /* L_hint = 100 is just a dummy for now */
+        } else {
+          p7_tophits_Reuse(info[i].th);
+          p7_pipeline_Reinit(info[i].pli, go);
+        }
         info[i].om  = p7_oprofile_Clone(om);
-        info[i].pli = p7_pipeline_Create(go, om->M, 100, FALSE, p7_SEARCH_SEQS); /* L_hint = 100 is just a dummy for now */
         status = p7_pli_NewModel(info[i].pli, info[i].om, info[i].bg);
         if (status == eslEINVAL) p7_Fail(info->pli->errbuf);
 
@@ -618,8 +626,6 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
         p7_tophits_Merge(info[0].th, info[i].th);
         p7_pipeline_Merge(info[0].pli, info[i].pli);
 
-        p7_pipeline_Destroy(info[i].pli);
-        p7_tophits_Destroy(info[i].th);
         p7_oprofile_Destroy(info[i].om);
       }
 
@@ -658,8 +664,6 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 	esl_msa_Destroy(msa);
       }
 
-      p7_pipeline_Destroy(info->pli);
-      p7_tophits_Destroy(info->th);
       p7_oprofile_Destroy(info->om);
       p7_oprofile_Destroy(om);
       p7_profile_Destroy(gm);
@@ -687,7 +691,11 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
   /* Cleanup - prepare for exit
    */
   for (i = 0; i < infocnt; ++i)
-    p7_bg_Destroy(info[i].bg);
+    {
+      p7_pipeline_Destroy(info[i].pli);
+      p7_tophits_Destroy(info[i].th);
+      p7_bg_Destroy(info[i].bg);
+    }
 
 #ifdef HMMER_THREADS
   if (ncpus > 0)

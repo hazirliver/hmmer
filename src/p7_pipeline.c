@@ -33,6 +33,8 @@ typedef struct {
   float            *fwd_emissions_arr;
 } P7_PIPELINE_LONGTARGET_OBJS;
 
+static void pipeline_configure(P7_PIPELINE *pli, const ESL_GETOPTS *go);
+
 
 /*****************************************************************
  * 1. The P7_PIPELINE object: allocation, initialization, destruction.
@@ -104,8 +106,8 @@ p7_pipeline_Create(const ESL_GETOPTS *go, int M_hint, int L_hint, int long_targe
 
   ESL_ALLOC(pli, sizeof(P7_PIPELINE));
 
-  pli->do_alignment_score_calc = 0;
   pli->long_targets = long_targets;
+  pli->mode         = mode;
 
   if ((pli->fwd = p7_omx_Create(M_hint, L_hint, L_hint)) == NULL) goto ERROR;
   if ((pli->bck = p7_omx_Create(M_hint, L_hint, L_hint)) == NULL) goto ERROR;
@@ -118,8 +120,65 @@ p7_pipeline_Create(const ESL_GETOPTS *go, int M_hint, int L_hint, int long_targe
    * seed: time() sets the seed, and we turn off the reinitialization.
    */
   pli->r                  =  esl_randomness_CreateFast(seed);
-  pli->do_reseeding       = (seed == 0) ? FALSE : TRUE;
   pli->ddef               = p7_domaindef_Create(pli->r);
+
+  pipeline_configure(pli, go);
+  return pli;
+
+ ERROR:
+  p7_pipeline_Destroy(pli);
+  return NULL;
+}
+
+
+/* Function:  p7_pipeline_Reinit()
+ * Synopsis:  Return a pipeline to its freshly created state.
+ *
+ * Purpose:   Reset <pli> to the state <p7_pipeline_Create()> leaves it in,
+ *            given the same options <go>: thresholds, search space sizes,
+ *            accounting, and the RNG seed are all set again, while the
+ *            DP matrices and domain definition workspace keep their
+ *            allocations. This lets a caller reuse one pipeline for
+ *            a series of queries, instead of creating a new one for
+ *            each.
+ *
+ *            The mode and <long_targets> setting are kept. Fields that
+ *            <p7_pipeline_Create()> doesn't set (those used only by
+ *            nhmmer, such as <strands> and <n_output>) are left alone.
+ *
+ * Returns:   <eslOK> on success.
+ */
+int
+p7_pipeline_Reinit(P7_PIPELINE *pli, const ESL_GETOPTS *go)
+{
+  esl_randomness_Init(pli->r, (go ? esl_opt_GetInteger(go, "--seed") : 42));
+  p7_pipeline_Reuse(pli);
+
+  /* The next query's M may be smaller than the last one's. Invalidate the
+   * row pointers, so the first GrowTo() lays the rows out for the new M
+   * as a freshly created matrix would, instead of keeping the old, wider
+   * row stride (a sparser matrix that costs cache and TLB misses).
+   */
+  pli->oxf->validR = pli->oxb->validR = pli->fwd->validR = pli->bck->validR = 0;
+  pipeline_configure(pli, go);
+  return eslOK;
+}
+
+
+/* pipeline_configure()
+ * Set everything in <pli> that's determined by the options <go>,
+ * and zero the accounting. Used by <p7_pipeline_Create()> and
+ * <p7_pipeline_Reinit()>; requires <pli->long_targets>,
+ * <pli->r> and <pli->ddef> to be set.
+ */
+static void
+pipeline_configure(P7_PIPELINE *pli, const ESL_GETOPTS *go)
+{
+  int          seed = (go ? esl_opt_GetInteger(go, "--seed") : 42);
+  int          long_targets = pli->long_targets;
+
+  pli->do_alignment_score_calc = 0;
+  pli->do_reseeding       = (seed == 0) ? FALSE : TRUE;
   pli->ddef->do_reseeding = pli->do_reseeding;
 
   /* Configure reporting thresholds */
@@ -244,17 +303,10 @@ p7_pipeline_Create(const ESL_GETOPTS *go, int M_hint, int L_hint, int long_targe
   pli->pos_past_bias   = 0;
   pli->pos_past_vit    = 0;
   pli->pos_past_fwd    = 0;
-  pli->mode            = mode;
   pli->show_accessions = (go && esl_opt_GetBoolean(go, "--acc")   ? TRUE  : FALSE);
   pli->show_alignments = (go && esl_opt_GetBoolean(go, "--noali") ? FALSE : TRUE);
   pli->hfp             = NULL;
   pli->errbuf[0]       = '\0';
-
-  return pli;
-
- ERROR:
-  p7_pipeline_Destroy(pli);
-  return NULL;
 }
 
 

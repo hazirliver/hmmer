@@ -1,4 +1,4 @@
-# Lessons from the hmmsearch speedup work (Phases 0-2)
+# Lessons from the hmmsearch speedup work (Phases 0-3)
 
 These are practical lessons from doing [`PLAN.md`](PLAN.md) step by step. The measured numbers are in [`PROGRESS.md`](PROGRESS.md). Read this before measuring or changing anything.
 
@@ -25,7 +25,9 @@ These are practical lessons from doing [`PLAN.md`](PLAN.md) step by step. The me
 
 6. **Know which resource bounds the workload before predicting a wall-time gain.** While the serial reader set the pace at 16 threads, a 2.7% instruction cut showed up as about 1.6% wall time on the realistic run (Phase 1, within noise). The same run got 2.8× faster once the reader was fixed (Phase 2).
 
-7. **Short runs (< 0.5 s) have noisy wall times.** W4 showed +13.7% wall time in `ab.sh` where a direct `perf stat -r 15` measured +4.6%. For short workloads use counters, or `perf stat -r N`.
+7. **`-falign-functions=64` doesn't remove every layout effect.** Step 3.1 edited `p7_pipeline.c`, and the serial X3 read +1.2% cycles with *fewer* instructions, cache misses, TLB misses and page faults. To separate layout from cost, build a **control**: B's exact library code with the new behaviour switched off at the call site (here: destroy and recreate the pipeline anyway). The control was +1.5% vs A, so the change itself was −0.5%. Compare B against the control, not only against A.
+
+8. **Short runs (< 0.5 s) have noisy wall times.** W4 showed +13.7% wall time in `ab.sh` where a direct `perf stat -r 15` measured +4.6%. For short workloads use counters, or `perf stat -r N`.
 
 ## Byte-identical rewrites of floating-point code
 
@@ -58,7 +60,10 @@ These are practical lessons from doing [`PLAN.md`](PLAN.md) step by step. The me
    - An arena with exact sizes brought it to +26% and 547 MB.
    - 2 MB-aligned chunks with `madvise(MADV_HUGEPAGE)` cut first-touch page faults on the serial reader and brought it to +15%.
    - What's left is the data itself: residues, 120 MB of Swiss-Prot headers and about 230 B of `ESL_SQ` per sequence.
-5. **Gotcha:** on the protein path, `esl_sqio_ReadBlock` does **not** reset block slots. `sqascii_Read` expects them already `esl_sq_Reuse`'d (only the DNA branch resets them itself). Whoever owns a block between reads must reset it.
+5. **Reused objects must be reset to *exactly* the created state.** Share one configure routine between `Create` and the reset (`p7_pipeline_Reinit()`), so they can't drift apart. Watch for state that `Create` gets for free:
+   - Grow-only DP matrices keep the row stride of the largest model seen. Smaller later queries then walk a sparser matrix (+0.7% cycles on X3) until the row pointers are invalidated (`validR = 0`).
+   - `p7_ProfileConfig` copies RF/MM/CS only when the HMM has them. A reused `P7_PROFILE` must go through `p7_profile_Reuse` first, or the previous query's RF line leaks into the next query's alignments.
+6. **Gotcha:** on the protein path, `esl_sqio_ReadBlock` does **not** reset block slots. `sqascii_Read` expects them already `esl_sq_Reuse`'d (only the DNA branch resets them itself). Whoever owns a block between reads must reset it.
 
 ## Verification habits
 

@@ -1633,6 +1633,7 @@ extern void p7_null3_windowed_score(const ESL_ALPHABET *abc, const ESL_DSQ *dsq,
 /* p7_pipeline.c */
 extern P7_PIPELINE *p7_pipeline_Create(const ESL_GETOPTS *go, int M_hint, int L_hint, int long_targets, enum p7_pipemodes_e mode);
 extern int          p7_pipeline_Reuse  (P7_PIPELINE *pli);
+extern int          p7_pipeline_Reinit (P7_PIPELINE *pli, const ESL_GETOPTS *go);
 extern void         p7_pipeline_Destroy(P7_PIPELINE *pli);
 extern int          p7_pipeline_Merge  (P7_PIPELINE *p1, P7_PIPELINE *p2);
 
@@ -1715,6 +1716,7 @@ extern int         p7_tophits_GetMaxPositionLength(P7_TOPHITS *h);
 extern int         p7_tophits_GetMaxNameLength(P7_TOPHITS *h);
 extern int         p7_tophits_GetMaxAccessionLength(P7_TOPHITS *h);
 extern int         p7_tophits_GetMaxShownLength(P7_TOPHITS *h);
+extern int         p7_tophits_Reuse(P7_TOPHITS *h);
 extern void        p7_tophits_Destroy(P7_TOPHITS *h);
 
 extern int p7_tophits_ComputeNhmmerEvalues(P7_TOPHITS *th, double N, int W);
