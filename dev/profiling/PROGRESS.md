@@ -19,3 +19,7 @@ One row per step of [`PLAN.md`](PLAN.md). A is the snapshot before the step, B i
 | 2.1 | | scale | X2 1 query × Swiss-Prot @ 16 | wall | 1.02 s → 1.42 s | **1.39 (slower)** | 5.0% | Single query, so the cache is pure overhead: 570 fresh blocks with default `ESL_SQ` buffers. RSS 114 → 653 MB. Target of 2.2 |
 | 2.1 | | query | X3 pfam_1k × sprot_1k @ 0 / 16 | wall | 4.93 / 6.52 s → 3.62 / 4.97 s | 0.74 / 0.76 | 2.3-3.1% | |
 | 2.1 | | query | X4 Pfam-A × 5 seqs | wall | — | 0.95-0.99 (~) | 3.7-7.4% | DB is 5 sequences; per-query overhead dominates (Phase 3) |
+| 2.2 | "dbcache: compact arena storage" | cpu | W1-W5, no `--dbcache` | cycles:u (`--perf`) | — | 0.993-1.001 (~) | 0.3-1.5% | Default path neutral; W3 now 1.0000 (2.1's +1.3% was noise) |
+| 2.2 | | scale | X2 1 query × Swiss-Prot @ 16, `--dbcache` | wall | 1.02 s → 1.17 s | 1.15 (was 1.39) | 5.0% | Arena copy: instructions B/A 1.007. Remaining cost: sys time from first-touching ~430 MB, lowered by huge pages (1.26 → 1.15). RSS 547 MB (was 653) |
+| 2.2 | | scale | X1 p100 × 50k @ 8 / 16, `--dbcache` | wall | 8.43 / 9.43 s → 2.72 / 2.60 s | 0.32 / 0.28 | 5.5-11.7% | Unchanged from 2.1 |
+| 2.2 | | query | X3 @ 0 / 16, `--dbcache` | wall | 4.92 / 6.47 s → 3.67 / 4.97 s | 0.75 / 0.77 | 3.1-4.1% | |

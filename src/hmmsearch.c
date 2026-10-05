@@ -25,6 +25,10 @@
 #include "esl_mpi.h"
 #endif 
 
+#if defined(__linux__)
+#include <sys/mman.h>     /* madvise(MADV_HUGEPAGE) for the --dbcache arena */
+#endif
+
 #ifdef HMMER_THREADS
 #include <unistd.h>
 #include "esl_threads.h"
@@ -149,12 +153,21 @@ struct cfg_s {
  * and parse nothing, so a non-rewindable target (.gz, stdin) also works
  * with several queries.
  *
+ * The first pass reads exactly as without a cache, into the usual reused
+ * block, and appends a compact copy of each block to the cache: one
+ * ESL_SQ array per block, with all strings and digital sequences packed
+ * into large arena chunks instead of Easel's per-field growable buffers.
+ * Cached sequences are never written again.
+ *
  * Threaded mode keeps the work queue's protocol unchanged. The same pool
- * of blocks circulates between reader and workers, but each pool block
- * acts as a carrier: while it's in flight, its <list> points at a cached
- * block's sequences. carrier_list[] holds each pool block's own list,
- * which is restored at the end of every pass.
+ * of blocks circulates between reader and workers. In a cached pass each
+ * pool block acts as a carrier: while it's in flight, its <list> points at
+ * a cached block's sequences. carrier_list[] holds each pool block's own
+ * list, which is restored at the end of every pass.
  */
+#define DBCACHE_CHUNK (64 * 1024 * 1024)  /* arena chunk size (bytes); a multiple of 2MB      */
+#define DBCACHE_ALIGN (2 * 1024 * 1024)   /* chunk alignment, so chunks can use huge pages   */
+
 typedef struct {
   ESL_SQ_BLOCK  **blk;          /* cached blocks, in file order                         */
   int             nblk;
@@ -163,7 +176,16 @@ typedef struct {
   int             next;         /* in a cached pass: next block to hand out             */
   int             pass_eof;     /* the current pass has reached its end                 */
   int64_t         nseq;         /* number of sequences cached                           */
-  ESL_SQ_BLOCK  **carrier;      /* the work queue's pool blocks (threaded mode)         */
+  uint64_t        nbytes;       /* bytes of the arena in use                            */
+
+  char          **chunk;        /* arena: strings and digital sequences of cached seqs  */
+  int             nchunk;
+  int             nchunkalloc;
+  size_t          used;         /* bytes used in the last chunk                         */
+  size_t          chunksize;    /* size of the last chunk                               */
+
+  ESL_SQ_BLOCK   *scratch;      /* serial mode: the reused block the first pass reads into */
+  ESL_SQ_BLOCK  **carrier;      /* threaded mode: the work queue's pool blocks          */
   ESL_SQ        **carrier_list; /*   ... and their own sequence lists                   */
   int             ncarrier;
   const ESL_ALPHABET *abc;
@@ -172,7 +194,7 @@ typedef struct {
 static DBCACHE *dbcache_Create(const ESL_ALPHABET *abc, int ncarrier);
 static void     dbcache_StartPass(DBCACHE *dbc);
 static void     dbcache_EndPass(DBCACHE *dbc);
-static int      dbcache_NextBlock(DBCACHE *dbc, ESL_SQFILE *dbfp, int *n_targetseqs, ESL_SQ_BLOCK **ret_blk);
+static int      dbcache_NextBlock(DBCACHE *dbc, ESL_SQFILE *dbfp, int *n_targetseqs, ESL_SQ_BLOCK *rdblk, ESL_SQ_BLOCK **ret_blk);
 static void     dbcache_Destroy(DBCACHE *dbc);
 
 static int  serial_master(ESL_GETOPTS *go, struct cfg_s *cfg);
@@ -549,6 +571,9 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
         info[i].pli = p7_pipeline_Create(go, om->M, 100, FALSE, p7_SEARCH_SEQS); /* L_hint = 100 is just a dummy for now */
         status = p7_pli_NewModel(info[i].pli, info[i].om, info[i].bg);
         if (status == eslEINVAL) p7_Fail(info->pli->errbuf);
+
+        /* workers reset the reused blocks they read into, but never cached targets */
+        info[i].reuse_seqs = (dbc == NULL || ! dbc->complete);
 
 #ifdef HMMER_THREADS
         if (ncpus > 0) esl_threads_AddThread(threadObj, &info[i]);
@@ -1342,6 +1367,8 @@ dbcache_Create(const ESL_ALPHABET *abc, int ncarrier)
 
   ESL_ALLOC(dbc, sizeof(DBCACHE));
   dbc->blk          = NULL;
+  dbc->chunk        = NULL;
+  dbc->scratch      = NULL;
   dbc->carrier      = NULL;
   dbc->carrier_list = NULL;
   dbc->nalloc       = 64;
@@ -1350,11 +1377,18 @@ dbcache_Create(const ESL_ALPHABET *abc, int ncarrier)
   dbc->next         = 0;
   dbc->pass_eof     = FALSE;
   dbc->nseq         = 0;
+  dbc->nbytes       = 0;
+  dbc->nchunk       = 0;
+  dbc->nchunkalloc  = 16;
+  dbc->used         = 0;
+  dbc->chunksize    = 0;
   dbc->ncarrier     = 0;
   dbc->abc          = abc;
   ESL_ALLOC(dbc->blk,          sizeof(ESL_SQ_BLOCK *) * dbc->nalloc);
+  ESL_ALLOC(dbc->chunk,        sizeof(char *)         * dbc->nchunkalloc);
   ESL_ALLOC(dbc->carrier,      sizeof(ESL_SQ_BLOCK *) * ESL_MAX(1, ncarrier));
   ESL_ALLOC(dbc->carrier_list, sizeof(ESL_SQ *)       * ESL_MAX(1, ncarrier));
+  if (ncarrier == 0 && (dbc->scratch = esl_sq_CreateDigitalBlock(BLOCK_SIZE, abc)) == NULL) goto ERROR;
   return dbc;
 
  ERROR:
@@ -1381,19 +1415,125 @@ dbcache_EndPass(DBCACHE *dbc)
     }
 }
 
-/* dbcache_NextBlock()
- * Next block of targets for this pass, in file order. While the cache is
- * incomplete (first pass) it reads exactly what thread_loop() would read
- * without a cache (esl_sqio_ReadBlock(), honoring <*n_targetseqs> the same
- * way) into a new block and keeps it; afterwards it hands out cached
- * blocks. Returns eslOK, eslEOF at the end of the pass, or a read error.
+/* <n> bytes from the arena, aligned to <align> (a power of 2); NULL on allocation failure. */
+static void *
+dbcache_alloc(DBCACHE *dbc, size_t n, size_t align)
+{
+  size_t off = (dbc->used + align - 1) & ~(align - 1);
+  void  *p;
+  int    status;
+
+  if (dbc->nchunk == 0 || off + n > dbc->chunksize)
+    {
+      if (dbc->nchunk == dbc->nchunkalloc)
+        {
+          ESL_RALLOC(dbc->chunk, p, sizeof(char *) * dbc->nchunkalloc * 2);
+          dbc->nchunkalloc *= 2;
+        }
+      dbc->chunksize = ESL_MAX(DBCACHE_CHUNK, (n + DBCACHE_ALIGN - 1) & ~((size_t) DBCACHE_ALIGN - 1));
+      if (posix_memalign(&p, DBCACHE_ALIGN, dbc->chunksize) != 0) { status = eslEMEM; goto ERROR; }
+#if defined(__linux__) && defined(MADV_HUGEPAGE)
+      madvise(p, dbc->chunksize, MADV_HUGEPAGE);   /* fewer page faults; no effect on contents */
+#endif
+      dbc->chunk[dbc->nchunk++] = p;
+      off = 0;
+    }
+  dbc->nbytes += (off + n) - dbc->used;
+  dbc->used    = off + n;
+  return dbc->chunk[dbc->nchunk-1] + off;
+
+ ERROR:
+  return NULL;
+}
+
+static char *
+dbcache_strdup(DBCACHE *dbc, const char *s, int *ret_alloc)
+{
+  size_t n = strlen(s) + 1;
+  char  *p = dbcache_alloc(dbc, n, 1);
+  if (p) { memcpy(p, s, n); *ret_alloc = (int) n; }
+  return p;
+}
+
+/* Compact copy of digital sequence <src> into <dst>: every field has the
+ * same value; strings and residue arrays live in the arena, exactly sized.
  */
 static int
-dbcache_NextBlock(DBCACHE *dbc, ESL_SQFILE *dbfp, int *n_targetseqs, ESL_SQ_BLOCK **ret_blk)
+dbcache_copyseq(DBCACHE *dbc, const ESL_SQ *src, ESL_SQ *dst)
 {
-  ESL_SQ_BLOCK *blk = NULL;
+  int x;
+
+  *dst = *src;   /* every scalar field (n, L, start, end, C, W, tax_id, idx, offsets, abc...) */
+  dst->salloc = src->n + 2;   /* digital [0..n+1], sentinels included; ss and xr likewise */
+  if ((dst->name   = dbcache_strdup(dbc, src->name,   &dst->nalloc))   == NULL) return eslEMEM;
+  if ((dst->acc    = dbcache_strdup(dbc, src->acc,    &dst->aalloc))   == NULL) return eslEMEM;
+  if ((dst->desc   = dbcache_strdup(dbc, src->desc,   &dst->dalloc))   == NULL) return eslEMEM;
+  if ((dst->source = dbcache_strdup(dbc, src->source, &dst->srcalloc)) == NULL) return eslEMEM;
+  if ((dst->dsq    = dbcache_alloc(dbc, dst->salloc, 1))               == NULL) return eslEMEM;
+  memcpy(dst->dsq, src->dsq, dst->salloc);
+  if (src->ss)
+    {
+      if ((dst->ss = dbcache_alloc(dbc, dst->salloc, 1)) == NULL) return eslEMEM;
+      memcpy(dst->ss, src->ss, dst->salloc);
+    }
+  if (src->nxr > 0)
+    {
+      int tagalloc;
+      if ((dst->xr_tag = dbcache_alloc(dbc, sizeof(char *) * src->nxr, sizeof(char *))) == NULL) return eslEMEM;
+      if ((dst->xr     = dbcache_alloc(dbc, sizeof(char *) * src->nxr, sizeof(char *))) == NULL) return eslEMEM;
+      for (x = 0; x < src->nxr; x++)
+        {
+          if ((dst->xr_tag[x] = dbcache_strdup(dbc, src->xr_tag[x], &tagalloc)) == NULL) return eslEMEM;
+          if ((dst->xr[x]     = dbcache_alloc(dbc, dst->salloc, 1))            == NULL) return eslEMEM;
+          memcpy(dst->xr[x], src->xr[x], dst->salloc);
+        }
+    }
+  return eslOK;
+}
+
+/* Append a compact copy of block <src> to the cache. */
+static int
+dbcache_addblock(DBCACHE *dbc, const ESL_SQ_BLOCK *src)
+{
+  ESL_SQ_BLOCK *b = NULL;
   void         *p;
+  int           i;
   int           status;
+
+  if (dbc->nblk == dbc->nalloc)
+    {
+      ESL_RALLOC(dbc->blk, p, sizeof(ESL_SQ_BLOCK *) * dbc->nalloc * 2);
+      dbc->nalloc *= 2;
+    }
+  /* the block and its ESL_SQ array live in the arena too */
+  if ((b       = dbcache_alloc(dbc, sizeof(ESL_SQ_BLOCK), 16))                      == NULL) return eslEMEM;
+  if ((b->list = dbcache_alloc(dbc, sizeof(ESL_SQ) * ESL_MAX(1, src->count), 16)) == NULL) return eslEMEM;
+  b->count        = b->listSize = src->count;
+  b->complete     = src->complete;
+  b->first_seqidx = src->first_seqidx;
+
+  for (i = 0; i < src->count; i++)
+    if ((status = dbcache_copyseq(dbc, src->list + i, b->list + i)) != eslOK) return status;
+  dbc->blk[dbc->nblk++] = b;
+  dbc->nseq += src->count;
+  return eslOK;
+
+ ERROR:
+  return status;
+}
+
+/* dbcache_NextBlock()
+ * Next block of targets for this pass, in file order. While the cache is
+ * incomplete (first pass) it reads into <rdblk> exactly as without a
+ * cache (esl_sqio_ReadBlock(), honoring <*n_targetseqs> the same way),
+ * keeps a compact copy, and returns <rdblk> itself. In later passes it
+ * returns cached blocks. Returns eslOK, eslEOF at the end of the pass, or
+ * a read/allocation error.
+ */
+static int
+dbcache_NextBlock(DBCACHE *dbc, ESL_SQFILE *dbfp, int *n_targetseqs, ESL_SQ_BLOCK *rdblk, ESL_SQ_BLOCK **ret_blk)
+{
+  int status;
 
   *ret_blk = NULL;
   if (dbc->pass_eof) return eslEOF;
@@ -1405,31 +1545,16 @@ dbcache_NextBlock(DBCACHE *dbc, ESL_SQFILE *dbfp, int *n_targetseqs, ESL_SQ_BLOC
       return eslEOF;
     }
 
-  if (*n_targetseqs == 0) { dbc->pass_eof = dbc->complete = TRUE; return eslEOF; }
+  if (*n_targetseqs == 0) { rdblk->count = 0; dbc->pass_eof = dbc->complete = TRUE; return eslEOF; }
 
-  if ((blk = esl_sq_CreateDigitalBlock(BLOCK_SIZE, dbc->abc)) == NULL) return eslEMEM;
-  status = esl_sqio_ReadBlock(dbfp, blk, -1, *n_targetseqs, /*max_init_window=*/FALSE, FALSE);
-  if (status != eslOK)
-    {
-      esl_sq_DestroyBlock(blk);
-      if (status == eslEOF) dbc->pass_eof = dbc->complete = TRUE;
-      return status;
-    }
+  status = esl_sqio_ReadBlock(dbfp, rdblk, -1, *n_targetseqs, /*max_init_window=*/FALSE, FALSE);
+  if (status == eslEOF) dbc->pass_eof = dbc->complete = TRUE;
+  if (status != eslOK)  return status;
 
-  if (dbc->nblk == dbc->nalloc)
-    {
-      ESL_RALLOC(dbc->blk, p, sizeof(ESL_SQ_BLOCK *) * dbc->nalloc * 2);
-      dbc->nalloc *= 2;
-    }
-  dbc->blk[dbc->nblk++] = blk;
-  dbc->nseq            += blk->count;
-  *n_targetseqs        -= blk->count;
-  *ret_blk = blk;
+  *n_targetseqs -= rdblk->count;
+  if ((status = dbcache_addblock(dbc, rdblk)) != eslOK) return status;
+  *ret_blk = rdblk;
   return eslOK;
-
- ERROR:
-  esl_sq_DestroyBlock(blk);
-  return status;
 }
 
 static void
@@ -1438,8 +1563,10 @@ dbcache_Destroy(DBCACHE *dbc)
   int i;
 
   if (dbc == NULL) return;
-  for (i = 0; i < dbc->nblk; i++) esl_sq_DestroyBlock(dbc->blk[i]);
+  for (i = 0; i < dbc->nchunk; i++) free(dbc->chunk[i]);   /* everything cached lives in the arena */
+  if (dbc->scratch) esl_sq_DestroyBlock(dbc->scratch);
   free(dbc->blk);
+  free(dbc->chunk);
   free(dbc->carrier);
   free(dbc->carrier_list);
   free(dbc);
@@ -1457,9 +1584,10 @@ serial_loop(WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc)
   if (dbc)
     { /* --dbcache: the same targets in the same order, one block at a time */
       ESL_SQ_BLOCK *blk;
+      int           reading = ! dbc->complete;  /* first pass: <blk> is the reused scratch block */
 
       dbcache_StartPass(dbc);
-      while ((sstatus = dbcache_NextBlock(dbc, dbfp, &n_targetseqs, &blk)) == eslOK)
+      while ((sstatus = dbcache_NextBlock(dbc, dbfp, &n_targetseqs, dbc->scratch, &blk)) == eslOK)
         for (i = 0; i < blk->count; i++)
           {
             dbsq = blk->list + i;
@@ -1469,6 +1597,7 @@ serial_loop(WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc)
 
             p7_Pipeline(info->pli, info->om, info->bg, dbsq, NULL, info->th);
 
+            if (reading) esl_sq_Reuse(dbsq);
             p7_pipeline_Reuse(info->pli);
           }
       return sstatus;
@@ -1522,10 +1651,10 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, ESL_SQFILE *dbfp, int n_tar
       block = (ESL_SQ_BLOCK *) newBlock;
 
       if (dbc)
-      { /* --dbcache: the pool block carries a cached block's sequences */
-        sstatus = dbcache_NextBlock(dbc, dbfp, &n_targetseqs, &cblk);
-        if (sstatus == eslOK) { block->list = cblk->list; block->count = cblk->count; }
-        else                    block->count = 0;
+      { /* --dbcache: first pass reads into the pool block; later, it carries cached sequences */
+        sstatus = dbcache_NextBlock(dbc, dbfp, &n_targetseqs, block, &cblk);
+        if      (sstatus != eslOK) block->count = 0;
+        else if (cblk != block)  { block->list = cblk->list; block->count = cblk->count; }
       } else if (n_targetseqs == 0)
       {
         block->count = 0;
