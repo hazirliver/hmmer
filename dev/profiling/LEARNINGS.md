@@ -73,6 +73,7 @@ These are practical lessons from doing [`PLAN.md`](PLAN.md) step by step. The me
   - The bitwise unit test must fail on a mutation.
 - **Generate goldens for new coverage with the unmodified binary**, and commit them separately ("coverage only").
 - **New feature goldens get cross-checked** against the equivalent existing goldens, minus the option's echo lines, before they're committed.
+- **New synchronization gets a ThreadSanitizer run and a stress loop.** TSan on this kernel needs ASLR off: configure, build and run under `setarch -R` (otherwise "unexpected memory mapping"). Check that it flags a deliberately racy toy program first. Then loop the threaded binary under `timeout` at several thread counts to catch hangs.
 - **Manual memory management gets a sanitizer run.** Valgrind isn't installed here, so use `-fsanitize=address` in a separate build dir and confirm with `ldd` that libasan is linked.
 
 ## Tooling gotchas (this machine)

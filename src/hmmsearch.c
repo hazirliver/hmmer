@@ -32,15 +32,32 @@
 
 #ifdef HMMER_THREADS
 #include <unistd.h>
+#include <pthread.h>
 #include "esl_threads.h"
 #include "esl_workqueue.h"
 #endif 
 
 #include "hmmer.h"
 
+#ifdef HMMER_THREADS
+/* Worker threads are created once and search one pass over the target
+ * db per query. Between passes they wait at this gate: the master bumps
+ * <pass> to start the next one, or sets <quit> at the end.
+ */
+typedef struct {
+  pthread_mutex_t   mutex;
+  pthread_cond_t    go;          /* master -> workers: new pass, or quit    */
+  pthread_cond_t    done;        /* workers -> master: the pass is finished */
+  int               pass;        /* number of the current pass              */
+  int               nrunning;    /* workers still busy in the current pass  */
+  int               quit;        /* TRUE: workers exit                      */
+} WORKER_GATE;
+#endif
+
 typedef struct {
 #ifdef HMMER_THREADS
   ESL_WORK_QUEUE   *queue;
+  WORKER_GATE      *gate;
 #endif 
   P7_BG            *bg;	         /* null model                              */
   P7_PIPELINE      *pli;         /* work pipeline                           */
@@ -206,8 +223,9 @@ static int  serial_master(ESL_GETOPTS *go, struct cfg_s *cfg);
 static int  serial_loop  (WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc);
 
 #ifdef HMMER_THREADS
-static int  thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc);
+static int  thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc);
 static void pipeline_thread(void *arg);
+static void search_pass(WORKER_INFO *info);
 #endif 
 
 #ifdef HMMER_MPI
@@ -440,6 +458,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
   ESL_SQ_BLOCK    *block    = NULL;
   ESL_THREADS     *threadObj= NULL;
   ESL_WORK_QUEUE  *queue    = NULL;
+  WORKER_GATE      gate;
 #endif
   char             errbuf[eslERRBUFSIZE];
 
@@ -490,6 +509,11 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
     {
       threadObj = esl_threads_Create(&pipeline_thread);
       queue = esl_workqueue_Create(ncpus * 2);
+      if (pthread_mutex_init(&gate.mutex, NULL) != 0 || pthread_cond_init(&gate.go, NULL) != 0 || pthread_cond_init(&gate.done, NULL) != 0)
+        esl_fatal("Failed to initialize the worker thread gate");
+      gate.pass     = 0;
+      gate.nrunning = 0;
+      gate.quit     = FALSE;
     }
 #endif
 
@@ -518,6 +542,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 	  info[i].reuse_seqs = (dbc == NULL);
 #ifdef HMMER_THREADS
 	  info[i].queue = queue;
+	  info[i].gate  = &gate;
 #endif
 	}
 
@@ -597,12 +622,13 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
         info[i].reuse_seqs = (dbc == NULL || ! dbc->complete);
 
 #ifdef HMMER_THREADS
-        if (ncpus > 0) esl_threads_AddThread(threadObj, &info[i]);
+        if (ncpus > 0 && nquery == 1) esl_threads_AddThread(threadObj, &info[i]); /* workers persist across queries */
 #endif
       }
 
 #ifdef HMMER_THREADS
-      if (ncpus > 0)  sstatus = thread_loop(threadObj, queue, dbfp, cfg->n_targetseq, dbc);
+      if (ncpus > 0 && nquery == 1) esl_threads_WaitForStart(threadObj);
+      if (ncpus > 0)  sstatus = thread_loop(threadObj, queue, &gate, dbfp, cfg->n_targetseq, dbc);
       else            sstatus = serial_loop(info, dbfp, cfg->n_targetseq, dbc);
 #else
       sstatus = serial_loop(info, dbfp, cfg->n_targetseq, dbc);
@@ -700,6 +726,15 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 #ifdef HMMER_THREADS
   if (ncpus > 0)
     {
+      pthread_mutex_lock(&gate.mutex);   /* release the parked workers, and wait for them to exit */
+      gate.quit = TRUE;
+      pthread_cond_broadcast(&gate.go);
+      pthread_mutex_unlock(&gate.mutex);
+      esl_threads_WaitForFinish(threadObj);
+      pthread_cond_destroy(&gate.go);
+      pthread_cond_destroy(&gate.done);
+      pthread_mutex_destroy(&gate.mutex);
+
       esl_workqueue_Reset(queue);
       while (esl_workqueue_Remove(queue, (void **) &block) == eslOK)
 	esl_sq_DestroyBlock(block);
@@ -1703,7 +1738,7 @@ serial_loop(WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc)
 
 #ifdef HMMER_THREADS
 static int
-thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc)
+thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc)
 {
   int  status  = eslOK;
   int  sstatus = eslOK;
@@ -1712,9 +1747,15 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, ESL_SQFILE *dbfp, int n_tar
   ESL_SQ_BLOCK *cblk;
   void         *newBlock;
 
-  esl_workqueue_Reset(queue);
-  esl_threads_WaitForStart(obj);
+  esl_workqueue_Reset(queue);   /* safe: the workers are parked at the gate, not in the queue */
   if (dbc) dbcache_StartPass(dbc);
+
+  /* start the workers' pass over the targets */
+  pthread_mutex_lock(&gate->mutex);
+  gate->nrunning = esl_threads_GetWorkerCount(obj);
+  gate->pass++;
+  pthread_cond_broadcast(&gate->go);
+  pthread_mutex_unlock(&gate->mutex);
 
   status = esl_workqueue_ReaderUpdate(queue, NULL, &newBlock);
   if (status != eslOK) esl_fatal("Work queue reader failed");
@@ -1756,8 +1797,10 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, ESL_SQFILE *dbfp, int n_tar
 
   if (sstatus == eslEOF)
     {
-      /* wait for all the threads to complete */
-      esl_threads_WaitForFinish(obj);
+      /* wait for all the workers to finish this pass */
+      pthread_mutex_lock(&gate->mutex);
+      while (gate->nrunning > 0) pthread_cond_wait(&gate->done, &gate->mutex);
+      pthread_mutex_unlock(&gate->mutex);
       esl_workqueue_Complete(queue);
       if (dbc) dbcache_EndPass(dbc);
     }
@@ -1768,21 +1811,52 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, ESL_SQFILE *dbfp, int n_tar
 static void 
 pipeline_thread(void *arg)
 {
-  int i;
-  int status;
-  int workeridx;
+  int            workeridx;
+  int            pass = 0;
   WORKER_INFO   *info;
   ESL_THREADS   *obj;
+  WORKER_GATE   *gate;
 
-  ESL_SQ_BLOCK  *block = NULL;
-  void          *newBlock;
-  
   impl_Init();
 
   obj = (ESL_THREADS *) arg;
   esl_threads_Started(obj, &workeridx);
 
   info = (WORKER_INFO *) esl_threads_GetData(obj, workeridx);
+  gate = info->gate;
+
+  /* one pass over the targets per query, until the master says quit */
+  for (;;)
+    {
+      pthread_mutex_lock(&gate->mutex);
+      while (gate->pass == pass && ! gate->quit) pthread_cond_wait(&gate->go, &gate->mutex);
+      if (gate->quit) { pthread_mutex_unlock(&gate->mutex); break; }
+      pass = gate->pass;
+      pthread_mutex_unlock(&gate->mutex);
+
+      search_pass(info);
+
+      pthread_mutex_lock(&gate->mutex);
+      if (--gate->nrunning == 0) pthread_cond_signal(&gate->done);
+      pthread_mutex_unlock(&gate->mutex);
+    }
+
+  esl_threads_Finished(obj, workeridx);
+  return;
+}
+
+/* search_pass()
+ * A worker's part of one query's search: process blocks from the work
+ * queue until the reader's empty end-of-pass block arrives.
+ */
+static void
+search_pass(WORKER_INFO *info)
+{
+  int i;
+  int status;
+
+  ESL_SQ_BLOCK  *block = NULL;
+  void          *newBlock;
 
   status = esl_workqueue_WorkerUpdate(info->queue, NULL, &newBlock);
   if (status != eslOK) esl_fatal("Work queue worker failed");
@@ -1814,9 +1888,6 @@ pipeline_thread(void *arg)
 
   status = esl_workqueue_WorkerUpdate(info->queue, block, NULL);
   if (status != eslOK) esl_fatal("Work queue worker failed");
-
-  esl_threads_Finished(obj, workeridx);
-  return;
 }
 #endif   /* HMMER_THREADS */
  
