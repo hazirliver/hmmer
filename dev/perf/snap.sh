@@ -11,6 +11,8 @@
 # is a complete snapshot. Name: short sha, plus -dirty-<diff hash> for a modified
 # working tree, plus -<flag tag> for non-default flags.
 #
+# --rev builds with the Easel commit pinned in that commit's dev/easel.ref.
+#
 # --perf = CFLAGS "-O3 -falign-functions=64". Every function starts on a cache line,
 # so editing one file doesn't shift the alignment of unrelated hot kernels (that
 # alone moves cycles by 1-3%). Use it on both sides of a step's A/B.
@@ -25,7 +27,7 @@ while [[ $# -gt 0 ]]; do
     --rev)       REV=$2; shift ;;
     --cflags)    CF=$2; CFLAGS_SET=1; shift ;;
     --perf)      CF=$PERF_CFLAGS; CFLAGS_SET=1 ;;
-    -h|--help)   sed -n '2,17p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    -h|--help)   sed -n '2,19p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) echo "unknown option: $1" >&2; exit 2 ;;
   esac
   shift
@@ -48,12 +50,18 @@ configure_and_make() { # <srcdir> <builddir>
 }
 
 if [[ -n "$REV" ]]; then
-  # Build a commit in a temporary worktree that shares the pinned Easel checkout.
+  # Build a commit in a temporary worktree, with the Easel commit that the
+  # commit's dev/easel.ref pins (a detached worktree of the easel/ checkout).
   sha=$(git -C "$ROOT" rev-parse --verify "$REV^{commit}")
   WT=$(mktemp -d "${TMPDIR:-/tmp}/hmmer-snap.XXXXXX")
-  trap 'git -C "$ROOT" worktree remove --force "$WT" 2>/dev/null || rm -rf "$WT"' EXIT
+  trap 'git -C "$ROOT/easel" worktree remove --force "$WT/easel" 2>/dev/null; git -C "$ROOT" worktree remove --force "$WT" 2>/dev/null || rm -rf "$WT"' EXIT
   git -C "$ROOT" worktree add -q --detach "$WT" "$sha"
-  ln -s "$ROOT/easel" "$WT/easel"
+  esl_ref=$(awk '$1=="commit"{print $2}' "$WT/dev/easel.ref")
+  esl_url=$(awk '$1=="url"{print $2}' "$WT/dev/easel.ref")
+  if ! git -C "$ROOT/easel" cat-file -e "$esl_ref^{commit}" 2>/dev/null; then
+    git -C "$ROOT/easel" fetch -q "$esl_url" "$esl_ref" || { echo "can't get Easel $esl_ref from $esl_url" >&2; exit 1; }
+  fi
+  git -C "$ROOT/easel" worktree add -q --detach "$WT/easel" "$esl_ref"
   SRC=$WT; BUILD="$WT/build"
   configure_and_make "$SRC" "$BUILD"
   [[ -z "$NAME" ]] && NAME="$(git -C "$ROOT" rev-parse --short=8 "$sha")$tag"
@@ -89,7 +97,7 @@ done
   echo "src         ${REV:+$REV @ }$SRC"
   echo "git_sha     $(git -C "$SRC" rev-parse HEAD)"
   echo "git_branch  $(git -C "$ROOT" rev-parse --abbrev-ref HEAD)"
-  echo "easel_sha   $(git -C "$ROOT/easel" rev-parse HEAD 2>/dev/null || echo '?')"
+  echo "easel_sha   $(git -C "$SRC/easel" rev-parse HEAD 2>/dev/null || echo '?')"
   echo "build_dir   $BUILD"
   echo "cflags      $CF"
   echo "hmmsearch   $(sha256sum "$OUT/hmmsearch" | cut -c1-16)"

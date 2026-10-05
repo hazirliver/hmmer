@@ -30,7 +30,7 @@ dev/perf/snap.sh --cflags "-O3 ..."    # any flags; --name NAME overrides the sn
 - `--perf` means `CFLAGS="-O3 -falign-functions=64"`. **Use it on both sides of a step's A/B.**
   - In a default build, editing one file shifts every later function in the link by a few bytes. That changes the cache-line alignment of the SSE kernels and moves cycles by 1-3% on workloads that never run the edited code.
   - Measured on step 1.1: W5 (`--max`, bias filter not called) was 1.1-1.6% "slower" with an identical instruction count. With both sides aligned it was within noise.
-- `--rev` builds a commit in a temporary `git worktree` that shares the pinned `easel/` checkout. It needs no stashing, and the working tree is never touched.
+- `--rev` builds a commit in a temporary `git worktree`, with the Easel commit that the commit's own `dev/easel.ref` pins (a detached worktree of the `easel/` checkout, fetched from the ref's url if missing). It needs no stashing, and neither working tree is touched.
 - Without `--rev`, it builds the working tree so the binaries match the source.
 - Copies `hmmsearch` and the other search programs to `bench-results/bins/<name>/`, together with an `info.txt` (git sha, branch, Easel sha, flags, binary hash).
 - `<name>` is the short sha, plus `-dirty-<hash of the diff>` when tracked files are modified, plus `-perf` (or `-cf<hash>` for other flags).
