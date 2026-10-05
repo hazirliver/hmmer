@@ -4,6 +4,8 @@
  * SRE, Wed Jan  9 07:26:34 2008 [Janelia]
  */
 #include <p7_config.h>
+#include <stdlib.h>
+#include <string.h>
 #include "easel.h"
 #include "esl_cluster.h"
 #include "esl_vectorops.h"
@@ -181,18 +183,14 @@ struct p7_linkparam_s {
 };
 
 
-/* link_spsamples():
+/* linked_spsamples():
  * 
  * Defines the rule used for single linkage clustering of sampled
- * domain coordinates. (API is dictated by Easel's general single
- * linkage clustering routine.)
+ * domain coordinates: TRUE if <h1> and <h2> are linked.
  */
-static int
-link_spsamples(const void *v1, const void *v2, const void *prm, int *ret_link)
+static inline int
+linked_spsamples(const struct p7_spcoord_s *h1, const struct p7_spcoord_s *h2, const struct p7_linkparam_s *param)
 {
-  struct p7_spcoord_s   *h1    = (struct p7_spcoord_s *)   v1;
-  struct p7_spcoord_s   *h2    = (struct p7_spcoord_s *)   v2;
-  struct p7_linkparam_s *param = (struct p7_linkparam_s *) prm;
   int  nov, n;
   int  d1, d2;
   
@@ -200,20 +198,75 @@ link_spsamples(const void *v1, const void *v2, const void *prm, int *ret_link)
   nov = ESL_MIN(h1->j, h2->j) - ESL_MAX(h1->i, h2->i) + 1;      /* overlap  */
   n = (param->of_smaller ? ESL_MIN(h1->j - h1->i + 1,  h2->j - h2->i + 1) :     /* min length of the two hits */
                            ESL_MAX(h1->j - h1->i + 1,  h2->j - h2->i + 1));      /* max length of the two hits */
-  if ((float) nov / (float) n  < param->min_overlap) { *ret_link = FALSE; return eslOK; }  
+  if ((float) nov / (float) n  < param->min_overlap) return FALSE;
 
   /* hmm overlap test */
   nov = ESL_MIN(h1->m, h2->m) - ESL_MAX(h1->k, h2->k);
   n   = (param->of_smaller ? ESL_MIN(h1->m - h1->k + 1,  h2->m - h2->k + 1) :
                              ESL_MAX(h1->m - h1->k + 1,  h2->m - h2->k + 1));
-  if ((float) nov / (float)  n < param->min_overlap) { *ret_link = FALSE; return eslOK; }
+  if ((float) nov / (float)  n < param->min_overlap) return FALSE;
 
   /* nearby diagonal test */
-  d1 = (h1->i - h1->k); d2 = (h2->i - h2->k);  if (abs(d1-d2) <= param->max_diagdiff) { *ret_link = TRUE; return eslOK; }	
-  d1 = (h1->j - h1->m); d2 = (h2->j - h2->m);  if (abs(d1-d2) <= param->max_diagdiff) { *ret_link = TRUE; return eslOK; }	
+  d1 = (h1->i - h1->k); d2 = (h2->i - h2->k);  if (abs(d1-d2) <= param->max_diagdiff) return TRUE;
+  d1 = (h1->j - h1->m); d2 = (h2->j - h2->m);  if (abs(d1-d2) <= param->max_diagdiff) return TRUE;
 
-  *ret_link = FALSE;
+  return FALSE;
+}
+
+#if defined(p7_CROSSCHECK) || defined(p7SPENSEMBLE_TESTDRIVE)
+/* link_spsamples():
+ * The same rule with the API of Easel's general single linkage
+ * clustering routine, which cluster_spsamples() replaces; kept as
+ * the reference for the crosscheck and the unit test.
+ */
+static int
+link_spsamples(const void *v1, const void *v2, const void *prm, int *ret_link)
+{
+  *ret_link = linked_spsamples((const struct p7_spcoord_s *) v1, (const struct p7_spcoord_s *) v2, (const struct p7_linkparam_s *) prm);
   return eslOK;
+}
+#endif
+
+/* cluster_spsamples():
+ * esl_cluster_SingleLinkage() specialized to sampled segment pairs:
+ * the same algorithm, visiting vertices in the same order, so it gives
+ * the same number of clusters <*ret_C> and the same cluster numbering
+ * in <assignments[0..n-1]>; but with linked_spsamples() inlined instead
+ * of called through a pointer. <workspace> is 2n ints.
+ */
+static void
+cluster_spsamples(const struct p7_spcoord_s *sp, int n, const struct p7_linkparam_s *param,
+		  int *workspace, int *assignments, int *ret_C)
+{
+  int *a  = workspace;		/* stack of available vertices (still unconnected) */
+  int *b  = workspace + n;	/* stack of connected but unextended vertices      */
+  int *c  = assignments;	/* assignments to clusters                         */
+  int  na = n;
+  int  nb = 0;
+  int  nc = 0;
+  int  v, w, i;
+
+  for (v = 0; v < n; v++) a[v] = n-v-1; /* push all vertices onto available list (backwards) */
+
+  while (na > 0)		/* while vertices remain unexamined or unclustered: */
+    {
+      v = a[na-1]; na--;	/* pop a vertex off a, */
+      b[nb] = v;   nb++;	/* and push it onto b  */
+
+      while (nb > 0) 		/* while vertices remain unextended: */
+	{
+	  v = b[nb-1]; nb--;	/* pop vertex off b        */
+	  c[v] = nc;		/* assign it to cluster nc */
+	  for (i = na-1; i >= 0; i--) /* backwards, because of deletion/swapping we do*/
+	    if (linked_spsamples(&(sp[v]), &(sp[a[i]]), param))
+	      {
+		w = a[i]; a[i] = a[na-1]; na--; /* delete w from a    */
+		b[nb] = w; nb++;                /* and push it onto b */
+	      }
+	}
+      nc++;
+    }
+  *ret_C = nc;
 }
 
 /* cluster_orderer()
@@ -300,8 +353,19 @@ p7_spensemble_Cluster(P7_SPENSEMBLE *sp,
   param.max_diagdiff  = max_diagdiff;
   param.min_posterior = min_posterior;
   param.min_endpointp = min_endpointp;
-  if ((status = esl_cluster_SingleLinkage(sp->sp, sp->n, sizeof(struct p7_spcoord_s), link_spsamples, (void *) &param,
-					  sp->workspace, sp->assignment, &(sp->nc))) != eslOK) goto ERROR;
+  cluster_spsamples(sp->sp, sp->n, &param, sp->workspace, sp->assignment, &(sp->nc));
+#ifdef p7_CROSSCHECK
+  { /* shadow-execute Easel's general routine; any difference in the clustering is fatal */
+    int *xwork = malloc(sizeof(int) * (sp->n * 2 + 1));
+    int *xasgn = malloc(sizeof(int) * (sp->n + 1));
+    int  xnc;
+    esl_cluster_SingleLinkage(sp->sp, sp->n, sizeof(struct p7_spcoord_s), link_spsamples, (void *) &param, xwork, xasgn, &xnc);
+    if (xnc != sp->nc || memcmp(xasgn, sp->assignment, sizeof(int) * sp->n) != 0)
+      esl_fatal("p7_CROSSCHECK: cluster_spsamples() differs from esl_cluster_SingleLinkage() (n=%d, C=%d vs %d)", sp->n, sp->nc, xnc);
+    free(xwork);
+    free(xasgn);
+  }
+#endif
 
   ESL_ALLOC(ninc, sizeof(int) * sp->nc);
 
@@ -454,6 +518,95 @@ p7_spensemble_Destroy(P7_SPENSEMBLE *sp)
   free(sp);
 }  
 
+
+
+/*****************************************************************
+ * Unit tests and test driver.
+ *****************************************************************/
+#ifdef p7SPENSEMBLE_TESTDRIVE
+#include "esl_getopts.h"
+#include "esl_random.h"
+
+/* utest_cluster()
+ * cluster_spsamples() must give the same clustering, numbering included,
+ * as esl_cluster_SingleLinkage() with link_spsamples(), on random sets of
+ * segment pairs scattered around a few centers.
+ */
+static void
+utest_cluster(ESL_RANDOMNESS *rng, int ntrials)
+{
+  char                  msg[] = "cluster_spsamples() unit test failed";
+  int                   nmax  = 400;
+  struct p7_spcoord_s  *sp    = malloc(sizeof(struct p7_spcoord_s) * nmax);
+  int                  *wa    = malloc(sizeof(int) * nmax * 2);
+  int                  *wb    = malloc(sizeof(int) * nmax * 2);
+  int                  *ca    = malloc(sizeof(int) * nmax);
+  int                  *cb    = malloc(sizeof(int) * nmax);
+  int                   ci[8], cj[8], ck[8], cm[8];
+  struct p7_linkparam_s param;
+  int                   trial, n, ncenters, h, c, J;
+  int                   Ca, Cb;
+  int                   ninformative = 0;
+
+  for (trial = 0; trial < ntrials; trial++)
+    {
+      n        = 1 + esl_rnd_Roll(rng, nmax);
+      ncenters = 1 + esl_rnd_Roll(rng, 8);
+      J        = esl_rnd_Roll(rng, 16);
+      for (c = 0; c < ncenters; c++)
+	{
+	  ci[c] = 1 + esl_rnd_Roll(rng, 500);  cj[c] = ci[c] + 5 + esl_rnd_Roll(rng, 200);
+	  ck[c] = 1 + esl_rnd_Roll(rng, 150);  cm[c] = ck[c] + 5 + esl_rnd_Roll(rng, 150);
+	}
+      for (h = 0; h < n; h++)
+	{
+	  c = esl_rnd_Roll(rng, ncenters);
+	  sp[h].idx  = h / 3;
+	  sp[h].i    = ESL_MAX(1, ci[c] + esl_rnd_Roll(rng, 2*J+1) - J);
+	  sp[h].j    = ESL_MAX(sp[h].i, cj[c] + esl_rnd_Roll(rng, 2*J+1) - J);
+	  sp[h].k    = ESL_MAX(1, ck[c] + esl_rnd_Roll(rng, 2*J+1) - J);
+	  sp[h].m    = ESL_MAX(sp[h].k, cm[c] + esl_rnd_Roll(rng, 2*J+1) - J);
+	  sp[h].prob = 1.0;
+	}
+      param.min_overlap   = (trial % 3 == 0) ? 0.5 : 0.8;
+      param.of_smaller    = trial % 2;
+      param.max_diagdiff  = esl_rnd_Roll(rng, 8);
+      param.min_posterior = 0.25;
+      param.min_endpointp = 0.02;
+
+      if (esl_cluster_SingleLinkage(sp, n, sizeof(struct p7_spcoord_s), link_spsamples, (void *) &param, wa, ca, &Ca) != eslOK) esl_fatal(msg);
+      cluster_spsamples(sp, n, &param, wb, cb, &Cb);
+      if (Ca != Cb)                               esl_fatal("%s: trial %d, %d clusters, expected %d", msg, trial, Cb, Ca);
+      if (memcmp(ca, cb, sizeof(int) * n) != 0)   esl_fatal("%s: trial %d, assignments differ", msg, trial);
+      if (Ca > 1 && Ca < n) ninformative++;
+    }
+  if (ninformative < ntrials / 4) esl_fatal("%s: only %d of %d trials had nontrivial clusterings", msg, ninformative, ntrials);
+
+  free(sp); free(wa); free(wb); free(ca); free(cb);
+}
+
+static ESL_OPTIONS options[] = {
+  /* name           type      default  env  range toggles reqs incomp  help                                       docgroup*/
+  { "-h",        eslARG_NONE,   FALSE, NULL, NULL,  NULL,  NULL, NULL, "show brief help on version and usage",             0 },
+  { "-s",        eslARG_INT,     "42", NULL, NULL,  NULL,  NULL, NULL, "set random number seed to <n>",                    0 },
+  {  0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+};
+static char usage[]  = "[-options]";
+static char banner[] = "unit test driver for P7_SPENSEMBLE clustering";
+
+int
+main(int argc, char **argv)
+{
+  ESL_GETOPTS    *go  = p7_CreateDefaultApp(options, 0, argc, argv, banner, usage);
+  ESL_RANDOMNESS *rng = esl_randomness_CreateFast(esl_opt_GetInteger(go, "-s"));
+
+  utest_cluster(rng, 2000);
+
+  esl_randomness_Destroy(rng);
+  esl_getopts_Destroy(go);
+  return 0;
+}
+#endif /*p7SPENSEMBLE_TESTDRIVE*/
 
 
 /*****************************************************************

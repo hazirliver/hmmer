@@ -44,6 +44,7 @@
 1 exercise p7_profile         @src/p7_profile_utest@
 1 exercise p7_tophits         @src/p7_tophits_utest@
 1 exercise p7_trace           @src/p7_trace_utest@
+1 exercise p7_spensemble      @src/p7_spensemble_utest@
 1 exercise p7_scoredata       @src/p7_scoredata_utest@
 
 
@@ -70,7 +71,6 @@
 #   p7_bg.c
 #   p7_domaindef.c
 #   p7_prior.c
-#   p7_spensemble.c
 
 
 ################################################################
@@ -450,6 +450,7 @@
 3 valgrind  p7_profile            @src/p7_profile_utest@
 3 valgrind  p7_tophits            @src/p7_tophits_utest@
 3 valgrind  p7_trace              @src/p7_trace_utest@
+3 valgrind  p7_spensemble         @src/p7_spensemble_utest@
 
 3 valgrind  decoding              @src/impl/decoding_utest@
 3 valgrind  fwdback               @src/impl/fwdback_utest@

@@ -205,6 +205,7 @@ UTESTS =\
 	p7_tophits_utest\
 	p7_trace_utest\
 	p7_scoredata_utest\
+	p7_spensemble_utest\
   hmmpgmd2msa_utest\
   hmmd_search_status_utest
 
