@@ -3,6 +3,6 @@
 # Branch hmmer-perf/phase5-fasta of the fork: easel-0.49 plus the Phase 5
 # parser steps (dev/profiling/PLAN.md); upstream is EddyRivasLab/easel.
 url     https://github.com/hazirliver/easel
-commit  b4fa66ff08a203ca8cdf1dc94a3bf27ed32012ae
+commit  d48a939a6c8a8bd1714d641abf107a5c7b02dedd
 branch  hmmer-perf/phase5-fasta
 base    easel-0.49 (07ca83ba9ef0414dba9ce0a9331d465b5eb58f2b)
