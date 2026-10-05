@@ -45,6 +45,7 @@ dev/perf/snap.sh --cflags "-O3 ..."    # any flags; --name NAME overrides the sn
 | Set | Workloads | Verdict metric | Targets |
 |---|---|---|---|
 | `cpu` | W1-W5 at `--cpu 0` | `cycles:u` | Single-thread CPU work: filters and domain stage |
+| `reader` | R1 `kern_M50 × sprot` at `--cpu 0` (~55% of its CPU is FASTA parsing) | `cycles_uk` (user + kernel cycles) | Sequence file reading (Phase 5): includes the system calls and page-cache copies, and unlike task-clock doesn't move with the CPU clock rate |
 | `scale` | X1 `pfam_100 × sprot_50k` @ 4/8/N (plus @ N without `-Z`), X2 `kern_M200 × sprot` @ N | wall | Reader bottleneck, thread scaling |
 | `query` | X3 `pfam_1k × sprot_1k` @ 0/N, X4 Pfam-A (text and `.h3m`) × 5 seqs @ 0/N | wall | Per-query fixed costs |
 | `milestone` | X5 `pfam_1k × human --cut_ga` @ N | wall | Realistic annotation run |
@@ -54,7 +55,7 @@ Data comes from the bench dataset (`dev/bench.sh prepare`). Fixtures such as the
 **How a comparison runs:**
 
 - **Interleaving.** For each workload, the binaries alternate: A B, B A, A B, and so on. The first pair (`--warmup`, default 1) is untimed and serves as the output reference. Then come `--reps` timed pairs (default 5). Drift on the machine affects both sides equally.
-- **Measurements.** Each run is wrapped in `perf stat -e task-clock,instructions:u,cycles:u` and GNU `time` (wall, user, sys, peak RSS).
+- **Measurements.** Each run is wrapped in `perf stat -e task-clock,instructions:u,cycles:u,cycles` and GNU `time` (user, sys, peak RSS). Wall time is the parent's clock around a *blocking* wait. (Until 2026-10-05 it used `Popen.wait(timeout=...)`, which polls with sleeps that grow to 50 ms: every wall time was rounded up to the next poll, by up to 50 ms. That inflated the spreads of sub-second runs such as X2, about 5% of its 0.9 s, and is part of the wall noise in the table below. `dev/bench` had the same flaw and the same fix.)
 - **argv[0].** The binary always runs as `hmmsearch`, through a symlink on `PATH`. Outputs therefore don't contain its path; the tabular tail echoes argv.
 - **Output identity.**
   - Every file a run leaves, plus stdout and stderr, is hashed after the dev/bench normalization: dates, CPU time, Mc/s and thread count are masked.
@@ -63,7 +64,7 @@ Data comes from the bench dataset (`dev/bench.sh prepare`). Fixtures such as the
   - When files differ, the first lines of a unified diff are printed and the run dirs are kept under `bench-results/ab/work/`.
 - **Verdict.**
   - ratio = median(B) / median(A).
-  - A ratio counts as `faster` or `SLOWER` only when it differs from 1 by more than both the metric's floor (cycles 0.5%, instructions 0.1%, wall 2%) and the spread (max−min)/median of either binary's reps.
+  - A ratio counts as `faster` or `SLOWER` only when it differs from 1 by more than both the metric's floor (cycles and cycles_uk 0.5%, instructions 0.1%, wall 2%) and the spread (max−min)/median of either binary's reps.
   - Otherwise it's `~`.
 - **Output and exit status.**
   - Results go to `bench-results/ab/<time>_<A>_vs_<B>[_label].json`, with every sample included.
@@ -97,6 +98,8 @@ Machine: 16-vCPU Xeon 8468 VM, idle. Measured on 2026-10-04 with 5 reps per side
 | X4_pfamA_h3m_cN | wall | 1.0081 | 1.44% |
 
 `instructions:u` was identical on both sides (ratio 1.0000) for every workload.
+
+Added 2026-10-05: R1_m50_sprot (reader set) A/A `cycles_uk` 0.9975, spread 0.87% (5 reps). That day the VM's clock rate varied between runs: R1's task-clock spread was 8-14% and X2's wall spread 16-25% (blocking wait already in place), while cycles stayed within 1-2%. On such days only counter metrics resolve small steps.
 
 What this means for verdicts:
 

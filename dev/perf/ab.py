@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Interleaved A/B comparison of two hmmsearch binaries: output identity + speed.
 
-  dev/perf/ab.sh A [B] [--set cpu|scale|query|milestone|all] [--workloads REGEX] [--reps N]
+  dev/perf/ab.sh A [B] [--set cpu|reader|scale|query|milestone|all] [--workloads REGEX] [--reps N]
 
 A and B are a binary, a directory holding one, or a snapshot name under
 bench-results/bins/ (made by dev/perf/snap.sh; a unique prefix is enough).
@@ -9,13 +9,14 @@ B defaults to build-dev/src/hmmsearch.
 
 For each workload (dev/perf/workloads.tsv) both binaries run alternately
 (A B, B A, A B, ...) so machine drift hits both equally. Each run is wrapped in
-`perf stat` (task-clock, instructions:u, cycles:u) and GNU time (wall, user,
+`perf stat` (task-clock, instructions:u, cycles:u, cycles) and GNU time (wall, user,
 sys, peak RSS). Every file a run writes, plus stdout/stderr, is hashed after the
 dev/bench normalization; A and B must match exactly, and every rep of a binary
 must match its first rep.
 
-Verdict per workload: the metric is cycles:u for the `cpu` set, wall time
-otherwise. A ratio B/A counts as faster/slower only when it differs from 1 by
+Verdict per workload: the metric is cycles:u for the `cpu` set, user + kernel
+cycles (`cycles_uk`, which include reading the file) for the `reader` set, wall
+time otherwise. A ratio B/A counts as faster/slower only when it differs from 1 by
 more than both the metric's floor and the measured spread (max-min)/median of
 either binary's reps.
 
@@ -32,9 +33,9 @@ import bench  # noqa: E402  (normalization, data dir, colors)
 RESULTS = os.path.join(bench.RESULTS, "ab")
 BINS = os.path.join(bench.RESULTS, "bins")
 FIXTURES = os.path.join(bench.DATA, "ab-fixtures")
-EVENTS = ["task-clock", "instructions:u", "cycles:u"]
+EVENTS = ["task-clock", "instructions:u", "cycles:u", "cycles"]   # cycles = user + kernel
 # metric -> (label, smallest relative change that can count, lower is better)
-FLOOR = {"cycles": 0.005, "instructions": 0.001, "wall": 0.02, "task_clock": 0.01}
+FLOOR = {"cycles": 0.005, "cycles_uk": 0.005, "instructions": 0.001, "wall": 0.02, "task_clock": 0.01}
 OWN_FILES = {".perf", ".rusage"}
 WS = re.compile(rb"[ \t]+")
 RED, GRN, YEL, BLD, DIM = bench.RED, bench.GRN, bench.YEL, bench.BLD, bench.DIM
@@ -125,10 +126,8 @@ def run_once(binary, args, cwd, use_perf, timeout, extra=""):
     cmd = ["/usr/bin/time", "-q", "-o", os.path.join(cwd, ".rusage"), "-f", "%U %S %M %x"] + cmd
     t0 = time.perf_counter()
     with open(os.path.join(cwd, "stdout"), "wb") as so, open(os.path.join(cwd, "stderr"), "wb") as se:
-        try:
-            rc = subprocess.run(cmd, cwd=cwd, env=env, stdout=so, stderr=se, timeout=timeout).returncode
-        except subprocess.TimeoutExpired:
-            rc = "timeout"
+        p = subprocess.Popen(cmd, cwd=cwd, env=env, stdout=so, stderr=se)
+        rc = "timeout" if bench.wait_timed(p, timeout, p.kill) else p.returncode   # exact exit time, see wait_timed()
     r = dict(wall=time.perf_counter() - t0)
     try:
         u, s, m, x = open(os.path.join(cwd, ".rusage")).read().split()[-4:]
@@ -139,7 +138,7 @@ def run_once(binary, args, cwd, use_perf, timeout, extra=""):
         for ln in open(os.path.join(cwd, ".perf")):
             f = ln.strip().split(",")
             if len(f) < 3 or ln.startswith("#"): continue
-            key = {"task-clock": "task_clock", "instructions:u": "instructions", "cycles:u": "cycles"}.get(f[2])
+            key = {"task-clock": "task_clock", "instructions:u": "instructions", "cycles:u": "cycles", "cycles": "cycles_uk"}.get(f[2])
             try:
                 if key: r[key] = float(f[0]) / (1000.0 if key == "task_clock" else 1.0)
             except ValueError:
@@ -244,7 +243,7 @@ def verdict(metric, a, b):
 
 def fmt(metric, x):
     if x is None: return "-"
-    if metric in ("cycles", "instructions"): return f"{x / 1e9:.3f}G"
+    if metric in ("cycles", "cycles_uk", "instructions"): return f"{x / 1e9:.3f}G"
     return f"{x:.3f}s"
 
 
@@ -252,7 +251,7 @@ def fmt(metric, x):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("A"); ap.add_argument("B", nargs="?", default=os.path.join(ROOT, "build-dev", "src", "hmmsearch"))
-    ap.add_argument("--set", default="cpu", help="cpu|scale|query|milestone|all, or comma list [cpu]")
+    ap.add_argument("--set", default="cpu", help="cpu|reader|scale|query|milestone|all, or comma list [cpu]")
     ap.add_argument("--workloads", help="regex on workload name (applied after --set)")
     ap.add_argument("--reps", type=int, default=5, help="timed runs per binary [5]")
     ap.add_argument("--warmup", type=int, default=1, help="untimed runs per binary first; its outputs are the A/B reference [1]")
@@ -304,7 +303,7 @@ def main():
     results, failed, slower = [], False, False
     for w in wls:
         args = expand(w["args"], data)
-        metric = "cycles" if w["sets"][0] == "cpu" and use_perf else "wall"
+        metric = {"cpu": "cycles", "reader": "cycles_uk"}.get(w["sets"][0], "wall") if use_perf else "wall"
         runs = {"A": [], "B": []}
         ref, ref_dir, problems, notes = {}, {}, [], []
         nrun = a.warmup + a.reps
@@ -345,7 +344,7 @@ def main():
 
         row = dict(name=w["name"], sets=w["sets"], args=w["args"], metric=metric, identical=same,
                    output=kind, notes=notes, problems=problems, files=sorted(ref["A"]), runs=runs, verdicts={})
-        for m in ("cycles", "instructions", "task_clock", "wall"):
+        for m in ("cycles", "cycles_uk", "instructions", "task_clock", "wall"):
             xa = [r[m] for r in runs["A"] if m in r]; xb = [r[m] for r in runs["B"] if m in r]
             if xa and xb:
                 ratio, noise, v = verdict(m, xa, xb)
@@ -376,7 +375,7 @@ def main():
                   f"{('%.0f→%.0f' % (rss['a'], rss['b']) if rss else '-')}")
         else:
             print(f"  {row['name']:20s} {out} (no timing)")
-    for m in ("cycles", "wall"):
+    for m in ("cycles", "cycles_uk", "wall"):
         rs = [row["verdicts"][m]["ratio"] for row in results if m in row["verdicts"] and row["metric"] == m]
         if rs: print(f"  geometric mean {m} ratio: {bench.geomean(rs):.4f}  ({len(rs)} workloads)")
 

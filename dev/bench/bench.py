@@ -10,7 +10,7 @@ Subcommands:
 See dev/bench/README.md.
 """
 import argparse, datetime, hashlib, json, os, platform, re, shutil, signal
-import socket, statistics, subprocess, sys, time
+import socket, statistics, subprocess, sys, threading, time
 
 ROOT = os.path.realpath(os.path.join(os.path.dirname(__file__), "..", ".."))
 BENCH = os.path.join(ROOT, "dev", "bench")
@@ -175,6 +175,22 @@ def load_cases(tier, regex, exact=False):
                           pre=pre.strip(), cmd=timed.strip()))
     return fx, cases
 
+def wait_timed(p, timeout, kill):
+    """Wait for Popen <p>; if it runs longer than <timeout> s, call kill(). Returns
+    True if it timed out. The wait blocks, so the caller's clock stops when the
+    process exits: Popen.wait(timeout=...) instead polls with sleeps that grow to
+    50 ms, which rounded every measured wall time up to the next poll."""
+    fired = threading.Event()
+    def on_timeout():
+        fired.set(); kill()
+    timer = threading.Timer(timeout, on_timeout)
+    timer.start()
+    try:
+        p.wait()
+    finally:
+        timer.cancel()
+    return fired.is_set()
+
 def run_timed(cmd, cwd, env, timeout):
     """Run cmd under bash; return wall, user, sys, maxrss_kb, rc.
     Rusage comes from GNU time, a small intermediate process: Linux carries a
@@ -185,10 +201,7 @@ def run_timed(cmd, cwd, env, timeout):
     p = subprocess.Popen(["/usr/bin/time", "-q", "-o", tf, "-f", "%U %S %M %x", "bash", "-o", "pipefail", "-c", cmd], cwd=cwd, env=env,
                          start_new_session=True, stdout=open(os.path.join(cwd, "stdout"), "wb"),
                          stderr=open(os.path.join(cwd, "stderr"), "wb"))
-    try:
-        p.wait(timeout=timeout); rc = None
-    except subprocess.TimeoutExpired:
-        os.killpg(p.pid, signal.SIGKILL); p.wait(); rc = "timeout"
+    rc = "timeout" if wait_timed(p, timeout, lambda: os.killpg(p.pid, signal.SIGKILL)) else None
     wall = time.perf_counter() - t0
     try:
         u, s_, m, x = open(tf).read().split()[-4:]

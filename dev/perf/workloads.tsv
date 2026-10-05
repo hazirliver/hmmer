@@ -2,7 +2,7 @@
 #
 # Format:  <name> <sets> <program arguments...>
 #   sets      comma-separated set names; the first set listed decides the verdict metric:
-#             cpu -> cycles:u (deterministic --cpu 0 runs), anything else -> wall time
+#             cpu -> cycles:u (deterministic --cpu 0 runs), reader -> user+kernel cycles, else wall time
 #   D/        the benchmark data dir (~/.cache/hmmer-bench/derived-*, see dev/bench)
 #   F/        ab fixtures dir (made on demand by the @fixture lines below)
 #   $NCPU     number of online CPUs
@@ -27,6 +27,11 @@ W2_mix_10k          cpu        --cpu 0 -o main.out --tblout t.tbl --domtblout t.
 W3_m200_sprot       cpu        --cpu 0 --noali -o main.out --tblout t.tbl --domtblout t.dom D/kern_M200.hmm D/sprot.fa
 W4_med_longseqs     cpu        --cpu 0 -o main.out --domtblout t.dom D/pfam_len_med.hmm D/sprot_long.fa
 W5_med_1k_max       cpu        --cpu 0 --max -o main.out --domtblout t.dom D/pfam_len_med.hmm D/sprot_1k.fa
+
+# ---- reader: the FASTA parser's share of CPU is large (~55%: a short model, all of Swiss-Prot);
+# single-threaded, judge by user + kernel cycles: they include reading the file (system calls,
+# page-cache copies) and, unlike task-clock, don't move with the CPU clock rate
+R1_m50_sprot        reader     --cpu 0 --noali -o main.out --tblout t.tbl D/kern_M50.hmm D/sprot.fa
 
 # ---- scale: reader-bound thread scaling; judge by interleaved wall time
 X1_p100_50k_c4      scale      --cpu 4 -Z 51857 --noali -o main.out --tblout t.tbl D/pfam_100.hmm D/sprot_50k.fa
