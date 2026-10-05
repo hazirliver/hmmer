@@ -215,14 +215,37 @@ linked_spsamples(const struct p7_spcoord_s *h1, const struct p7_spcoord_s *h2, c
 
 #if defined(p7_CROSSCHECK) || defined(p7SPENSEMBLE_TESTDRIVE)
 /* link_spsamples():
- * The same rule with the API of Easel's general single linkage
- * clustering routine, which cluster_spsamples() replaces; kept as
- * the reference for the crosscheck and the unit test.
+ * The original rule, as a callback for Easel's general single linkage
+ * clustering routine, which cluster_spsamples() replaces; kept verbatim
+ * as the reference for the crosscheck and the unit test, so that they
+ * also check linked_spsamples().
  */
 static int
 link_spsamples(const void *v1, const void *v2, const void *prm, int *ret_link)
 {
-  *ret_link = linked_spsamples((const struct p7_spcoord_s *) v1, (const struct p7_spcoord_s *) v2, (const struct p7_linkparam_s *) prm);
+  struct p7_spcoord_s   *h1    = (struct p7_spcoord_s *)   v1;
+  struct p7_spcoord_s   *h2    = (struct p7_spcoord_s *)   v2;
+  struct p7_linkparam_s *param = (struct p7_linkparam_s *) prm;
+  int  nov, n;
+  int  d1, d2;
+  
+  /* seq overlap test */
+  nov = ESL_MIN(h1->j, h2->j) - ESL_MAX(h1->i, h2->i) + 1;      /* overlap  */
+  n = (param->of_smaller ? ESL_MIN(h1->j - h1->i + 1,  h2->j - h2->i + 1) :     /* min length of the two hits */
+                           ESL_MAX(h1->j - h1->i + 1,  h2->j - h2->i + 1));      /* max length of the two hits */
+  if ((float) nov / (float) n  < param->min_overlap) { *ret_link = FALSE; return eslOK; }  
+
+  /* hmm overlap test */
+  nov = ESL_MIN(h1->m, h2->m) - ESL_MAX(h1->k, h2->k);
+  n   = (param->of_smaller ? ESL_MIN(h1->m - h1->k + 1,  h2->m - h2->k + 1) :
+                             ESL_MAX(h1->m - h1->k + 1,  h2->m - h2->k + 1));
+  if ((float) nov / (float)  n < param->min_overlap) { *ret_link = FALSE; return eslOK; }
+
+  /* nearby diagonal test */
+  d1 = (h1->i - h1->k); d2 = (h2->i - h2->k);  if (abs(d1-d2) <= param->max_diagdiff) { *ret_link = TRUE; return eslOK; }	
+  d1 = (h1->j - h1->m); d2 = (h2->j - h2->m);  if (abs(d1-d2) <= param->max_diagdiff) { *ret_link = TRUE; return eslOK; }	
+
+  *ret_link = FALSE;
   return eslOK;
 }
 #endif
@@ -568,7 +591,7 @@ utest_cluster(ESL_RANDOMNESS *rng, int ntrials)
 	  sp[h].m    = ESL_MAX(sp[h].k, cm[c] + esl_rnd_Roll(rng, 2*J+1) - J);
 	  sp[h].prob = 1.0;
 	}
-      param.min_overlap   = (trial % 3 == 0) ? 0.5 : 0.8;
+      param.min_overlap   = (trial % 5 == 0) ? 0.5 : ((trial % 5 == 1) ? 0.0 : 0.8);
       param.of_smaller    = trial % 2;
       param.max_diagdiff  = esl_rnd_Roll(rng, 8);
       param.min_posterior = 0.25;

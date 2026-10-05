@@ -1,4 +1,4 @@
-# Lessons from the hmmsearch speedup work (Phases 0-3)
+# Lessons from the hmmsearch speedup work (Phases 0-4)
 
 These are practical lessons from doing [`PLAN.md`](PLAN.md) step by step. The measured numbers are in [`PROGRESS.md`](PROGRESS.md). Read this before measuring or changing anything.
 
@@ -31,16 +31,21 @@ These are practical lessons from doing [`PLAN.md`](PLAN.md) step by step. The me
 
 9. **Find the real limit before optimizing the planned one.** Per-thread `perf script -F tid,period` sums showed, in turn: thread creation (sys), the wake-up storm (kernel spinlocks), the single helper (64% of samples), then latency with no thread saturated (4.7 of 16 cores busy). Each pointed to a different fix than the plan had.
 
+10. **Count how often a shortcut fires before adding it.** An exact early-out that skips a divide (4.8, `nov <= 0` in the clustering link test) almost never fired on real data. It added +0.15% instructions and cost 2% cycles on W5. Likewise, removing an integer divide that was off the critical path (4.3) gained nothing measurable. A quick counter in a throwaway build answers this before any A/B.
+
 ## Byte-identical rewrites of floating-point code
 
 1. **Same operations, same order, same types.** IEEE `+` and `*` are commutative but not associative, so keep the evaluation tree. Keep `(float) log((double) x)` and float accumulators as they were.
    - `0.0f + a` equals `a` for `a ≥ +0`. A term that is always `+0.0` can be dropped exactly only when the accumulator can't be `-0`.
    - Kahan summation (`esl_vec_FSum`) over two elements is a plain sum. Over more elements it must be replicated exactly.
+   - Inlining a library routine is exact if its statements are copied verbatim (4.1-4.2: `esl_vec_FNorm` + `esl_rnd_FChoose` as one `static inline` with a constant `n`). The compiler may only apply value-preserving rewrites, and without `-mfma` it can't contract.
+   - **A dependent add chain can be broken exactly by reordering loops, not sums** (4.6): run q outer and residues inner, so the per-residue sums become independent chains while each still adds in ascending q. Keep the block width a compile-time constant so the accumulators stay in registers, and check the disassembly for spills.
 2. **Check what the compiler emitted.** It could narrow `(float)log((double)x)` to `logf`, which isn't bit-identical. Verify with `objdump -d | grep call`. FMA contraction only appears with `-mfma`/`-march=native`, which the SSE goldens don't use. Mirror the original statement structure anyway (`n = 0; n += a*b; n += c*d;`).
 3. **Three layers of evidence for a kernel rewrite:**
    1. a permanent bitwise unit test against the old routine (random inputs and edge lengths 0, 1, 2; all residue codes);
    2. a mutation test showing the unit test fails on a slightly non-identical rewrite (`x/max` → `x*(1/max)` was caught at a 6-ULP difference);
    3. a `-Dp7_CROSSCHECK` build that runs old and new code side by side and aborts on any bit difference, run over the goldens and all real-data workloads.
+4. **Random inputs rarely hit the boundary of an RNG-driven choice.** To test a sampler bitwise, peek the next roll with a third RNG of the same seed and build the probabilities so a cumulative sum lands on it (4.1). Then rounding decides the outcome, and a `<` vs `<=` or float-vs-double mutant is caught within a few trials.
 
 ## Determinism
 
@@ -77,6 +82,8 @@ These are practical lessons from doing [`PLAN.md`](PLAN.md) step by step. The me
   - `ab.sh` with a B that adds `--seed 7` must report DIFF.
   - `--force-opt --no-such-opt` must fail every hmmsearch case.
   - The bitwise unit test must fail on a mutation.
+  - A crosscheck must fire on a mutant. In 4.3 it didn't: `build-xchk` had `-Dp7_CROSSCHECK` hand-added to `src/Makefile` only, so `src/impl_sse/` compiled without it. Configure crosscheck builds with `CFLAGS="-O3 -Dp7_CROSSCHECK"`, never by editing generated Makefiles (`config.status` also silently reverts such edits).
+- **The reference in a crosscheck or unit test must be the original code**, not a wrapper around the new code. In 4.7 the Easel-callback reference first wrapped the new predicate, so it couldn't have caught a mistake in it (noticed while trying 4.8). It now holds the upstream body verbatim.
 - **Generate goldens for new coverage with the unmodified binary**, and commit them separately ("coverage only").
 - **New feature goldens get cross-checked** against the equivalent existing goldens, minus the option's echo lines, before they're committed.
 - **New synchronization gets a ThreadSanitizer run and a stress loop.** TSan on this kernel needs ASLR off: configure, build and run under `setarch -R` (otherwise "unexpected memory mapping"). Check that it flags a deliberately racy toy program first. Then loop the threaded binary under `timeout` at several thread counts to catch hangs.
@@ -86,6 +93,7 @@ These are practical lessons from doing [`PLAN.md`](PLAN.md) step by step. The me
 
 - `pkill -f <pattern>` matches the shell running it when the pattern appears in its own command line, which kills the command. Use `pgrep -x <name>`.
 - `argparse` options taking a value that starts with `--` need the `=` form: `--b-args=--dbcache`.
+- New unit-test drivers go into `UTESTS` in `src/Makefile.in` and `testsuite/testsuite.sqc`. Existing build dirs need `./config.status src/Makefile` to pick them up.
 - Man pages are generated by `configure`. After editing `*.man.in`, run `./config.status --file=<out>:<in>` in the build dir.
 - `git worktree` plus a symlink to the pinned `easel/` builds any commit without touching the working tree (`snap.sh --rev`).
 - A background shell task is capped at 2 h. Long benchmark tiers have to be split.
