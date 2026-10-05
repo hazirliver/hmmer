@@ -24,3 +24,6 @@ One row per step of [`PLAN.md`](PLAN.md). A is the snapshot before the step, B i
 | 2.2 | | scale | X1 p100 × 50k @ 8 / 16, `--dbcache` | wall | 8.43 / 9.43 s → 2.72 / 2.60 s | 0.32 / 0.28 | 5.5-11.7% | Unchanged from 2.1 |
 | 2.2 | | query | X3 @ 0 / 16, `--dbcache` | wall | 4.92 / 6.47 s → 3.67 / 4.97 s | 0.75 / 0.77 | 3.1-4.1% | |
 | 2.3 | "dbcache: --dbcache_max" | — | protdb, 1 MB limit | functional | — | — | — | Over the limit: warning, results identical to uncached (`--cpu` 0 and 3); a `.gz` target gives a clear fatal error; with 2 MB the `.gz` multi-query works. The help column for "Other expert options" is 4 characters wider (longer option name) |
+| Phase 2 milestone | b7e123a | milestone | X5 pfam_1k × human `--cut_ga` @ 16, `--dbcache` | wall (default `-O3` vs 176cb7e, 3 reps) | 57.33 s → 20.28 s | **0.354** | 3.59% | 2.8× faster on the realistic annotation run, outputs identical; RSS 327 → 253 MB |
+| Phase 2 milestone | | scale | X1 p100 × 50k @ 16, default `-Z`, `--dbcache` | wall | 8.93 s → 2.44 s | **0.273** | 5.99% | |
+| Phase 2 milestone | | cpu | W1-W5, no option | cycles:u (default `-O3`) | — | 0.988-1.014 | 0.2-1.1% | Instructions identical (1.0000); ±1.4% cycles in both directions is code layout in unaligned builds |
