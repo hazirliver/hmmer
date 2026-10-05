@@ -156,7 +156,7 @@ Outcome:
 
 **Candidate (unscheduled):** `-falign-functions=64` as a default build flag. The aligned base was 0.9-1.9% faster than the default base on W2-W4 and 0.5% slower on W5. It doesn't affect outputs. It needs its own A/B across all sets before it's proposed.
 
-### Phase 2 — parse the target DB once (Bottleneck #1: 3.5-4× wall at scale)
+### Phase 2 — parse the target DB once (Bottleneck #1: 3.5-4× wall at scale) · **done**
 
 | Step | Change (files) | BI | Measure / Expect |
 |---|---|---|---|
@@ -166,7 +166,7 @@ Outcome:
 
 Decided 2026-10-04: the cache is opt-in, its cap defaults from the host, and `.gz`/stdin multi-query works only under `--dbcache`. The original 2.1 refactor and 2.2 reuse move weren't needed: a per-worker `reuse_seqs` flag leaves the default path's code unchanged.
 
-### Phase 3 — per-query fixed costs (many models × small DB) — **done** (see PROGRESS.md)
+### Phase 3 — per-query fixed costs (many models × small DB) · **done** (3.2 deferred; 3.3b, 3.3c, 3.4b added; see PROGRESS.md)
 
 | Step | Change | BI | Measure / Expect |
 |---|---|---|---|
