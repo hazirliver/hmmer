@@ -60,6 +60,27 @@ typedef struct {
 } WORKER_GATE;
 #endif
 
+#ifdef HMMER_THREADS
+/* While the workers search query q, a helper thread reads query q+1 and
+ * builds its profiles, exactly as the master would have.
+ */
+typedef struct {
+  pthread_t         thread;
+  pthread_mutex_t   mutex;
+  pthread_cond_t    cond;
+  int               state;       /* PREP_IDLE | PREP_WORK | PREP_DONE | PREP_QUIT */
+  P7_HMMFILE       *hfp;
+  ESL_ALPHABET     *abc;
+  P7_BG            *bg;          /* own null model: p7_ProfileConfig() only reads bg->f */
+  P7_HMM           *hmm;         /* result of a request ...                    */
+  P7_PROFILE       *gm;          /* ... and its profiles, if hstatus is eslOK  */
+  P7_OPROFILE      *om;
+  int               hstatus;     /* return status of p7_hmmfile_Read()         */
+} QUERY_PREP;
+
+enum { PREP_IDLE, PREP_WORK, PREP_DONE, PREP_QUIT };
+#endif
+
 typedef struct {
 #ifdef HMMER_THREADS
   ESL_WORK_QUEUE   *queue;
@@ -233,6 +254,9 @@ static int  serial_loop  (WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs,
 static int  thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc);
 static void pipeline_thread(void *arg);
 static void search_pass(WORKER_INFO *info);
+static void query_prep_thread(void *arg);
+static void query_prep_Request(QUERY_PREP *prep);
+static void query_prep_Wait(QUERY_PREP *prep, P7_HMM **ret_hmm, P7_PROFILE **ret_gm, P7_OPROFILE **ret_om, int *ret_hstatus);
 #endif 
 
 #ifdef HMMER_MPI
@@ -466,7 +490,11 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
   ESL_THREADS     *threadObj= NULL;
   ESL_WORK_QUEUE  *queue    = NULL;
   WORKER_GATE      gate;
+  QUERY_PREP       prep;
+  int              prep_started = FALSE;
 #endif
+  P7_PROFILE      *next_gm  = NULL;              /* profiles of the next query, if prefetched       */
+  P7_OPROFILE     *next_om  = NULL;
   char             errbuf[eslERRBUFSIZE];
 
   w = esl_stopwatch_Create();
@@ -578,6 +606,21 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 	    dbc->ncarrier++;
 	  }
 	}
+
+      if (ncpus > 0)
+	{ /* the helper that reads and prepares the next query during each search */
+	  prep.hfp   = hfp;
+	  prep.abc   = abc;
+	  prep.bg    = p7_bg_Create(abc);
+	  prep.hmm   = NULL;
+	  prep.gm    = NULL;
+	  prep.om    = NULL;
+	  prep.state = PREP_IDLE;
+	  if (prep.bg == NULL || pthread_mutex_init(&prep.mutex, NULL) != 0 || pthread_cond_init(&prep.cond, NULL) != 0 ||
+	      pthread_create(&prep.thread, NULL, (void *(*)(void *)) query_prep_thread, &prep) != 0)
+	    esl_fatal("Failed to start the query prefetch thread");
+	  prep_started = TRUE;
+	}
 #endif
     }
 
@@ -614,11 +657,19 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       if (hmm->acc)  { if (fprintf(ofp, "Accession:   %s\n", hmm->acc)  < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed"); }
       if (hmm->desc) { if (fprintf(ofp, "Description: %s\n", hmm->desc) < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed"); }
 
-      /* Convert to an optimized model */
-      gm = p7_profile_Create (hmm->M, abc);
-      om = p7_oprofile_Create(hmm->M, abc);
-      p7_ProfileConfig(hmm, info->bg, gm, 100, p7_LOCAL); /* 100 is a dummy length for now; and MSVFilter requires local mode */
-      p7_oprofile_Convert(gm, om);                  /* <om> is now p7_LOCAL, multihit */
+      /* Convert to an optimized model, unless the prefetch thread already did */
+      if (next_om)
+	{
+	  gm = next_gm;  next_gm = NULL;
+	  om = next_om;  next_om = NULL;
+	}
+      else
+	{
+	  gm = p7_profile_Create (hmm->M, abc);
+	  om = p7_oprofile_Create(hmm->M, abc);
+	  p7_ProfileConfig(hmm, info->bg, gm, 100, p7_LOCAL); /* 100 is a dummy length for now; and MSVFilter requires local mode */
+	  p7_oprofile_Convert(gm, om);                  /* <om> is now p7_LOCAL, multihit */
+	}
 
       for (i = 0; i < infocnt; ++i)
       {
@@ -645,6 +696,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 
 #ifdef HMMER_THREADS
       if (ncpus > 0 && nquery == 1) esl_threads_WaitForStart(threadObj);
+      if (ncpus > 0)  query_prep_Request(&prep);    /* read and prepare the next query meanwhile */
       if (ncpus > 0)  sstatus = thread_loop(threadObj, queue, &gate, dbfp, cfg->n_targetseq, dbc);
       else            sstatus = serial_loop(info, dbfp, cfg->n_targetseq, dbc);
 #else
@@ -712,7 +764,12 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       p7_profile_Destroy(gm);
       p7_hmm_Destroy(hmm);
 
+#ifdef HMMER_THREADS
+      if (ncpus > 0) query_prep_Wait(&prep, &hmm, &next_gm, &next_om, &hstatus);
+      else           hstatus = p7_hmmfile_Read(hfp, &abc, &hmm);
+#else
       hstatus = p7_hmmfile_Read(hfp, &abc, &hmm);
+#endif
     } /* end outer loop over query HMMs */
 
   switch(hstatus) {
@@ -741,6 +798,18 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
     }
 
 #ifdef HMMER_THREADS
+  if (prep_started)
+    {
+      pthread_mutex_lock(&prep.mutex);
+      prep.state = PREP_QUIT;
+      pthread_cond_broadcast(&prep.cond);
+      pthread_mutex_unlock(&prep.mutex);
+      pthread_join(prep.thread, NULL);
+      pthread_cond_destroy(&prep.cond);
+      pthread_mutex_destroy(&prep.mutex);
+      p7_bg_Destroy(prep.bg);
+    }
+
   if (ncpus > 0)
     {
       pthread_mutex_lock(&gate.mutex);   /* release the parked workers, and wait for them to exit */
@@ -1948,6 +2017,80 @@ search_pass(WORKER_INFO *info)
 
   status = esl_workqueue_WorkerUpdate(info->queue, block, NULL);
   if (status != eslOK) esl_fatal("Work queue worker failed");
+}
+
+/* query_prep_thread()
+ * The query prefetch helper: on each request, read the next query HMM
+ * and build its profiles, with the same calls the master makes.
+ */
+static void
+query_prep_thread(void *arg)
+{
+  QUERY_PREP *prep = (QUERY_PREP *) arg;
+  P7_HMM     *hmm;
+  P7_PROFILE *gm;
+  P7_OPROFILE *om;
+  int         hstatus;
+
+  impl_Init();   /* same floating point modes as the master */
+
+  for (;;)
+    {
+      pthread_mutex_lock(&prep->mutex);
+      while (prep->state != PREP_WORK && prep->state != PREP_QUIT) pthread_cond_wait(&prep->cond, &prep->mutex);
+      if (prep->state == PREP_QUIT) { pthread_mutex_unlock(&prep->mutex); break; }
+      pthread_mutex_unlock(&prep->mutex);
+
+      hmm = NULL;
+      gm  = NULL;
+      om  = NULL;
+      hstatus = p7_hmmfile_Read(prep->hfp, &(prep->abc), &hmm);
+      if (hstatus == eslOK)
+	{
+	  gm = p7_profile_Create (hmm->M, prep->abc);
+	  om = p7_oprofile_Create(hmm->M, prep->abc);
+	  p7_ProfileConfig(hmm, prep->bg, gm, 100, p7_LOCAL); /* as in serial_master() */
+	  p7_oprofile_Convert(gm, om);
+	}
+
+      pthread_mutex_lock(&prep->mutex);
+      prep->hmm     = hmm;
+      prep->gm      = gm;
+      prep->om      = om;
+      prep->hstatus = hstatus;
+      if (prep->state == PREP_WORK) prep->state = PREP_DONE;
+      pthread_cond_broadcast(&prep->cond);
+      pthread_mutex_unlock(&prep->mutex);
+    }
+}
+
+/* query_prep_Request()
+ * Ask the prefetch helper to read and prepare the next query.
+ */
+static void
+query_prep_Request(QUERY_PREP *prep)
+{
+  pthread_mutex_lock(&prep->mutex);
+  prep->state = PREP_WORK;
+  pthread_cond_broadcast(&prep->cond);
+  pthread_mutex_unlock(&prep->mutex);
+}
+
+/* query_prep_Wait()
+ * Wait for the requested query; hand over its HMM, profiles (NULL
+ * unless <*ret_hstatus> is eslOK) and the p7_hmmfile_Read() status.
+ */
+static void
+query_prep_Wait(QUERY_PREP *prep, P7_HMM **ret_hmm, P7_PROFILE **ret_gm, P7_OPROFILE **ret_om, int *ret_hstatus)
+{
+  pthread_mutex_lock(&prep->mutex);
+  while (prep->state != PREP_DONE) pthread_cond_wait(&prep->cond, &prep->mutex);
+  prep->state  = PREP_IDLE;
+  *ret_hmm     = prep->hmm;
+  *ret_gm      = prep->gm;
+  *ret_om      = prep->om;
+  *ret_hstatus = prep->hstatus;
+  pthread_mutex_unlock(&prep->mutex);
 }
 #endif   /* HMMER_THREADS */
  
