@@ -55,6 +55,7 @@ typedef struct {
   int               pass;        /* number of the current pass                          */
   int               nrunning;    /* workers still busy in the current pass              */
   int               nblocks;     /* nonempty blocks in the last pass; 0 = unknown yet   */
+  int               nseqs;       /* targets in the last pass; 0 = unknown yet           */
   int               quit;        /* TRUE: workers exit                                  */
 } WORKER_GATE;
 #endif
@@ -169,6 +170,7 @@ struct cfg_s {
 };
 
 #define BLOCK_SIZE 1000
+#define BLOCK_MIN  20     /* smallest block a small, cached target db is split into */
 
 /* DBCACHE: the target database kept in memory (--dbcache).
  *
@@ -527,6 +529,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       gate.pass     = 0;
       gate.nrunning = 0;
       gate.nblocks  = 0;
+      gate.nseqs    = 0;
       gate.quit     = FALSE;
     }
 #endif
@@ -1759,22 +1762,39 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFI
   int  status  = eslOK;
   int  sstatus = eslOK;
   int  eofCount = 0;
-  int  nactive;                 /* workers taking part in this pass */
-  int  nblocks  = 0;            /* nonempty blocks handed out       */
+  int  nactive;                 /* workers taking part in this pass                     */
+  int  nblocks  = 0;            /* nonempty blocks handed out                           */
+  int  nseqs    = 0;            /* targets handed out                                   */
+  int  bs       = 0;            /* max targets per block; 0 = as many as a block holds  */
+  int  inplace;
+  int  off      = 0;            /* --dbcache: next target in <cur> to hand out          */
   int  w;
   ESL_SQ_BLOCK *block;
   ESL_SQ_BLOCK *cblk;
+  ESL_SQ_BLOCK *cur     = NULL; /* --dbcache: cached block being handed out in slices   */
   void         *newBlock;
 
   esl_workqueue_Reset(queue);   /* safe: the workers are parked at the gate, not in the queue */
   if (dbc) dbcache_StartPass(dbc);
 
-  /* Start the workers' pass over the targets. Every pass reads the same
-   * blocks, so after the first one, wake only as many workers as there
-   * are blocks: the rest would only collect an end-of-pass block. Which
-   * worker searches which target doesn't change the results.
+  /* Every pass hands out the same targets, so after the first one we
+   * know how many there are. When they come from the --dbcache, split a
+   * small db into ~4 blocks per worker (but at least BLOCK_MIN targets
+   * each), so they all get a share; a big one keeps full blocks. Without
+   * the cache, the reader sets the pace and small blocks don't help.
+   * Then wake only as many workers as there will be blocks: the rest
+   * would only collect an end-of-pass block. Which worker searches which
+   * target doesn't change the results.
    */
-  nactive = (gate->nblocks > 0) ? ESL_MIN(gate->nblocks, gate->nworkers) : gate->nworkers;
+  if (dbc && dbc->complete && gate->nseqs > 0)
+    {
+      bs = (gate->nseqs + 4 * gate->nworkers - 1) / (4 * gate->nworkers);
+      bs = ESL_MAX(bs, BLOCK_MIN);
+      if (bs >= BLOCK_SIZE) bs = 0;
+    }
+  if      (bs > 0)          nactive = ESL_MIN((gate->nseqs + bs - 1) / bs, gate->nworkers);
+  else if (gate->nblocks)   nactive = ESL_MIN(gate->nblocks, gate->nworkers);
+  else                      nactive = gate->nworkers;
   pthread_mutex_lock(&gate->mutex);
   gate->nrunning = nactive;
   gate->pass++;
@@ -1790,10 +1810,23 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFI
       block = (ESL_SQ_BLOCK *) newBlock;
 
       if (dbc)
-      { /* --dbcache: first pass reads into the pool block; later, it carries cached sequences */
-        sstatus = dbcache_NextBlock(dbc, dbfp, &n_targetseqs, block, &cblk);
-        if      (sstatus != eslOK) block->count = 0;
-        else if (cblk != block)  { block->list = cblk->list; block->count = cblk->count; }
+      { /* --dbcache: first pass reads into the pool block; later, it carries cached sequences, up to <bs> at a time */
+        inplace = FALSE;
+        while (cur == NULL || off >= cur->count)
+          {
+            sstatus = dbcache_NextBlock(dbc, dbfp, &n_targetseqs, block, &cblk);
+            if (sstatus != eslOK) break;
+            if (cblk == block) { inplace = TRUE; break; }
+            cur = cblk;
+            off = 0;
+          }
+        if (sstatus != eslOK) block->count = 0;
+        else if (! inplace)
+          {
+            block->list  = cur->list + off;
+            block->count = (bs > 0) ? ESL_MIN(bs, cur->count - off) : cur->count - off;
+            off += block->count;
+          }
       } else if (n_targetseqs == 0)
       {
         block->count = 0;
@@ -1811,7 +1844,7 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFI
 
       if (sstatus == eslOK)
       {
-        if (block->count > 0) nblocks++;
+        if (block->count > 0) { nblocks++; nseqs += block->count; }
         status = esl_workqueue_ReaderUpdate(queue, block, &newBlock);
         if (status != eslOK) esl_fatal("Work queue reader failed");
       }
@@ -1829,6 +1862,7 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFI
       esl_workqueue_Complete(queue);
       if (dbc) dbcache_EndPass(dbc);
       gate->nblocks = nblocks;
+      gate->nseqs   = nseqs;
     }
 
   return sstatus;

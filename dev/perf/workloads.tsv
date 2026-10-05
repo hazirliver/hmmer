@@ -42,6 +42,9 @@ X4_pfamA_txt_c0     query      --cpu 0 -o main.out --tblout t.tbl D/Pfam-A.hmm D
 X4_pfamA_txt_cN     query      --cpu $NCPU -Z 5 -o main.out --tblout t.tbl D/Pfam-A.hmm D/q_pick5.fa
 X4_pfamA_h3m_c0     query      --cpu 0 -o main.out --tblout t.tbl F/Pfam-A.hmm.h3m D/q_pick5.fa
 X4_pfamA_h3m_cN     query      --cpu $NCPU -Z 5 -o main.out --tblout t.tbl F/Pfam-A.hmm.h3m D/q_pick5.fa
+# many queries x a small db, as --dbcache is meant for (both A and B need the option)
+X3_p1k_s1k_cN_dbc   query      --cpu $NCPU --dbcache -Z 999 -o main.out --tblout t.tbl D/pfam_1k.hmm D/sprot_1k.fa
+X4_pfamA_h3m_cN_dbc query      --cpu $NCPU --dbcache -Z 5 -o main.out --tblout t.tbl F/Pfam-A.hmm.h3m D/q_pick5.fa
 
 # ---- milestone: realistic annotation run (~1 min per run today); --cut_ga thresholds are
 # bit scores, so no -Z is needed for determinism
