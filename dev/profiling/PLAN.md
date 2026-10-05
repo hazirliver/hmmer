@@ -166,7 +166,7 @@ Outcome:
 
 Decided 2026-10-04: the cache is opt-in, its cap defaults from the host, and `.gz`/stdin multi-query works only under `--dbcache`. The original 2.1 refactor and 2.2 reuse move weren't needed: a per-worker `reuse_seqs` flag leaves the default path's code unchanged.
 
-### Phase 3 — per-query fixed costs (many models × small DB)
+### Phase 3 — per-query fixed costs (many models × small DB) — **done** (see PROGRESS.md)
 
 | Step | Change | BI | Measure / Expect |
 |---|---|---|---|
