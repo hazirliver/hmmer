@@ -41,16 +41,21 @@
 
 #ifdef HMMER_THREADS
 /* Worker threads are created once and search one pass over the target
- * db per query. Between passes they wait at this gate: the master bumps
- * <pass> to start the next one, or sets <quit> at the end.
+ * db per query. Between passes they wait at this gate. To start a pass,
+ * the master hands its number to as many workers as there will be blocks
+ * to search (known from the previous pass), and wakes only those; at
+ * the end it sets <quit>.
  */
 typedef struct {
   pthread_mutex_t   mutex;
-  pthread_cond_t    go;          /* master -> workers: new pass, or quit    */
-  pthread_cond_t    done;        /* workers -> master: the pass is finished */
-  int               pass;        /* number of the current pass              */
-  int               nrunning;    /* workers still busy in the current pass  */
-  int               quit;        /* TRUE: workers exit                      */
+  pthread_cond_t   *go;          /* [0..nworkers-1] master -> worker: new pass, or quit */
+  int              *wpass;       /* [0..nworkers-1] pass each worker is to run          */
+  pthread_cond_t    done;        /* workers -> master: the pass is finished             */
+  int               nworkers;
+  int               pass;        /* number of the current pass                          */
+  int               nrunning;    /* workers still busy in the current pass              */
+  int               nblocks;     /* nonempty blocks in the last pass; 0 = unknown yet   */
+  int               quit;        /* TRUE: workers exit                                  */
 } WORKER_GATE;
 #endif
 
@@ -509,10 +514,19 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
     {
       threadObj = esl_threads_Create(&pipeline_thread);
       queue = esl_workqueue_Create(ncpus * 2);
-      if (pthread_mutex_init(&gate.mutex, NULL) != 0 || pthread_cond_init(&gate.go, NULL) != 0 || pthread_cond_init(&gate.done, NULL) != 0)
+      ESL_ALLOC(gate.go,    sizeof(pthread_cond_t) * ncpus);
+      ESL_ALLOC(gate.wpass, sizeof(int)            * ncpus);
+      if (pthread_mutex_init(&gate.mutex, NULL) != 0 || pthread_cond_init(&gate.done, NULL) != 0)
         esl_fatal("Failed to initialize the worker thread gate");
+      for (i = 0; i < ncpus; i++)
+        {
+          if (pthread_cond_init(&gate.go[i], NULL) != 0) esl_fatal("Failed to initialize the worker thread gate");
+          gate.wpass[i] = 0;
+        }
+      gate.nworkers = ncpus;
       gate.pass     = 0;
       gate.nrunning = 0;
+      gate.nblocks  = 0;
       gate.quit     = FALSE;
     }
 #endif
@@ -728,12 +742,14 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
     {
       pthread_mutex_lock(&gate.mutex);   /* release the parked workers, and wait for them to exit */
       gate.quit = TRUE;
-      pthread_cond_broadcast(&gate.go);
+      for (i = 0; i < gate.nworkers; i++) pthread_cond_signal(&gate.go[i]);
       pthread_mutex_unlock(&gate.mutex);
       esl_threads_WaitForFinish(threadObj);
-      pthread_cond_destroy(&gate.go);
+      for (i = 0; i < gate.nworkers; i++) pthread_cond_destroy(&gate.go[i]);
       pthread_cond_destroy(&gate.done);
       pthread_mutex_destroy(&gate.mutex);
+      free(gate.go);
+      free(gate.wpass);
 
       esl_workqueue_Reset(queue);
       while (esl_workqueue_Remove(queue, (void **) &block) == eslOK)
@@ -1743,6 +1759,9 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFI
   int  status  = eslOK;
   int  sstatus = eslOK;
   int  eofCount = 0;
+  int  nactive;                 /* workers taking part in this pass */
+  int  nblocks  = 0;            /* nonempty blocks handed out       */
+  int  w;
   ESL_SQ_BLOCK *block;
   ESL_SQ_BLOCK *cblk;
   void         *newBlock;
@@ -1750,11 +1769,16 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFI
   esl_workqueue_Reset(queue);   /* safe: the workers are parked at the gate, not in the queue */
   if (dbc) dbcache_StartPass(dbc);
 
-  /* start the workers' pass over the targets */
+  /* Start the workers' pass over the targets. Every pass reads the same
+   * blocks, so after the first one, wake only as many workers as there
+   * are blocks: the rest would only collect an end-of-pass block. Which
+   * worker searches which target doesn't change the results.
+   */
+  nactive = (gate->nblocks > 0) ? ESL_MIN(gate->nblocks, gate->nworkers) : gate->nworkers;
   pthread_mutex_lock(&gate->mutex);
-  gate->nrunning = esl_threads_GetWorkerCount(obj);
+  gate->nrunning = nactive;
   gate->pass++;
-  pthread_cond_broadcast(&gate->go);
+  for (w = 0; w < nactive; w++) { gate->wpass[w] = gate->pass; pthread_cond_signal(&gate->go[w]); }
   pthread_mutex_unlock(&gate->mutex);
 
   status = esl_workqueue_ReaderUpdate(queue, NULL, &newBlock);
@@ -1781,12 +1805,13 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFI
 
       if (sstatus == eslEOF)
       {
-        if (eofCount < esl_threads_GetWorkerCount(obj)) sstatus = eslOK;
+        if (eofCount < nactive) sstatus = eslOK;
         ++eofCount;
       }
 
       if (sstatus == eslOK)
       {
+        if (block->count > 0) nblocks++;
         status = esl_workqueue_ReaderUpdate(queue, block, &newBlock);
         if (status != eslOK) esl_fatal("Work queue reader failed");
       }
@@ -1803,6 +1828,7 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFI
       pthread_mutex_unlock(&gate->mutex);
       esl_workqueue_Complete(queue);
       if (dbc) dbcache_EndPass(dbc);
+      gate->nblocks = nblocks;
     }
 
   return sstatus;
@@ -1829,9 +1855,9 @@ pipeline_thread(void *arg)
   for (;;)
     {
       pthread_mutex_lock(&gate->mutex);
-      while (gate->pass == pass && ! gate->quit) pthread_cond_wait(&gate->go, &gate->mutex);
+      while (gate->wpass[workeridx] == pass && ! gate->quit) pthread_cond_wait(&gate->go[workeridx], &gate->mutex);
       if (gate->quit) { pthread_mutex_unlock(&gate->mutex); break; }
-      pass = gate->pass;
+      pass = gate->wpass[workeridx];
       pthread_mutex_unlock(&gate->mutex);
 
       search_pass(info);

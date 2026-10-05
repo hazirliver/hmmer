@@ -171,8 +171,10 @@ Decided 2026-10-04: the cache is opt-in, its cap defaults from the host, and `.g
 | Step | Change | BI | Measure / Expect |
 |---|---|---|---|
 | **3.1** | Reuse per-thread `P7_PIPELINE` and `P7_TOPHITS` across queries. Add a reset that zeroes stats and keeps the grow-only matrices (`p7_pipeline.c`, `hmmsearch.c`) | The RNG reseeds per region. Stats are zeroed exactly as by `Create` | X3, X4 @ 16: wall and **sys** time (44 s sys today) |
-| **3.2** | Reuse per-thread `P7_OPROFILE` buffers: copy into a preallocated, grow-only profile instead of `p7_oprofile_Clone`/`Destroy` | Same profile bytes | X3, X4 |
+| ~~3.2~~ *(deferred: profile shows allocation < 1%; see PROGRESS)* | Reuse per-thread `P7_OPROFILE` buffers: copy into a preallocated, grow-only profile instead of `p7_oprofile_Clone`/`Destroy` | Same profile bytes | X3, X4 |
 | **3.3** | Persistent worker threads. Create them once and park them on a condvar between queries. Removes per-query `pthread_create`/join and `impl_Init` | Same work, different scheduling. Results are independent of scheduling (§2) | X4 @ 16: expect 39 s → ~cpu0 level (~20 s text, ~4-5 s pressed). X3 |
+| **3.3b** *(added)* | Start only as many workers per query as the previous pass had blocks, each woken on its own condvar. On a 5-target db, 15 of 16 workers used to wake every query just to collect an end-of-pass block (kernel runqueue spinlocks: 17% of cycles) | Which worker searches which target doesn't matter (§2) | X4 @ 16: sys time |
+| **3.3c** *(added)* | Once the first pass has counted the db, split a small one into ~4 blocks per worker (`ReadBlock` sequence cap; slices of cached blocks with `--dbcache`). `sprot_1k` is a single 1000-sequence block, so X3 @ 16 searches on one worker | Same as 3.3b. Single query and dbs ≥ 64k sequences pass the old arguments | X3 @ 16 |
 | **3.4** | While workers search query q, the main thread reads and converts query q+1 (`p7_hmmfile_Read`, `ProfileConfig`, `oprofile_Convert`) | Output order unchanged | X3, X4, X5 |
 | 3.5 *(measure first)* | Overlap query q's merge and output with query q+1's search, using double-buffered per-thread results. Do it only if the post-3.4 profile shows a barrier stall | Output order unchanged | X5 |
 
