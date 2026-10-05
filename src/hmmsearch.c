@@ -41,6 +41,7 @@ typedef struct {
   P7_PIPELINE      *pli;         /* work pipeline                           */
   P7_TOPHITS       *th;          /* top hit results                         */
   P7_OPROFILE      *om;          /* optimized query profile                 */
+  int               reuse_seqs;  /* TRUE: reset each target after use. FALSE: targets are cached, read-only */
 } WORKER_INFO;
 
 #define REPOPTS     "-E,-T,--cut_ga,--cut_nc,--cut_tc"
@@ -97,6 +98,7 @@ static ESL_OPTIONS options[] = {
   { "--domZ",       eslARG_REAL,   FALSE, NULL, "x>0",   NULL,  NULL,  NULL,            "set # of significant seqs, for domain E-value calculation",   12 },
   { "--seed",       eslARG_INT,    "42",  NULL, "n>=0",  NULL,  NULL,  NULL,            "set RNG seed to <n> (if 0: one-time arbitrary seed)",         12 },
   { "--tformat",    eslARG_STRING,  NULL, NULL, NULL,    NULL,  NULL,  NULL,            "assert target <seqfile> is in format <s>: no autodetection",  12 },
+  { "--dbcache",    eslARG_NONE,   FALSE, NULL, NULL,    NULL,  NULL,  NULL,            "keep <seqdb> in memory: read it once for all queries",        12 },
 
 #ifdef HMMER_THREADS 
   { "--cpu",        eslARG_INT, p7_NCPU,"HMMER_NCPU","n>=0",NULL,  NULL,  CPUOPTS,      "number of parallel CPU workers to use for multithreads",      12 },
@@ -138,13 +140,46 @@ struct cfg_s {
   int              n_targetseq;       /* number of sequences in the restricted range */
 };
 
-static int  serial_master(ESL_GETOPTS *go, struct cfg_s *cfg);
-static int  serial_loop  (WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs);
-
-#ifdef HMMER_THREADS
 #define BLOCK_SIZE 1000
 
-static int  thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, ESL_SQFILE *dbfp, int n_targetseqs);
+/* DBCACHE: the target database kept in memory (--dbcache).
+ *
+ * The first query's pass reads the (possibly --restrictdb'ed) database
+ * into blocks that are kept. Later queries are served from those blocks
+ * and parse nothing, so a non-rewindable target (.gz, stdin) also works
+ * with several queries.
+ *
+ * Threaded mode keeps the work queue's protocol unchanged. The same pool
+ * of blocks circulates between reader and workers, but each pool block
+ * acts as a carrier: while it's in flight, its <list> points at a cached
+ * block's sequences. carrier_list[] holds each pool block's own list,
+ * which is restored at the end of every pass.
+ */
+typedef struct {
+  ESL_SQ_BLOCK  **blk;          /* cached blocks, in file order                         */
+  int             nblk;
+  int             nalloc;
+  int             complete;     /* TRUE once a pass has read the whole (restricted) db  */
+  int             next;         /* in a cached pass: next block to hand out             */
+  int             pass_eof;     /* the current pass has reached its end                 */
+  int64_t         nseq;         /* number of sequences cached                           */
+  ESL_SQ_BLOCK  **carrier;      /* the work queue's pool blocks (threaded mode)         */
+  ESL_SQ        **carrier_list; /*   ... and their own sequence lists                   */
+  int             ncarrier;
+  const ESL_ALPHABET *abc;
+} DBCACHE;
+
+static DBCACHE *dbcache_Create(const ESL_ALPHABET *abc, int ncarrier);
+static void     dbcache_StartPass(DBCACHE *dbc);
+static void     dbcache_EndPass(DBCACHE *dbc);
+static int      dbcache_NextBlock(DBCACHE *dbc, ESL_SQFILE *dbfp, int *n_targetseqs, ESL_SQ_BLOCK **ret_blk);
+static void     dbcache_Destroy(DBCACHE *dbc);
+
+static int  serial_master(ESL_GETOPTS *go, struct cfg_s *cfg);
+static int  serial_loop  (WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc);
+
+#ifdef HMMER_THREADS
+static int  thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc);
 static void pipeline_thread(void *arg);
 #endif 
 
@@ -260,6 +295,7 @@ output_header(FILE *ofp, const ESL_GETOPTS *go, char *hmmfile, char *seqfile)
     else if (                               fprintf(ofp, "# random number seed set to:       %d\n",             esl_opt_GetInteger(go, "--seed"))      < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");
   }
   if (esl_opt_IsUsed(go, "--tformat")    && fprintf(ofp, "# targ <seqfile> format asserted:  %s\n",             esl_opt_GetString(go, "--tformat"))    < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");
+  if (esl_opt_IsUsed(go, "--dbcache")    && fprintf(ofp, "# target db cached in memory:      yes\n")                                                   < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");
 #ifdef HMMER_THREADS
   if (esl_opt_IsUsed(go, "--cpu")        && fprintf(ofp, "# number of worker threads:        %d\n",             esl_opt_GetInteger(go, "--cpu"))       < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");  
 #endif
@@ -371,6 +407,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 
   int              infocnt  = 0;
   WORKER_INFO     *info     = NULL;
+  DBCACHE         *dbc      = NULL;              /* in-memory target db (--dbcache), or NULL        */
 #ifdef HMMER_THREADS
   ESL_SQ_BLOCK    *block    = NULL;
   ESL_THREADS     *threadObj= NULL;
@@ -439,9 +476,13 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       output_header(ofp, go, cfg->hmmfile, cfg->dbfile);
       esl_sqfile_SetDigital(dbfp, abc); //ReadBlock requires knowledge of the alphabet to decide how best to read blocks
 
+      if (esl_opt_GetBoolean(go, "--dbcache") && (dbc = dbcache_Create(abc, ncpus * 2)) == NULL)
+	p7_Fail("Failed to allocate the target sequence cache");
+
       for (i = 0; i < infocnt; ++i)
 	{
-	  info[i].bg    = p7_bg_Create(abc);
+	  info[i].bg         = p7_bg_Create(abc);
+	  info[i].reuse_seqs = (dbc == NULL);
 #ifdef HMMER_THREADS
 	  info[i].queue = queue;
 #endif
@@ -455,6 +496,12 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 
  	  status = esl_workqueue_Init(queue, block);
 	  if (status != eslOK)	      esl_fatal("Failed to add block to work queue");
+
+	  if (dbc) { /* pool blocks may carry cached sequences; remember their own lists */
+	    dbc->carrier[dbc->ncarrier]      = block;
+	    dbc->carrier_list[dbc->ncarrier] = block->list;
+	    dbc->ncarrier++;
+	  }
 	}
 #endif
     }
@@ -468,8 +515,8 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       nquery++;
       esl_stopwatch_Start(w);
 
-      /* seqfile may need to be rewound (multiquery mode) */
-      if (nquery > 1)
+      /* seqfile may need to be rewound (multiquery mode), unless every target is cached */
+      if (nquery > 1 && ! (dbc && dbc->complete))
       {
         if (! esl_sqfile_IsRewindable(dbfp))
           esl_fatal("Target sequence file %s isn't rewindable; can't search it with multiple queries", cfg->dbfile);
@@ -478,7 +525,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
           esl_sqfile_Position(dbfp, 0); //only re-set current position to 0 if we're not planning to set it in a moment
       }
 
-      if ( cfg->firstseq_key != NULL ) { //it's tempting to want to do this once and capture the offset position for future passes, but ncbi files make this non-trivial, so this keeps it general
+      if ( cfg->firstseq_key != NULL && ! (dbc && dbc->complete)) { //it's tempting to want to do this once and capture the offset position for future passes, but ncbi files make this non-trivial, so this keeps it general
         sstatus = esl_sqfile_PositionByKey(dbfp, cfg->firstseq_key);
         if (sstatus != eslOK)
           p7_Fail("Failure setting restrictdb_stkey to %d\n", cfg->firstseq_key);
@@ -509,10 +556,10 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       }
 
 #ifdef HMMER_THREADS
-      if (ncpus > 0)  sstatus = thread_loop(threadObj, queue, dbfp, cfg->n_targetseq);
-      else            sstatus = serial_loop(info, dbfp, cfg->n_targetseq);
+      if (ncpus > 0)  sstatus = thread_loop(threadObj, queue, dbfp, cfg->n_targetseq, dbc);
+      else            sstatus = serial_loop(info, dbfp, cfg->n_targetseq, dbc);
 #else
-      sstatus = serial_loop(info, dbfp, cfg->n_targetseq);
+      sstatus = serial_loop(info, dbfp, cfg->n_targetseq, dbc);
 #endif
       switch(sstatus)
       {
@@ -615,6 +662,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
     }
 #endif
 
+  dbcache_Destroy(dbc);
   free(info);
   p7_hmmfile_Close(hfp);
   esl_sqfile_Close(dbfp);
@@ -1285,12 +1333,146 @@ mpi_worker(ESL_GETOPTS *go, struct cfg_s *cfg)
 }
 #endif /*HMMER_MPI*/
 
+/* dbcache_*: the --dbcache in-memory target database (see DBCACHE). */
+static DBCACHE *
+dbcache_Create(const ESL_ALPHABET *abc, int ncarrier)
+{
+  DBCACHE *dbc = NULL;
+  int      status;
+
+  ESL_ALLOC(dbc, sizeof(DBCACHE));
+  dbc->blk          = NULL;
+  dbc->carrier      = NULL;
+  dbc->carrier_list = NULL;
+  dbc->nalloc       = 64;
+  dbc->nblk         = 0;
+  dbc->complete     = FALSE;
+  dbc->next         = 0;
+  dbc->pass_eof     = FALSE;
+  dbc->nseq         = 0;
+  dbc->ncarrier     = 0;
+  dbc->abc          = abc;
+  ESL_ALLOC(dbc->blk,          sizeof(ESL_SQ_BLOCK *) * dbc->nalloc);
+  ESL_ALLOC(dbc->carrier,      sizeof(ESL_SQ_BLOCK *) * ESL_MAX(1, ncarrier));
+  ESL_ALLOC(dbc->carrier_list, sizeof(ESL_SQ *)       * ESL_MAX(1, ncarrier));
+  return dbc;
+
+ ERROR:
+  dbcache_Destroy(dbc);
+  return NULL;
+}
+
+static void
+dbcache_StartPass(DBCACHE *dbc)
+{
+  dbc->next     = 0;
+  dbc->pass_eof = FALSE;
+}
+
+/* After a threaded pass: give the pool blocks their own lists back. */
+static void
+dbcache_EndPass(DBCACHE *dbc)
+{
+  int i;
+  for (i = 0; i < dbc->ncarrier; i++)
+    {
+      dbc->carrier[i]->list  = dbc->carrier_list[i];
+      dbc->carrier[i]->count = 0;
+    }
+}
+
+/* dbcache_NextBlock()
+ * Next block of targets for this pass, in file order. While the cache is
+ * incomplete (first pass) it reads exactly what thread_loop() would read
+ * without a cache (esl_sqio_ReadBlock(), honoring <*n_targetseqs> the same
+ * way) into a new block and keeps it; afterwards it hands out cached
+ * blocks. Returns eslOK, eslEOF at the end of the pass, or a read error.
+ */
 static int
-serial_loop(WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs)
+dbcache_NextBlock(DBCACHE *dbc, ESL_SQFILE *dbfp, int *n_targetseqs, ESL_SQ_BLOCK **ret_blk)
+{
+  ESL_SQ_BLOCK *blk = NULL;
+  void         *p;
+  int           status;
+
+  *ret_blk = NULL;
+  if (dbc->pass_eof) return eslEOF;
+
+  if (dbc->complete)
+    {
+      if (dbc->next < dbc->nblk) { *ret_blk = dbc->blk[dbc->next++]; return eslOK; }
+      dbc->pass_eof = TRUE;
+      return eslEOF;
+    }
+
+  if (*n_targetseqs == 0) { dbc->pass_eof = dbc->complete = TRUE; return eslEOF; }
+
+  if ((blk = esl_sq_CreateDigitalBlock(BLOCK_SIZE, dbc->abc)) == NULL) return eslEMEM;
+  status = esl_sqio_ReadBlock(dbfp, blk, -1, *n_targetseqs, /*max_init_window=*/FALSE, FALSE);
+  if (status != eslOK)
+    {
+      esl_sq_DestroyBlock(blk);
+      if (status == eslEOF) dbc->pass_eof = dbc->complete = TRUE;
+      return status;
+    }
+
+  if (dbc->nblk == dbc->nalloc)
+    {
+      ESL_RALLOC(dbc->blk, p, sizeof(ESL_SQ_BLOCK *) * dbc->nalloc * 2);
+      dbc->nalloc *= 2;
+    }
+  dbc->blk[dbc->nblk++] = blk;
+  dbc->nseq            += blk->count;
+  *n_targetseqs        -= blk->count;
+  *ret_blk = blk;
+  return eslOK;
+
+ ERROR:
+  esl_sq_DestroyBlock(blk);
+  return status;
+}
+
+static void
+dbcache_Destroy(DBCACHE *dbc)
+{
+  int i;
+
+  if (dbc == NULL) return;
+  for (i = 0; i < dbc->nblk; i++) esl_sq_DestroyBlock(dbc->blk[i]);
+  free(dbc->blk);
+  free(dbc->carrier);
+  free(dbc->carrier_list);
+  free(dbc);
+}
+
+
+static int
+serial_loop(WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc)
 {
   int      sstatus;
   ESL_SQ   *dbsq     = NULL;   /* one target sequence (digital)  */
   int seq_cnt = 0;
+  int i;
+
+  if (dbc)
+    { /* --dbcache: the same targets in the same order, one block at a time */
+      ESL_SQ_BLOCK *blk;
+
+      dbcache_StartPass(dbc);
+      while ((sstatus = dbcache_NextBlock(dbc, dbfp, &n_targetseqs, &blk)) == eslOK)
+        for (i = 0; i < blk->count; i++)
+          {
+            dbsq = blk->list + i;
+            p7_pli_NewSeq(info->pli, dbsq);
+            p7_bg_SetLength(info->bg, dbsq->n);
+            p7_oprofile_ReconfigLength(info->om, dbsq->n);
+
+            p7_Pipeline(info->pli, info->om, info->bg, dbsq, NULL, info->th);
+
+            p7_pipeline_Reuse(info->pli);
+          }
+      return sstatus;
+    }
 
   dbsq = esl_sq_CreateDigital(info->om->abc);
 
@@ -1318,26 +1500,33 @@ serial_loop(WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs)
 
 #ifdef HMMER_THREADS
 static int
-thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, ESL_SQFILE *dbfp, int n_targetseqs)
+thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc)
 {
   int  status  = eslOK;
   int  sstatus = eslOK;
   int  eofCount = 0;
   ESL_SQ_BLOCK *block;
+  ESL_SQ_BLOCK *cblk;
   void         *newBlock;
 
   esl_workqueue_Reset(queue);
   esl_threads_WaitForStart(obj);
+  if (dbc) dbcache_StartPass(dbc);
 
   status = esl_workqueue_ReaderUpdate(queue, NULL, &newBlock);
   if (status != eslOK) esl_fatal("Work queue reader failed");
-      
+
   /* Main loop: */
   while (sstatus == eslOK )
     {
       block = (ESL_SQ_BLOCK *) newBlock;
 
-      if (n_targetseqs == 0)
+      if (dbc)
+      { /* --dbcache: the pool block carries a cached block's sequences */
+        sstatus = dbcache_NextBlock(dbc, dbfp, &n_targetseqs, &cblk);
+        if (sstatus == eslOK) { block->list = cblk->list; block->count = cblk->count; }
+        else                    block->count = 0;
+      } else if (n_targetseqs == 0)
       {
         block->count = 0;
         sstatus = eslEOF;
@@ -1366,7 +1555,8 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, ESL_SQFILE *dbfp, int n_tar
     {
       /* wait for all the threads to complete */
       esl_threads_WaitForFinish(obj);
-      esl_workqueue_Complete(queue);  
+      esl_workqueue_Complete(queue);
+      if (dbc) dbcache_EndPass(dbc);
     }
 
   return sstatus;
@@ -1408,8 +1598,8 @@ pipeline_thread(void *arg)
 	  p7_oprofile_ReconfigLength(info->om, dbsq->n);
 	  
 	  p7_Pipeline(info->pli, info->om, info->bg, dbsq, NULL, info->th);
-	  
-	  esl_sq_Reuse(dbsq);
+
+	  if (info->reuse_seqs) esl_sq_Reuse(dbsq); /* not with --dbcache: cached targets are read-only */
 	  p7_pipeline_Reuse(info->pli);
 	}
 

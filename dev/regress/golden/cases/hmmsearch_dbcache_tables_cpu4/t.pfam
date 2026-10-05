@@ -1,0 +1,576 @@
+# Sequence scores
+# ---------------
+#
+# name                             bits   E-value   n   exp  bias    description
+#            ------------------- ------ --------- --- ----- -----    ---------------------
+HBB_HUMAN                         222.8   3.2e-67   1   1.0   0.1    Human beta hemoglobin.
+HBB_MANSP                         217.7   1.2e-65   1   1.0   0.1    -
+HBB_CALAR                         215.0   7.7e-65   1   1.0   0.2    -
+MYG_ESCGI                         214.0   1.6e-64   1   1.0   3.0    -
+HBB_URSMA                         209.3   4.5e-63   1   1.0   0.2    -
+HBB_RABIT                         207.7   1.4e-62   1   1.0   0.6    -
+HBA_PONPY                         206.0   4.9e-62   1   1.0   1.4    -
+MYG_HORSE                         205.2   8.2e-62   1   1.0   1.2    -
+HBB_SPECI                         202.8   4.7e-61   1   1.0   1.2    -
+HBA_MACFA                         200.3   2.7e-60   1   1.0   0.6    -
+HBB_SPETO                         200.1   3.2e-60   1   1.0   0.7    -
+HBB_SUNMU                         199.7     4e-60   1   1.0   0.1    -
+HBA_MACSI                         199.0     7e-60   1   1.0   0.5    -
+HBB_TRIIN                         198.9   7.2e-60   1   1.0   0.1    -
+HBB_EQUHE                         196.0   5.6e-59   1   1.0   0.1    -
+HBA2_GALCR                        195.3   9.1e-59   1   1.0   1.0    -
+MYG_LYCPI                         194.9   1.3e-58   1   1.0   1.7    -
+MYG_PROGU                         194.8   1.3e-58   1   1.0   0.3    -
+MYG_SAISC                         194.0   2.3e-58   1   1.0   1.1    -
+HBB_TACAC                         192.8   5.3e-58   1   1.0   0.4    -
+HBE_PONPY                         190.9   2.1e-57   1   1.0   0.6    -
+HBA_MESAU                         190.2   3.5e-57   1   1.0   0.4    -
+HBA2_BOSMU                        189.6   5.3e-57   1   1.0   0.8    -
+HBB_TUPGL                         188.3   1.4e-56   1   1.0   0.0    -
+HBA_AILME                         187.2     3e-56   1   1.0   0.2    -
+MYG_MOUSE                         187.0   3.5e-56   1   1.0   0.3    -
+HBB_ORNAN                         186.5     5e-56   1   1.0   0.0    -
+HBB_COLLI                         185.8   8.1e-56   1   1.0   0.1    -
+HBB_LARRI                         181.9   1.3e-54   1   1.0   0.1    -
+HBA_PAGLA                         181.0   2.4e-54   1   1.0   0.7    -
+HBA_ERIEU                         179.4   7.4e-54   1   1.0   0.2    -
+HBA_PROLO                         179.4   7.5e-54   1   1.0   0.1    -
+HBB1_VAREX                        168.8   1.4e-50   1   1.0   0.1    -
+HBAZ_HORSE                        168.1   2.3e-50   1   1.0   0.2    -
+HBA_FRAPO                         165.6   1.3e-49   1   1.0   0.5    -
+HBA_PHACO                         165.0     2e-49   1   1.0   0.5    -
+HBA_ANSSE                         160.9   3.8e-48   1   1.0   0.6    -
+HBAD_PASMO                        160.7   4.2e-48   1   1.0   0.1    -
+HBA_TRIOC                         160.3   5.8e-48   1   1.0   0.4    -
+HBAD_CHLME                        159.8   8.3e-48   1   1.0   0.5    -
+HBA_COLLI                         159.7   8.6e-48   1   1.0   0.3    -
+HBBL_RANCA                        158.7   1.7e-47   1   1.0   0.3    -
+HBB2_XENTR                        155.9   1.3e-46   1   1.0   1.2    -
+HBA4_SALIR                        141.3   4.1e-42   1   1.0   0.1    -
+MYG_MUSAN                         120.2   1.3e-35   1   1.0   0.4    -
+HBB2_TRICR                        118.0   6.2e-35   1   1.0   0.0    -
+emit_globins4_globins4-sample18    81.4   1.2e-23   1   1.0   0.1    -
+emit_globins4_globins4-sample8     78.6   8.6e-23   1   1.0   0.0    -
+emit_globins4_globins4-sample37    75.7   6.6e-22   1   1.0   2.7    -
+emit_globins4_globins4-sample29    73.7   2.8e-21   1   1.0   0.1    -
+emit_globins4_globins4-sample13    73.7   2.8e-21   1   1.0   0.2    -
+emit_globins4_globins4-sample36    72.7   5.8e-21   1   1.0   0.1    -
+emit_globins4_globins4-sample32    71.1   1.8e-20   1   1.0   0.1    -
+emit_globins4_globins4-sample3     68.4   1.2e-19   1   1.0   0.0    -
+emit_globins4_globins4-sample4     67.3   2.5e-19   1   1.0   0.2    -
+emit_globins4_globins4-sample21    65.9   7.2e-19   1   1.0   0.0    -
+emit_globins4_globins4-sample16    63.5   3.8e-18   1   1.0   0.1    -
+emit_globins4_globins4-sample15    61.1   2.2e-17   1   1.0   0.2    -
+emit_globins4_globins4-sample11    58.0   1.9e-16   1   1.0   0.1    -
+emit_globins4_globins4-sample12    58.0     2e-16   1   1.0   1.1    -
+emit_globins4_globins4-sample19    57.7   2.4e-16   1   1.0   0.1    -
+emit_globins4_globins4-sample7     55.5   1.1e-15   1   1.3   0.0    -
+emit_globins4_globins4-sample40    53.0   6.5e-15   1   1.0   0.2    -
+emit_globins4_globins4-sample1     52.8   7.6e-15   1   1.1   0.1    -
+emit_globins4_globins4-sample6     51.5   1.9e-14   1   1.0   0.0    -
+emit_globins4_globins4-sample14    51.1   2.6e-14   1   1.0   0.4    -
+emit_globins4_globins4-sample26    50.9   2.9e-14   1   1.0   0.0    -
+emit_globins4_globins4-sample39    48.0   2.3e-13   1   1.0   0.0    -
+emit_globins4_globins4-sample2     44.1   3.6e-12   1   1.1   0.3    -
+emit_globins4_globins4-sample34    44.0   3.9e-12   1   1.1   0.1    -
+emit_globins4_globins4-sample38    43.8   4.5e-12   1   1.2   0.1    -
+emit_globins4_globins4-sample20    42.9   8.4e-12   1   1.1   0.3    -
+emit_globins4_globins4-sample22    41.6   2.2e-11   1   1.1   0.2    -
+emit_globins4_globins4-sample5     40.2   5.9e-11   1   1.0   0.0    -
+emit_globins4_globins4-sample17    37.8   3.2e-10   1   1.0   0.1    -
+emit_globins4_globins4-sample27    37.5   3.8e-10   1   1.0   0.0    -
+emit_globins4_globins4-sample30    37.2     5e-10   1   1.2   1.1    -
+emit_globins4_globins4-sample25    36.9   6.2e-10   1   1.2   0.0    -
+emit_globins4_globins4-sample33    36.2     1e-09   1   1.0   0.0    -
+emit_globins4_globins4-sample31    34.2   4.1e-09   1   1.1   0.0    -
+emit_globins4_globins4-sample28    31.4   2.9e-08   1   1.0   0.0    -
+emit_globins4_globins4-sample35    29.6   1.1e-07   1   1.0   0.0    -
+emit_globins4_globins4-sample23    21.6     3e-05   1   1.1   0.5    -
+emit_globins4_globins4-sample24    16.9   0.00087   1   1.1   0.2    -
+emit_globins4_globins4-sample9     16.6    0.0011   1   1.1   0.1    -
+
+# Domain scores
+# -------------
+#
+#  name                            bits   E-value   hit  bias env-st env-en ali-st ali-en hmm-st hmm-en     description
+#            ------------------- ------ --------- ----- ----- ------ ------ ------ ------ ------ ------      ---------------------
+HBB_HUMAN                         222.6   3.6e-67     1   0.1      1    146      1    146      1    149     Human beta hemoglobin.
+HBB_MANSP                         217.5   1.3e-65     1   0.1      1    146      1    146      1    149     -
+HBB_CALAR                         214.9   8.6e-65     1   0.2      1    146      1    146      1    149     -
+MYG_ESCGI                         213.9   1.8e-64     1   3.0      1    147      1    147      2    149     -
+HBB_URSMA                         209.2   4.9e-63     1   0.2      1    146      1    146      1    149     -
+HBB_RABIT                         207.6   1.5e-62     1   0.6      1    146      1    146      1    149     -
+HBA_PONPY                         205.8   5.4e-62     1   1.4      1    141      1    141      2    149     -
+MYG_HORSE                         205.1   9.1e-62     1   1.2      1    147      2    147      3    149     -
+HBB_SPECI                         202.6   5.2e-61     1   1.2      1    146      1    146      1    149     -
+HBA_MACFA                         200.1     3e-60     1   0.6      1    141      1    141      2    149     -
+HBB_SPETO                         199.9   3.5e-60     1   0.7      1    146      1    146      1    149     -
+HBB_SUNMU                         199.6   4.5e-60     1   0.1      1    146      1    146      1    149     -
+HBA_MACSI                         198.8   7.7e-60     1   0.5      1    141      1    141      2    149     -
+HBB_TRIIN                         198.8     8e-60     1   0.1      1    146      1    146      1    149     -
+HBB_EQUHE                         195.9   6.2e-59     1   0.1      1    146      2    146      2    149     -
+HBA2_GALCR                        195.2     1e-58     1   1.0      1    141      1    141      2    149     -
+MYG_LYCPI                         194.7   1.4e-58     1   1.7      1    147      2    147      3    149     -
+MYG_PROGU                         194.7   1.5e-58     1   0.3      1    147      2    147      3    149     -
+MYG_SAISC                         193.9   2.6e-58     1   1.1      1    147      2    147      3    149     -
+HBB_TACAC                         192.7   5.9e-58     1   0.4      1    146      1    146      1    149     -
+HBE_PONPY                         190.8   2.3e-57     1   0.6      1    146      1    146      1    149     -
+HBA_MESAU                         190.1   3.9e-57     1   0.4      1    141      1    141      2    149     -
+HBA2_BOSMU                        189.5   5.9e-57     1   0.8      1    141      1    141      2    149     -
+HBB_TUPGL                         188.1   1.5e-56     1   0.0      1    146      1    146      1    149     -
+HBA_AILME                         187.0   3.3e-56     1   0.2      1    141      1    141      2    149     -
+MYG_MOUSE                         186.8   3.8e-56     1   0.3      1    147      2    147      3    149     -
+HBB_ORNAN                         186.3   5.5e-56     1   0.0      1    146      1    146      1    149     -
+HBB_COLLI                         185.6   8.9e-56     1   0.1      1    146      2    146      2    149     -
+HBB_LARRI                         181.7   1.4e-54     1   0.1      1    146      2    146      2    149     -
+HBA_PAGLA                         180.8   2.7e-54     1   0.7      1    141      1    141      2    149     -
+HBA_ERIEU                         179.3   8.2e-54     1   0.2      1    141      1    141      2    149     -
+HBA_PROLO                         179.2   8.3e-54     1   0.1      1    141      1    141      2    149     -
+HBB1_VAREX                        168.7   1.5e-50     1   0.1      1    146      2    146      2    149     -
+HBAZ_HORSE                        167.9   2.5e-50     1   0.2      1    141      2    141      3    149     -
+HBA_FRAPO                         165.5   1.5e-49     1   0.5      1    141      1    141      2    149     -
+HBA_PHACO                         164.9   2.2e-49     1   0.5      1    141      1    141      2    149     -
+HBA_ANSSE                         160.7   4.3e-48     1   0.6      1    141      1    141      2    149     -
+HBAD_PASMO                        160.6   4.6e-48     1   0.1      1    141      2    141      3    149     -
+HBA_TRIOC                         160.1   6.4e-48     1   0.4      1    141      1    141      2    149     -
+HBAD_CHLME                        159.6   9.2e-48     1   0.5      1    141      2    141      3    149     -
+HBA_COLLI                         159.6   9.5e-48     1   0.3      1    141      1    141      2    149     -
+HBBL_RANCA                        158.6   1.9e-47     1   0.3      1    146      2    146      2    149     -
+HBB2_XENTR                        155.8   1.4e-46     1   1.2      1    146      2    145      2    148     -
+HBA4_SALIR                        141.1   4.6e-42     1   0.1      1    142      2    142      3    149     -
+MYG_MUSAN                         120.1   1.4e-35     1   0.4      1    142      2    142      7    149     -
+HBB2_TRICR                        117.9   6.8e-35     1   0.0      1    145      1    145      1    148     -
+emit_globins4_globins4-sample18    81.2   1.4e-23     1   0.1      4    147      7    146      4    148     -
+emit_globins4_globins4-sample8     78.4     1e-22     1   0.0      2    146      6    146      7    149     -
+emit_globins4_globins4-sample37    75.5   7.9e-22     1   2.7      9    158     16    156      8    147     -
+emit_globins4_globins4-sample29    73.6     3e-21     1   0.1      1    151      3    151      3    148     -
+emit_globins4_globins4-sample13    73.5   3.1e-21     1   0.2      1    154      1    152      1    147     -
+emit_globins4_globins4-sample36    72.5   6.4e-21     1   0.1      1    143      2    143      5    149     -
+emit_globins4_globins4-sample32    70.9   2.1e-20     1   0.1      3    150     26    148     27    146     -
+emit_globins4_globins4-sample3     68.3   1.3e-19     1   0.0      1    148      2    147      2    148     -
+emit_globins4_globins4-sample4     67.2   2.8e-19     1   0.2      7    155      7    154      1    148     -
+emit_globins4_globins4-sample21    65.7   7.9e-19     1   0.0     11    160     12    159      2    148     -
+emit_globins4_globins4-sample16    63.4   4.3e-18     1   0.1     13    160     14    160      2    149     -
+emit_globins4_globins4-sample15    61.0   2.3e-17     1   0.2      1    148      3    147      3    148     -
+emit_globins4_globins4-sample11    57.9   2.1e-16     1   0.1      2    147      7    144     14    146     -
+emit_globins4_globins4-sample12    57.8   2.2e-16     1   1.1      1    152      2    128      3    126     -
+emit_globins4_globins4-sample19    57.5   2.8e-16     1   0.1      2    148      5    147      5    147     -
+emit_globins4_globins4-sample7     55.0   1.7e-15     1   0.0      1    146      3    128      3    125     -
+emit_globins4_globins4-sample40    52.6   8.6e-15     1   0.2      9    158     11    156      4    146     -
+emit_globins4_globins4-sample1     52.6   8.9e-15     1   0.1      9    152     19    126     10    115     -
+emit_globins4_globins4-sample6     51.4   2.1e-14     1   0.0      1    155      3    154      3    148     -
+emit_globins4_globins4-sample26    50.8   3.1e-14     1   0.0      1    152      1    152      3    149     -
+emit_globins4_globins4-sample14    50.8   3.2e-14     1   0.4      2    146      8    145      8    148     -
+emit_globins4_globins4-sample39    47.7   2.8e-13     1   0.0      3    149      7    142      7    140     -
+emit_globins4_globins4-sample2     44.0     4e-12     1   0.3     17    165     25    164      9    148     -
+emit_globins4_globins4-sample34    43.7   4.9e-12     1   0.1      4    146     10    138     13    144     -
+emit_globins4_globins4-sample38    43.4     6e-12     1   0.1      3    158     15    157     13    148     -
+emit_globins4_globins4-sample20    42.7     1e-11     1   0.3      1    148      3    139      4    139     -
+emit_globins4_globins4-sample22    41.3   2.7e-11     1   0.2      2    147      5    137      5    137     -
+emit_globins4_globins4-sample5     39.9   7.1e-11     1   0.0      8    149     12    149     16    148     -
+emit_globins4_globins4-sample17    37.6   3.8e-10     1   0.1      1    146      3    141      5    142     -
+emit_globins4_globins4-sample27    37.2   4.8e-10     1   0.0     13    147     18    134      9    127     -
+emit_globins4_globins4-sample25    36.7     7e-10     1   0.0      1    145      9    121     12    119     -
+emit_globins4_globins4-sample30    36.6   7.3e-10     1   1.1      1    151      3    148      6    145     -
+emit_globins4_globins4-sample33    36.0   1.1e-09     1   0.0      1    153      2    152      3    148     -
+emit_globins4_globins4-sample31    33.9   5.1e-09     1   0.0      1    152      3    152      3    149     -
+emit_globins4_globins4-sample28    31.2   3.5e-08     1   0.0      1    141      4    135      7    133     -
+emit_globins4_globins4-sample35    29.3   1.4e-07     1   0.0      1    153      2    151      2    145     -
+emit_globins4_globins4-sample23    21.3   3.8e-05     1   0.5      1    156      2    151      2    142     -
+emit_globins4_globins4-sample24    16.8   0.00096     1   0.2      9    152     21    108     22    108     -
+emit_globins4_globins4-sample9     16.5    0.0012     1   0.1      1    147     13    134     14    134     -
+# Sequence scores
+# ---------------
+#
+# name                   bits   E-value   n   exp  bias    description
+#  ------------------- ------ --------- --- ----- -----    ---------------------
+7LESS_DROME             176.4   1.5e-53   9   9.8   0.9    P13368 RecName: Full=Protein sevenless;          EC=2.7.10.1;
+emit_fn3_fn3-sample31    55.2   9.8e-16   1   1.0   0.1    -
+emit_fn3_fn3-sample28    53.8   2.8e-15   1   1.0   0.2    -
+emit_fn3_fn3-sample5     52.7   5.9e-15   1   1.0   0.4    -
+emit_fn3_fn3-sample33    52.7   5.9e-15   1   1.0   0.0    -
+emit_fn3_fn3-sample6     52.4   7.1e-15   1   1.0   0.1    -
+emit_fn3_fn3-sample15    49.2   7.2e-14   1   1.0   0.3    -
+emit_fn3_fn3-sample32    47.2   3.2e-13   1   1.0   0.2    -
+emit_fn3_fn3-sample16    47.1   3.3e-13   1   1.0   0.1    -
+emit_fn3_fn3-sample4     44.7   1.9e-12   1   1.0   0.1    -
+emit_fn3_fn3-sample30    43.2   5.6e-12   1   1.0   0.1    -
+emit_fn3_fn3-sample37    42.9   6.7e-12   1   1.0   0.0    -
+emit_fn3_fn3-sample21    41.0   2.7e-11   1   1.0   0.0    -
+emit_fn3_fn3-sample8     40.8     3e-11   1   1.1   0.0    -
+emit_fn3_fn3-sample39    39.6   7.4e-11   1   1.0   0.0    -
+emit_fn3_fn3-sample12    38.9   1.2e-10   1   1.0   0.2    -
+emit_fn3_fn3-sample19    37.6     3e-10   1   1.0   0.5    -
+emit_fn3_fn3-sample3     36.6   6.1e-10   1   1.0   0.1    -
+emit_fn3_fn3-sample34    35.6   1.2e-09   1   1.0   0.2    -
+emit_fn3_fn3-sample17    35.5   1.4e-09   1   1.0   0.2    -
+emit_fn3_fn3-sample23    34.8   2.3e-09   1   1.1   0.1    -
+emit_fn3_fn3-sample18    34.5   2.9e-09   1   1.0   0.1    -
+emit_fn3_fn3-sample9     33.8   4.7e-09   1   1.0   0.3    -
+emit_fn3_fn3-sample24    33.8   4.7e-09   1   1.1   0.5    -
+emit_fn3_fn3-sample20    32.4   1.3e-08   1   1.1   0.0    -
+emit_fn3_fn3-sample29    31.9   1.8e-08   1   1.1   0.0    -
+emit_fn3_fn3-sample7     31.5   2.4e-08   1   1.0   0.0    -
+emit_fn3_fn3-sample14    31.0   3.5e-08   1   1.1   0.0    -
+emit_fn3_fn3-sample40    30.9   3.7e-08   1   1.1   0.1    -
+emit_fn3_fn3-sample25    30.3   5.8e-08   1   1.1   0.0    -
+emit_fn3_fn3-sample22    29.1   1.4e-07   1   1.1   0.1    -
+emit_fn3_fn3-sample2     29.0   1.4e-07   1   1.1   0.0    -
+emit_fn3_fn3-sample1     28.8   1.7e-07   1   1.0   0.2    -
+emit_fn3_fn3-sample13    28.4   2.3e-07   1   1.0   0.3    -
+emit_fn3_fn3-sample35    28.3   2.5e-07   1   1.2   0.0    -
+emit_fn3_fn3-sample10    24.3   4.4e-06   1   1.1   0.0    -
+emit_fn3_fn3-sample38    22.1   2.1e-05   1   1.2   0.0    -
+emit_fn3_fn3-sample26    21.4   3.6e-05   1   1.0   0.0    -
+emit_fn3_fn3-sample36    20.5   6.6e-05   1   1.0   0.0    -
+emit_fn3_fn3-sample11    17.0   0.00084   1   1.1   0.0    -
+
+# Domain scores
+# -------------
+#
+#  name                  bits   E-value   hit  bias env-st env-en ali-st ali-en hmm-st hmm-en     description
+#  ------------------- ------ --------- ----- ----- ------ ------ ------ ------ ------ ------      ---------------------
+emit_fn3_fn3-sample31    55.1   1.1e-15     1   0.1      1     87      1     87      1     85     -
+emit_fn3_fn3-sample28    53.7     3e-15     1   0.2      1     87      1     84      1     82     -
+emit_fn3_fn3-sample5     52.6   6.3e-15     1   0.4      1     85      2     83      2     82     -
+emit_fn3_fn3-sample33    52.6   6.4e-15     1   0.0      1     82      1     80      1     80     -
+emit_fn3_fn3-sample6     52.3   7.7e-15     1   0.1      1     85      1     85      1     85     -
+emit_fn3_fn3-sample15    49.0   8.3e-14     1   0.3      1     83      2     79      2     79     -
+emit_fn3_fn3-sample32    47.0   3.6e-13     1   0.2      1     83      2     78      2     79     -
+emit_fn3_fn3-sample16    46.9   3.8e-13     1   0.1      1     78      2     75      2     79     -
+7LESS_DROME              46.2   6.4e-13     7   0.9   1800   1891   1800   1888      1     82     P13368 RecName: Full=Protein sevenless;          EC=2.7.10.1;
+emit_fn3_fn3-sample4     44.5   2.2e-12     1   0.1      1     75      3     74      4     79     -
+emit_fn3_fn3-sample30    43.0   6.2e-12     1   0.1      2     82      8     81      7     82     -
+emit_fn3_fn3-sample37    42.7     8e-12     1   0.0      4     77      9     72     10     76     -
+7LESS_DROME              41.9   1.4e-11     2   0.0    439    521    440    520      2     83     P13368 RecName: Full=Protein sevenless;          EC=2.7.10.1;
+emit_fn3_fn3-sample21    40.9   2.9e-11     1   0.0      1     79      2     78      2     84     -
+emit_fn3_fn3-sample8     40.6   3.5e-11     1   0.0      1     90      3     85      3     80     -
+emit_fn3_fn3-sample39    39.5     8e-11     1   0.0      1     84      4     84      4     85     -
+emit_fn3_fn3-sample12    38.9   1.2e-10     1   0.2      1     85      7     83      7     83     -
+emit_fn3_fn3-sample19    37.5   3.3e-10     1   0.5      2     86     12     85     12     84     -
+emit_fn3_fn3-sample3     36.5   6.5e-10     1   0.1      1     87      2     84      2     82     -
+emit_fn3_fn3-sample34    35.5   1.3e-09     1   0.2      1     81      1     78      1     79     -
+emit_fn3_fn3-sample17    35.3   1.6e-09     1   0.2      2     82      8     81      8     84     -
+emit_fn3_fn3-sample23    34.6   2.7e-09     1   0.1      2     77     10     74     10     76     -
+emit_fn3_fn3-sample18    34.4   3.1e-09     1   0.1      1     81      1     77      1     79     -
+emit_fn3_fn3-sample9     33.7     5e-09     1   0.3      1     85      4     84      4     81     -
+emit_fn3_fn3-sample24    33.5   5.7e-09     1   0.5      1     84      2     77      2     74     -
+emit_fn3_fn3-sample20    32.3   1.4e-08     1   0.0      1     89     21     83     18     79     -
+emit_fn3_fn3-sample29    31.7   2.1e-08     1   0.0      4     87     20     85     23     83     -
+emit_fn3_fn3-sample7     31.4   2.6e-08     1   0.0      1     82      2     81      2     84     -
+emit_fn3_fn3-sample40    30.8   4.1e-08     1   0.1      3     76     13     76     16     85     -
+emit_fn3_fn3-sample14    30.8   4.1e-08     1   0.0      1     87      2     82      2     79     -
+emit_fn3_fn3-sample25    30.1   6.7e-08     1   0.0      4     84      9     81      8     79     -
+emit_fn3_fn3-sample22    29.0   1.4e-07     1   0.1      1     89     15     89     16     85     -
+emit_fn3_fn3-sample2     28.9   1.6e-07     1   0.0      1     88      5     81      5     75     -
+emit_fn3_fn3-sample1     28.6   1.9e-07     1   0.2      1     80      2     74      2     78     -
+emit_fn3_fn3-sample13    28.3   2.4e-07     1   0.3      1     79      2     76      2     79     -
+emit_fn3_fn3-sample35    28.0   3.1e-07     1   0.0      1     74      2     69      2     75     -
+emit_fn3_fn3-sample10    24.1   5.1e-06     1   0.0      2     76      9     74      9     79     -
+7LESS_DROME              22.1   2.1e-05     5   0.0   1305   1384   1313   1380     13     79     P13368 RecName: Full=Protein sevenless;          EC=2.7.10.1;
+emit_fn3_fn3-sample38    21.7   2.7e-05     1   0.0      1     83      3     81      3     81     -
+emit_fn3_fn3-sample26    21.2   4.1e-05     1   0.0      5     80     10     77     10     79     -
+7LESS_DROME              21.0   4.6e-05     8   0.0   1901   1977   1904   1967      5     74     P13368 RecName: Full=Protein sevenless;          EC=2.7.10.1;
+emit_fn3_fn3-sample36    20.4   7.4e-05     1   0.0      1     82      2     77      2     79     -
+emit_fn3_fn3-sample11    16.9   0.00087     1   0.0      1     80      6     78      6     78     -
+7LESS_DROME              15.1    0.0032     3   0.0    827    914    838    913     14     84     P13368 RecName: Full=Protein sevenless;          EC=2.7.10.1;
+7LESS_DROME               8.9      0.27     9   0.0   1994   2107   1994   2107      1     85     P13368 RecName: Full=Protein sevenless;          EC=2.7.10.1;
+7LESS_DROME               4.6       6.1     4   0.0   1203   1251   1206   1236      6     36     P13368 RecName: Full=Protein sevenless;          EC=2.7.10.1;
+7LESS_DROME               0.4   1.2e+02     6   0.0   1742   1769   1754   1769     57     72     P13368 RecName: Full=Protein sevenless;          EC=2.7.10.1;
+7LESS_DROME              -1.9   6.5e+02     1   0.0    395    410    396    408     60     72     P13368 RecName: Full=Protein sevenless;          EC=2.7.10.1;
+# Sequence scores
+# ---------------
+#
+# name                           bits   E-value   n   exp  bias    description
+#          ------------------- ------ --------- --- ----- -----    ---------------------
+emit_Pkinase_Pkinase-sample30   130.3   1.2e-38   1   1.0   0.9    -
+7LESS_DROME                     129.5   2.1e-38   1   1.3   0.0    P13368 RecName: Full=Protein sevenless;          EC=2.7.10.1;
+emit_Pkinase_Pkinase-sample11   124.1   9.6e-37   1   1.0   0.0    -
+emit_Pkinase_Pkinase-sample8    121.9   4.4e-36   1   1.0   0.0    -
+emit_Pkinase_Pkinase-sample31   119.0   3.4e-35   1   1.0   0.2    -
+emit_Pkinase_Pkinase-sample28   118.2   6.1e-35   1   1.0   0.1    -
+emit_Pkinase_Pkinase-sample35   116.7   1.7e-34   1   1.0   0.0    -
+emit_Pkinase_Pkinase-sample38   113.4   1.7e-33   1   1.0   0.3    -
+emit_Pkinase_Pkinase-sample21   111.5   6.7e-33   1   1.0   0.8    -
+emit_Pkinase_Pkinase-sample34   111.5   6.9e-33   1   1.1   0.1    -
+emit_Pkinase_Pkinase-sample16   109.5   2.7e-32   1   1.0   0.1    -
+emit_Pkinase_Pkinase-sample39   108.8   4.5e-32   1   1.0   0.2    -
+emit_Pkinase_Pkinase-sample12   108.6   5.2e-32   1   1.0   0.5    -
+emit_Pkinase_Pkinase-sample13   106.6     2e-31   1   1.0   0.1    -
+emit_Pkinase_Pkinase-sample5    106.5   2.3e-31   1   1.1   0.6    -
+emit_Pkinase_Pkinase-sample37   103.5   1.9e-30   1   1.0   0.0    -
+emit_Pkinase_Pkinase-sample23   103.3   2.1e-30   1   1.0   0.4    -
+emit_Pkinase_Pkinase-sample4    102.9   2.8e-30   1   1.0   0.0    -
+emit_Pkinase_Pkinase-sample40   102.8     3e-30   1   1.0   0.1    -
+emit_Pkinase_Pkinase-sample18   100.3   1.7e-29   1   1.0   0.1    -
+emit_Pkinase_Pkinase-sample27    98.3   6.9e-29   1   1.0   1.5    -
+emit_Pkinase_Pkinase-sample2     97.6   1.1e-28   1   1.0   0.0    -
+emit_Pkinase_Pkinase-sample7     96.3   2.9e-28   1   1.0   0.0    -
+emit_Pkinase_Pkinase-sample14    96.1   3.3e-28   1   1.0   0.5    -
+emit_Pkinase_Pkinase-sample9     95.7   4.4e-28   1   1.1   0.0    -
+emit_Pkinase_Pkinase-sample1     95.6   4.8e-28   1   1.0   0.0    -
+emit_Pkinase_Pkinase-sample26    94.9   7.5e-28   1   1.0   0.8    -
+emit_Pkinase_Pkinase-sample22    93.3   2.4e-27   1   1.0   0.3    -
+emit_Pkinase_Pkinase-sample15    90.7   1.5e-26   1   1.0   1.4    -
+emit_Pkinase_Pkinase-sample33    88.7   6.2e-26   1   1.0   0.0    -
+emit_Pkinase_Pkinase-sample32    86.7   2.4e-25   1   1.0   0.1    -
+emit_Pkinase_Pkinase-sample29    85.2     7e-25   1   1.0   0.4    -
+emit_Pkinase_Pkinase-sample10    84.2   1.4e-24   1   1.0   0.1    -
+emit_Pkinase_Pkinase-sample19    82.4     5e-24   1   1.0   0.2    -
+emit_Pkinase_Pkinase-sample24    79.6   3.7e-23   1   1.0   0.1    -
+emit_Pkinase_Pkinase-sample3     79.6   3.7e-23   1   1.4   0.0    -
+emit_Pkinase_Pkinase-sample17    71.0   1.5e-20   1   1.1   1.4    -
+emit_Pkinase_Pkinase-sample20    68.7   7.9e-20   1   1.0   0.0    -
+emit_Pkinase_Pkinase-sample25    66.9   2.6e-19   1   1.3   2.7    -
+emit_Pkinase_Pkinase-sample36    59.6   4.6e-17   1   1.5   0.0    -
+emit_Pkinase_Pkinase-sample6     58.6   9.5e-17   1   1.4   0.4    -
+
+# Domain scores
+# -------------
+#
+#  name                          bits   E-value   hit  bias env-st env-en ali-st ali-en hmm-st hmm-en     description
+#          ------------------- ------ --------- ----- ----- ------ ------ ------ ------ ------ ------      ---------------------
+emit_Pkinase_Pkinase-sample30   130.0   1.5e-38     1   0.9      1    259      3    259      3    258     -
+7LESS_DROME                     128.8   3.5e-38     1   0.0   2209   2481   2211   2478      3    254     P13368 RecName: Full=Protein sevenless;          EC=2.7.10.1;
+emit_Pkinase_Pkinase-sample11   123.8   1.2e-36     1   0.0      2    261      3    261      3    259     -
+emit_Pkinase_Pkinase-sample8    121.8   4.9e-36     1   0.0      1    262      4    258      4    255     -
+emit_Pkinase_Pkinase-sample31   118.9   3.8e-35     1   0.2      1    264      1    264      1    259     -
+emit_Pkinase_Pkinase-sample28   118.0   6.8e-35     1   0.1      1    268      1    268      1    259     -
+emit_Pkinase_Pkinase-sample35   116.5   1.9e-34     1   0.0      1    265      9    246     12    249     -
+emit_Pkinase_Pkinase-sample38   113.4   1.8e-33     1   0.3      1    254      5    215      5    212     -
+emit_Pkinase_Pkinase-sample21   111.3   7.5e-33     1   0.8      1    263      2    263      2    259     -
+emit_Pkinase_Pkinase-sample34   111.0   9.3e-33     1   0.1      2    268      4    262      4    253     -
+emit_Pkinase_Pkinase-sample16   109.3   3.2e-32     1   0.1     42    274     58    274     46    259     -
+emit_Pkinase_Pkinase-sample39   108.4   5.8e-32     1   0.2      2    272      5    267      6    240     -
+emit_Pkinase_Pkinase-sample12   108.4     6e-32     1   0.5      2    271      6    270      6    258     -
+emit_Pkinase_Pkinase-sample13   106.5   2.3e-31     1   0.1      1    282      4    279      4    256     -
+emit_Pkinase_Pkinase-sample5    106.2   2.7e-31     1   0.6      5    269     13    223     12    216     -
+emit_Pkinase_Pkinase-sample37   103.2   2.2e-30     1   0.0      1    261      3    254      3    245     -
+emit_Pkinase_Pkinase-sample23   103.1   2.5e-30     1   0.4      1    265      2    264      2    258     -
+emit_Pkinase_Pkinase-sample4    102.7   3.2e-30     1   0.0      1    264      2    253      2    246     -
+emit_Pkinase_Pkinase-sample40   102.5   3.6e-30     1   0.1      1    262      6    256      6    251     -
+emit_Pkinase_Pkinase-sample18   100.1   1.9e-29     1   0.1      3    264      5    264      3    259     -
+emit_Pkinase_Pkinase-sample27    98.2   7.6e-29     1   1.5      1    279      1    272      1    252     -
+emit_Pkinase_Pkinase-sample2     97.4   1.3e-28     1   0.0      2    265      5    263      5    257     -
+emit_Pkinase_Pkinase-sample7     96.2   3.2e-28     1   0.0      1    259      5    259      5    259     -
+emit_Pkinase_Pkinase-sample14    96.0   3.6e-28     1   0.5      1    272      6    272      6    259     -
+emit_Pkinase_Pkinase-sample9     95.6   4.7e-28     1   0.0      1    303      7    288      7    247     -
+emit_Pkinase_Pkinase-sample1     95.4   5.3e-28     1   0.0      1    266      1    266      1    259     -
+emit_Pkinase_Pkinase-sample26    94.8   8.4e-28     1   0.8      1    277      1    276      1    258     -
+emit_Pkinase_Pkinase-sample22    93.1   2.7e-27     1   0.3      1    265      4    265      4    259     -
+emit_Pkinase_Pkinase-sample15    90.5   1.7e-26     1   1.4      1    275      3    275      3    259     -
+emit_Pkinase_Pkinase-sample33    88.4   7.3e-26     1   0.0      1    255      3    248      3    247     -
+emit_Pkinase_Pkinase-sample32    86.5   2.8e-25     1   0.1      7    260     11    258      8    257     -
+emit_Pkinase_Pkinase-sample29    85.0   8.4e-25     1   0.4      2    262      5    261      5    258     -
+emit_Pkinase_Pkinase-sample10    83.8   1.8e-24     1   0.1      2    246      5    228      5    223     -
+emit_Pkinase_Pkinase-sample19    82.1     6e-24     1   0.2      1    258      3    258      3    258     -
+emit_Pkinase_Pkinase-sample24    79.3   4.5e-23     1   0.1      1    294      4    292      6    256     -
+emit_Pkinase_Pkinase-sample3     78.7   6.7e-23     1   0.0      1    248      1    248      1    259     -
+emit_Pkinase_Pkinase-sample17    70.8   1.7e-20     1   1.4      1    279      2    278      2    258     -
+emit_Pkinase_Pkinase-sample20    68.5   8.8e-20     1   0.0      1    267      3    267      3    259     -
+emit_Pkinase_Pkinase-sample25    66.3   4.1e-19     1   2.7      3    283      6    271      8    249     -
+emit_Pkinase_Pkinase-sample36    58.5     1e-16     1   0.0      3    326      6    326      6    259     -
+emit_Pkinase_Pkinase-sample6     57.6   1.9e-16     1   0.4      1    276      4    271      4    249     -
+# Sequence scores
+# ---------------
+#
+# name                       bits   E-value   n   exp  bias    description
+#      ------------------- ------ --------- --- ----- -----    ---------------------
+emit_RRM_1_RRM_1-sample30    57.3   1.7e-16   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample18    56.8   2.3e-16   1   1.0   0.2    -
+emit_RRM_1_RRM_1-sample35    54.3   1.4e-15   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample39    54.1   1.7e-15   1   1.0   0.1    -
+emit_RRM_1_RRM_1-sample33    53.5   2.5e-15   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample14    52.0   7.4e-15   1   1.0   0.1    -
+emit_RRM_1_RRM_1-sample7     51.1   1.4e-14   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample36    50.2   2.8e-14   1   1.0   0.1    -
+emit_RRM_1_RRM_1-sample19    49.5   4.3e-14   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample21    48.5   9.4e-14   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample20    48.4     1e-13   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample1     47.2   2.3e-13   1   1.0   0.1    -
+emit_RRM_1_RRM_1-sample27    46.5   3.9e-13   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample2     44.9   1.2e-12   1   1.0   0.1    -
+emit_RRM_1_RRM_1-sample34    44.6   1.5e-12   1   1.0   0.1    -
+emit_RRM_1_RRM_1-sample38    44.1   2.2e-12   1   1.0   0.1    -
+emit_RRM_1_RRM_1-sample24    43.7   2.9e-12   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample5     43.1   4.4e-12   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample32    41.2   1.7e-11   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample12    41.0     2e-11   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample4     40.4   3.1e-11   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample15    39.3   6.8e-11   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample17    39.3   6.8e-11   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample13    39.0   8.4e-11   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample6     37.5   2.5e-10   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample26    37.0   3.5e-10   1   1.1   0.0    -
+emit_RRM_1_RRM_1-sample3     36.7   4.3e-10   1   1.0   0.1    -
+emit_RRM_1_RRM_1-sample22    35.2   1.3e-09   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample8     34.0   3.1e-09   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample9     33.8   3.5e-09   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample29    33.2   5.3e-09   1   1.1   0.0    -
+emit_RRM_1_RRM_1-sample23    33.2   5.4e-09   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample28    31.7   1.6e-08   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample11    30.2   4.6e-08   1   1.1   0.0    -
+emit_RRM_1_RRM_1-sample16    28.0   2.3e-07   1   1.3   0.1    -
+emit_RRM_1_RRM_1-sample37    25.7   1.2e-06   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample25    24.2   3.5e-06   1   1.0   0.0    -
+emit_RRM_1_RRM_1-sample40    21.8     2e-05   1   1.1   0.0    -
+emit_RRM_1_RRM_1-sample10    20.8     4e-05   1   1.1   0.2    -
+emit_RRM_1_RRM_1-sample31    20.3   5.8e-05   1   1.2   0.0    -
+
+# Domain scores
+# -------------
+#
+#  name                      bits   E-value   hit  bias env-st env-en ali-st ali-en hmm-st hmm-en     description
+#      ------------------- ------ --------- ----- ----- ------ ------ ------ ------ ------ ------      ---------------------
+emit_RRM_1_RRM_1-sample30    57.2   1.7e-16     1   0.0      1     73      1     69      1     67     -
+emit_RRM_1_RRM_1-sample18    56.7   2.5e-16     1   0.2      1     72      1     72      1     71     -
+emit_RRM_1_RRM_1-sample35    54.2   1.5e-15     1   0.0      1     70      1     68      1     69     -
+emit_RRM_1_RRM_1-sample39    54.0   1.8e-15     1   0.1      1     72      1     71      1     70     -
+emit_RRM_1_RRM_1-sample33    53.4   2.7e-15     1   0.0      1     72      2     72      2     71     -
+emit_RRM_1_RRM_1-sample14    51.9   7.9e-15     1   0.1      1     69      2     67      2     69     -
+emit_RRM_1_RRM_1-sample7     51.0   1.6e-14     1   0.0      1     72      1     72      1     71     -
+emit_RRM_1_RRM_1-sample36    50.1     3e-14     1   0.1      1     71      1     70      1     70     -
+emit_RRM_1_RRM_1-sample19    49.4   4.6e-14     1   0.0      1     68      1     56      1     57     -
+emit_RRM_1_RRM_1-sample21    48.3     1e-13     1   0.0      1     71      1     71      1     71     -
+emit_RRM_1_RRM_1-sample20    48.2   1.2e-13     1   0.0      1     69      1     68      1     69     -
+emit_RRM_1_RRM_1-sample1     47.1   2.5e-13     1   0.1      1     71      1     71      1     71     -
+emit_RRM_1_RRM_1-sample27    46.4   4.1e-13     1   0.0      1     71      2     70      2     70     -
+emit_RRM_1_RRM_1-sample2     44.8   1.3e-12     1   0.1      1     71      1     68      1     68     -
+emit_RRM_1_RRM_1-sample34    44.4   1.7e-12     1   0.1      1     69      1     68      1     68     -
+emit_RRM_1_RRM_1-sample38    44.0   2.3e-12     1   0.1      1     70      2     69      2     70     -
+emit_RRM_1_RRM_1-sample24    43.6     3e-12     1   0.0      1     71      1     68      1     68     -
+emit_RRM_1_RRM_1-sample5     43.1   4.5e-12     1   0.0      1     71      3     68      3     68     -
+emit_RRM_1_RRM_1-sample32    41.1   1.8e-11     1   0.0      1     69      1     66      1     68     -
+emit_RRM_1_RRM_1-sample12    40.8   2.3e-11     1   0.0      1     69      1     69      1     70     -
+emit_RRM_1_RRM_1-sample4     40.3   3.4e-11     1   0.0      1     66      1     63      1     68     -
+emit_RRM_1_RRM_1-sample15    39.2   7.3e-11     1   0.0      1     70      2     70      2     71     -
+emit_RRM_1_RRM_1-sample17    39.2   7.5e-11     1   0.0      2     72      3     72      3     71     -
+emit_RRM_1_RRM_1-sample13    38.9   9.1e-11     1   0.0      1     70      1     70      1     71     -
+emit_RRM_1_RRM_1-sample6     37.3   2.8e-10     1   0.0      1     67      1     67      1     71     -
+emit_RRM_1_RRM_1-sample26    36.8   4.1e-10     1   0.0      1     74      1     74      1     71     -
+emit_RRM_1_RRM_1-sample3     36.7   4.4e-10     1   0.1      1     69      1     64      1     66     -
+emit_RRM_1_RRM_1-sample22    35.0   1.5e-09     1   0.0      1     71      1     71      2     71     -
+emit_RRM_1_RRM_1-sample8     33.8   3.5e-09     1   0.0      1     64      1     57      1     62     -
+emit_RRM_1_RRM_1-sample9     33.7   3.7e-09     1   0.0      2     74      7     73      6     70     -
+emit_RRM_1_RRM_1-sample23    33.1   5.9e-09     1   0.0      1     68      1     65      1     68     -
+emit_RRM_1_RRM_1-sample29    33.1     6e-09     1   0.0      1     71      1     63      1     62     -
+emit_RRM_1_RRM_1-sample28    31.6   1.7e-08     1   0.0      1     64      1     62      1     69     -
+emit_RRM_1_RRM_1-sample11    30.0   5.5e-08     1   0.0      3     65     13     63     11     63     -
+emit_RRM_1_RRM_1-sample16    27.6     3e-07     1   0.1      1     69      7     65      7     67     -
+emit_RRM_1_RRM_1-sample37    25.5   1.4e-06     1   0.0      2     73      2     71      2     69     -
+emit_RRM_1_RRM_1-sample25    24.0     4e-06     1   0.0      1     68      1     66      1     68     -
+emit_RRM_1_RRM_1-sample40    21.7   2.1e-05     1   0.0      1     66      1     60      1     66     -
+emit_RRM_1_RRM_1-sample10    20.6   4.6e-05     1   0.2      1     73     10     71      7     68     -
+emit_RRM_1_RRM_1-sample31    20.3   5.8e-05     1   0.0      2     71     27     69     28     69     -
+# Sequence scores
+# ---------------
+#
+# name                     bits   E-value   n   exp  bias    description
+#    ------------------- ------ --------- --- ----- -----    ---------------------
+emit_LuxC_LuxC-sample6    217.4   4.7e-65   1   1.0   0.1    -
+emit_LuxC_LuxC-sample12   204.2   4.8e-61   1   1.0   0.6    -
+emit_LuxC_LuxC-sample33   189.9   1.1e-56   1   1.0   1.6    -
+emit_LuxC_LuxC-sample7    186.4   1.2e-55   1   1.0   0.0    -
+emit_LuxC_LuxC-sample20   182.9   1.4e-54   1   1.0   0.0    -
+emit_LuxC_LuxC-sample23   181.7   3.1e-54   1   1.0   1.8    -
+emit_LuxC_LuxC-sample28   181.5   3.7e-54   1   1.0   0.2    -
+emit_LuxC_LuxC-sample38   179.9   1.1e-53   1   1.0   0.0    -
+emit_LuxC_LuxC-sample36   179.5   1.5e-53   1   1.0   1.0    -
+emit_LuxC_LuxC-sample2    179.4   1.6e-53   1   1.0   0.0    -
+emit_LuxC_LuxC-sample1    167.8   5.3e-50   1   1.0   0.0    -
+emit_LuxC_LuxC-sample11   167.4   6.9e-50   1   1.0   0.3    -
+emit_LuxC_LuxC-sample40   165.8   2.1e-49   1   1.0   0.0    -
+emit_LuxC_LuxC-sample24   165.0   3.8e-49   1   1.0   2.0    -
+emit_LuxC_LuxC-sample30   163.3   1.3e-48   1   1.0   0.1    -
+emit_LuxC_LuxC-sample3    162.0     3e-48   1   1.0   0.0    -
+emit_LuxC_LuxC-sample9    161.2   5.5e-48   1   1.0   0.5    -
+emit_LuxC_LuxC-sample27   160.9   6.7e-48   1   1.0   0.1    -
+emit_LuxC_LuxC-sample37   160.3     1e-47   1   1.0   0.1    -
+emit_LuxC_LuxC-sample5    159.5   1.8e-47   1   1.0   0.6    -
+emit_LuxC_LuxC-sample32   156.4   1.6e-46   1   1.0   0.1    -
+emit_LuxC_LuxC-sample22   155.8   2.4e-46   1   1.0   0.1    -
+emit_LuxC_LuxC-sample17   145.1   4.2e-43   1   1.7   0.7    -
+emit_LuxC_LuxC-sample8    141.6     5e-42   1   1.0   0.1    -
+emit_LuxC_LuxC-sample19   141.3     6e-42   1   1.0   4.7    -
+emit_LuxC_LuxC-sample26   139.6   1.9e-41   1   1.0   0.1    -
+emit_LuxC_LuxC-sample21   139.4   2.3e-41   1   1.0   0.0    -
+emit_LuxC_LuxC-sample31   139.3   2.5e-41   1   1.0   0.4    -
+emit_LuxC_LuxC-sample35   137.1   1.2e-40   1   1.0   1.2    -
+emit_LuxC_LuxC-sample14   136.7   1.5e-40   1   1.0   0.3    -
+emit_LuxC_LuxC-sample39   135.0     5e-40   1   1.0   0.0    -
+emit_LuxC_LuxC-sample15   133.9     1e-39   1   1.0   0.0    -
+emit_LuxC_LuxC-sample13   132.8   2.3e-39   1   1.0   0.7    -
+emit_LuxC_LuxC-sample29   129.7   1.9e-38   1   1.0   2.7    -
+emit_LuxC_LuxC-sample4    127.2   1.2e-37   1   1.0   0.2    -
+emit_LuxC_LuxC-sample10   126.3   2.1e-37   1   1.0   0.1    -
+emit_LuxC_LuxC-sample16   124.6   7.3e-37   1   1.0   5.0    -
+emit_LuxC_LuxC-sample18   121.7   5.5e-36   1   1.0   0.1    -
+emit_LuxC_LuxC-sample34   120.1   1.6e-35   1   1.0   0.5    -
+emit_LuxC_LuxC-sample25   102.0   5.1e-30   1   1.1   0.2    -
+
+# Domain scores
+# -------------
+#
+#  name                    bits   E-value   hit  bias env-st env-en ali-st ali-en hmm-st hmm-en     description
+#    ------------------- ------ --------- ----- ----- ------ ------ ------ ------ ------ ------      ---------------------
+emit_LuxC_LuxC-sample6    217.1   5.5e-65     1   0.1      6    397     19    395     28    398     -
+emit_LuxC_LuxC-sample12   203.9   5.6e-61     1   0.6      4    412     20    411     16    399     -
+emit_LuxC_LuxC-sample33   189.5   1.4e-56     1   1.6      5    404     10    403      9    398     -
+emit_LuxC_LuxC-sample7    186.0   1.5e-55     1   0.0      6    391     21    390     23    398     -
+emit_LuxC_LuxC-sample20   182.8   1.5e-54     1   0.0      1    412      4    410      4    398     -
+emit_LuxC_LuxC-sample23   181.3   4.2e-54     1   1.8      2    399      7    397      7    395     -
+emit_LuxC_LuxC-sample28   181.3   4.3e-54     1   0.2      4    400     10    399     10    399     -
+emit_LuxC_LuxC-sample38   179.8   1.2e-53     1   0.0      1    403      2    401      2    398     -
+emit_LuxC_LuxC-sample36   179.4   1.6e-53     1   1.0      1    388      3    386      3    398     -
+emit_LuxC_LuxC-sample2    179.3   1.8e-53     1   0.0      1    408      3    405      3    397     -
+emit_LuxC_LuxC-sample1    167.5   6.4e-50     1   0.0     12    408     24    406     20    398     -
+emit_LuxC_LuxC-sample11   167.3   7.6e-50     1   0.3      1    393      5    388      5    395     -
+emit_LuxC_LuxC-sample40   165.7   2.4e-49     1   0.0      1    403      3    398      3    395     -
+emit_LuxC_LuxC-sample24   164.7   4.6e-49     1   2.0      3    392      8    391      8    399     -
+emit_LuxC_LuxC-sample30   163.1   1.4e-48     1   0.1      1    409      3    407      3    398     -
+emit_LuxC_LuxC-sample3    161.6     4e-48     1   0.0     13    399     38    398     34    398     -
+emit_LuxC_LuxC-sample9    161.0   6.2e-48     1   0.5      1    401      3    399      3    398     -
+emit_LuxC_LuxC-sample27   160.6   8.3e-48     1   0.1      1    398      4    395      4    395     -
+emit_LuxC_LuxC-sample37   160.1   1.1e-47     1   0.1      1    417      3    417      3    400     -
+emit_LuxC_LuxC-sample5    159.3   2.1e-47     1   0.6      8    403     17    402     23    399     -
+emit_LuxC_LuxC-sample32   156.1     2e-46     1   0.1      4    401     10    379     10    381     -
+emit_LuxC_LuxC-sample22   155.5     3e-46     1   0.1      3    398     13    397     13    392     -
+emit_LuxC_LuxC-sample17   143.2   1.5e-42     1   0.7      7    409     10    406     10    397     -
+emit_LuxC_LuxC-sample8    141.4   5.7e-42     1   0.1      2    393     27    392     29    399     -
+emit_LuxC_LuxC-sample19   141.1   6.7e-42     1   4.7      1    398      3    395      3    397     -
+emit_LuxC_LuxC-sample26   139.3   2.5e-41     1   0.1      3    385      6    374      6    382     -
+emit_LuxC_LuxC-sample21   139.2   2.7e-41     1   0.0      2    410      4    408      4    398     -
+emit_LuxC_LuxC-sample31   139.1   2.9e-41     1   0.4      3    421     29    420     22    399     -
+emit_LuxC_LuxC-sample35   136.7   1.4e-40     1   1.2      1    409      4    402      4    391     -
+emit_LuxC_LuxC-sample14   136.5   1.7e-40     1   0.3      1    404      4    398      4    394     -
+emit_LuxC_LuxC-sample39   134.8   5.5e-40     1   0.0      1    404      4    403      4    399     -
+emit_LuxC_LuxC-sample15   133.7   1.2e-39     1   0.0      4    403     33    400     36    397     -
+emit_LuxC_LuxC-sample13   132.5   2.9e-39     1   0.7      1    407      2    405      2    397     -
+emit_LuxC_LuxC-sample29   129.5   2.2e-38     1   2.7      3    402     43    398     50    396     -
+emit_LuxC_LuxC-sample4    126.8   1.5e-37     1   0.2      2    387      4    378      4    386     -
+emit_LuxC_LuxC-sample10   126.0   2.6e-37     1   0.1      4    415     41    405     35    384     -
+emit_LuxC_LuxC-sample16   124.4     8e-37     1   5.0      1    397      3    393      3    396     -
+emit_LuxC_LuxC-sample18   121.3   6.9e-36     1   0.1      8    406     26    392     25    386     -
+emit_LuxC_LuxC-sample34   119.7   2.1e-35     1   0.5      6    385     20    383     26    395     -
+emit_LuxC_LuxC-sample25   101.7   6.2e-30     1   0.2      7    424     41    424     32    400     -
+# Sequence scores
+# ---------------
+#
+# name                  bits   E-value   n   exp  bias    description
+# ------------------- ------ --------- --- ----- -----    ---------------------
+
+# Domain scores
+# -------------
+#
+#  name                 bits   E-value   hit  bias env-st env-en ali-st ali-en hmm-st hmm-en     description
+# ------------------- ------ --------- ----- ----- ------ ------ ------ ------ ------ ------      ---------------------
+#
+# Program:         hmmsearch
+# Version:         3.4 (Aug 2023)
+# Pipeline mode:   SEARCH
+# Query file:      fx/minipfam.hmm
+# Target file:     data/protdb.fa
+# Option settings: hmmsearch -o main.out --tblout t.tbl --domtblout t.domtbl --pfamtblout t.pfam --dbcache --cpu 4 fx/minipfam.hmm data/protdb.fa 
+# Current dir:     [normalized]
+# Date:            [normalized]
+# [ok]

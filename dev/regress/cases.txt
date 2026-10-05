@@ -48,6 +48,12 @@ hmmsearch_gz_single   gzip -nc data/protdb.fa > db.fa.gz && hmmsearch --tblout t
 hmmsearch_gz_multi_err gzip -nc data/protdb.fa > db.fa.gz && hmmsearch --tblout t.tbl -o main.out fx/minipfam.hmm db.fa.gz; rc=$?; rm -f db.fa.gz; exit $rc
 hmmsearch_stdin_db    cat data/protdb.fa | hmmsearch --tblout t.tbl -o main.out fx/fn3.hmm -
 hmmsearch_stdin_multi_err cat data/protdb.fa | hmmsearch --tblout t.tbl -o main.out fx/minipfam.hmm -
+# --dbcache (targets read once, kept in memory): same results as without it;
+# multi-query also works on .gz and stdin targets
+hmmsearch_dbcache_tables_cpu4 hmmsearch --dbcache --cpu 4 --tblout t.tbl --domtblout t.domtbl --pfamtblout t.pfam -o main.out fx/minipfam.hmm data/protdb.fa
+hmmsearch_dbcache_restrict_cpu0 cp data/protdb.fa db.fa && esl-sfetch --index db.fa >/dev/null && hmmsearch --dbcache --cpu 0 --restrictdb_stkey shuf_emit_Pkinase_Pkinase-sample37-shuffled-0 --restrictdb_n 1200 --tblout t.tbl -o main.out fx/minipfam.hmm db.fa && rm db.fa db.fa.ssi
+hmmsearch_dbcache_gz_multi gzip -nc data/protdb.fa > db.fa.gz && hmmsearch --dbcache --cpu 2 --tblout t.tbl -o main.out fx/minipfam.hmm db.fa.gz; rc=$?; rm -f db.fa.gz; exit $rc
+hmmsearch_dbcache_stdin_multi cat data/protdb.fa | hmmsearch --dbcache --cpu 0 --tblout t.tbl -o main.out fx/minipfam.hmm -
 
 # ---------- hmmpress / hmmscan ----------
 hmmpress_protdb       cp fx/minipfam.hmm db.hmm && hmmpress db.hmm && rm db.hmm
