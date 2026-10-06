@@ -41,8 +41,13 @@ fi
 configure_and_make() { # <srcdir> <builddir>
   local src=$1 b=$2 stamp
   mkdir -p "$b"; stamp="$b/.snap-cflags"
-  if [[ ! -f "$b/Makefile" || ! -f "$stamp" || "$(cat "$stamp")" != "$CF" ]]; then
-    [[ -f "$src/configure" && ! "$src/configure.ac" -nt "$src/configure" ]] || (cd "$src" && autoconf)
+  [[ -f "$src/configure" && ! "$src/configure.ac" -nt "$src/configure" ]] || (cd "$src" && autoconf)
+  # reconfigure on new flags, and whenever configure changed (new config.h macros, new
+  # objects in Makefile.in: the Makefiles don't track those dependencies themselves)
+  local newer_in=""
+  [[ -f "$b/Makefile" ]] && newer_in=$(find "$src" \( -path "$src/.git" -o -path "$src/build*" -o -path "$src/bench-results" \) -prune \
+                                        -o \( -name Makefile.in -o -name '*config.h.in' \) -newer "$b/Makefile" -print -quit)
+  if [[ ! -f "$b/Makefile" || ! -f "$stamp" || "$(cat "$stamp")" != "$CF" || "$src/configure" -nt "$b/Makefile" || -n "$newer_in" ]]; then
     (cd "$b" && "$src/configure" CFLAGS="$CF" > configure.log 2>&1) || { tail -20 "$b/configure.log" >&2; exit 1; }
     echo "$CF" > "$stamp"
   fi
@@ -72,6 +77,9 @@ else
     if [[ $CFLAGS_SET == 1 && "$CF" != "-O3" ]]; then BUILD="$ROOT/build${tag}"; else BUILD="${HMMER_BUILD_DIR:-$ROOT/build-dev}"; fi
   fi
   if [[ -f "$BUILD/Makefile" && $CFLAGS_SET == 0 ]]; then
+    [[ ! "$SRC/configure.ac" -nt "$BUILD/Makefile" && -z "$(find "$SRC" \( -path "$SRC/.git" -o -path "$SRC/build*" -o -path "$SRC/bench-results" \) -prune \
+         -o \( -name Makefile.in -o -name '*config.h.in' \) -newer "$BUILD/Makefile" -print -quit)" ]] \
+      || { echo "$BUILD is configured from older configure.ac/Makefile.in files: rebuild it first (dev/check.sh)" >&2; exit 1; }
     make -C "$BUILD" -j"$(nproc)" >/dev/null || { echo "build failed in $BUILD" >&2; exit 1; }
     CF=$(sed -n 's/^CFLAGS *= *//p' "$BUILD/src/Makefile")
   else
@@ -79,8 +87,13 @@ else
   fi
   if [[ -z "$NAME" ]]; then
     NAME=$(git -C "$SRC" rev-parse --short=8 HEAD)
-    if [[ -n "$(git -C "$SRC" status --porcelain --untracked-files=no)" || -n "$(git -C "$SRC/easel" status --porcelain --untracked-files=no 2>/dev/null)" ]]; then
-      NAME="$NAME-dirty-$( { git -C "$SRC" diff HEAD; git -C "$SRC/easel" diff HEAD 2>/dev/null; } | sha256sum | cut -c1-8)"
+    # dirty = tracked changes or new (untracked, not ignored) files; both go into the name's hash
+    if [[ -n "$(git -C "$SRC" status --porcelain)" || -n "$(git -C "$SRC/easel" status --porcelain 2>/dev/null)" ]]; then
+      NAME="$NAME-dirty-$( { git -C "$SRC" diff HEAD; git -C "$SRC/easel" diff HEAD 2>/dev/null
+                             for d in "$SRC" "$SRC/easel"; do
+                               git -C "$d" ls-files -z --others --exclude-standard 2>/dev/null | sort -z |
+                                 while IFS= read -r -d '' f; do echo "new file $f"; cat "$d/$f"; done
+                             done; } | sha256sum | cut -c1-8)"
     fi
     NAME="$NAME$tag"
   fi

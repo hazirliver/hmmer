@@ -131,6 +131,8 @@
 /* Optional processor specific support
  */
 #undef HAVE_FLUSH_ZERO_MODE
+#undef p7_ENABLE_AVX2           /* AVX2 integer filter kernels, chosen at run time (impl_sse/simd.c)      */
+#undef p7_ENABLE_AVX512         /* AVX-512BW integer filter kernels, chosen at run time (impl_sse/simd.c) */
 
 #endif /*P7_CONFIGH_INCLUDED*/
 

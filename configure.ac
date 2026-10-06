@@ -202,6 +202,8 @@ AC_ARG_ENABLE(fortify, [AS_HELP_STRING([--enable-fortify=x],[compile with -D_FOR
 AC_ARG_ENABLE(neon,    [AS_HELP_STRING([--enable-neon],    [enable our ARM Neon vector code])],          enable_neon=$enableval,    enable_neon=check)
 AC_ARG_ENABLE(sse,     [AS_HELP_STRING([--enable-sse],     [enable our SSE vector code])],               enable_sse=$enableval,     enable_sse=check)
 AC_ARG_ENABLE(vmx,     [AS_HELP_STRING([--enable-vmx],     [enable our Altivec/VMX vector code])],       enable_vmx=$enableval,     enable_vmx=check)
+AC_ARG_ENABLE(avx2,    [AS_HELP_STRING([--disable-avx2],   [no AVX2 filter kernels (SSE builds only; chosen at run time)])],     enable_avx2=$enableval,   enable_avx2=check)
+AC_ARG_ENABLE(avx512,  [AS_HELP_STRING([--disable-avx512], [no AVX-512BW filter kernels (SSE builds only; chosen at run time)])], enable_avx512=$enableval, enable_avx512=check)
 
 AC_ARG_ENABLE(threads, [AS_HELP_STRING([--enable-threads], [enable POSIX threads parallelization])],     enable_threads=$enableval, enable_threads=check)
 AC_ARG_ENABLE(mpi,     [AS_HELP_STRING([--enable-mpi],     [enable MPI parallelization])],               enable_mpi=$enableval,     enable_mpi=no)
@@ -445,6 +447,52 @@ AC_SUBST(IMPL_CHOICE)
 AC_SUBST(SSE4_CFLAGS)
 AC_SUBST(AVX_CFLAGS)
 AC_SUBST(AVX512_CFLAGS)
+
+
+# AVX2 and AVX-512BW versions of the integer filters (SSV, MSV, Viterbi
+# filter) on top of the SSE implementation. Only the files that hold
+# those kernels are compiled with the wider instruction set
+# (P7_AVX2_CFLAGS, P7_AVX512_CFLAGS); the program checks the CPU at run
+# time and uses them only where it supports them (src/impl_sse/simd.c).
+P7_AVX2_CFLAGS=
+P7_AVX512_CFLAGS=
+if test "$impl_choice" = "sse"; then
+  if test "$enable_avx2" != "no"; then
+    AC_MSG_CHECKING([whether $CC compiles AVX2 code with -mavx2])
+    esl_save_cflags="$CFLAGS"
+    CFLAGS="$CFLAGS -mavx2"
+    AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <immintrin.h>]],
+                   [[__m256i v = _mm256_subs_epi8(_mm256_set1_epi8(3), _mm256_set1_epi8(1));
+                     v = _mm256_alignr_epi8(v, _mm256_permute2x128_si256(v, v, 0x08), 15);
+                     return _mm256_movemask_epi8(v) + __builtin_cpu_supports("avx2");]])],
+      [ AC_MSG_RESULT([yes]); enable_avx2=yes; P7_AVX2_CFLAGS="-mavx2" ],
+      [ AC_MSG_RESULT([no])
+        if test "$enable_avx2" = "yes"; then AC_MSG_FAILURE([Unable to compile AVX2 code with -mavx2]); fi
+        enable_avx2=no ])
+    CFLAGS="$esl_save_cflags"
+  fi
+  if test "$enable_avx512" != "no"; then
+    AC_MSG_CHECKING([whether $CC compiles AVX-512BW code with -mavx512f -mavx512bw])
+    esl_save_cflags="$CFLAGS"
+    CFLAGS="$CFLAGS -mavx512f -mavx512bw"
+    AC_LINK_IFELSE([AC_LANG_PROGRAM([[#include <immintrin.h>]],
+                   [[__m512i v = _mm512_subs_epi8(_mm512_set1_epi8(3), _mm512_set1_epi8(1));
+                     v = _mm512_alignr_epi8(v, _mm512_alignr_epi64(v, _mm512_setzero_si512(), 6), 15);
+                     return (int) _mm512_cmpeq_epi8_mask(v, v) + __builtin_cpu_supports("avx512bw");]])],
+      [ AC_MSG_RESULT([yes]); enable_avx512=yes; P7_AVX512_CFLAGS="-mavx512f -mavx512bw" ],
+      [ AC_MSG_RESULT([no])
+        if test "$enable_avx512" = "yes"; then AC_MSG_FAILURE([Unable to compile AVX-512BW code with -mavx512f -mavx512bw]); fi
+        enable_avx512=no ])
+    CFLAGS="$esl_save_cflags"
+  fi
+else
+  enable_avx2=no
+  enable_avx512=no
+fi
+AS_IF([test "$enable_avx2"   = "yes"], [AC_DEFINE(p7_ENABLE_AVX2,   1, [AVX2 filter kernels compiled in])])
+AS_IF([test "$enable_avx512" = "yes"], [AC_DEFINE(p7_ENABLE_AVX512, 1, [AVX-512BW filter kernels compiled in])])
+AC_SUBST(P7_AVX2_CFLAGS)
+AC_SUBST(P7_AVX512_CFLAGS)
 
 
 # For x86 processors check if the flush to zero macro is available
@@ -784,7 +832,8 @@ HMMER configuration:
    host:                 $host
    linker:               ${LDFLAGS}
    libraries:            ${LIBS} ${LIBGSL} ${PTHREAD_LIBS}
-   DP implementation:    ${impl_choice}"
+   DP implementation:    ${impl_choice}
+   AVX2 / AVX-512BW builds:  ${enable_avx2} / ${enable_avx512} (wide filter kernels chosen at run time; HMMER_SIMD=sse forces SSE)"
 
 
 if test x"$HAVE_PYTHON3" = x"yes"; then echo "

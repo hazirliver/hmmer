@@ -15,6 +15,7 @@ CFLAGS         = @CFLAGS@
 PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
 PIC_CFLAGS     = @PIC_CFLAGS@
 SSE_CFLAGS     = @SSE_CFLAGS@
+P7_AVX2_CFLAGS = @P7_AVX2_CFLAGS@
 CPPFLAGS       = @CPPFLAGS@
 LDFLAGS        = @LDFLAGS@
 DEFS           = @DEFS@
@@ -44,6 +45,7 @@ OBJS =  decoding.o\
 	vitfilter.o\
 	p7_omx.o\
 	p7_oprofile.o\
+	simd.o\
 	mpi.o
 
 HDRS =  impl_sse.h
@@ -55,6 +57,7 @@ UTESTS = @MPI_UTESTS@\
 	msvfilter_utest\
 	null2_utest\
 	optacc_utest\
+	simd_utest\
 	stotrace_utest\
 	vitfilter_utest
 

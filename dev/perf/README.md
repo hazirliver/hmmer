@@ -30,6 +30,7 @@ dev/perf/snap.sh --cflags "-O3 ..."    # any flags; --name NAME overrides the sn
 - `--perf` means `CFLAGS="-O3 -falign-functions=64"`. **Use it on both sides of a step's A/B.**
   - In a default build, editing one file shifts every later function in the link by a few bytes. That changes the cache-line alignment of the SSE kernels and moves cycles by 1-3% on workloads that never run the edited code.
   - Measured on step 1.1: W5 (`--max`, bias filter not called) was 1.1-1.6% "slower" with an identical instruction count. With both sides aligned it was within noise.
+- The working-tree builds reconfigure when `configure.ac`, a `Makefile.in` or a `*config.h.in` is newer than the build's Makefile (HMMER's Makefiles don't regenerate themselves), and a snapshot's `-dirty-` hash covers new untracked files too.
 - `--rev` builds a commit in a temporary `git worktree`, with the Easel commit that the commit's own `dev/easel.ref` pins (a detached worktree of the `easel/` checkout, fetched from the ref's url if missing). It needs no stashing, and neither working tree is touched.
 - Without `--rev`, it builds the working tree so the binaries match the source.
 - Copies `hmmsearch` and the other search programs to `bench-results/bins/<name>/`, together with an `info.txt` (git sha, branch, Easel sha, flags, binary hash).
@@ -73,6 +74,8 @@ Data comes from the bench dataset (`dev/bench.sh prepare`). Fixtures such as the
 Options: `--workloads REGEX`, `--reps`, `--warmup`, `--check-only` (one untimed run each, outputs only), `--no-perf`, `--keep`, `--label`.
 
 **B-only options.** `--b-args="--dbcache"` (use the `=` form) adds options to B's command line only, for example to compare a new opt-in feature against the old default. The option's own traces (its header echo line and its token in a table's `# Option settings:` line) are masked before comparing, so everything else must still be identical.
+
+**Per-side environment.** `--a-env VAR=VALUE` and `--b-env VAR=VALUE` (repeatable) set environment variables for one side's runs. With the same binary on both sides, `--a-env HMMER_SIMD=sse` compares the SSE filter kernels with the default (widest) ones, with no code-layout difference between A and B. `HMMER_SIMD` and `HMMER_NCPU` are otherwise removed from the runs' environment.
 
 ## Measured noise (A/A, same binary on both sides)
 

@@ -114,12 +114,14 @@ def perf_ok():
         return False
 
 
-def run_once(binary, args, cwd, use_perf, timeout, extra=""):
+def run_once(binary, args, cwd, use_perf, timeout, extra="", extra_env=None):
     """Run `hmmsearch args` (argv[0] = 'hmmsearch', so outputs don't embed the path)."""
     bindir = os.path.join(cwd, ".bin")
     os.makedirs(bindir); os.symlink(binary, os.path.join(bindir, "hmmsearch"))
     env = dict(os.environ, PATH=bindir + os.pathsep + os.environ["PATH"], LC_ALL="C", TZ="UTC")
     env.pop("HMMER_NCPU", None)
+    env.pop("HMMER_SIMD", None)
+    env.update(extra_env or {})
     cmd = ["hmmsearch"] + extra.split() + args.split()
     if use_perf:
         cmd = ["perf", "stat", "-x,", "-o", os.path.join(cwd, ".perf"), "-e", ",".join(EVENTS), "--"] + cmd
@@ -263,7 +265,16 @@ def main():
     ap.add_argument("--fail-on-slowdown", action="store_true")
     ap.add_argument("--list", action="store_true", help="list workloads and exit")
     ap.add_argument("--b-args", default="", help="extra options for B only (e.g. --dbcache); their echo in output headers is masked")
+    ap.add_argument("--a-env", action="append", default=[], metavar="VAR=VALUE",
+                    help="environment variable for A's runs only, e.g. HMMER_SIMD=sse (repeatable)")
+    ap.add_argument("--b-env", action="append", default=[], metavar="VAR=VALUE", help="same for B")
     a = ap.parse_args()
+    env_of = {}
+    for v, lst in (("A", a.a_env), ("B", a.b_env)):
+        env_of[v] = {}
+        for kv in lst:
+            if "=" not in kv: die(f"--{v.lower()}-env {kv}: expected VAR=VALUE")
+            k, val = kv.split("=", 1); env_of[v][k] = val
 
     for opt in a.b_args.split():
         # the option's token in a table's "# Option settings:" line, and its header echo line
@@ -293,11 +304,11 @@ def main():
     work = os.path.join(RESULTS, "work", tag)
     os.makedirs(work, exist_ok=True)
     load = os.getloadavg()[0]
-    print(BLD(f"A: {da.get('name')}  {A}"))
-    print(BLD(f"B: {db.get('name')}  {B}") + (f"  + {a.b_args}" if a.b_args else ""))
+    print(BLD(f"A: {da.get('name')}  {A}") + "".join(f"  {k}={v}" for k, v in env_of["A"].items()))
+    print(BLD(f"B: {db.get('name')}  {B}") + (f"  + {a.b_args}" if a.b_args else "") + "".join(f"  {k}={v}" for k, v in env_of["B"].items()))
     print(f"set={a.set} workloads={len(wls)} reps={a.reps} warmup={a.warmup} perf={'yes' if use_perf else 'no'} ncpu={ncpu}")
     if load > 1.0: print(YEL(f"WARNING: load average {load:.1f} > 1; timings will be noisy"))
-    if A == B or da.get("hmmsearch") and da.get("hmmsearch") == db.get("hmmsearch"):
+    if (A == B or da.get("hmmsearch") and da.get("hmmsearch") == db.get("hmmsearch")) and env_of["A"] == env_of["B"]:
         print(DIM("(A and B are the same binary: this is an A/A noise run)"))
 
     results, failed, slower = [], False, False
@@ -313,7 +324,7 @@ def main():
                 cwd = os.path.join(work, w["name"], f"{v}{i}")
                 os.makedirs(cwd)
                 r = run_once(A if v == "A" else B, args, cwd, use_perf and i >= a.warmup, a.timeout,
-                             a.b_args if v == "B" else "")
+                             a.b_args if v == "B" else "", env_of[v])
                 h = hash_run(cwd)
                 if r.get("rc") != 0:
                     problems.append(f"{v} run {i}: exit {r.get('rc')}"); failed = True
@@ -381,7 +392,7 @@ def main():
 
     os.makedirs(RESULTS, exist_ok=True)
     out = os.path.join(RESULTS, tag + ".json")
-    json.dump(dict(date=stamp, A=da, B=db, b_args=a.b_args, set=a.set, reps=a.reps, warmup=a.warmup, perf=use_perf,
+    json.dump(dict(date=stamp, A=da, B=db, b_args=a.b_args, a_env=env_of["A"], b_env=env_of["B"], set=a.set, reps=a.reps, warmup=a.warmup, perf=use_perf,
                    load_avg=load, machine=dict(ncpu=ncpu, host=os.uname().nodename), workloads=results),
               open(out, "w"), indent=1)
     if not any(os.scandir(work)) or (not a.keep and not failed):

@@ -320,6 +320,11 @@ extern int p7_oprofile_Position(P7_HMMFILE *hfp, off_t offset);
 extern P7_OM_BLOCK *p7_oprofile_CreateBlock(int size);
 extern void p7_oprofile_DestroyBlock(P7_OM_BLOCK *block);
 
+/* simd.c */
+enum p7_simd_e { p7_SIMD_SSE = 0, p7_SIMD_AVX2 = 1 };
+extern int         p7_simd_Level(void);
+extern const char *p7_simd_Name(int level);
+
 /* ssvfilter.c */
 extern int p7_SSVFilter    (const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, float *ret_sc);
 
@@ -372,6 +377,9 @@ impl_Init(void)
    */
   _MM_SET_DENORMALS_ZERO_MODE(_MM_DENORMALS_ZERO_ON);
 #endif
+
+  /* Choose the filters' vector width now, so a bad HMMER_SIMD fails at startup. */
+  (void) p7_simd_Level();
 }
 #endif /* P7_IMPL_SSE_INCLUDED */
 

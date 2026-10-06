@@ -18,7 +18,7 @@ WORK="$BUILD/regress-work"
 JOBS="${JOBS:-$(nproc 2>/dev/null || echo 4)}"
 
 DO_SETUP=1 DO_BUILD=1 DO_CHECK=1 DO_REGRESS=1 UPDATE=0 SQCLEVEL=2 CLEAN=0 FILTER=""
-BENCH_TIER="" BENCH_ARGS=() FORCE_OPT=""
+BENCH_TIER="" BENCH_ARGS=() FORCE_OPT="" SIMD=""
 
 usage() {
   cat <<EOF
@@ -32,6 +32,9 @@ Usage: dev/check.sh [options]
   --force-opt OPT    regression with every hmmsearch run given OPT (e.g. --dbcache): outputs
                      must equal the goldens once OPT's own echo lines are masked; cases listed
                      in dev/regress/force-opt.expected-diff are skipped for that OPT
+  --simd LEVEL       regression with HMMER_SIMD=LEVEL (sse, avx2): every program runs the
+                     integer filters on that vector width; outputs must equal the goldens
+                     (without --simd, programs use the widest width the CPU has)
   --full             'make check' at sqc level 3 (adds valgrind tests; needs valgrind)
   --clean            wipe the build dir and rebuild from scratch
   --bench [S|M|L]    also run the speed benchmark tier (default S; ~5 min / ~30 min / hours)
@@ -52,6 +55,7 @@ while [[ $# -gt 0 ]]; do
     --update-golden) UPDATE=1 ;;
     --cases)         FILTER="$2"; shift ;;
     --force-opt)     FORCE_OPT="$2"; DO_BUILD=0; DO_CHECK=0; shift ;;
+    --simd)          SIMD="$2"; DO_BUILD=0; DO_CHECK=0; shift ;;
     --full)          SQCLEVEL=3 ;;
     --clean)         CLEAN=1 ;;
     --bench)         BENCH_TIER=S; if [[ "${2:-}" =~ ^[SML]$ ]]; then BENCH_TIER=$2; shift; fi ;;
@@ -111,7 +115,11 @@ build() {
   if [[ $CLEAN == 1 && -d "$BUILD" ]]; then chmod -R u+w "$BUILD"; rm -rf "$BUILD"; fi
   mkdir -p "$BUILD"
   local stamp="$BUILD/.configure-args" args="${CONFIGURE_FLAGS:-} CFLAGS=${CFLAGS:-}"
-  if [[ ! -f "$BUILD/Makefile" || ! -f "$stamp" || "$(cat "$stamp")" != "$args" || "$ROOT/configure" -nt "$BUILD/Makefile" ]]; then
+  # also reconfigure when a Makefile.in or config.h.in changed: the Makefiles don't regenerate themselves
+  local newer_in=""
+  [[ -f "$BUILD/Makefile" ]] && newer_in=$(find "$ROOT" \( -path "$ROOT/.git" -o -path "$ROOT/build*" -o -path "$ROOT/bench-results" \) -prune \
+                                            -o \( -name Makefile.in -o -name '*config.h.in' \) -newer "$BUILD/Makefile" -print -quit)
+  if [[ ! -f "$BUILD/Makefile" || ! -f "$stamp" || "$(cat "$stamp")" != "$args" || "$ROOT/configure" -nt "$BUILD/Makefile" || -n "$newer_in" ]]; then
     echo "configuring: ${CONFIGURE_FLAGS:-<default>}"
     (cd "$BUILD" && "$ROOT/configure" ${CONFIGURE_FLAGS:-} ${CFLAGS:+CFLAGS="$CFLAGS"} > configure.log 2>&1) \
       || { tail -30 "$BUILD/configure.log"; record build FAIL "configure failed (see $BUILD/configure.log)"; return 1; }
@@ -204,7 +212,8 @@ regress() {
     mapfile -t skip < <(awk -v o="$FORCE_OPT" '$1==o {print $2}' "$REG/force-opt.expected-diff" 2>/dev/null)
     echo "forcing '$FORCE_OPT' on every hmmsearch; expected to differ (skipped): ${skip[*]:-none}"
   fi
-  unset HMMER_NCPU
+  unset HMMER_NCPU HMMER_SIMD
+  if [[ -n "$SIMD" ]]; then export HMMER_SIMD="$SIMD"; echo "HMMER_SIMD=$SIMD for every program"; fi
   export LC_ALL=C TZ=UTC
 
   # fixtures (serial)
@@ -244,8 +253,8 @@ regress() {
   echo "ran ${#names[@]} cases in $((SECONDS - t0))s"
   chmod -R u+w "$WORK"   # inputs were read-only only while cases ran
 
-  if [[ $UPDATE == 1 && -n "$FORCE_OPT" ]]; then
-    record regress FAIL "--update-golden can't be combined with --force-opt"; return 1
+  if [[ $UPDATE == 1 && ( -n "$FORCE_OPT" || -n "$SIMD" ) ]]; then
+    record regress FAIL "--update-golden can't be combined with --force-opt or --simd"; return 1
   fi
   if [[ $UPDATE == 1 ]]; then
     if [[ -n "$FILTER" ]]; then
@@ -286,6 +295,7 @@ regress() {
 
 # --------------------------------------------------------------------------
 cd "$ROOT"
+unset HMMER_SIMD     # make check and the plain regression use each program's default width
 T0=$SECONDS
 STAGE_T0=$SECONDS
 [[ $DO_SETUP == 1 ]] && setup
