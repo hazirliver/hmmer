@@ -1,0 +1,4000 @@
+{
+ "date": "20261006-154046",
+ "machine": "Intel(R) Xeon(R) Platinum 8468",
+ "ncpu": 16,
+ "reps": 3,
+ "warmup": 1,
+ "perf": true,
+ "binaries": [
+  {
+   "label": "upstream",
+   "name": "series-p0",
+   "date": "2026-10-06T15:38:31Z",
+   "src": "f8bebd8 @ /tmp/hmmer-snap.PuAteB",
+   "git_sha": "f8bebd8e9b74f0810626fbb4cdfb66af6f805d6d",
+   "git_branch": "dev",
+   "easel_sha": "07ca83ba9ef0414dba9ce0a9331d465b5eb58f2b",
+   "build_dir": "/tmp/hmmer-snap.PuAteB/build",
+   "cflags": "-O3",
+   "hmmsearch": "b9ee6a01b338b607",
+   "path": "/home/asokolov/Projects/hmmer/bench-results/bins/series-p0/hmmsearch"
+  },
+  {
+   "label": "P1",
+   "name": "series-p1",
+   "date": "2026-10-06T15:38:44Z",
+   "src": "4088a0d @ /tmp/hmmer-snap.ziYULL",
+   "git_sha": "4088a0d546f9edc4cba09c775dadf23e49555921",
+   "git_branch": "dev",
+   "easel_sha": "07ca83ba9ef0414dba9ce0a9331d465b5eb58f2b",
+   "build_dir": "/tmp/hmmer-snap.ziYULL/build",
+   "cflags": "-O3",
+   "hmmsearch": "bd7cd98121ab80a4",
+   "path": "/home/asokolov/Projects/hmmer/bench-results/bins/series-p1/hmmsearch"
+  },
+  {
+   "label": "P2",
+   "name": "series-p2",
+   "date": "2026-10-06T15:38:57Z",
+   "src": "5ad2fde @ /tmp/hmmer-snap.AfdMn2",
+   "git_sha": "5ad2fdec2e9f981fa1965a9a517eba390dc28ff9",
+   "git_branch": "dev",
+   "easel_sha": "07ca83ba9ef0414dba9ce0a9331d465b5eb58f2b",
+   "build_dir": "/tmp/hmmer-snap.AfdMn2/build",
+   "cflags": "-O3",
+   "hmmsearch": "dd23d089c4cd604e",
+   "path": "/home/asokolov/Projects/hmmer/bench-results/bins/series-p2/hmmsearch"
+  },
+  {
+   "label": "P3",
+   "name": "series-p3",
+   "date": "2026-10-06T15:39:10Z",
+   "src": "fa18adc @ /tmp/hmmer-snap.sYjx9o",
+   "git_sha": "fa18adc8febdf483132a1eb3d91a5ef20151b12b",
+   "git_branch": "dev",
+   "easel_sha": "07ca83ba9ef0414dba9ce0a9331d465b5eb58f2b",
+   "build_dir": "/tmp/hmmer-snap.sYjx9o/build",
+   "cflags": "-O3",
+   "hmmsearch": "0bf343742370b099",
+   "path": "/home/asokolov/Projects/hmmer/bench-results/bins/series-p3/hmmsearch"
+  },
+  {
+   "label": "P4",
+   "name": "series-p4",
+   "date": "2026-10-06T15:39:23Z",
+   "src": "4f62b07 @ /tmp/hmmer-snap.1Crfyi",
+   "git_sha": "4f62b07cd58a207457e439104915262f47cf545c",
+   "git_branch": "dev",
+   "easel_sha": "07ca83ba9ef0414dba9ce0a9331d465b5eb58f2b",
+   "build_dir": "/tmp/hmmer-snap.1Crfyi/build",
+   "cflags": "-O3",
+   "hmmsearch": "bbdc1a84eccea40b",
+   "path": "/home/asokolov/Projects/hmmer/bench-results/bins/series-p4/hmmsearch"
+  },
+  {
+   "label": "P5",
+   "name": "series-p5",
+   "date": "2026-10-06T15:39:35Z",
+   "src": "f9dcb6b @ /tmp/hmmer-snap.tHFGoK",
+   "git_sha": "f9dcb6be26d40183d6c2bafb1665f842663b62fd",
+   "git_branch": "dev",
+   "easel_sha": "1a0f3d6eef234825b8e2c6b56149ce629323b5ff",
+   "build_dir": "/tmp/hmmer-snap.tHFGoK/build",
+   "cflags": "-O3",
+   "hmmsearch": "e31934a6ed6b1e2d",
+   "path": "/home/asokolov/Projects/hmmer/bench-results/bins/series-p5/hmmsearch"
+  },
+  {
+   "label": "P6",
+   "name": "series-p6",
+   "date": "2026-10-06T15:40:01Z",
+   "src": "aadf224 @ /tmp/hmmer-snap.oVfU5G",
+   "git_sha": "aadf2247b3c5900d037520568adc083371215fd1",
+   "git_branch": "dev",
+   "easel_sha": "1a0f3d6eef234825b8e2c6b56149ce629323b5ff",
+   "build_dir": "/tmp/hmmer-snap.oVfU5G/build",
+   "cflags": "-O3",
+   "hmmsearch": "115e68f4f7aa3e2c",
+   "path": "/home/asokolov/Projects/hmmer/bench-results/bins/series-p6/hmmsearch"
+  },
+  {
+   "label": "final",
+   "name": "series-p56",
+   "date": "2026-10-06T15:40:27Z",
+   "src": "7d637cb @ /tmp/hmmer-snap.RNV5yx",
+   "git_sha": "7d637cbe2fbe7a00e4795989fcd9a40bee1dc513",
+   "git_branch": "dev",
+   "easel_sha": "2be6bccb1f997d7c49f1d1b811a07547fc7afc5f",
+   "build_dir": "/tmp/hmmer-snap.RNV5yx/build",
+   "cflags": "-O3",
+   "hmmsearch": "b1f6ca44b3d90462",
+   "path": "/home/asokolov/Projects/hmmer/bench-results/bins/series-p56/hmmsearch"
+  }
+ ],
+ "workloads": [
+  {
+   "name": "W1_hitters_10k",
+   "args": "--cpu 0 -o main.out -A ali.sto --tblout t.tbl --domtblout t.dom D/pfam_hitters.hmm D/sprot_10k.fa",
+   "sets": [
+    "cpu"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 0.8628769090282731,
+      "user": 0.83,
+      "sys": 0.02,
+      "maxrss_mb": 12.6484375,
+      "rc": 0,
+      "task_clock": 0.85084,
+      "instructions": 9493623329.0,
+      "cycles": 2868138712.0,
+      "cycles_uk": 2916339146.0
+     },
+     {
+      "wall": 0.872407522983849,
+      "user": 0.85,
+      "sys": 0.01,
+      "maxrss_mb": 12.5859375,
+      "rc": 0,
+      "task_clock": 0.8596699999999999,
+      "instructions": 9493623155.0,
+      "cycles": 2864393673.0,
+      "cycles_uk": 2912631205.0
+     },
+     {
+      "wall": 0.9158346169861034,
+      "user": 0.89,
+      "sys": 0.02,
+      "maxrss_mb": 12.65625,
+      "rc": 0,
+      "task_clock": 0.90335,
+      "instructions": 9493623018.0,
+      "cycles": 2862857691.0,
+      "cycles_uk": 2916279754.0
+     }
+    ],
+    "P1": [
+     {
+      "wall": 0.879866479022894,
+      "user": 0.83,
+      "sys": 0.02,
+      "maxrss_mb": 12.63671875,
+      "rc": 0,
+      "task_clock": 0.84957,
+      "instructions": 9342561198.0,
+      "cycles": 2845642643.0,
+      "cycles_uk": 2898455550.0
+     },
+     {
+      "wall": 0.8683166980044916,
+      "user": 0.84,
+      "sys": 0.02,
+      "maxrss_mb": 12.67578125,
+      "rc": 0,
+      "task_clock": 0.85588,
+      "instructions": 9342561343.0,
+      "cycles": 2818254703.0,
+      "cycles_uk": 2870143242.0
+     },
+     {
+      "wall": 0.9040857459767722,
+      "user": 0.88,
+      "sys": 0.01,
+      "maxrss_mb": 12.66015625,
+      "rc": 0,
+      "task_clock": 0.89115,
+      "instructions": 9342560945.0,
+      "cycles": 2816536166.0,
+      "cycles_uk": 2866882720.0
+     }
+    ],
+    "P2": [
+     {
+      "wall": 0.8530403070035391,
+      "user": 0.82,
+      "sys": 0.02,
+      "maxrss_mb": 12.56640625,
+      "rc": 0,
+      "task_clock": 0.84027,
+      "instructions": 9342453168.0,
+      "cycles": 2817324883.0,
+      "cycles_uk": 2867343125.0
+     },
+     {
+      "wall": 0.8408461379585788,
+      "user": 0.81,
+      "sys": 0.02,
+      "maxrss_mb": 12.67578125,
+      "rc": 0,
+      "task_clock": 0.8286699999999999,
+      "instructions": 9342453235.0,
+      "cycles": 2816576124.0,
+      "cycles_uk": 2869513929.0
+     },
+     {
+      "wall": 0.9041425689938478,
+      "user": 0.88,
+      "sys": 0.01,
+      "maxrss_mb": 12.61328125,
+      "rc": 0,
+      "task_clock": 0.89175,
+      "instructions": 9342452885.0,
+      "cycles": 2817237306.0,
+      "cycles_uk": 2870038572.0
+     }
+    ],
+    "P3": [
+     {
+      "wall": 0.8434572499827482,
+      "user": 0.82,
+      "sys": 0.01,
+      "maxrss_mb": 12.578125,
+      "rc": 0,
+      "task_clock": 0.83123,
+      "instructions": 9341957216.0,
+      "cycles": 2809606822.0,
+      "cycles_uk": 2858832080.0
+     },
+     {
+      "wall": 0.8511670420411974,
+      "user": 0.83,
+      "sys": 0.01,
+      "maxrss_mb": 12.80078125,
+      "rc": 0,
+      "task_clock": 0.83885,
+      "instructions": 9341957360.0,
+      "cycles": 2802060644.0,
+      "cycles_uk": 2847811071.0
+     },
+     {
+      "wall": 0.8898705890169367,
+      "user": 0.87,
+      "sys": 0.01,
+      "maxrss_mb": 12.69140625,
+      "rc": 0,
+      "task_clock": 0.87741,
+      "instructions": 9341957252.0,
+      "cycles": 2808010271.0,
+      "cycles_uk": 2850868861.0
+     }
+    ],
+    "P4": [
+     {
+      "wall": 0.7833419960225001,
+      "user": 0.75,
+      "sys": 0.02,
+      "maxrss_mb": 12.546875,
+      "rc": 0,
+      "task_clock": 0.7702100000000001,
+      "instructions": 8499289306.0,
+      "cycles": 2544984988.0,
+      "cycles_uk": 2593113168.0
+     },
+     {
+      "wall": 0.8083238819963299,
+      "user": 0.78,
+      "sys": 0.02,
+      "maxrss_mb": 12.625,
+      "rc": 0,
+      "task_clock": 0.79575,
+      "instructions": 8499289190.0,
+      "cycles": 2545004991.0,
+      "cycles_uk": 2587908825.0
+     },
+     {
+      "wall": 0.8208803559537046,
+      "user": 0.8,
+      "sys": 0.01,
+      "maxrss_mb": 12.7109375,
+      "rc": 0,
+      "task_clock": 0.80771,
+      "instructions": 8499289140.0,
+      "cycles": 2547731648.0,
+      "cycles_uk": 2593431100.0
+     }
+    ],
+    "P5": [
+     {
+      "wall": 0.7093230299651623,
+      "user": 0.69,
+      "sys": 0.01,
+      "maxrss_mb": 12.828125,
+      "rc": 0,
+      "task_clock": 0.6970700000000001,
+      "instructions": 7520554752.0,
+      "cycles": 2278540551.0,
+      "cycles_uk": 2318674884.0
+     },
+     {
+      "wall": 0.7204820190090686,
+      "user": 0.7,
+      "sys": 0.01,
+      "maxrss_mb": 12.66015625,
+      "rc": 0,
+      "task_clock": 0.70765,
+      "instructions": 7520554698.0,
+      "cycles": 2272076388.0,
+      "cycles_uk": 2307379178.0
+     },
+     {
+      "wall": 0.7320863979985006,
+      "user": 0.71,
+      "sys": 0.01,
+      "maxrss_mb": 12.7890625,
+      "rc": 0,
+      "task_clock": 0.7194400000000001,
+      "instructions": 7520554822.0,
+      "cycles": 2273104959.0,
+      "cycles_uk": 2309845960.0
+     }
+    ],
+    "P6": [
+     {
+      "wall": 0.6601116640376858,
+      "user": 0.63,
+      "sys": 0.01,
+      "maxrss_mb": 12.71484375,
+      "rc": 0,
+      "task_clock": 0.64765,
+      "instructions": 6825004119.0,
+      "cycles": 2141709021.0,
+      "cycles_uk": 2180176918.0
+     },
+     {
+      "wall": 0.6871598279685713,
+      "user": 0.66,
+      "sys": 0.01,
+      "maxrss_mb": 12.78125,
+      "rc": 0,
+      "task_clock": 0.67426,
+      "instructions": 6825003900.0,
+      "cycles": 2140159427.0,
+      "cycles_uk": 2174444547.0
+     },
+     {
+      "wall": 0.7016355589730665,
+      "user": 0.68,
+      "sys": 0.01,
+      "maxrss_mb": 12.5234375,
+      "rc": 0,
+      "task_clock": 0.6890700000000001,
+      "instructions": 6825004133.0,
+      "cycles": 2141667540.0,
+      "cycles_uk": 2179778881.0
+     }
+    ],
+    "final": [
+     {
+      "wall": 0.6345767640159465,
+      "user": 0.61,
+      "sys": 0.01,
+      "maxrss_mb": 12.55078125,
+      "rc": 0,
+      "task_clock": 0.62236,
+      "instructions": 6489540628.0,
+      "cycles": 2091720199.0,
+      "cycles_uk": 2132122953.0
+     },
+     {
+      "wall": 0.7045749030075967,
+      "user": 0.68,
+      "sys": 0.01,
+      "maxrss_mb": 12.65234375,
+      "rc": 0,
+      "task_clock": 0.6921,
+      "instructions": 6489540718.0,
+      "cycles": 2212085383.0,
+      "cycles_uk": 2245481138.0
+     },
+     {
+      "wall": 0.6942850329796784,
+      "user": 0.67,
+      "sys": 0.01,
+      "maxrss_mb": 12.6484375,
+      "rc": 0,
+      "task_clock": 0.68183,
+      "instructions": 6489540720.0,
+      "cycles": 2111231397.0,
+      "cycles_uk": 2148662264.0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "W2_mix_10k",
+   "args": "--cpu 0 -o main.out --tblout t.tbl --domtblout t.dom D/pfam_len_mix.hmm D/sprot_10k.fa",
+   "sets": [
+    "cpu"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 3.400905304995831,
+      "user": 3.31,
+      "sys": 0.08,
+      "maxrss_mb": 44.24609375,
+      "rc": 0,
+      "task_clock": 3.3879200000000003,
+      "instructions": 39823010111.0,
+      "cycles": 10951705320.0,
+      "cycles_uk": 11232900632.0
+     },
+     {
+      "wall": 3.451366727997083,
+      "user": 3.35,
+      "sys": 0.09,
+      "maxrss_mb": 44.20703125,
+      "rc": 0,
+      "task_clock": 3.43825,
+      "instructions": 39823009903.0,
+      "cycles": 10938689744.0,
+      "cycles_uk": 11209097435.0
+     },
+     {
+      "wall": 3.5424665869795717,
+      "user": 3.45,
+      "sys": 0.08,
+      "maxrss_mb": 44.27734375,
+      "rc": 0,
+      "task_clock": 3.5293099999999997,
+      "instructions": 39823009695.0,
+      "cycles": 10955715570.0,
+      "cycles_uk": 11235246083.0
+     }
+    ],
+    "P1": [
+     {
+      "wall": 3.412162920983974,
+      "user": 3.31,
+      "sys": 0.08,
+      "maxrss_mb": 44.1640625,
+      "rc": 0,
+      "task_clock": 3.38731,
+      "instructions": 39281988460.0,
+      "cycles": 10760983282.0,
+      "cycles_uk": 11033117711.0
+     },
+     {
+      "wall": 3.4759897379553877,
+      "user": 3.38,
+      "sys": 0.09,
+      "maxrss_mb": 44.046875,
+      "rc": 0,
+      "task_clock": 3.46289,
+      "instructions": 39281988360.0,
+      "cycles": 10746289395.0,
+      "cycles_uk": 11019466998.0
+     },
+     {
+      "wall": 3.45011928898748,
+      "user": 3.35,
+      "sys": 0.09,
+      "maxrss_mb": 44.03125,
+      "rc": 0,
+      "task_clock": 3.43698,
+      "instructions": 39281988792.0,
+      "cycles": 10746988500.0,
+      "cycles_uk": 11019832763.0
+     }
+    ],
+    "P2": [
+     {
+      "wall": 3.3472281720023602,
+      "user": 3.25,
+      "sys": 0.08,
+      "maxrss_mb": 44.25390625,
+      "rc": 0,
+      "task_clock": 3.33434,
+      "instructions": 39277354406.0,
+      "cycles": 10756559891.0,
+      "cycles_uk": 11029560270.0
+     },
+     {
+      "wall": 3.316338466014713,
+      "user": 3.22,
+      "sys": 0.09,
+      "maxrss_mb": 44.23046875,
+      "rc": 0,
+      "task_clock": 3.3034499999999998,
+      "instructions": 39277354461.0,
+      "cycles": 10747926308.0,
+      "cycles_uk": 11022591726.0
+     },
+     {
+      "wall": 3.4440428190282546,
+      "user": 3.36,
+      "sys": 0.07,
+      "maxrss_mb": 44.30078125,
+      "rc": 0,
+      "task_clock": 3.43087,
+      "instructions": 39277354567.0,
+      "cycles": 10738889901.0,
+      "cycles_uk": 11008146271.0
+     }
+    ],
+    "P3": [
+     {
+      "wall": 3.2907866039895453,
+      "user": 3.23,
+      "sys": 0.05,
+      "maxrss_mb": 32.8515625,
+      "rc": 0,
+      "task_clock": 3.2775700000000003,
+      "instructions": 39276641654.0,
+      "cycles": 10737875771.0,
+      "cycles_uk": 10907384733.0
+     },
+     {
+      "wall": 3.3984355030115694,
+      "user": 3.35,
+      "sys": 0.03,
+      "maxrss_mb": 32.7734375,
+      "rc": 0,
+      "task_clock": 3.3857199999999996,
+      "instructions": 39276641715.0,
+      "cycles": 10720587474.0,
+      "cycles_uk": 10910151664.0
+     },
+     {
+      "wall": 3.3837584070279263,
+      "user": 3.33,
+      "sys": 0.04,
+      "maxrss_mb": 32.85546875,
+      "rc": 0,
+      "task_clock": 3.3708899999999997,
+      "instructions": 39276641821.0,
+      "cycles": 10720041607.0,
+      "cycles_uk": 10893753708.0
+     }
+    ],
+    "P4": [
+     {
+      "wall": 3.287549458036665,
+      "user": 3.23,
+      "sys": 0.04,
+      "maxrss_mb": 33.02734375,
+      "rc": 0,
+      "task_clock": 3.27445,
+      "instructions": 38927636938.0,
+      "cycles": 10566786845.0,
+      "cycles_uk": 10734532852.0
+     },
+     {
+      "wall": 3.26224439998623,
+      "user": 3.2,
+      "sys": 0.05,
+      "maxrss_mb": 33.01171875,
+      "rc": 0,
+      "task_clock": 3.24944,
+      "instructions": 38927636644.0,
+      "cycles": 10573463841.0,
+      "cycles_uk": 10748062556.0
+     },
+     {
+      "wall": 3.2758982270024717,
+      "user": 3.22,
+      "sys": 0.05,
+      "maxrss_mb": 32.94140625,
+      "rc": 0,
+      "task_clock": 3.26235,
+      "instructions": 38927637363.0,
+      "cycles": 10597519495.0,
+      "cycles_uk": 10766356557.0
+     }
+    ],
+    "P5": [
+     {
+      "wall": 2.955925668007694,
+      "user": 2.9,
+      "sys": 0.04,
+      "maxrss_mb": 32.92578125,
+      "rc": 0,
+      "task_clock": 2.9426,
+      "instructions": 35012757307.0,
+      "cycles": 9405584323.0,
+      "cycles_uk": 9548176949.0
+     },
+     {
+      "wall": 2.894711114000529,
+      "user": 2.84,
+      "sys": 0.04,
+      "maxrss_mb": 32.83203125,
+      "rc": 0,
+      "task_clock": 2.88132,
+      "instructions": 35012757524.0,
+      "cycles": 9440120064.0,
+      "cycles_uk": 9579648311.0
+     },
+     {
+      "wall": 2.8624292270396836,
+      "user": 2.81,
+      "sys": 0.04,
+      "maxrss_mb": 32.94140625,
+      "rc": 0,
+      "task_clock": 2.8495100000000004,
+      "instructions": 35012757907.0,
+      "cycles": 9403611825.0,
+      "cycles_uk": 9537065805.0
+     }
+    ],
+    "P6": [
+     {
+      "wall": 2.1103511989931576,
+      "user": 2.06,
+      "sys": 0.03,
+      "maxrss_mb": 33.83203125,
+      "rc": 0,
+      "task_clock": 2.09747,
+      "instructions": 16986683531.0,
+      "cycles": 6649478700.0,
+      "cycles_uk": 6778527638.0
+     },
+     {
+      "wall": 2.0786967870080844,
+      "user": 2.03,
+      "sys": 0.03,
+      "maxrss_mb": 33.82421875,
+      "rc": 0,
+      "task_clock": 2.06632,
+      "instructions": 16986683251.0,
+      "cycles": 6628194918.0,
+      "cycles_uk": 6750785024.0
+     },
+     {
+      "wall": 2.1141468500136398,
+      "user": 2.06,
+      "sys": 0.04,
+      "maxrss_mb": 33.7890625,
+      "rc": 0,
+      "task_clock": 2.1016500000000002,
+      "instructions": 16986684037.0,
+      "cycles": 6640314554.0,
+      "cycles_uk": 6767701683.0
+     }
+    ],
+    "final": [
+     {
+      "wall": 1.9601788930012845,
+      "user": 1.91,
+      "sys": 0.04,
+      "maxrss_mb": 34.01171875,
+      "rc": 0,
+      "task_clock": 1.94752,
+      "instructions": 15644824904.0,
+      "cycles": 6434434685.0,
+      "cycles_uk": 6557809289.0
+     },
+     {
+      "wall": 2.0762964030145667,
+      "user": 2.03,
+      "sys": 0.04,
+      "maxrss_mb": 34.1171875,
+      "rc": 0,
+      "task_clock": 2.0636900000000002,
+      "instructions": 15644825085.0,
+      "cycles": 6453852329.0,
+      "cycles_uk": 6578016729.0
+     },
+     {
+      "wall": 2.061184933001641,
+      "user": 2.02,
+      "sys": 0.03,
+      "maxrss_mb": 34.0234375,
+      "rc": 0,
+      "task_clock": 2.04839,
+      "instructions": 15644824976.0,
+      "cycles": 6447358043.0,
+      "cycles_uk": 6568913712.0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "W3_m200_sprot",
+   "args": "--cpu 0 --noali -o main.out --tblout t.tbl --domtblout t.dom D/kern_M200.hmm D/sprot.fa",
+   "sets": [
+    "cpu"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 4.048454409989063,
+      "user": 3.97,
+      "sys": 0.06,
+      "maxrss_mb": 12.6484375,
+      "rc": 0,
+      "task_clock": 4.03542,
+      "instructions": 42385383072.0,
+      "cycles": 12874678770.0,
+      "cycles_uk": 13118593178.0
+     },
+     {
+      "wall": 4.003012577944901,
+      "user": 3.93,
+      "sys": 0.06,
+      "maxrss_mb": 12.62890625,
+      "rc": 0,
+      "task_clock": 3.9900100000000003,
+      "instructions": 42385383006.0,
+      "cycles": 12943022981.0,
+      "cycles_uk": 13190017990.0
+     },
+     {
+      "wall": 3.8553292169817723,
+      "user": 3.78,
+      "sys": 0.07,
+      "maxrss_mb": 12.5859375,
+      "rc": 0,
+      "task_clock": 3.84255,
+      "instructions": 42385382710.0,
+      "cycles": 12940185206.0,
+      "cycles_uk": 13189565135.0
+     }
+    ],
+    "P1": [
+     {
+      "wall": 3.806002799014095,
+      "user": 3.7,
+      "sys": 0.08,
+      "maxrss_mb": 12.57421875,
+      "rc": 0,
+      "task_clock": 3.78154,
+      "instructions": 40325225447.0,
+      "cycles": 12256480105.0,
+      "cycles_uk": 12500741561.0
+     },
+     {
+      "wall": 3.7945809609955177,
+      "user": 3.7,
+      "sys": 0.08,
+      "maxrss_mb": 12.796875,
+      "rc": 0,
+      "task_clock": 3.78143,
+      "instructions": 40325225486.0,
+      "cycles": 12301547565.0,
+      "cycles_uk": 12543534483.0
+     },
+     {
+      "wall": 3.730139348015655,
+      "user": 3.67,
+      "sys": 0.05,
+      "maxrss_mb": 12.7265625,
+      "rc": 0,
+      "task_clock": 3.7183,
+      "instructions": 40325225430.0,
+      "cycles": 12260494404.0,
+      "cycles_uk": 12505585577.0
+     }
+    ],
+    "P2": [
+     {
+      "wall": 3.785962410038337,
+      "user": 3.71,
+      "sys": 0.07,
+      "maxrss_mb": 12.70703125,
+      "rc": 0,
+      "task_clock": 3.77313,
+      "instructions": 40326319151.0,
+      "cycles": 12403472409.0,
+      "cycles_uk": 12644610508.0
+     },
+     {
+      "wall": 3.8725270929862745,
+      "user": 3.8,
+      "sys": 0.06,
+      "maxrss_mb": 12.69921875,
+      "rc": 0,
+      "task_clock": 3.85962,
+      "instructions": 40326319347.0,
+      "cycles": 12400398950.0,
+      "cycles_uk": 12641526206.0
+     },
+     {
+      "wall": 3.881244596967008,
+      "user": 3.8,
+      "sys": 0.07,
+      "maxrss_mb": 12.6484375,
+      "rc": 0,
+      "task_clock": 3.86823,
+      "instructions": 40326319302.0,
+      "cycles": 12420332900.0,
+      "cycles_uk": 12661248427.0
+     }
+    ],
+    "P3": [
+     {
+      "wall": 3.7567990330280736,
+      "user": 3.68,
+      "sys": 0.06,
+      "maxrss_mb": 12.55859375,
+      "rc": 0,
+      "task_clock": 3.74348,
+      "instructions": 40326874431.0,
+      "cycles": 12189181974.0,
+      "cycles_uk": 12432021851.0
+     },
+     {
+      "wall": 3.723835521028377,
+      "user": 3.65,
+      "sys": 0.06,
+      "maxrss_mb": 12.796875,
+      "rc": 0,
+      "task_clock": 3.71072,
+      "instructions": 40326874432.0,
+      "cycles": 12182239564.0,
+      "cycles_uk": 12426955771.0
+     },
+     {
+      "wall": 3.7225213469937444,
+      "user": 3.64,
+      "sys": 0.07,
+      "maxrss_mb": 12.6171875,
+      "rc": 0,
+      "task_clock": 3.7093499999999997,
+      "instructions": 40326874387.0,
+      "cycles": 12163763562.0,
+      "cycles_uk": 12406452472.0
+     }
+    ],
+    "P4": [
+     {
+      "wall": 3.5158937179949135,
+      "user": 3.44,
+      "sys": 0.06,
+      "maxrss_mb": 12.62890625,
+      "rc": 0,
+      "task_clock": 3.50338,
+      "instructions": 37171902342.0,
+      "cycles": 11280643408.0,
+      "cycles_uk": 11520425810.0
+     },
+     {
+      "wall": 3.5061153460410424,
+      "user": 3.42,
+      "sys": 0.08,
+      "maxrss_mb": 12.60546875,
+      "rc": 0,
+      "task_clock": 3.4931799999999997,
+      "instructions": 37171902317.0,
+      "cycles": 11275055410.0,
+      "cycles_uk": 11515106827.0
+     },
+     {
+      "wall": 3.5333965410245582,
+      "user": 3.45,
+      "sys": 0.07,
+      "maxrss_mb": 12.6484375,
+      "rc": 0,
+      "task_clock": 3.52062,
+      "instructions": 37171902405.0,
+      "cycles": 11281331241.0,
+      "cycles_uk": 11522050675.0
+     }
+    ],
+    "P5": [
+     {
+      "wall": 3.0235839490196668,
+      "user": 2.96,
+      "sys": 0.05,
+      "maxrss_mb": 12.6328125,
+      "rc": 0,
+      "task_clock": 3.0108099999999998,
+      "instructions": 31578034633.0,
+      "cycles": 9626358352.0,
+      "cycles_uk": 9807589641.0
+     },
+     {
+      "wall": 3.005519562982954,
+      "user": 2.95,
+      "sys": 0.04,
+      "maxrss_mb": 12.7734375,
+      "rc": 0,
+      "task_clock": 2.99268,
+      "instructions": 31578034560.0,
+      "cycles": 9658513058.0,
+      "cycles_uk": 9842988051.0
+     },
+     {
+      "wall": 2.987838775967248,
+      "user": 2.93,
+      "sys": 0.05,
+      "maxrss_mb": 12.77734375,
+      "rc": 0,
+      "task_clock": 2.97443,
+      "instructions": 31578034558.0,
+      "cycles": 9641926331.0,
+      "cycles_uk": 9827024287.0
+     }
+    ],
+    "P6": [
+     {
+      "wall": 2.5515464070485905,
+      "user": 2.49,
+      "sys": 0.05,
+      "maxrss_mb": 12.6015625,
+      "rc": 0,
+      "task_clock": 2.53808,
+      "instructions": 25643694096.0,
+      "cycles": 7977714904.0,
+      "cycles_uk": 8151722952.0
+     },
+     {
+      "wall": 2.5237373689888045,
+      "user": 2.46,
+      "sys": 0.05,
+      "maxrss_mb": 12.71875,
+      "rc": 0,
+      "task_clock": 2.51064,
+      "instructions": 25643694179.0,
+      "cycles": 7998105463.0,
+      "cycles_uk": 8174006184.0
+     },
+     {
+      "wall": 2.523858410946559,
+      "user": 2.46,
+      "sys": 0.05,
+      "maxrss_mb": 12.55859375,
+      "rc": 0,
+      "task_clock": 2.51131,
+      "instructions": 25643694145.0,
+      "cycles": 7992368210.0,
+      "cycles_uk": 8169897852.0
+     }
+    ],
+    "final": [
+     {
+      "wall": 2.4937765169888735,
+      "user": 2.44,
+      "sys": 0.05,
+      "maxrss_mb": 12.67578125,
+      "rc": 0,
+      "task_clock": 2.48142,
+      "instructions": 23724074869.0,
+      "cycles": 7719096156.0,
+      "cycles_uk": 7893433387.0
+     },
+     {
+      "wall": 2.4511460280045867,
+      "user": 2.38,
+      "sys": 0.06,
+      "maxrss_mb": 12.63671875,
+      "rc": 0,
+      "task_clock": 2.43827,
+      "instructions": 23724074877.0,
+      "cycles": 7701575242.0,
+      "cycles_uk": 7876306987.0
+     },
+     {
+      "wall": 2.4534268639981747,
+      "user": 2.4,
+      "sys": 0.04,
+      "maxrss_mb": 12.546875,
+      "rc": 0,
+      "task_clock": 2.44093,
+      "instructions": 23724074847.0,
+      "cycles": 7709471692.0,
+      "cycles_uk": 7886384064.0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "W4_med_longseqs",
+   "args": "--cpu 0 -o main.out --domtblout t.dom D/pfam_len_med.hmm D/sprot_long.fa",
+   "sets": [
+    "cpu"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 0.36305850400822237,
+      "user": 0.34,
+      "sys": 0.01,
+      "maxrss_mb": 12.56640625,
+      "rc": 0,
+      "task_clock": 0.35152999999999995,
+      "instructions": 4155705649.0,
+      "cycles": 1110265065.0,
+      "cycles_uk": 1132754145.0
+     },
+     {
+      "wall": 0.35340954398270696,
+      "user": 0.33,
+      "sys": 0.01,
+      "maxrss_mb": 12.6015625,
+      "rc": 0,
+      "task_clock": 0.34113,
+      "instructions": 4155705778.0,
+      "cycles": 1109605027.0,
+      "cycles_uk": 1133031441.0
+     },
+     {
+      "wall": 0.35652634798316285,
+      "user": 0.34,
+      "sys": 0.01,
+      "maxrss_mb": 12.75,
+      "rc": 0,
+      "task_clock": 0.34468,
+      "instructions": 4155705701.0,
+      "cycles": 1114389951.0,
+      "cycles_uk": 1137752642.0
+     }
+    ],
+    "P1": [
+     {
+      "wall": 0.3670699179638177,
+      "user": 0.33,
+      "sys": 0.01,
+      "maxrss_mb": 12.6484375,
+      "rc": 0,
+      "task_clock": 0.33988999999999997,
+      "instructions": 3963437176.0,
+      "cycles": 1077362228.0,
+      "cycles_uk": 1098914577.0
+     },
+     {
+      "wall": 0.34599007898941636,
+      "user": 0.33,
+      "sys": 0.01,
+      "maxrss_mb": 12.671875,
+      "rc": 0,
+      "task_clock": 0.33367,
+      "instructions": 3963437093.0,
+      "cycles": 1068935898.0,
+      "cycles_uk": 1091327030.0
+     },
+     {
+      "wall": 0.3637420610175468,
+      "user": 0.33,
+      "sys": 0.01,
+      "maxrss_mb": 12.68359375,
+      "rc": 0,
+      "task_clock": 0.33482999999999996,
+      "instructions": 3963437117.0,
+      "cycles": 1074969470.0,
+      "cycles_uk": 1097036143.0
+     }
+    ],
+    "P2": [
+     {
+      "wall": 0.3563253130414523,
+      "user": 0.34,
+      "sys": 0.01,
+      "maxrss_mb": 12.58984375,
+      "rc": 0,
+      "task_clock": 0.344,
+      "instructions": 3963102510.0,
+      "cycles": 1084853990.0,
+      "cycles_uk": 1107431386.0
+     },
+     {
+      "wall": 0.3553547270130366,
+      "user": 0.34,
+      "sys": 0.01,
+      "maxrss_mb": 12.703125,
+      "rc": 0,
+      "task_clock": 0.34347000000000005,
+      "instructions": 3963102535.0,
+      "cycles": 1087835523.0,
+      "cycles_uk": 1109908146.0
+     },
+     {
+      "wall": 0.34994369104970247,
+      "user": 0.33,
+      "sys": 0.01,
+      "maxrss_mb": 12.57421875,
+      "rc": 0,
+      "task_clock": 0.3379,
+      "instructions": 3963102787.0,
+      "cycles": 1084565481.0,
+      "cycles_uk": 1106908888.0
+     }
+    ],
+    "P3": [
+     {
+      "wall": 0.34365128399804235,
+      "user": 0.32,
+      "sys": 0.01,
+      "maxrss_mb": 12.65625,
+      "rc": 0,
+      "task_clock": 0.33144999999999997,
+      "instructions": 3962838165.0,
+      "cycles": 1053821900.0,
+      "cycles_uk": 1074467189.0
+     },
+     {
+      "wall": 0.3460828919778578,
+      "user": 0.33,
+      "sys": 0.01,
+      "maxrss_mb": 12.70703125,
+      "rc": 0,
+      "task_clock": 0.33412000000000003,
+      "instructions": 3962838043.0,
+      "cycles": 1059649022.0,
+      "cycles_uk": 1081048656.0
+     },
+     {
+      "wall": 0.34577780996914953,
+      "user": 0.32,
+      "sys": 0.01,
+      "maxrss_mb": 12.47265625,
+      "rc": 0,
+      "task_clock": 0.33343,
+      "instructions": 3962838161.0,
+      "cycles": 1058580505.0,
+      "cycles_uk": 1080735718.0
+     }
+    ],
+    "P4": [
+     {
+      "wall": 0.3439994310028851,
+      "user": 0.33,
+      "sys": 0.01,
+      "maxrss_mb": 12.4921875,
+      "rc": 0,
+      "task_clock": 0.33169,
+      "instructions": 3963210939.0,
+      "cycles": 1058706683.0,
+      "cycles_uk": 1079460044.0
+     },
+     {
+      "wall": 0.3470488669699989,
+      "user": 0.33,
+      "sys": 0.01,
+      "maxrss_mb": 12.609375,
+      "rc": 0,
+      "task_clock": 0.33504,
+      "instructions": 3963210873.0,
+      "cycles": 1060648836.0,
+      "cycles_uk": 1082112072.0
+     },
+     {
+      "wall": 0.34444536903174594,
+      "user": 0.33,
+      "sys": 0.01,
+      "maxrss_mb": 12.765625,
+      "rc": 0,
+      "task_clock": 0.33197000000000004,
+      "instructions": 3963210771.0,
+      "cycles": 1068649460.0,
+      "cycles_uk": 1090704547.0
+     }
+    ],
+    "P5": [
+     {
+      "wall": 0.2720678090117872,
+      "user": 0.26,
+      "sys": 0.01,
+      "maxrss_mb": 12.61328125,
+      "rc": 0,
+      "task_clock": 0.25995,
+      "instructions": 3132356385.0,
+      "cycles": 827474368.0,
+      "cycles_uk": 842626553.0
+     },
+     {
+      "wall": 0.27464680100092664,
+      "user": 0.26,
+      "sys": 0.01,
+      "maxrss_mb": 12.58984375,
+      "rc": 0,
+      "task_clock": 0.26195999999999997,
+      "instructions": 3132356545.0,
+      "cycles": 825710532.0,
+      "cycles_uk": 841019727.0
+     },
+     {
+      "wall": 0.26982715498888865,
+      "user": 0.25,
+      "sys": 0.01,
+      "maxrss_mb": 12.66796875,
+      "rc": 0,
+      "task_clock": 0.2577,
+      "instructions": 3132356352.0,
+      "cycles": 825048925.0,
+      "cycles_uk": 840309554.0
+     }
+    ],
+    "P6": [
+     {
+      "wall": 0.2224304549745284,
+      "user": 0.2,
+      "sys": 0.01,
+      "maxrss_mb": 12.5703125,
+      "rc": 0,
+      "task_clock": 0.21032,
+      "instructions": 2496628496.0,
+      "cycles": 646371383.0,
+      "cycles_uk": 661187763.0
+     },
+     {
+      "wall": 0.22341623401734978,
+      "user": 0.21,
+      "sys": 0.01,
+      "maxrss_mb": 12.62890625,
+      "rc": 0,
+      "task_clock": 0.21115,
+      "instructions": 2496628566.0,
+      "cycles": 645262325.0,
+      "cycles_uk": 659831442.0
+     },
+     {
+      "wall": 0.21979051601374522,
+      "user": 0.21,
+      "sys": 0.0,
+      "maxrss_mb": 12.6171875,
+      "rc": 0,
+      "task_clock": 0.20805,
+      "instructions": 2496628639.0,
+      "cycles": 645828400.0,
+      "cycles_uk": 660432687.0
+     }
+    ],
+    "final": [
+     {
+      "wall": 0.20357910601887852,
+      "user": 0.19,
+      "sys": 0.0,
+      "maxrss_mb": 12.5859375,
+      "rc": 0,
+      "task_clock": 0.19213999999999998,
+      "instructions": 2086882296.0,
+      "cycles": 587937601.0,
+      "cycles_uk": 602731036.0
+     },
+     {
+      "wall": 0.20992850296897814,
+      "user": 0.18,
+      "sys": 0.01,
+      "maxrss_mb": 12.7890625,
+      "rc": 0,
+      "task_clock": 0.19562000000000002,
+      "instructions": 2086882264.0,
+      "cycles": 590575992.0,
+      "cycles_uk": 605723874.0
+     },
+     {
+      "wall": 0.2039557810057886,
+      "user": 0.18,
+      "sys": 0.01,
+      "maxrss_mb": 12.5859375,
+      "rc": 0,
+      "task_clock": 0.19216999999999998,
+      "instructions": 2086882224.0,
+      "cycles": 589479218.0,
+      "cycles_uk": 604563436.0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "W5_med_1k_max",
+   "args": "--cpu 0 --max -o main.out --domtblout t.dom D/pfam_len_med.hmm D/sprot_1k.fa",
+   "sets": [
+    "cpu"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 3.562009493005462,
+      "user": 3.54,
+      "sys": 0.01,
+      "maxrss_mb": 12.671875,
+      "rc": 0,
+      "task_clock": 3.54917,
+      "instructions": 35214124418.0,
+      "cycles": 11767378445.0,
+      "cycles_uk": 11821313448.0
+     },
+     {
+      "wall": 3.590379749017302,
+      "user": 3.57,
+      "sys": 0.01,
+      "maxrss_mb": 12.5703125,
+      "rc": 0,
+      "task_clock": 3.5773099999999998,
+      "instructions": 35214124531.0,
+      "cycles": 11839412713.0,
+      "cycles_uk": 11892032750.0
+     },
+     {
+      "wall": 3.5850183319998905,
+      "user": 3.56,
+      "sys": 0.02,
+      "maxrss_mb": 12.5078125,
+      "rc": 0,
+      "task_clock": 3.57054,
+      "instructions": 35214124660.0,
+      "cycles": 11843962996.0,
+      "cycles_uk": 11898285190.0
+     }
+    ],
+    "P1": [
+     {
+      "wall": 3.6357686409610324,
+      "user": 3.6,
+      "sys": 0.01,
+      "maxrss_mb": 12.6796875,
+      "rc": 0,
+      "task_clock": 3.60771,
+      "instructions": 35214124473.0,
+      "cycles": 11913311638.0,
+      "cycles_uk": 11965425593.0
+     },
+     {
+      "wall": 3.635861446033232,
+      "user": 3.62,
+      "sys": 0.01,
+      "maxrss_mb": 12.69921875,
+      "rc": 0,
+      "task_clock": 3.62283,
+      "instructions": 35214124494.0,
+      "cycles": 11980678280.0,
+      "cycles_uk": 12035322726.0
+     },
+     {
+      "wall": 3.5735110929817893,
+      "user": 3.55,
+      "sys": 0.01,
+      "maxrss_mb": 12.69140625,
+      "rc": 0,
+      "task_clock": 3.5608299999999997,
+      "instructions": 35214124562.0,
+      "cycles": 11901135070.0,
+      "cycles_uk": 11952812927.0
+     }
+    ],
+    "P2": [
+     {
+      "wall": 3.621342030004598,
+      "user": 3.6,
+      "sys": 0.01,
+      "maxrss_mb": 12.7265625,
+      "rc": 0,
+      "task_clock": 3.6079899999999996,
+      "instructions": 35213774793.0,
+      "cycles": 11848046620.0,
+      "cycles_uk": 11899957110.0
+     },
+     {
+      "wall": 3.624139893974643,
+      "user": 3.6,
+      "sys": 0.01,
+      "maxrss_mb": 12.65234375,
+      "rc": 0,
+      "task_clock": 3.61116,
+      "instructions": 35213774720.0,
+      "cycles": 11831779112.0,
+      "cycles_uk": 11884379439.0
+     },
+     {
+      "wall": 3.6110809079837054,
+      "user": 3.59,
+      "sys": 0.01,
+      "maxrss_mb": 12.7578125,
+      "rc": 0,
+      "task_clock": 3.59795,
+      "instructions": 35213774788.0,
+      "cycles": 11773162175.0,
+      "cycles_uk": 11826346063.0
+     }
+    ],
+    "P3": [
+     {
+      "wall": 3.580668638984207,
+      "user": 3.56,
+      "sys": 0.01,
+      "maxrss_mb": 12.6953125,
+      "rc": 0,
+      "task_clock": 3.56786,
+      "instructions": 35212927247.0,
+      "cycles": 11757127660.0,
+      "cycles_uk": 11799556638.0
+     },
+     {
+      "wall": 3.536648762994446,
+      "user": 3.52,
+      "sys": 0.0,
+      "maxrss_mb": 12.61328125,
+      "rc": 0,
+      "task_clock": 3.52392,
+      "instructions": 35212927769.0,
+      "cycles": 11811930837.0,
+      "cycles_uk": 11854123905.0
+     },
+     {
+      "wall": 3.6082675640354864,
+      "user": 3.59,
+      "sys": 0.0,
+      "maxrss_mb": 12.67578125,
+      "rc": 0,
+      "task_clock": 3.5954200000000003,
+      "instructions": 35212927281.0,
+      "cycles": 11759042281.0,
+      "cycles_uk": 11802526007.0
+     }
+    ],
+    "P4": [
+     {
+      "wall": 3.06073861499317,
+      "user": 3.04,
+      "sys": 0.01,
+      "maxrss_mb": 12.5703125,
+      "rc": 0,
+      "task_clock": 3.0467,
+      "instructions": 29454373414.0,
+      "cycles": 10108246942.0,
+      "cycles_uk": 10147853169.0
+     },
+     {
+      "wall": 3.0649975489941426,
+      "user": 3.04,
+      "sys": 0.01,
+      "maxrss_mb": 12.65625,
+      "rc": 0,
+      "task_clock": 3.05175,
+      "instructions": 29454373399.0,
+      "cycles": 10138555155.0,
+      "cycles_uk": 10177500890.0
+     },
+     {
+      "wall": 3.081347126979381,
+      "user": 3.06,
+      "sys": 0.0,
+      "maxrss_mb": 12.61328125,
+      "rc": 0,
+      "task_clock": 3.0686,
+      "instructions": 29454373483.0,
+      "cycles": 10099863044.0,
+      "cycles_uk": 10138887960.0
+     }
+    ],
+    "P5": [
+     {
+      "wall": 3.001151738979388,
+      "user": 2.99,
+      "sys": 0.0,
+      "maxrss_mb": 12.68359375,
+      "rc": 0,
+      "task_clock": 2.98815,
+      "instructions": 29353366213.0,
+      "cycles": 10083886611.0,
+      "cycles_uk": 10120793588.0
+     },
+     {
+      "wall": 3.002224733005278,
+      "user": 2.99,
+      "sys": 0.0,
+      "maxrss_mb": 12.5703125,
+      "rc": 0,
+      "task_clock": 2.98933,
+      "instructions": 29353366262.0,
+      "cycles": 10086450363.0,
+      "cycles_uk": 10123162935.0
+     },
+     {
+      "wall": 3.1563148519489914,
+      "user": 3.14,
+      "sys": 0.01,
+      "maxrss_mb": 12.7890625,
+      "rc": 0,
+      "task_clock": 3.14352,
+      "instructions": 29353366554.0,
+      "cycles": 10349811232.0,
+      "cycles_uk": 10388508701.0
+     }
+    ],
+    "P6": [
+     {
+      "wall": 3.0523568719509058,
+      "user": 3.03,
+      "sys": 0.01,
+      "maxrss_mb": 12.66015625,
+      "rc": 0,
+      "task_clock": 3.0396900000000002,
+      "instructions": 29326304025.0,
+      "cycles": 10066607939.0,
+      "cycles_uk": 10102956752.0
+     },
+     {
+      "wall": 3.0584635509876534,
+      "user": 3.05,
+      "sys": 0.0,
+      "maxrss_mb": 12.578125,
+      "rc": 0,
+      "task_clock": 3.0453699999999997,
+      "instructions": 29326304072.0,
+      "cycles": 10140916985.0,
+      "cycles_uk": 10178952116.0
+     },
+     {
+      "wall": 3.015610556991305,
+      "user": 3.0,
+      "sys": 0.0,
+      "maxrss_mb": 12.66796875,
+      "rc": 0,
+      "task_clock": 3.0026599999999997,
+      "instructions": 29326303975.0,
+      "cycles": 10068479625.0,
+      "cycles_uk": 10105570434.0
+     }
+    ],
+    "final": [
+     {
+      "wall": 2.9906309979851358,
+      "user": 2.97,
+      "sys": 0.0,
+      "maxrss_mb": 12.61328125,
+      "rc": 0,
+      "task_clock": 2.97774,
+      "instructions": 29291076148.0,
+      "cycles": 10069939855.0,
+      "cycles_uk": 10106052822.0
+     },
+     {
+      "wall": 3.0294396209646948,
+      "user": 3.01,
+      "sys": 0.01,
+      "maxrss_mb": 12.703125,
+      "rc": 0,
+      "task_clock": 3.0167800000000002,
+      "instructions": 29291076174.0,
+      "cycles": 10059076436.0,
+      "cycles_uk": 10094918320.0
+     },
+     {
+      "wall": 3.0810397010063753,
+      "user": 3.06,
+      "sys": 0.01,
+      "maxrss_mb": 12.54296875,
+      "rc": 0,
+      "task_clock": 3.0681700000000003,
+      "instructions": 29291076257.0,
+      "cycles": 10075303563.0,
+      "cycles_uk": 10114053672.0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "R1_m50_sprot",
+   "args": "--cpu 0 --noali -o main.out --tblout t.tbl D/kern_M50.hmm D/sprot.fa",
+   "sets": [
+    "reader"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 1.1910161820123903,
+      "user": 1.12,
+      "sys": 0.06,
+      "maxrss_mb": 12.7578125,
+      "rc": 0,
+      "task_clock": 1.1785999999999999,
+      "instructions": 16055330065.0,
+      "cycles": 3886102340.0,
+      "cycles_uk": 4105713074.0
+     },
+     {
+      "wall": 1.236328051018063,
+      "user": 1.16,
+      "sys": 0.06,
+      "maxrss_mb": 12.6875,
+      "rc": 0,
+      "task_clock": 1.22401,
+      "instructions": 16055330019.0,
+      "cycles": 3932812074.0,
+      "cycles_uk": 4147094480.0
+     },
+     {
+      "wall": 1.2616969110094942,
+      "user": 1.18,
+      "sys": 0.07,
+      "maxrss_mb": 12.6640625,
+      "rc": 0,
+      "task_clock": 1.24932,
+      "instructions": 16055330130.0,
+      "cycles": 3882915163.0,
+      "cycles_uk": 4094971271.0
+     }
+    ],
+    "P1": [
+     {
+      "wall": 1.1462823239853606,
+      "user": 1.06,
+      "sys": 0.06,
+      "maxrss_mb": 12.75390625,
+      "rc": 0,
+      "task_clock": 1.11706,
+      "instructions": 15729731927.0,
+      "cycles": 3459694408.0,
+      "cycles_uk": 3667001712.0
+     },
+     {
+      "wall": 1.1030874340212904,
+      "user": 1.04,
+      "sys": 0.05,
+      "maxrss_mb": 12.5078125,
+      "rc": 0,
+      "task_clock": 1.09083,
+      "instructions": 15729731988.0,
+      "cycles": 3474312338.0,
+      "cycles_uk": 3686090224.0
+     },
+     {
+      "wall": 1.1476779019576497,
+      "user": 1.07,
+      "sys": 0.06,
+      "maxrss_mb": 12.6953125,
+      "rc": 0,
+      "task_clock": 1.1348,
+      "instructions": 15729731949.0,
+      "cycles": 3464584239.0,
+      "cycles_uk": 3674620386.0
+     }
+    ],
+    "P2": [
+     {
+      "wall": 1.177254316979088,
+      "user": 1.11,
+      "sys": 0.06,
+      "maxrss_mb": 12.44921875,
+      "rc": 0,
+      "task_clock": 1.1646800000000002,
+      "instructions": 15730867710.0,
+      "cycles": 3578359285.0,
+      "cycles_uk": 3789589759.0
+     },
+     {
+      "wall": 1.0995569379883818,
+      "user": 1.03,
+      "sys": 0.06,
+      "maxrss_mb": 12.75390625,
+      "rc": 0,
+      "task_clock": 1.08776,
+      "instructions": 15730867722.0,
+      "cycles": 3546722224.0,
+      "cycles_uk": 3761471401.0
+     },
+     {
+      "wall": 1.1653049959568307,
+      "user": 1.1,
+      "sys": 0.06,
+      "maxrss_mb": 12.66015625,
+      "rc": 0,
+      "task_clock": 1.15219,
+      "instructions": 15730867709.0,
+      "cycles": 3565688580.0,
+      "cycles_uk": 3776819620.0
+     }
+    ],
+    "P3": [
+     {
+      "wall": 1.1598779360065237,
+      "user": 1.09,
+      "sys": 0.06,
+      "maxrss_mb": 12.74609375,
+      "rc": 0,
+      "task_clock": 1.1474600000000001,
+      "instructions": 15731433516.0,
+      "cycles": 3566714313.0,
+      "cycles_uk": 3776029179.0
+     },
+     {
+      "wall": 1.1289012630004436,
+      "user": 1.06,
+      "sys": 0.05,
+      "maxrss_mb": 12.75,
+      "rc": 0,
+      "task_clock": 1.1162100000000001,
+      "instructions": 15731433490.0,
+      "cycles": 3595544957.0,
+      "cycles_uk": 3809640112.0
+     },
+     {
+      "wall": 1.1428924039937556,
+      "user": 1.09,
+      "sys": 0.04,
+      "maxrss_mb": 12.640625,
+      "rc": 0,
+      "task_clock": 1.13062,
+      "instructions": 15731433514.0,
+      "cycles": 3592899263.0,
+      "cycles_uk": 3808350620.0
+     }
+    ],
+    "P4": [
+     {
+      "wall": 1.187798696977552,
+      "user": 1.12,
+      "sys": 0.06,
+      "maxrss_mb": 12.59375,
+      "rc": 0,
+      "task_clock": 1.17512,
+      "instructions": 15731449147.0,
+      "cycles": 3607148233.0,
+      "cycles_uk": 3817228279.0
+     },
+     {
+      "wall": 1.155507795047015,
+      "user": 1.08,
+      "sys": 0.06,
+      "maxrss_mb": 12.734375,
+      "rc": 0,
+      "task_clock": 1.1431099999999998,
+      "instructions": 15731449103.0,
+      "cycles": 3635220306.0,
+      "cycles_uk": 3848534077.0
+     },
+     {
+      "wall": 1.1545206760056317,
+      "user": 1.08,
+      "sys": 0.07,
+      "maxrss_mb": 12.8125,
+      "rc": 0,
+      "task_clock": 1.14197,
+      "instructions": 15731449059.0,
+      "cycles": 3621581501.0,
+      "cycles_uk": 3833652756.0
+     }
+    ],
+    "P5": [
+     {
+      "wall": 0.7327042180113494,
+      "user": 0.67,
+      "sys": 0.05,
+      "maxrss_mb": 12.80078125,
+      "rc": 0,
+      "task_clock": 0.72009,
+      "instructions": 10137584708.0,
+      "cycles": 2185405941.0,
+      "cycles_uk": 2342240617.0
+     },
+     {
+      "wall": 0.7109292900422588,
+      "user": 0.66,
+      "sys": 0.04,
+      "maxrss_mb": 12.6171875,
+      "rc": 0,
+      "task_clock": 0.69874,
+      "instructions": 10137584698.0,
+      "cycles": 2160719158.0,
+      "cycles_uk": 2321150326.0
+     },
+     {
+      "wall": 0.6955704670399427,
+      "user": 0.64,
+      "sys": 0.05,
+      "maxrss_mb": 12.58203125,
+      "rc": 0,
+      "task_clock": 0.68333,
+      "instructions": 10137584674.0,
+      "cycles": 2164146655.0,
+      "cycles_uk": 2324826512.0
+     }
+    ],
+    "P6": [
+     {
+      "wall": 0.7137671830132604,
+      "user": 0.66,
+      "sys": 0.04,
+      "maxrss_mb": 12.69921875,
+      "rc": 0,
+      "task_clock": 0.7012,
+      "instructions": 9771414170.0,
+      "cycles": 2142306628.0,
+      "cycles_uk": 2299797077.0
+     },
+     {
+      "wall": 0.7237775729736313,
+      "user": 0.66,
+      "sys": 0.05,
+      "maxrss_mb": 12.65234375,
+      "rc": 0,
+      "task_clock": 0.71126,
+      "instructions": 9771414183.0,
+      "cycles": 2146585978.0,
+      "cycles_uk": 2302533799.0
+     },
+     {
+      "wall": 0.6981469899765216,
+      "user": 0.64,
+      "sys": 0.04,
+      "maxrss_mb": 12.62109375,
+      "rc": 0,
+      "task_clock": 0.68574,
+      "instructions": 9771414182.0,
+      "cycles": 2140939170.0,
+      "cycles_uk": 2301048409.0
+     }
+    ],
+    "final": [
+     {
+      "wall": 0.6315421980107203,
+      "user": 0.58,
+      "sys": 0.04,
+      "maxrss_mb": 12.6875,
+      "rc": 0,
+      "task_clock": 0.61898,
+      "instructions": 7851794940.0,
+      "cycles": 1879853792.0,
+      "cycles_uk": 2035634976.0
+     },
+     {
+      "wall": 0.6250270769814961,
+      "user": 0.57,
+      "sys": 0.04,
+      "maxrss_mb": 12.6640625,
+      "rc": 0,
+      "task_clock": 0.6123500000000001,
+      "instructions": 7851794878.0,
+      "cycles": 1871357579.0,
+      "cycles_uk": 2028769997.0
+     },
+     {
+      "wall": 0.6226192779722624,
+      "user": 0.57,
+      "sys": 0.04,
+      "maxrss_mb": 12.84765625,
+      "rc": 0,
+      "task_clock": 0.6104299999999999,
+      "instructions": 7851794926.0,
+      "cycles": 1872554576.0,
+      "cycles_uk": 2029696742.0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "X1_p100_50k_cN",
+   "args": "--cpu 16 -Z 51857 --noali -o main.out --tblout t.tbl D/pfam_100.hmm D/sprot_50k.fa",
+   "sets": [
+    "scale"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 9.516154837969225,
+      "user": 25.78,
+      "sys": 3.24,
+      "maxrss_mb": 171.24609375,
+      "rc": 0,
+      "task_clock": 29.05484,
+      "instructions": 265754851067.0,
+      "cycles": 82004811830.0,
+      "cycles_uk": 87712247506.0
+     },
+     {
+      "wall": 9.414983688038774,
+      "user": 25.53,
+      "sys": 3.48,
+      "maxrss_mb": 167.81640625,
+      "rc": 0,
+      "task_clock": 29.047909999999998,
+      "instructions": 265750546185.0,
+      "cycles": 81331752832.0,
+      "cycles_uk": 86955508829.0
+     },
+     {
+      "wall": 9.46849233697867,
+      "user": 25.59,
+      "sys": 3.6,
+      "maxrss_mb": 171.734375,
+      "rc": 0,
+      "task_clock": 29.22719,
+      "instructions": 265750465685.0,
+      "cycles": 81501094513.0,
+      "cycles_uk": 87101198657.0
+     }
+    ],
+    "P1": [
+     {
+      "wall": 9.220525064971298,
+      "user": 24.9,
+      "sys": 3.48,
+      "maxrss_mb": 167.015625,
+      "rc": 0,
+      "task_clock": 28.42205,
+      "instructions": 259930450021.0,
+      "cycles": 79406179111.0,
+      "cycles_uk": 85034284368.0
+     },
+     {
+      "wall": 9.380520184000488,
+      "user": 25.21,
+      "sys": 3.28,
+      "maxrss_mb": 163.953125,
+      "rc": 0,
+      "task_clock": 28.53837,
+      "instructions": 259930595425.0,
+      "cycles": 80398057913.0,
+      "cycles_uk": 86031665955.0
+     },
+     {
+      "wall": 9.221741468005348,
+      "user": 24.85,
+      "sys": 3.45,
+      "maxrss_mb": 156.41796875,
+      "rc": 0,
+      "task_clock": 28.33937,
+      "instructions": 259930057869.0,
+      "cycles": 79118498270.0,
+      "cycles_uk": 84735014506.0
+     }
+    ],
+    "P2": [
+     {
+      "wall": 9.143223346967716,
+      "user": 24.78,
+      "sys": 3.45,
+      "maxrss_mb": 161.63671875,
+      "rc": 0,
+      "task_clock": 28.27104,
+      "instructions": 259944586228.0,
+      "cycles": 78410805507.0,
+      "cycles_uk": 83917276424.0
+     },
+     {
+      "wall": 9.141774325980805,
+      "user": 24.93,
+      "sys": 3.28,
+      "maxrss_mb": 161.43359375,
+      "rc": 0,
+      "task_clock": 28.243479999999998,
+      "instructions": 259944667667.0,
+      "cycles": 78982422244.0,
+      "cycles_uk": 84591580032.0
+     },
+     {
+      "wall": 9.131081216968596,
+      "user": 24.97,
+      "sys": 3.31,
+      "maxrss_mb": 166.62890625,
+      "rc": 0,
+      "task_clock": 28.32819,
+      "instructions": 259944965103.0,
+      "cycles": 79123795540.0,
+      "cycles_uk": 84754422169.0
+     }
+    ],
+    "P3": [
+     {
+      "wall": 8.624381572008133,
+      "user": 24.4,
+      "sys": 2.96,
+      "maxrss_mb": 201.1796875,
+      "rc": 0,
+      "task_clock": 27.42897,
+      "instructions": 259875329981.0,
+      "cycles": 77820304277.0,
+      "cycles_uk": 82486020355.0
+     },
+     {
+      "wall": 8.725158212007955,
+      "user": 24.76,
+      "sys": 2.77,
+      "maxrss_mb": 193.20703125,
+      "rc": 0,
+      "task_clock": 27.58616,
+      "instructions": 259875198134.0,
+      "cycles": 78105196311.0,
+      "cycles_uk": 82775413011.0
+     },
+     {
+      "wall": 8.652927734015975,
+      "user": 24.25,
+      "sys": 2.76,
+      "maxrss_mb": 200.546875,
+      "rc": 0,
+      "task_clock": 27.06553,
+      "instructions": 259875281507.0,
+      "cycles": 78535454633.0,
+      "cycles_uk": 83320428610.0
+     }
+    ],
+    "P4": [
+     {
+      "wall": 8.602037357049994,
+      "user": 24.01,
+      "sys": 2.77,
+      "maxrss_mb": 193.75390625,
+      "rc": 0,
+      "task_clock": 26.84186,
+      "instructions": 253742427496.0,
+      "cycles": 75819823416.0,
+      "cycles_uk": 80477597502.0
+     },
+     {
+      "wall": 8.562653396977112,
+      "user": 23.73,
+      "sys": 2.9,
+      "maxrss_mb": 198.66796875,
+      "rc": 0,
+      "task_clock": 26.69294,
+      "instructions": 253742794075.0,
+      "cycles": 76504376640.0,
+      "cycles_uk": 81209444860.0
+     },
+     {
+      "wall": 8.671621136018075,
+      "user": 23.63,
+      "sys": 3.09,
+      "maxrss_mb": 196.79296875,
+      "rc": 0,
+      "task_clock": 26.80179,
+      "instructions": 253742147939.0,
+      "cycles": 76537019990.0,
+      "cycles_uk": 81242151223.0
+     }
+    ],
+    "P5": [
+     {
+      "wall": 4.223733777995221,
+      "user": 22.45,
+      "sys": 2.35,
+      "maxrss_mb": 198.4765625,
+      "rc": 0,
+      "task_clock": 24.85291,
+      "instructions": 202806908049.0,
+      "cycles": 70686608361.0,
+      "cycles_uk": 74505558655.0
+     },
+     {
+      "wall": 4.2653112699626945,
+      "user": 22.6,
+      "sys": 2.24,
+      "maxrss_mb": 193.73828125,
+      "rc": 0,
+      "task_clock": 24.89726,
+      "instructions": 202807441613.0,
+      "cycles": 70764845096.0,
+      "cycles_uk": 74558063732.0
+     },
+     {
+      "wall": 4.0700793659780174,
+      "user": 21.92,
+      "sys": 2.26,
+      "maxrss_mb": 198.1015625,
+      "rc": 0,
+      "task_clock": 24.231279999999998,
+      "instructions": 202807321658.0,
+      "cycles": 70889351994.0,
+      "cycles_uk": 74642204616.0
+     }
+    ],
+    "P6": [
+     {
+      "wall": 4.02901177003514,
+      "user": 16.43,
+      "sys": 2.53,
+      "maxrss_mb": 195.5859375,
+      "rc": 0,
+      "task_clock": 19.04282,
+      "instructions": 139370221592.0,
+      "cycles": 50467736883.0,
+      "cycles_uk": 54339269186.0
+     },
+     {
+      "wall": 4.0044840929913335,
+      "user": 16.25,
+      "sys": 2.47,
+      "maxrss_mb": 197.0546875,
+      "rc": 0,
+      "task_clock": 18.79454,
+      "instructions": 139370469996.0,
+      "cycles": 50623057969.0,
+      "cycles_uk": 54511180742.0
+     },
+     {
+      "wall": 4.005440207023639,
+      "user": 16.4,
+      "sys": 2.44,
+      "maxrss_mb": 193.63671875,
+      "rc": 0,
+      "task_clock": 18.91513,
+      "instructions": 139371127038.0,
+      "cycles": 50586391233.0,
+      "cycles_uk": 54458099852.0
+     }
+    ],
+    "final": [
+     {
+      "wall": 3.2705314269987866,
+      "user": 15.99,
+      "sys": 2.26,
+      "maxrss_mb": 199.625,
+      "rc": 0,
+      "task_clock": 18.336209999999998,
+      "instructions": 121887657992.0,
+      "cycles": 49626976905.0,
+      "cycles_uk": 53347640184.0
+     },
+     {
+      "wall": 3.273290355980862,
+      "user": 16.25,
+      "sys": 2.25,
+      "maxrss_mb": 198.42578125,
+      "rc": 0,
+      "task_clock": 18.57729,
+      "instructions": 121887903359.0,
+      "cycles": 49756296254.0,
+      "cycles_uk": 53452176184.0
+     },
+     {
+      "wall": 3.2510796129936352,
+      "user": 15.75,
+      "sys": 2.52,
+      "maxrss_mb": 194.20703125,
+      "rc": 0,
+      "task_clock": 18.34716,
+      "instructions": 121887344218.0,
+      "cycles": 50045089827.0,
+      "cycles_uk": 53806212934.0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "X2_m200_sprot_cN",
+   "args": "--cpu 16 -Z 570420 --noali -o main.out --tblout t.tbl --domtblout t.dom D/kern_M200.hmm D/sprot.fa",
+   "sets": [
+    "scale"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 1.062445986957755,
+      "user": 4.38,
+      "sys": 0.38,
+      "maxrss_mb": 116.14453125,
+      "rc": 0,
+      "task_clock": 4.7701899999999995,
+      "instructions": 42547721922.0,
+      "cycles": 14045649257.0,
+      "cycles_uk": 14728976791.0
+     },
+     {
+      "wall": 1.0849898140295409,
+      "user": 4.42,
+      "sys": 0.37,
+      "maxrss_mb": 115.83984375,
+      "rc": 0,
+      "task_clock": 4.79058,
+      "instructions": 42547471099.0,
+      "cycles": 14042266044.0,
+      "cycles_uk": 14720077987.0
+     },
+     {
+      "wall": 0.9945208269637078,
+      "user": 4.22,
+      "sys": 0.29,
+      "maxrss_mb": 116.375,
+      "rc": 0,
+      "task_clock": 4.50684,
+      "instructions": 42547047508.0,
+      "cycles": 13974220243.0,
+      "cycles_uk": 14664379944.0
+     }
+    ],
+    "P1": [
+     {
+      "wall": 0.9596809659851715,
+      "user": 4.1,
+      "sys": 0.37,
+      "maxrss_mb": 115.359375,
+      "rc": 0,
+      "task_clock": 4.47555,
+      "instructions": 40508438881.0,
+      "cycles": 13544952550.0,
+      "cycles_uk": 14224331545.0
+     },
+     {
+      "wall": 0.9905175670282915,
+      "user": 4.32,
+      "sys": 0.31,
+      "maxrss_mb": 115.1796875,
+      "rc": 0,
+      "task_clock": 4.6399099999999995,
+      "instructions": 40508346072.0,
+      "cycles": 13633492520.0,
+      "cycles_uk": 14304146558.0
+     },
+     {
+      "wall": 0.9115245139691979,
+      "user": 3.85,
+      "sys": 0.35,
+      "maxrss_mb": 114.05859375,
+      "rc": 0,
+      "task_clock": 4.20247,
+      "instructions": 40508847086.0,
+      "cycles": 13253300430.0,
+      "cycles_uk": 13933761746.0
+     }
+    ],
+    "P2": [
+     {
+      "wall": 0.9509585819905624,
+      "user": 3.96,
+      "sys": 0.35,
+      "maxrss_mb": 113.90625,
+      "rc": 0,
+      "task_clock": 4.31846,
+      "instructions": 40511785658.0,
+      "cycles": 13371177298.0,
+      "cycles_uk": 14047237460.0
+     },
+     {
+      "wall": 0.9995965540292673,
+      "user": 4.26,
+      "sys": 0.29,
+      "maxrss_mb": 113.1328125,
+      "rc": 0,
+      "task_clock": 4.5511,
+      "instructions": 40511077656.0,
+      "cycles": 13254834845.0,
+      "cycles_uk": 13921707143.0
+     },
+     {
+      "wall": 0.9333492740406655,
+      "user": 4.06,
+      "sys": 0.24,
+      "maxrss_mb": 114.296875,
+      "rc": 0,
+      "task_clock": 4.29839,
+      "instructions": 40511306884.0,
+      "cycles": 13336910989.0,
+      "cycles_uk": 14013881190.0
+     }
+    ],
+    "P3": [
+     {
+      "wall": 0.9178943469887599,
+      "user": 4.0,
+      "sys": 0.35,
+      "maxrss_mb": 114.890625,
+      "rc": 0,
+      "task_clock": 4.357819999999999,
+      "instructions": 40511085644.0,
+      "cycles": 13277654811.0,
+      "cycles_uk": 13962427673.0
+     },
+     {
+      "wall": 0.963849150983151,
+      "user": 4.23,
+      "sys": 0.33,
+      "maxrss_mb": 114.52734375,
+      "rc": 0,
+      "task_clock": 4.5565500000000005,
+      "instructions": 40511263603.0,
+      "cycles": 13260946251.0,
+      "cycles_uk": 13930967455.0
+     },
+     {
+      "wall": 0.9437361439922825,
+      "user": 4.12,
+      "sys": 0.37,
+      "maxrss_mb": 114.58203125,
+      "rc": 0,
+      "task_clock": 4.49553,
+      "instructions": 40510690560.0,
+      "cycles": 13273620232.0,
+      "cycles_uk": 13940906911.0
+     }
+    ],
+    "P4": [
+     {
+      "wall": 0.8836523219943047,
+      "user": 3.66,
+      "sys": 0.36,
+      "maxrss_mb": 113.59765625,
+      "rc": 0,
+      "task_clock": 4.02398,
+      "instructions": 37356236334.0,
+      "cycles": 12257257125.0,
+      "cycles_uk": 12935831368.0
+     },
+     {
+      "wall": 0.9508682590094395,
+      "user": 3.93,
+      "sys": 0.3,
+      "maxrss_mb": 115.38671875,
+      "rc": 0,
+      "task_clock": 4.230300000000001,
+      "instructions": 37356565595.0,
+      "cycles": 12277557773.0,
+      "cycles_uk": 12951432899.0
+     },
+     {
+      "wall": 0.9094439510372467,
+      "user": 3.77,
+      "sys": 0.35,
+      "maxrss_mb": 114.47265625,
+      "rc": 0,
+      "task_clock": 4.12209,
+      "instructions": 37356976609.0,
+      "cycles": 12230092192.0,
+      "cycles_uk": 12903176247.0
+     }
+    ],
+    "P5": [
+     {
+      "wall": 0.5376861050026491,
+      "user": 3.88,
+      "sys": 0.3,
+      "maxrss_mb": 114.64453125,
+      "rc": 0,
+      "task_clock": 4.1816,
+      "instructions": 31756263248.0,
+      "cycles": 12680099526.0,
+      "cycles_uk": 13257231485.0
+     },
+     {
+      "wall": 0.5263586930232123,
+      "user": 4.02,
+      "sys": 0.25,
+      "maxrss_mb": 115.5390625,
+      "rc": 0,
+      "task_clock": 4.26975,
+      "instructions": 31756853969.0,
+      "cycles": 12697350402.0,
+      "cycles_uk": 13255802476.0
+     },
+     {
+      "wall": 0.535168761969544,
+      "user": 3.98,
+      "sys": 0.26,
+      "maxrss_mb": 115.9453125,
+      "rc": 0,
+      "task_clock": 4.2336800000000006,
+      "instructions": 31756160454.0,
+      "cycles": 12813171710.0,
+      "cycles_uk": 13373332061.0
+     }
+    ],
+    "P6": [
+     {
+      "wall": 0.516132665972691,
+      "user": 3.24,
+      "sys": 0.24,
+      "maxrss_mb": 116.0703125,
+      "rc": 0,
+      "task_clock": 3.48035,
+      "instructions": 25821313660.0,
+      "cycles": 10022309222.0,
+      "cycles_uk": 10594939500.0
+     },
+     {
+      "wall": 0.528749176999554,
+      "user": 3.26,
+      "sys": 0.27,
+      "maxrss_mb": 116.4140625,
+      "rc": 0,
+      "task_clock": 3.53869,
+      "instructions": 25821673788.0,
+      "cycles": 10062366373.0,
+      "cycles_uk": 10635289867.0
+     },
+     {
+      "wall": 0.5187697110231966,
+      "user": 3.11,
+      "sys": 0.34,
+      "maxrss_mb": 116.7421875,
+      "rc": 0,
+      "task_clock": 3.45456,
+      "instructions": 25823245915.0,
+      "cycles": 10030638179.0,
+      "cycles_uk": 10602329850.0
+     }
+    ],
+    "final": [
+     {
+      "wall": 0.4429668570519425,
+      "user": 3.19,
+      "sys": 0.26,
+      "maxrss_mb": 115.30859375,
+      "rc": 0,
+      "task_clock": 3.44718,
+      "instructions": 23902413939.0,
+      "cycles": 10088555173.0,
+      "cycles_uk": 10644746382.0
+     },
+     {
+      "wall": 0.4734351339866407,
+      "user": 3.37,
+      "sys": 0.24,
+      "maxrss_mb": 116.63671875,
+      "rc": 0,
+      "task_clock": 3.60663,
+      "instructions": 23901847879.0,
+      "cycles": 10151203293.0,
+      "cycles_uk": 10703265483.0
+     },
+     {
+      "wall": 0.44496816402534023,
+      "user": 3.22,
+      "sys": 0.23,
+      "maxrss_mb": 115.60546875,
+      "rc": 0,
+      "task_clock": 3.45416,
+      "instructions": 23902268564.0,
+      "cycles": 10168034108.0,
+      "cycles_uk": 10725028353.0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "X3_p1k_s1k_cN",
+   "args": "--cpu 16 -Z 999 -o main.out --tblout t.tbl D/pfam_1k.hmm D/sprot_1k.fa",
+   "sets": [
+    "query"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 6.6941804000525735,
+      "user": 5.87,
+      "sys": 5.23,
+      "maxrss_mb": 58.71875,
+      "rc": 0,
+      "task_clock": 10.74051,
+      "instructions": 61025760218.0,
+      "cycles": 18248471802.0,
+      "cycles_uk": 25056025216.0
+     },
+     {
+      "wall": 6.740041644952726,
+      "user": 5.9,
+      "sys": 5.23,
+      "maxrss_mb": 56.94140625,
+      "rc": 0,
+      "task_clock": 10.775,
+      "instructions": 61025568918.0,
+      "cycles": 18282247941.0,
+      "cycles_uk": 25063155653.0
+     },
+     {
+      "wall": 6.707694562966935,
+      "user": 5.98,
+      "sys": 5.05,
+      "maxrss_mb": 57.5859375,
+      "rc": 0,
+      "task_clock": 10.68369,
+      "instructions": 61024148470.0,
+      "cycles": 18251519220.0,
+      "cycles_uk": 24972634280.0
+     }
+    ],
+    "P1": [
+     {
+      "wall": 6.405301398015581,
+      "user": 5.66,
+      "sys": 5.0,
+      "maxrss_mb": 61.265625,
+      "rc": 0,
+      "task_clock": 10.30353,
+      "instructions": 59794602174.0,
+      "cycles": 17700003738.0,
+      "cycles_uk": 24342863179.0
+     },
+     {
+      "wall": 6.616750088986009,
+      "user": 5.68,
+      "sys": 5.39,
+      "maxrss_mb": 54.75,
+      "rc": 0,
+      "task_clock": 10.71332,
+      "instructions": 59792663304.0,
+      "cycles": 17811687280.0,
+      "cycles_uk": 24734693857.0
+     },
+     {
+      "wall": 6.573037213995121,
+      "user": 5.81,
+      "sys": 5.19,
+      "maxrss_mb": 59.4765625,
+      "rc": 0,
+      "task_clock": 10.65194,
+      "instructions": 59795964548.0,
+      "cycles": 17752039684.0,
+      "cycles_uk": 24483675382.0
+     }
+    ],
+    "P2": [
+     {
+      "wall": 6.401159500004724,
+      "user": 5.67,
+      "sys": 5.05,
+      "maxrss_mb": 61.828125,
+      "rc": 0,
+      "task_clock": 10.37797,
+      "instructions": 59744077861.0,
+      "cycles": 17580152748.0,
+      "cycles_uk": 24346821287.0
+     },
+     {
+      "wall": 6.463795060990378,
+      "user": 5.6,
+      "sys": 5.18,
+      "maxrss_mb": 59.28125,
+      "rc": 0,
+      "task_clock": 10.41984,
+      "instructions": 59744059743.0,
+      "cycles": 17612558306.0,
+      "cycles_uk": 24224068145.0
+     },
+     {
+      "wall": 6.438873770995997,
+      "user": 5.77,
+      "sys": 4.99,
+      "maxrss_mb": 56.0078125,
+      "rc": 0,
+      "task_clock": 10.41924,
+      "instructions": 59741897085.0,
+      "cycles": 17643404877.0,
+      "cycles_uk": 24502375395.0
+     }
+    ],
+    "P3": [
+     {
+      "wall": 4.22822096303571,
+      "user": 5.0,
+      "sys": 0.17,
+      "maxrss_mb": 57.8828125,
+      "rc": 0,
+      "task_clock": 5.170319999999999,
+      "instructions": 59116840721.0,
+      "cycles": 16122244848.0,
+      "cycles_uk": 16593563081.0
+     },
+     {
+      "wall": 4.215703447000124,
+      "user": 4.98,
+      "sys": 0.2,
+      "maxrss_mb": 58.01953125,
+      "rc": 0,
+      "task_clock": 5.17366,
+      "instructions": 59116783345.0,
+      "cycles": 16155325432.0,
+      "cycles_uk": 16639102037.0
+     },
+     {
+      "wall": 4.199310964031611,
+      "user": 4.98,
+      "sys": 0.19,
+      "maxrss_mb": 58.22265625,
+      "rc": 0,
+      "task_clock": 5.1580699999999995,
+      "instructions": 59116869922.0,
+      "cycles": 16078945694.0,
+      "cycles_uk": 16548574631.0
+     }
+    ],
+    "P4": [
+     {
+      "wall": 4.158992893004324,
+      "user": 4.97,
+      "sys": 0.21,
+      "maxrss_mb": 57.59765625,
+      "rc": 0,
+      "task_clock": 5.17523,
+      "instructions": 58322060525.0,
+      "cycles": 16263322994.0,
+      "cycles_uk": 16748622658.0
+     },
+     {
+      "wall": 4.102740576025099,
+      "user": 4.88,
+      "sys": 0.19,
+      "maxrss_mb": 58.4375,
+      "rc": 0,
+      "task_clock": 5.06064,
+      "instructions": 58322043156.0,
+      "cycles": 15961174185.0,
+      "cycles_uk": 16435407612.0
+     },
+     {
+      "wall": 4.167623462970369,
+      "user": 4.91,
+      "sys": 0.22,
+      "maxrss_mb": 57.84375,
+      "rc": 0,
+      "task_clock": 5.12048,
+      "instructions": 58322070401.0,
+      "cycles": 15945598702.0,
+      "cycles_uk": 16416128196.0
+     }
+    ],
+    "P5": [
+     {
+      "wall": 3.562036675051786,
+      "user": 4.38,
+      "sys": 0.2,
+      "maxrss_mb": 58.42578125,
+      "rc": 0,
+      "task_clock": 4.57092,
+      "instructions": 48219097522.0,
+      "cycles": 14079753197.0,
+      "cycles_uk": 14505314678.0
+     },
+     {
+      "wall": 3.362333470955491,
+      "user": 4.15,
+      "sys": 0.16,
+      "maxrss_mb": 57.8359375,
+      "rc": 0,
+      "task_clock": 4.30893,
+      "instructions": 48219100858.0,
+      "cycles": 13657288786.0,
+      "cycles_uk": 14053909724.0
+     },
+     {
+      "wall": 3.4672182319918647,
+      "user": 4.28,
+      "sys": 0.17,
+      "maxrss_mb": 57.703125,
+      "rc": 0,
+      "task_clock": 4.4455,
+      "instructions": 48219090498.0,
+      "cycles": 13767997430.0,
+      "cycles_uk": 14165225394.0
+     }
+    ],
+    "P6": [
+     {
+      "wall": 2.8618447910412215,
+      "user": 3.62,
+      "sys": 0.18,
+      "maxrss_mb": 59.65625,
+      "rc": 0,
+      "task_clock": 3.78802,
+      "instructions": 37765073823.0,
+      "cycles": 11433022652.0,
+      "cycles_uk": 11854337242.0
+     },
+     {
+      "wall": 2.918843506020494,
+      "user": 3.75,
+      "sys": 0.17,
+      "maxrss_mb": 59.25,
+      "rc": 0,
+      "task_clock": 3.9121300000000003,
+      "instructions": 37765083791.0,
+      "cycles": 11769992886.0,
+      "cycles_uk": 12180917014.0
+     },
+     {
+      "wall": 2.9083214580314234,
+      "user": 3.7,
+      "sys": 0.17,
+      "maxrss_mb": 59.79296875,
+      "rc": 0,
+      "task_clock": 3.86132,
+      "instructions": 37765099099.0,
+      "cycles": 11608821272.0,
+      "cycles_uk": 12024029380.0
+     }
+    ],
+    "final": [
+     {
+      "wall": 2.660058993031271,
+      "user": 3.41,
+      "sys": 0.17,
+      "maxrss_mb": 59.81640625,
+      "rc": 0,
+      "task_clock": 3.57623,
+      "instructions": 34242129863.0,
+      "cycles": 10940713001.0,
+      "cycles_uk": 11338314309.0
+     },
+     {
+      "wall": 2.7226474250201136,
+      "user": 3.48,
+      "sys": 0.17,
+      "maxrss_mb": 59.45703125,
+      "rc": 0,
+      "task_clock": 3.63741,
+      "instructions": 34242136412.0,
+      "cycles": 10884327593.0,
+      "cycles_uk": 11306091459.0
+     },
+     {
+      "wall": 2.7203993939911015,
+      "user": 3.48,
+      "sys": 0.19,
+      "maxrss_mb": 59.984375,
+      "rc": 0,
+      "task_clock": 3.66199,
+      "instructions": 34242163409.0,
+      "cycles": 11144449175.0,
+      "cycles_uk": 11546564130.0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "X4_pfamA_h3m_cN",
+   "args": "--cpu 16 -Z 5 -o main.out --tblout t.tbl F/Pfam-A.hmm.h3m D/q_pick5.fa",
+   "sets": [
+    "query"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 34.95949834899511,
+      "user": 14.87,
+      "sys": 102.68,
+      "maxrss_mb": 33.796875,
+      "rc": 0,
+      "task_clock": 110.18755999999999,
+      "instructions": 65565871411.0,
+      "cycles": 43998335839.0,
+      "cycles_uk": 170403131735.0
+     },
+     {
+      "wall": 34.69250566000119,
+      "user": 14.74,
+      "sys": 101.52,
+      "maxrss_mb": 33.43359375,
+      "rc": 0,
+      "task_clock": 108.868,
+      "instructions": 65537064067.0,
+      "cycles": 43081743669.0,
+      "cycles_uk": 167867617233.0
+     },
+     {
+      "wall": 34.98009304300649,
+      "user": 15.09,
+      "sys": 102.52,
+      "maxrss_mb": 33.58203125,
+      "rc": 0,
+      "task_clock": 110.18082000000001,
+      "instructions": 65562963142.0,
+      "cycles": 43699844387.0,
+      "cycles_uk": 169047132733.0
+     }
+    ],
+    "P1": [
+     {
+      "wall": 35.22352245199727,
+      "user": 15.17,
+      "sys": 102.51,
+      "maxrss_mb": 33.36328125,
+      "rc": 0,
+      "task_clock": 110.26191,
+      "instructions": 65274598982.0,
+      "cycles": 43811078984.0,
+      "cycles_uk": 166744430891.0
+     },
+     {
+      "wall": 34.91408096201485,
+      "user": 14.85,
+      "sys": 102.25,
+      "maxrss_mb": 34.6875,
+      "rc": 0,
+      "task_clock": 109.62702,
+      "instructions": 65340230880.0,
+      "cycles": 43100813910.0,
+      "cycles_uk": 167539488974.0
+     },
+     {
+      "wall": 34.64126839704113,
+      "user": 14.88,
+      "sys": 100.5,
+      "maxrss_mb": 38.09765625,
+      "rc": 0,
+      "task_clock": 107.99652999999999,
+      "instructions": 65332026549.0,
+      "cycles": 43006004781.0,
+      "cycles_uk": 163414671860.0
+     }
+    ],
+    "P2": [
+     {
+      "wall": 34.880546397995204,
+      "user": 15.06,
+      "sys": 101.29,
+      "maxrss_mb": 33.484375,
+      "rc": 0,
+      "task_clock": 109.08966000000001,
+      "instructions": 65295119128.0,
+      "cycles": 44100228075.0,
+      "cycles_uk": 167281083540.0
+     },
+     {
+      "wall": 34.65842753101606,
+      "user": 15.06,
+      "sys": 100.7,
+      "maxrss_mb": 38.19921875,
+      "rc": 0,
+      "task_clock": 108.26031,
+      "instructions": 65353695923.0,
+      "cycles": 43597640354.0,
+      "cycles_uk": 165385758753.0
+     },
+     {
+      "wall": 35.11010869801976,
+      "user": 15.28,
+      "sys": 102.05,
+      "maxrss_mb": 38.37890625,
+      "rc": 0,
+      "task_clock": 109.83979,
+      "instructions": 65354316417.0,
+      "cycles": 43786873471.0,
+      "cycles_uk": 165894532499.0
+     }
+    ],
+    "P3": [
+     {
+      "wall": 3.0096372889820486,
+      "user": 6.69,
+      "sys": 1.72,
+      "maxrss_mb": 40.9609375,
+      "rc": 0,
+      "task_clock": 8.32048,
+      "instructions": 51765584133.0,
+      "cycles": 20778878854.0,
+      "cycles_uk": 22523355503.0
+     },
+     {
+      "wall": 2.897596495982725,
+      "user": 6.44,
+      "sys": 1.7,
+      "maxrss_mb": 40.78125,
+      "rc": 0,
+      "task_clock": 8.05003,
+      "instructions": 51765588844.0,
+      "cycles": 20531343187.0,
+      "cycles_uk": 22277810245.0
+     },
+     {
+      "wall": 2.893399337946903,
+      "user": 6.43,
+      "sys": 1.65,
+      "maxrss_mb": 40.828125,
+      "rc": 0,
+      "task_clock": 7.99371,
+      "instructions": 51765926633.0,
+      "cycles": 20604052053.0,
+      "cycles_uk": 22353898668.0
+     }
+    ],
+    "P4": [
+     {
+      "wall": 2.8200201229774393,
+      "user": 6.41,
+      "sys": 1.65,
+      "maxrss_mb": 40.97265625,
+      "rc": 0,
+      "task_clock": 7.97725,
+      "instructions": 51688056607.0,
+      "cycles": 20378880223.0,
+      "cycles_uk": 22111701936.0
+     },
+     {
+      "wall": 2.8854598199832253,
+      "user": 6.47,
+      "sys": 1.64,
+      "maxrss_mb": 40.78515625,
+      "rc": 0,
+      "task_clock": 8.00887,
+      "instructions": 51688752476.0,
+      "cycles": 20386830538.0,
+      "cycles_uk": 22136517927.0
+     },
+     {
+      "wall": 2.9174509349977598,
+      "user": 6.54,
+      "sys": 1.65,
+      "maxrss_mb": 41.33984375,
+      "rc": 0,
+      "task_clock": 8.09972,
+      "instructions": 51689058143.0,
+      "cycles": 20577581947.0,
+      "cycles_uk": 22364429909.0
+     }
+    ],
+    "P5": [
+     {
+      "wall": 2.9449588560382836,
+      "user": 6.37,
+      "sys": 1.69,
+      "maxrss_mb": 40.15625,
+      "rc": 0,
+      "task_clock": 7.9561,
+      "instructions": 49860470896.0,
+      "cycles": 19853547536.0,
+      "cycles_uk": 21615567838.0
+     },
+     {
+      "wall": 2.887910221994389,
+      "user": 6.26,
+      "sys": 1.66,
+      "maxrss_mb": 40.859375,
+      "rc": 0,
+      "task_clock": 7.8255,
+      "instructions": 49861066682.0,
+      "cycles": 19680547629.0,
+      "cycles_uk": 21398526147.0
+     },
+     {
+      "wall": 2.8887469029868953,
+      "user": 6.31,
+      "sys": 1.62,
+      "maxrss_mb": 40.21875,
+      "rc": 0,
+      "task_clock": 7.834779999999999,
+      "instructions": 49860815553.0,
+      "cycles": 19720536216.0,
+      "cycles_uk": 21428671385.0
+     }
+    ],
+    "P6": [
+     {
+      "wall": 2.882080578012392,
+      "user": 6.41,
+      "sys": 1.73,
+      "maxrss_mb": 41.91796875,
+      "rc": 0,
+      "task_clock": 8.03773,
+      "instructions": 48853633610.0,
+      "cycles": 19789198703.0,
+      "cycles_uk": 21592069925.0
+     },
+     {
+      "wall": 2.756848737015389,
+      "user": 6.27,
+      "sys": 1.66,
+      "maxrss_mb": 42.21484375,
+      "rc": 0,
+      "task_clock": 7.8333,
+      "instructions": 48853213402.0,
+      "cycles": 19665336455.0,
+      "cycles_uk": 21456810443.0
+     },
+     {
+      "wall": 3.115317536983639,
+      "user": 6.41,
+      "sys": 1.8,
+      "maxrss_mb": 42.76171875,
+      "rc": 0,
+      "task_clock": 8.11475,
+      "instructions": 48854075219.0,
+      "cycles": 19968835795.0,
+      "cycles_uk": 21775633270.0
+     }
+    ],
+    "final": [
+     {
+      "wall": 2.8507213490083814,
+      "user": 6.31,
+      "sys": 1.72,
+      "maxrss_mb": 42.7265625,
+      "rc": 0,
+      "task_clock": 7.925560000000001,
+      "instructions": 48082796415.0,
+      "cycles": 19689173693.0,
+      "cycles_uk": 21482625453.0
+     },
+     {
+      "wall": 2.740885355975479,
+      "user": 6.21,
+      "sys": 1.6,
+      "maxrss_mb": 41.703125,
+      "rc": 0,
+      "task_clock": 7.71894,
+      "instructions": 48081863792.0,
+      "cycles": 19301883297.0,
+      "cycles_uk": 21052808811.0
+     },
+     {
+      "wall": 2.913057135010604,
+      "user": 6.35,
+      "sys": 1.73,
+      "maxrss_mb": 42.09375,
+      "rc": 0,
+      "task_clock": 7.98851,
+      "instructions": 48081635748.0,
+      "cycles": 19799472263.0,
+      "cycles_uk": 21565449487.0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "X3_p1k_s1k_cN_dbc",
+   "args": "--cpu 16 --dbcache -Z 999 -o main.out --tblout t.tbl D/pfam_1k.hmm D/sprot_1k.fa",
+   "sets": [
+    "query"
+   ],
+   "runs": {
+    "upstream": [],
+    "P1": [],
+    "P2": [
+     {
+      "wall": 5.0899970549508,
+      "user": 4.33,
+      "sys": 4.4,
+      "maxrss_mb": 41.2734375,
+      "rc": 0,
+      "task_clock": 8.357389999999999,
+      "instructions": 42336163422.0,
+      "cycles": 13202572950.0,
+      "cycles_uk": 19067573874.0
+     },
+     {
+      "wall": 5.0109594439854845,
+      "user": 4.35,
+      "sys": 4.29,
+      "maxrss_mb": 43.359375,
+      "rc": 0,
+      "task_clock": 8.26374,
+      "instructions": 42337564385.0,
+      "cycles": 13165095520.0,
+      "cycles_uk": 19064929705.0
+     },
+     {
+      "wall": 5.062222140026279,
+      "user": 4.32,
+      "sys": 4.4,
+      "maxrss_mb": 43.99609375,
+      "rc": 0,
+      "task_clock": 8.345229999999999,
+      "instructions": 42341164588.0,
+      "cycles": 13239477607.0,
+      "cycles_uk": 19051078994.0
+     }
+    ],
+    "P3": [
+     {
+      "wall": 0.9832419930025935,
+      "user": 4.53,
+      "sys": 0.19,
+      "maxrss_mb": 92.87890625,
+      "rc": 0,
+      "task_clock": 4.70596,
+      "instructions": 41308252733.0,
+      "cycles": 14553172743.0,
+      "cycles_uk": 14934583613.0
+     },
+     {
+      "wall": 0.9667898199986666,
+      "user": 4.45,
+      "sys": 0.2,
+      "maxrss_mb": 94.03515625,
+      "rc": 0,
+      "task_clock": 4.6448,
+      "instructions": 41308097656.0,
+      "cycles": 14503485073.0,
+      "cycles_uk": 14884016517.0
+     },
+     {
+      "wall": 0.9782320950180292,
+      "user": 4.6,
+      "sys": 0.14,
+      "maxrss_mb": 93.00390625,
+      "rc": 0,
+      "task_clock": 4.73688,
+      "instructions": 41308261929.0,
+      "cycles": 14562446654.0,
+      "cycles_uk": 14936803431.0
+     }
+    ],
+    "P4": [
+     {
+      "wall": 0.9879306509974413,
+      "user": 4.48,
+      "sys": 0.19,
+      "maxrss_mb": 90.8125,
+      "rc": 0,
+      "task_clock": 4.66559,
+      "instructions": 40513269202.0,
+      "cycles": 14456223729.0,
+      "cycles_uk": 14830380205.0
+     },
+     {
+      "wall": 0.9645016540307552,
+      "user": 4.33,
+      "sys": 0.18,
+      "maxrss_mb": 92.296875,
+      "rc": 0,
+      "task_clock": 4.50326,
+      "instructions": 40513377445.0,
+      "cycles": 14191981464.0,
+      "cycles_uk": 14567978558.0
+     },
+     {
+      "wall": 0.9893193659954704,
+      "user": 4.54,
+      "sys": 0.15,
+      "maxrss_mb": 93.921875,
+      "rc": 0,
+      "task_clock": 4.685689999999999,
+      "instructions": 40513243661.0,
+      "cycles": 14391582254.0,
+      "cycles_uk": 14764610871.0
+     }
+    ],
+    "P5": [
+     {
+      "wall": 0.9697963939979672,
+      "user": 4.54,
+      "sys": 0.16,
+      "maxrss_mb": 95.23046875,
+      "rc": 0,
+      "task_clock": 4.69679,
+      "instructions": 40503270089.0,
+      "cycles": 14498214587.0,
+      "cycles_uk": 14878284857.0
+     },
+     {
+      "wall": 0.9349638209678233,
+      "user": 4.28,
+      "sys": 0.16,
+      "maxrss_mb": 89.56640625,
+      "rc": 0,
+      "task_clock": 4.43268,
+      "instructions": 40503249801.0,
+      "cycles": 14254504401.0,
+      "cycles_uk": 14628844893.0
+     },
+     {
+      "wall": 0.9713473269948736,
+      "user": 4.5,
+      "sys": 0.19,
+      "maxrss_mb": 88.421875,
+      "rc": 0,
+      "task_clock": 4.68684,
+      "instructions": 40503231324.0,
+      "cycles": 14390180864.0,
+      "cycles_uk": 14758361638.0
+     }
+    ],
+    "P6": [
+     {
+      "wall": 0.9354328600456938,
+      "user": 3.6,
+      "sys": 0.18,
+      "maxrss_mb": 93.4296875,
+      "rc": 0,
+      "task_clock": 3.76906,
+      "instructions": 30049401162.0,
+      "cycles": 11323019188.0,
+      "cycles_uk": 11688241728.0
+     },
+     {
+      "wall": 0.9170963949873112,
+      "user": 3.58,
+      "sys": 0.16,
+      "maxrss_mb": 92.48828125,
+      "rc": 0,
+      "task_clock": 3.73493,
+      "instructions": 30049285317.0,
+      "cycles": 11378424174.0,
+      "cycles_uk": 11746131731.0
+     },
+     {
+      "wall": 0.9433982080081478,
+      "user": 3.65,
+      "sys": 0.18,
+      "maxrss_mb": 85.09765625,
+      "rc": 0,
+      "task_clock": 3.8233800000000002,
+      "instructions": 30049424696.0,
+      "cycles": 11388907503.0,
+      "cycles_uk": 11735039345.0
+     }
+    ],
+    "final": [
+     {
+      "wall": 0.9290377239813097,
+      "user": 3.61,
+      "sys": 0.18,
+      "maxrss_mb": 92.3125,
+      "rc": 0,
+      "task_clock": 3.78158,
+      "instructions": 30045962765.0,
+      "cycles": 11382555344.0,
+      "cycles_uk": 11749850434.0
+     },
+     {
+      "wall": 0.904160342994146,
+      "user": 3.43,
+      "sys": 0.19,
+      "maxrss_mb": 94.50390625,
+      "rc": 0,
+      "task_clock": 3.60651,
+      "instructions": 30046038789.0,
+      "cycles": 11250822421.0,
+      "cycles_uk": 11612001164.0
+     },
+     {
+      "wall": 0.9376750480150804,
+      "user": 3.65,
+      "sys": 0.15,
+      "maxrss_mb": 87.71875,
+      "rc": 0,
+      "task_clock": 3.78613,
+      "instructions": 30045925310.0,
+      "cycles": 11378986537.0,
+      "cycles_uk": 11733342544.0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "X4_pfamA_h3m_cN_dbc",
+   "args": "--cpu 16 --dbcache -Z 5 -o main.out --tblout t.tbl F/Pfam-A.hmm.h3m D/q_pick5.fa",
+   "sets": [
+    "query"
+   ],
+   "runs": {
+    "upstream": [],
+    "P1": [],
+    "P2": [
+     {
+      "wall": 33.4600886789849,
+      "user": 14.17,
+      "sys": 97.44,
+      "maxrss_mb": 36.2421875,
+      "rc": 0,
+      "task_clock": 103.40942999999999,
+      "instructions": 61871929953.0,
+      "cycles": 41474715491.0,
+      "cycles_uk": 163563832239.0
+     },
+     {
+      "wall": 33.306299666990526,
+      "user": 14.29,
+      "sys": 96.48,
+      "maxrss_mb": 35.52734375,
+      "rc": 0,
+      "task_clock": 102.5292,
+      "instructions": 61818382525.0,
+      "cycles": 42160651607.0,
+      "cycles_uk": 163570636171.0
+     },
+     {
+      "wall": 33.37471500301035,
+      "user": 14.48,
+      "sys": 96.91,
+      "maxrss_mb": 35.07421875,
+      "rc": 0,
+      "task_clock": 103.02888,
+      "instructions": 61845719411.0,
+      "cycles": 41894031840.0,
+      "cycles_uk": 164288735107.0
+     }
+    ],
+    "P3": [
+     {
+      "wall": 1.54037454695208,
+      "user": 5.82,
+      "sys": 1.95,
+      "maxrss_mb": 53.85546875,
+      "rc": 0,
+      "task_clock": 7.70076,
+      "instructions": 39318192651.0,
+      "cycles": 18045274218.0,
+      "cycles_uk": 20017881801.0
+     },
+     {
+      "wall": 1.5297318740049377,
+      "user": 5.77,
+      "sys": 1.86,
+      "maxrss_mb": 53.7109375,
+      "rc": 0,
+      "task_clock": 7.55478,
+      "instructions": 39319031146.0,
+      "cycles": 18030700027.0,
+      "cycles_uk": 19981008025.0
+     },
+     {
+      "wall": 1.5217277799965814,
+      "user": 5.8,
+      "sys": 1.89,
+      "maxrss_mb": 53.43359375,
+      "rc": 0,
+      "task_clock": 7.617430000000001,
+      "instructions": 39319050721.0,
+      "cycles": 17981863395.0,
+      "cycles_uk": 19939517263.0
+     }
+    ],
+    "P4": [
+     {
+      "wall": 1.5294829119811766,
+      "user": 5.85,
+      "sys": 1.87,
+      "maxrss_mb": 53.3203125,
+      "rc": 0,
+      "task_clock": 7.6452,
+      "instructions": 39240769006.0,
+      "cycles": 18054398624.0,
+      "cycles_uk": 20037892639.0
+     },
+     {
+      "wall": 1.5126066859811544,
+      "user": 5.74,
+      "sys": 1.83,
+      "maxrss_mb": 51.51171875,
+      "rc": 0,
+      "task_clock": 7.49928,
+      "instructions": 39241799562.0,
+      "cycles": 17999799140.0,
+      "cycles_uk": 19967268507.0
+     },
+     {
+      "wall": 1.5232397289946675,
+      "user": 5.83,
+      "sys": 1.86,
+      "maxrss_mb": 52.6953125,
+      "rc": 0,
+      "task_clock": 7.6144300000000005,
+      "instructions": 39241371752.0,
+      "cycles": 18010514216.0,
+      "cycles_uk": 19985074035.0
+     }
+    ],
+    "P5": [
+     {
+      "wall": 1.5420921360491775,
+      "user": 5.9,
+      "sys": 1.85,
+      "maxrss_mb": 56.4921875,
+      "rc": 0,
+      "task_clock": 7.68319,
+      "instructions": 39242734655.0,
+      "cycles": 18101747485.0,
+      "cycles_uk": 20089240132.0
+     },
+     {
+      "wall": 1.5225915110204369,
+      "user": 5.8,
+      "sys": 1.93,
+      "maxrss_mb": 54.984375,
+      "rc": 0,
+      "task_clock": 7.65823,
+      "instructions": 39243371720.0,
+      "cycles": 17975278799.0,
+      "cycles_uk": 19927389182.0
+     },
+     {
+      "wall": 1.535166867019143,
+      "user": 5.75,
+      "sys": 2.0,
+      "maxrss_mb": 54.87890625,
+      "rc": 0,
+      "task_clock": 7.67134,
+      "instructions": 39241924799.0,
+      "cycles": 18060178818.0,
+      "cycles_uk": 20037771183.0
+     }
+    ],
+    "P6": [
+     {
+      "wall": 1.5138891910319217,
+      "user": 5.73,
+      "sys": 1.88,
+      "maxrss_mb": 56.7890625,
+      "rc": 0,
+      "task_clock": 7.54795,
+      "instructions": 38237069196.0,
+      "cycles": 17924483109.0,
+      "cycles_uk": 19958491287.0
+     },
+     {
+      "wall": 1.4860182979609817,
+      "user": 5.61,
+      "sys": 1.86,
+      "maxrss_mb": 55.90234375,
+      "rc": 0,
+      "task_clock": 7.3996,
+      "instructions": 38236404139.0,
+      "cycles": 17954380391.0,
+      "cycles_uk": 19988996003.0
+     },
+     {
+      "wall": 1.5293139269924723,
+      "user": 5.73,
+      "sys": 2.04,
+      "maxrss_mb": 56.109375,
+      "rc": 0,
+      "task_clock": 7.68983,
+      "instructions": 38235657686.0,
+      "cycles": 17919274706.0,
+      "cycles_uk": 19916734352.0
+     }
+    ],
+    "final": [
+     {
+      "wall": 1.5113200979540125,
+      "user": 5.75,
+      "sys": 1.86,
+      "maxrss_mb": 55.34765625,
+      "rc": 0,
+      "task_clock": 7.53887,
+      "instructions": 38236057152.0,
+      "cycles": 17933347238.0,
+      "cycles_uk": 19979260467.0
+     },
+     {
+      "wall": 1.520478396967519,
+      "user": 5.81,
+      "sys": 1.87,
+      "maxrss_mb": 53.84765625,
+      "rc": 0,
+      "task_clock": 7.61467,
+      "instructions": 38235526879.0,
+      "cycles": 17902415838.0,
+      "cycles_uk": 19923139947.0
+     },
+     {
+      "wall": 1.5314543739659712,
+      "user": 5.89,
+      "sys": 1.91,
+      "maxrss_mb": 56.90234375,
+      "rc": 0,
+      "task_clock": 7.72121,
+      "instructions": 38236696729.0,
+      "cycles": 17982773308.0,
+      "cycles_uk": 20003735704.0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "X5_human_pfam1k_cN",
+   "args": "--cpu 16 --cut_ga --tblout t.tbl --domtblout t.dom -o /dev/null D/pfam_1k.hmm D/human.fa",
+   "sets": [
+    "milestone"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 58.05046671099262,
+      "user": 162.06,
+      "sys": 16.69,
+      "maxrss_mb": 338.328125,
+      "rc": 0,
+      "task_clock": 178.68587,
+      "instructions": 1637103950064.0,
+      "cycles": 514290551982.0,
+      "cycles_uk": 543323619407.0
+     },
+     {
+      "wall": 58.961341904010624,
+      "user": 162.55,
+      "sys": 16.89,
+      "maxrss_mb": 319.91796875,
+      "rc": 0,
+      "task_clock": 179.3835,
+      "instructions": 1637094956696.0,
+      "cycles": 516728021664.0,
+      "cycles_uk": 546348757566.0
+     },
+     {
+      "wall": 59.84138938499382,
+      "user": 163.6,
+      "sys": 17.53,
+      "maxrss_mb": 331.48828125,
+      "rc": 0,
+      "task_clock": 181.06789999999998,
+      "instructions": 1637095986875.0,
+      "cycles": 520832584846.0,
+      "cycles_uk": 551389312307.0
+     }
+    ],
+    "P1": [
+     {
+      "wall": 56.678233596961945,
+      "user": 156.94,
+      "sys": 16.73,
+      "maxrss_mb": 317.98046875,
+      "rc": 0,
+      "task_clock": 173.60637,
+      "instructions": 1593630090937.0,
+      "cycles": 500757114992.0,
+      "cycles_uk": 529975725293.0
+     },
+     {
+      "wall": 55.76265788602177,
+      "user": 153.38,
+      "sys": 16.86,
+      "maxrss_mb": 324.51171875,
+      "rc": 0,
+      "task_clock": 170.19176000000002,
+      "instructions": 1593629563529.0,
+      "cycles": 501519513439.0,
+      "cycles_uk": 530627433094.0
+     },
+     {
+      "wall": 59.18375412398018,
+      "user": 160.5,
+      "sys": 17.47,
+      "maxrss_mb": 316.21875,
+      "rc": 0,
+      "task_clock": 177.9156,
+      "instructions": 1593627888596.0,
+      "cycles": 508117485402.0,
+      "cycles_uk": 538682275375.0
+     }
+    ],
+    "P2": [
+     {
+      "wall": 56.31816304300446,
+      "user": 155.51,
+      "sys": 16.83,
+      "maxrss_mb": 320.078125,
+      "rc": 0,
+      "task_clock": 172.24962,
+      "instructions": 1593657214525.0,
+      "cycles": 499186403824.0,
+      "cycles_uk": 528422706117.0
+     },
+     {
+      "wall": 56.502342132036574,
+      "user": 156.01,
+      "sys": 17.11,
+      "maxrss_mb": 325.25,
+      "rc": 0,
+      "task_clock": 173.05912,
+      "instructions": 1593656491547.0,
+      "cycles": 499065598153.0,
+      "cycles_uk": 528001270815.0
+     },
+     {
+      "wall": 57.58918856002856,
+      "user": 156.26,
+      "sys": 17.59,
+      "maxrss_mb": 336.1875,
+      "rc": 0,
+      "task_clock": 173.79789000000002,
+      "instructions": 1593658825886.0,
+      "cycles": 503543335053.0,
+      "cycles_uk": 533842619088.0
+     }
+    ],
+    "P3": [
+     {
+      "wall": 52.67454656702466,
+      "user": 150.67,
+      "sys": 12.03,
+      "maxrss_mb": 388.546875,
+      "rc": 0,
+      "task_clock": 162.89506,
+      "instructions": 1593076494133.0,
+      "cycles": 493426990739.0,
+      "cycles_uk": 514828488536.0
+     },
+     {
+      "wall": 53.3149119640002,
+      "user": 154.52,
+      "sys": 11.61,
+      "maxrss_mb": 376.4453125,
+      "rc": 0,
+      "task_clock": 166.38255999999998,
+      "instructions": 1593077064213.0,
+      "cycles": 490152279133.0,
+      "cycles_uk": 510733175949.0
+     },
+     {
+      "wall": 50.41492990095867,
+      "user": 147.02,
+      "sys": 10.89,
+      "maxrss_mb": 381.7734375,
+      "rc": 0,
+      "task_clock": 158.15059,
+      "instructions": 1593075707846.0,
+      "cycles": 489748424024.0,
+      "cycles_uk": 510221983154.0
+     }
+    ],
+    "P4": [
+     {
+      "wall": 50.59829675703077,
+      "user": 143.89,
+      "sys": 12.23,
+      "maxrss_mb": 395.16015625,
+      "rc": 0,
+      "task_clock": 156.38410000000002,
+      "instructions": 1508817179509.0,
+      "cycles": 464818051145.0,
+      "cycles_uk": 484784487807.0
+     },
+     {
+      "wall": 52.020339901035186,
+      "user": 146.29,
+      "sys": 12.47,
+      "maxrss_mb": 379.11328125,
+      "rc": 0,
+      "task_clock": 158.9964,
+      "instructions": 1508814433812.0,
+      "cycles": 468148726029.0,
+      "cycles_uk": 489067979879.0
+     },
+     {
+      "wall": 47.148032722994685,
+      "user": 134.76,
+      "sys": 11.02,
+      "maxrss_mb": 396.15234375,
+      "rc": 0,
+      "task_clock": 145.99715,
+      "instructions": 1508814798816.0,
+      "cycles": 467121865386.0,
+      "cycles_uk": 487882901389.0
+     }
+    ],
+    "P5": [
+     {
+      "wall": 27.26172895799391,
+      "user": 130.97,
+      "sys": 10.01,
+      "maxrss_mb": 371.12890625,
+      "rc": 0,
+      "task_clock": 141.17776999999998,
+      "instructions": 1241670226777.0,
+      "cycles": 421237253674.0,
+      "cycles_uk": 437310537492.0
+     },
+     {
+      "wall": 27.510509536019526,
+      "user": 131.88,
+      "sys": 9.52,
+      "maxrss_mb": 391.75,
+      "rc": 0,
+      "task_clock": 141.60464000000002,
+      "instructions": 1241671206522.0,
+      "cycles": 421218209724.0,
+      "cycles_uk": 437353829796.0
+     },
+     {
+      "wall": 25.61980665900046,
+      "user": 122.05,
+      "sys": 8.65,
+      "maxrss_mb": 369.16015625,
+      "rc": 0,
+      "task_clock": 130.89178,
+      "instructions": 1241669896754.0,
+      "cycles": 423436826272.0,
+      "cycles_uk": 440254089222.0
+     }
+    ],
+    "P6": [
+     {
+      "wall": 25.526516111043748,
+      "user": 103.24,
+      "sys": 9.87,
+      "maxrss_mb": 379.3203125,
+      "rc": 0,
+      "task_clock": 113.35855000000001,
+      "instructions": 924236595351.0,
+      "cycles": 326312036404.0,
+      "cycles_uk": 342536446239.0
+     },
+     {
+      "wall": 25.742503626970574,
+      "user": 103.13,
+      "sys": 10.35,
+      "maxrss_mb": 398.55078125,
+      "rc": 0,
+      "task_clock": 113.73161999999999,
+      "instructions": 924239290764.0,
+      "cycles": 326287595709.0,
+      "cycles_uk": 342774377447.0
+     },
+     {
+      "wall": 24.363322694029193,
+      "user": 97.04,
+      "sys": 10.05,
+      "maxrss_mb": 376.95703125,
+      "rc": 0,
+      "task_clock": 107.33283999999999,
+      "instructions": 924239173936.0,
+      "cycles": 328726483522.0,
+      "cycles_uk": 345433026044.0
+     }
+    ],
+    "final": [
+     {
+      "wall": 21.414910466002766,
+      "user": 103.01,
+      "sys": 9.75,
+      "maxrss_mb": 378.91015625,
+      "rc": 0,
+      "task_clock": 113.00524,
+      "instructions": 816961041219.0,
+      "cycles": 320937778087.0,
+      "cycles_uk": 336387483311.0
+     },
+     {
+      "wall": 21.331743702001404,
+      "user": 102.29,
+      "sys": 9.69,
+      "maxrss_mb": 385.8984375,
+      "rc": 0,
+      "task_clock": 112.23052,
+      "instructions": 816965549252.0,
+      "cycles": 321416670555.0,
+      "cycles_uk": 337033013464.0
+     },
+     {
+      "wall": 21.629924097971525,
+      "user": 100.14,
+      "sys": 9.6,
+      "maxrss_mb": 395.72265625,
+      "rc": 0,
+      "task_clock": 109.99577000000001,
+      "instructions": 816965702583.0,
+      "cycles": 326020334747.0,
+      "cycles_uk": 343018847019.0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "X5_human_pfam1k_cN_dbc",
+   "args": "--cpu 16 --dbcache --cut_ga --tblout t.tbl --domtblout t.dom -o /dev/null D/pfam_1k.hmm D/human.fa",
+   "sets": [
+    "milestone"
+   ],
+   "runs": {
+    "upstream": [],
+    "P1": [],
+    "P2": [
+     {
+      "wall": 19.620017972018104,
+      "user": 143.54,
+      "sys": 6.18,
+      "maxrss_mb": 257.87890625,
+      "rc": 0,
+      "task_clock": 149.42295000000001,
+      "instructions": 1116164850721.0,
+      "cycles": 470851346603.0,
+      "cycles_uk": 482295975099.0
+     },
+     {
+      "wall": 19.048819411022123,
+      "user": 140.28,
+      "sys": 5.63,
+      "maxrss_mb": 252.5546875,
+      "rc": 0,
+      "task_clock": 145.59786,
+      "instructions": 1116169301818.0,
+      "cycles": 470647310831.0,
+      "cycles_uk": 481279976082.0
+     },
+     {
+      "wall": 19.135812805965543,
+      "user": 140.69,
+      "sys": 5.79,
+      "maxrss_mb": 273.06640625,
+      "rc": 0,
+      "task_clock": 146.18142,
+      "instructions": 1116165619958.0,
+      "cycles": 470834368677.0,
+      "cycles_uk": 481744317622.0
+     }
+    ],
+    "P3": [
+     {
+      "wall": 14.96888595900964,
+      "user": 144.45,
+      "sys": 2.27,
+      "maxrss_mb": 335.93359375,
+      "rc": 0,
+      "task_clock": 146.77169,
+      "instructions": 1115510995748.0,
+      "cycles": 485094256185.0,
+      "cycles_uk": 490149320557.0
+     },
+     {
+      "wall": 15.187794848985504,
+      "user": 146.81,
+      "sys": 2.25,
+      "maxrss_mb": 330.65234375,
+      "rc": 0,
+      "task_clock": 149.09967,
+      "instructions": 1115510887962.0,
+      "cycles": 484605292323.0,
+      "cycles_uk": 489646133382.0
+     },
+     {
+      "wall": 15.155780896020588,
+      "user": 145.66,
+      "sys": 2.35,
+      "maxrss_mb": 325.70703125,
+      "rc": 0,
+      "task_clock": 148.05223,
+      "instructions": 1115510721120.0,
+      "cycles": 483507939623.0,
+      "cycles_uk": 488611305119.0
+     }
+    ],
+    "P4": [
+     {
+      "wall": 13.06551888003014,
+      "user": 135.83,
+      "sys": 2.22,
+      "maxrss_mb": 284.03125,
+      "rc": 0,
+      "task_clock": 138.08679999999998,
+      "instructions": 1031247831994.0,
+      "cycles": 462151719349.0,
+      "cycles_uk": 466989190506.0
+     },
+     {
+      "wall": 13.455605339026079,
+      "user": 140.03,
+      "sys": 2.37,
+      "maxrss_mb": 337.25,
+      "rc": 0,
+      "task_clock": 142.43154,
+      "instructions": 1031250773412.0,
+      "cycles": 461988874780.0,
+      "cycles_uk": 466967398191.0
+     },
+     {
+      "wall": 13.281976116995793,
+      "user": 138.44,
+      "sys": 2.23,
+      "maxrss_mb": 339.22265625,
+      "rc": 0,
+      "task_clock": 140.72044,
+      "instructions": 1031249684879.0,
+      "cycles": 462165115216.0,
+      "cycles_uk": 467180107031.0
+     }
+    ],
+    "P5": [
+     {
+      "wall": 13.16332173597766,
+      "user": 136.78,
+      "sys": 2.35,
+      "maxrss_mb": 335.796875,
+      "rc": 0,
+      "task_clock": 139.17335999999997,
+      "instructions": 1030983974095.0,
+      "cycles": 462393642880.0,
+      "cycles_uk": 467342894611.0
+     },
+     {
+      "wall": 13.476257948030252,
+      "user": 140.21,
+      "sys": 2.26,
+      "maxrss_mb": 322.9609375,
+      "rc": 0,
+      "task_clock": 142.51881,
+      "instructions": 1030982473249.0,
+      "cycles": 462732799451.0,
+      "cycles_uk": 467748427015.0
+     },
+     {
+      "wall": 13.265611954964697,
+      "user": 137.62,
+      "sys": 2.19,
+      "maxrss_mb": 299.515625,
+      "rc": 0,
+      "task_clock": 139.84429,
+      "instructions": 1030981655864.0,
+      "cycles": 461937575055.0,
+      "cycles_uk": 466859743823.0
+     }
+    ],
+    "P6": [
+     {
+      "wall": 10.863119376997929,
+      "user": 101.41,
+      "sys": 2.0,
+      "maxrss_mb": 334.96875,
+      "rc": 0,
+      "task_clock": 103.4752,
+      "instructions": 713747393580.0,
+      "cycles": 338416346913.0,
+      "cycles_uk": 342699317329.0
+     },
+     {
+      "wall": 11.27152644796297,
+      "user": 104.51,
+      "sys": 2.12,
+      "maxrss_mb": 329.23046875,
+      "rc": 0,
+      "task_clock": 106.69058,
+      "instructions": 713743056403.0,
+      "cycles": 338381395873.0,
+      "cycles_uk": 342695802881.0
+     },
+     {
+      "wall": 11.218233111023437,
+      "user": 104.34,
+      "sys": 2.1,
+      "maxrss_mb": 334.85546875,
+      "rc": 0,
+      "task_clock": 106.49982000000001,
+      "instructions": 713739162444.0,
+      "cycles": 338576289042.0,
+      "cycles_uk": 342898656346.0
+     }
+    ],
+    "final": [
+     {
+      "wall": 10.837321597966366,
+      "user": 100.77,
+      "sys": 2.01,
+      "maxrss_mb": 337.890625,
+      "rc": 0,
+      "task_clock": 102.8458,
+      "instructions": 713640578637.0,
+      "cycles": 338283139476.0,
+      "cycles_uk": 342556111967.0
+     },
+     {
+      "wall": 11.130320212978404,
+      "user": 103.63,
+      "sys": 2.09,
+      "maxrss_mb": 324.09765625,
+      "rc": 0,
+      "task_clock": 105.78285000000001,
+      "instructions": 713642606874.0,
+      "cycles": 338278626507.0,
+      "cycles_uk": 342565768787.0
+     },
+     {
+      "wall": 10.998704153986182,
+      "user": 101.83,
+      "sys": 2.09,
+      "maxrss_mb": 336.83203125,
+      "rc": 0,
+      "task_clock": 103.97639,
+      "instructions": 713629079846.0,
+      "cycles": 338639780069.0,
+      "cycles_uk": 343011559459.0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  }
+ ]
+}

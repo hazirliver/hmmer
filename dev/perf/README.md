@@ -77,6 +77,10 @@ Options: `--workloads REGEX`, `--reps`, `--warmup`, `--check-only` (one untimed 
 
 **Per-side environment.** `--a-env VAR=VALUE` and `--b-env VAR=VALUE` (repeatable) set environment variables for one side's runs. With the same binary on both sides, `--a-env HMMER_SIMD=sse` compares the SSE filter kernels with the default (widest) ones, with no code-layout difference between A and B. `HMMER_SIMD` and `HMMER_NCPU` are otherwise removed from the runs' environment.
 
+## `series.py` and `plot_series.py`: many snapshots at once
+
+`ab.sh` compares two binaries; `series.py` runs any number of them (for example upstream and the end of every phase) on the same workloads in one session, round-robin with a rotated order each round, after an untimed round that checks every binary's outputs against the first one's. `plot_series.py` turns its JSON into SVG charts (light and dark) and a Markdown table. [`../profiling/RESULTS.md`](../profiling/RESULTS.md) was made this way; its last section has the commands.
+
 ## Measured noise (A/A, same binary on both sides)
 
 Machine: 16-vCPU Xeon 8468 VM, idle. Measured on 2026-10-04 with 5 reps per side.
