@@ -7,10 +7,10 @@ import sys, re, collections
 
 # innermost-first stage mapping: symbol -> stage
 INNER = [
-    (r'^(calc_band_\d+|p7_SSVFilter|p7_MSVFilter|get_xE)$',            'S1 MSV/SSV filter'),
+    (r'^(calc_band_(avx2_|avx512_)?\d+|p7_SSVFilter\w*|p7_MSVFilter\w*|get_xE)$', 'S1 MSV/SSV filter'),
     (r'^(esl_hmm_Forward|p7_bg_FilterScore)$',                         'S2 bias filter (bg HMM fwd)'),
     (r'^p7_bg_NullOne$',                                               'S0 null1 score'),
-    (r'^p7_ViterbiFilter$',                                            'S3 Viterbi filter'),
+    (r'^p7_ViterbiFilter\w*$',                                         'S3 Viterbi filter'),
     (r'^p7_ForwardParser$',                                            'S4 Forward parser (filter)'),
     (r'^p7_BackwardParser$',                                           'S5 Backward parser'),
     (r'^p7_DomainDecoding$',                                           'D1 domain decoding (posterior B/E)'),
@@ -25,8 +25,8 @@ INNER = [
     (r'^(p7_oprofile_Reconfig\w+|p7_bg_SetLength|p7_pli_NewSeq|p7_omx_GrowTo|p7_domaindef_GrowTo|p7_pipeline_Reuse|p7_domaindef_Reuse|esl_sq_Reuse)$', 'P per-seq setup/reconfig'),
     (r'^(p7_tophits_Targets|p7_tophits_Domains|p7_alidisplay_Print|p7_tophits_Tabular\w+|p7_tophits_Alignment|esl_msafile_Write|p7_pli_Statistics)$', 'O output'),
     (r'^(p7_tophits_Sort\w*|p7_tophits_Merge|p7_tophits_Threshold|p7_tophits_CreateNextHit)$', 'O hit list sort/merge'),
-    (r'^(p7_hmmfile_Read|p7_ProfileConfig|p7_oprofile_Convert|p7_oprofile_Clone|p7_pipeline_Create|p7_pli_NewModel|p7_oprofile_Create|p7_profile_Create)$', 'Q per-query model setup'),
-    (r'^(esl_sqio_ReadBlock|esl_sqio_Read|header_fasta|seebuf|addbuf|skipbuf|loadbuf|loadmem|end_fasta|read_fasta|nextchar|esl_sqfile_Position|sqascii_\w+|esl_abc_Digitize\w*|header_embl|end_embl|check_buffers|esl_sq_Grow\w*|esl_sq_SetName|esl_sq_SetDesc|esl_sq_SetAccession|esl_sq_FetchFromMSA|esl_buffer_\w+|esl_sq_GrowTo)$', 'R seq DB read/parse'),
+    (r'^(p7_hmmfile_Read|p7_ProfileConfig|p7_oprofile_Convert|p7_oprofile_SetSIMD|p7_oprofile_Clone|p7_pipeline_Create|p7_pli_NewModel|p7_oprofile_Create|p7_profile_Create)$', 'Q per-query model setup'),
+    (r'^(esl_sqio_ReadBlock|esl_sqio_Read|header_fasta|header_run\w*|seeaddbuf|seebuf|addbuf|skipbuf|loadbuf|loadmem|end_fasta|read_fasta|nextchar|esl_sqfile_Position|sqascii_\w+|esl_abc_Digitize\w*|header_embl|end_embl|check_buffers|esl_sq_Grow\w*|esl_sq_SetName|esl_sq_SetDesc|esl_sq_SetAccession|esl_sq_FetchFromMSA|esl_buffer_\w+|esl_sq_GrowTo)$', 'R seq DB read/parse'),
     (r'^(esl_workqueue_\w+|esl_threads_\w+)$',                         'T thread sync'),
 ]
 INNER = [(re.compile(a), b) for a, b in INNER]

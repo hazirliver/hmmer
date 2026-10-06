@@ -1,0 +1,66 @@
+diff --git a/src/p7_bg.c b/src/p7_bg.c
+index 7f9d9d3..2c89453 100644
+--- a/src/p7_bg.c
++++ b/src/p7_bg.c
+@@ -21,6 +21,52 @@
+ #include "esl_vectorops.h"
+ 
+ #include "hmmer.h"
++#include <stdint.h>
++static const double
++  ln2_hi = 6.93147180369123816490e-01, /* 3fe62e42 fee00000 */
++  ln2_lo = 1.90821492927058770002e-10, /* 3dea39ef 35793c76 */
++  Lg1 = 6.666666666666735130e-01,
++  Lg2 = 3.999999999940941908e-01,
++  Lg3 = 2.857142874366239149e-01,
++  Lg4 = 2.222219843214978396e-01,
++  Lg5 = 1.818357216161805012e-01,
++  Lg6 = 1.531383769920937332e-01,
++  Lg7 = 1.479819860511658591e-01;
++
++
++static inline float
++fast_logf_exact(float x)
++{
++  uint32_t ix; memcpy(&ix, &x, 4);
++  /* fast path only for normal, positive, finite x != 1 */
++  if (ix - 0x00800000u >= 0x7f800000u - 0x00800000u || ix == 0x3f800000u) { return (float) log((double) x); }
++
++  int      k  = (int) (ix >> 23) - 127;
++  uint32_t mb = (ix & 0x007fffffu) | 0x3f800000u;   /* m in [1,2) */
++  float    mf; memcpy(&mf, &mb, 4);
++  double   m  = mf;
++  if (m > 1.4142135623730951) { m *= 0.5; k += 1; } /* m in [sqrt2/2, sqrt2), exact */
++
++  double f    = m - 1.0;                             /* exact */
++  double s    = f / (2.0 + f);
++  double z    = s * s;
++  double w    = z * z;
++  double t1   = w * (Lg2 + w * (Lg4 + w * Lg6));
++  double t2   = z * (Lg1 + w * (Lg3 + w * (Lg5 + w * Lg7)));
++  double R    = t2 + t1;
++  double hfsq = 0.5 * f * f;
++  double dk   = (double) k;
++  double y    = dk * ln2_hi - ((hfsq - (s * (hfsq + R) + dk * ln2_lo)) - f);
++
++  /* float rounding drops the low 29 bits of the double mantissa; it is
++   * safe when those bits are far from the halfway pattern 0x10000000 */
++  uint64_t uy; memcpy(&uy, &y, 8);
++  uint32_t low = (uint32_t) (uy & 0x1fffffffu);
++  uint32_t d   = low > 0x10000000u ? low - 0x10000000u : 0x10000000u - low;
++  if (d <= 4096) { return (float) log((double) x); }
++  return (float) y;
++}
++
+ 
+ 
+ /*****************************************************************
+@@ -493,7 +539,7 @@ filter_forward(const ESL_DSQ *dsq, int L, const ESL_HMM *hmm)
+       max = ESL_MAX(n1, max);
+       d0  = n0 / max;
+       d1  = n1 / max;
+-      logsc += (float) log(max);
++      logsc += fast_logf_exact(max);
+     }
+ 
+   endsc  = 0.0;

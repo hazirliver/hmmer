@@ -1,6 +1,6 @@
 # hmmsearch acceleration plan (small, verified steps)
 
-Results, upstream vs every phase: [`RESULTS.md`](RESULTS.md). Lessons learned so far: [`LEARNINGS.md`](LEARNINGS.md). Input: the profile in [`README.md`](README.md) (dev @ 8da3ab2, measured 2026-10-04).
+Results, upstream vs every phase: [`RESULTS.md`](RESULTS.md). Re-profile after Phase 6 and proposed Phase 7: [`REPROFILE.md`](REPROFILE.md). Lessons learned so far: [`LEARNINGS.md`](LEARNINGS.md). Input: the profile in [`README.md`](README.md) (dev @ 8da3ab2, measured 2026-10-04).
 Each step below is one small commit. A step is kept only if it is **byte-identical** to the previous step on every check and **faster beyond noise** on the metric it targets. A pure refactor that later steps need can be kept when it is perf-neutral.
 
 ---
@@ -253,6 +253,19 @@ Profile at the start (f9dcb6b, pfam_1k × human `--cut_ga`, `--cpu 1`): SSV/MSV 
 Outcome (milestone, default `-O3` vs f9dcb6b, outputs identical everywhere): W2 −29.5%, W4 −21.8%, W3 −17.2%, W1 −5.8% cycles; X5 `pfam_1k × human --cut_ga` @ 16 28.2 → 26.6 s, with `--dbcache` 14.4 → 12.0 s (−16%); X3 −14 to −18%; X1 −4 to −15%; X4, W5 unchanged; nothing slower. Instructions −26 to −52% on filter-heavy runs. Uncached X5 is held back by the serial reader at 16 threads. Profiles read from pressed files (hmmscan) get no wide copies and stay on SSE: per model and target sequence, restriping costs about what the AVX2 SSV saves.
 
 Out of scope, because it isn't byte-identical: wider Forward/Backward and the posterior kernels. Lane count changes the float summation order (the D-chain serialization and the E-state horizontal sum). They need an explicit, reviewed golden update, which is a separate decision.
+
+### Phase 7 — proposed after the re-profile (not started; see [`REPROFILE.md`](REPROFILE.md))
+
+The re-profile at 432ee21 found that at 16 threads the **end-of-query barrier** now costs more than any kernel. On X5 with `--dbcache`, workers are busy 61% of each pass, and 4.8 s of the 10.2 s run is per-query tail. Uncached, the reader is busy only 11.1 s of 18.9 s: it waits out each tail before it can rewind.
+
+| Step | Change | BI | Expect |
+|---|---|---|---|
+| **7A** | Batched multi-query scheduler: per-worker query slots, each block (read or cached slice) searched by K queries, batches overlapped, output in query order. Sub-steps 7A.0 (16 slices per worker with `--dbcache`: −7% measured) to 7A.4 | Same targets and `p7_Pipeline()` calls per query; targets shared read-only, as with `--dbcache` | X5 @ 16: uncached 19 → ~7-8 s, `--dbcache` 10 → ~7 s. The at-scale reader floor is divided by K |
+| **7B** | Exact `atof()` fast path in `read_asc30hmm()` (Clinger: ≤ 15 digits, ≤ 22 decimals, one division), `atof()` otherwise | Correctly rounded = glibc `strtod`; prototype matched 230 M Pfam/Dfam tokens + 50 M random | Pfam-A text × 5 seqs: serial 19 → ~10 s, @ 16 15 → ~5 s |
+| **7C** | Forward/Backward parsers on two targets at once (one per 128-bit half of a 256-bit register, same ops per half); needs the pipeline split per block | Per half, the exact SSE operation sequence | ≤ 1.4× on S4/S5: realistic −3 to −4%, hit-rich −8 to −10% CPU |
+| 7D | Bias-filter chain without `0.0 +` / `max(0, ·)`; `choose()` and the cluster overlap test with multiply + margin before the divide | Exact for the value ranges involved; fallback to the divide | ~1-2% each |
+
+Measured and dropped in the re-profile: an exact inline `log()` for the bias filter (exhaustively verified, −1%: the libm samples were stalls), LTO (−0.5 to −1%), the query-parallel mode for big dbs (1.53× slower on X5).
 
 ---
 

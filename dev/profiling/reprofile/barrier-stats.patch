@@ -1,0 +1,72 @@
+diff --git a/src/hmmsearch.c b/src/hmmsearch.c
+index 86433d7..93cd71d 100644
+--- a/src/hmmsearch.c
++++ b/src/hmmsearch.c
+@@ -38,6 +38,10 @@
+ #endif 
+ 
+ #include "hmmer.h"
++#include <time.h>
++static double xnow(void){ struct timespec t; clock_gettime(CLOCK_MONOTONIC,&t); return t.tv_sec+1e-9*t.tv_nsec; }
++static double X_passwall=0, X_busy=0, X_serial=0, X_lastend=0, X_tail=0, X_firstdone=0; static int X_npass=0, X_nact=0;
++static double X_wstart[256], X_wend[256]; static double X_read=0, X_qwait=0;
+ 
+ #ifdef HMMER_THREADS
+ /* Worker threads are created once and search one pass over the target
+@@ -890,6 +894,8 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
+     }
+ #endif
+ 
++  fprintf(stderr, "XSTAT passes=%d passwall=%.3f busy=%.3f (util %.1f%% of nact*passwall) serial_between=%.3f tail(first-done..last-done)=%.3f\n",
++          X_npass, X_passwall, X_busy, 100*X_busy/(X_passwall*(X_nact?X_nact:1)), X_serial, X_tail); fprintf(stderr, "XSTAT read=%.3f queue_wait=%.3f\n", X_read, X_qwait);
+   dbcache_Destroy(dbc);
+   free(info);
+   p7_hmmfile_Close(hfp);
+@@ -1978,6 +1984,7 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFI
+   if      (bs > 0)          nactive = ESL_MIN((gate->nseqs + bs - 1) / bs, gate->nworkers);
+   else if (gate->nblocks)   nactive = ESL_MIN(gate->nblocks, gate->nworkers);
+   else                      nactive = gate->nworkers;
++  double xt0 = xnow(); if (X_lastend > 0) X_serial += xt0 - X_lastend; X_nact = nactive; X_firstdone = 0;
+   pthread_mutex_lock(&gate->mutex);
+   gate->nrunning = nactive;
+   gate->pass++;
+@@ -2015,7 +2022,7 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFI
+         block->count = 0;
+         sstatus = eslEOF;
+       } else {
+-        sstatus = esl_sqio_ReadBlock(dbfp, block, -1, n_targetseqs, /*max_init_window=*/FALSE, FALSE);
++        { double xr = xnow(); sstatus = esl_sqio_ReadBlock(dbfp, block, -1, n_targetseqs, /*max_init_window=*/FALSE, FALSE); X_read += xnow() - xr; }
+         n_targetseqs -= block->count;
+       }
+ 
+@@ -2028,7 +2035,7 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFI
+       if (sstatus == eslOK)
+       {
+         if (block->count > 0) { nblocks++; nseqs += block->count; }
+-        status = esl_workqueue_ReaderUpdate(queue, block, &newBlock);
++        { double xq = xnow(); status = esl_workqueue_ReaderUpdate(queue, block, &newBlock); X_qwait += xnow() - xq; }
+         if (status != eslOK) esl_fatal("Work queue reader failed");
+       }
+     }
+@@ -2041,6 +2048,8 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFI
+       /* wait for all the workers to finish this pass */
+       pthread_mutex_lock(&gate->mutex);
+       while (gate->nrunning > 0) pthread_cond_wait(&gate->done, &gate->mutex);
++      { double xt1 = xnow(); int w2; X_passwall += xt1 - xt0; X_npass++; X_tail += xt1 - X_firstdone;
++        for (w2 = 0; w2 < nactive; w2++) X_busy += X_wend[w2] - X_wstart[w2]; X_lastend = xt1; }
+       pthread_mutex_unlock(&gate->mutex);
+       esl_workqueue_Complete(queue);
+       if (dbc) dbcache_EndPass(dbc);
+@@ -2095,10 +2104,11 @@ pipeline_thread(void *arg)
+ 
+       pass = gate->wpass[workeridx];
+       pthread_mutex_unlock(&gate->mutex);
+-
++      X_wstart[workeridx] = xnow();
+       search_pass(info);
+ 
+       pthread_mutex_lock(&gate->mutex);
++      X_wend[workeridx] = xnow(); if (X_firstdone == 0) X_firstdone = X_wend[workeridx];
+       if (--gate->nrunning == 0) pthread_cond_signal(&gate->done);
+       pthread_mutex_unlock(&gate->mutex);
+     }
