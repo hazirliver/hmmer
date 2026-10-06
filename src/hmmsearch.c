@@ -78,6 +78,8 @@ typedef struct {
   int               nrunning;    /* workers still busy in the current pass              */
   int               nblocks;     /* nonempty blocks in the last pass; 0 = unknown yet   */
   int               nseqs;       /* targets in the last pass; 0 = unknown yet           */
+  int               split_free;  /* TRUE: how targets are split among workers can't change
+                                    which hits a worker keeps (see split_is_free())     */
   int               quit;        /* TRUE: workers exit                                  */
   QP_JOB          **wjob;        /* [0..nworkers-1] query-parallel job given to a worker, or NULL */
   int              *idle;        /* stack of workers without a job                      */
@@ -240,6 +242,8 @@ struct cfg_s {
 
 #define BLOCK_SIZE 1000
 #define BLOCK_MIN  20     /* smallest block a small, cached target db is split into */
+#define SLICES     4      /* cached passes: blocks per worker...                     */
+#define SLICES_FREE 16    /*   ... or this many, when splitting can't change results  */
 
 /* DBCACHE: the target database kept in memory (--dbcache).
  *
@@ -322,6 +326,7 @@ static int  serial_loop  (WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs,
 static int  thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc);
 static void pipeline_thread(void *arg);
 static void search_pass(WORKER_INFO *info);
+static int  split_is_free(const ESL_GETOPTS *go);
 static void search_query(WORKER_INFO *info, WORKER_GATE *gate, QP_JOB *job);
 static void query_prep_Start(QUERY_PREP *prep, P7_HMMFILE *hfp, ESL_ALPHABET *abc, int nthreads);
 static void query_prep_Next (QUERY_PREP *prep, P7_HMM **ret_hmm, P7_PROFILE **ret_gm, P7_OPROFILE **ret_om, int *ret_hstatus);
@@ -642,6 +647,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       gate.nrunning = 0;
       gate.nblocks  = 0;
       gate.nseqs    = 0;
+      gate.split_free = split_is_free(go);
       gate.quit     = FALSE;
       qp_Create(&qp, 2 * ncpus);
     }
@@ -1962,8 +1968,11 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFI
 
   /* Every pass hands out the same targets, so after the first one we
    * know how many there are. When they come from the --dbcache, split a
-   * small db into ~4 blocks per worker (but at least BLOCK_MIN targets
-   * each), so they all get a share; a big one keeps full blocks. Without
+   * small db into SLICES blocks per worker (but at least BLOCK_MIN targets
+   * each), so they all get a share; a big one keeps full blocks. Finer
+   * slices even out the end of a pass better, but they change how many
+   * targets each worker has seen when it decides to keep a hit, so they're
+   * used only when that can't matter (split_is_free()). Without
    * the cache, the reader sets the pace and small blocks don't help.
    * Then wake only as many workers as there will be blocks: the rest
    * would only collect an end-of-pass block. Which worker searches which
@@ -1971,7 +1980,8 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFI
    */
   if (dbc && dbc->complete && gate->nseqs > 0)
     {
-      bs = (gate->nseqs + 4 * gate->nworkers - 1) / (4 * gate->nworkers);
+      int nper = (gate->split_free ? SLICES_FREE : SLICES) * gate->nworkers;
+      bs = (gate->nseqs + nper - 1) / nper;
       bs = ESL_MAX(bs, BLOCK_MIN);
       if (bs >= BLOCK_SIZE) bs = 0;
     }
@@ -2105,6 +2115,22 @@ pipeline_thread(void *arg)
 
   esl_threads_Finished(obj, workeridx);
   return;
+}
+
+/* split_is_free()
+ * TRUE if splitting the targets among workers differently can't change
+ * any output. A worker keeps a hit for the final thresholding when
+ * p7_pli_TargetReportable() says so, and with E-value thresholds and no
+ * -Z that uses the worker's own running target count as Z: which
+ * borderline hits are kept, and so the widths of name columns, then
+ * depend on the split (upstream behaviour; see dev/profiling/PLAN.md §2).
+ * With -Z or bit score thresholds nothing depends on it.
+ */
+static int
+split_is_free(const ESL_GETOPTS *go)
+{
+  return (esl_opt_IsOn(go, "-Z") || esl_opt_IsOn(go, "-T") ||
+          esl_opt_GetBoolean(go, "--cut_ga") || esl_opt_GetBoolean(go, "--cut_nc") || esl_opt_GetBoolean(go, "--cut_tc"));
 }
 
 /* search_query()
