@@ -231,7 +231,7 @@ Outcome (milestone, default `-O3` vs 62d1c72, outputs identical everywhere): X5 
 
 Found on the way (upstream behaviours, documented in the utest): on pipes, record offsets are -1 plus the position in the current read; `GuessAlphabet()` leaves the file mid-recording when it fails; daemon-format files read a byte past the buffer at record ends; `skip_whitespace()` indexes the input map with a negative `char` for bytes > 127; with an alphabet that disagrees with the format's input map (no standard alphabet does), which residues survive depends on where reads end, so 5.2 changed those (already garbage) results.
 
-**Candidates (unscheduled):** a 256-entry combined classify-and-digitize table in `seeaddbuf()` (12 → ~8 instructions per residue; needs a cache invalidated whenever the input map changes); a faster name scan in `header_fasta()`; reads of 32-128 KB (~1% in the reader alone, not resolvable on R1 today).
+**Candidates:** ~~a 256-entry combined classify-and-digitize table in `seeaddbuf()`~~ done as **5.6** after Phase 6 (Easel 2be6bcc: R1 −10.8%, X1 @ 16 −18%, X5 uncached −17% wall; see PROGRESS.md); a faster name scan in `header_fasta()`; reads of 32-128 KB (~1% in the reader alone, not resolvable on R1 today).
 
 ### Phase 6 — wider SIMD for the integer filters (S1 25-55%, S3 9-15% of worker CPU) · **done** (6.3b, 6.4b, 6.4c added; AVX-512 used only for long models; see PROGRESS.md)
 
