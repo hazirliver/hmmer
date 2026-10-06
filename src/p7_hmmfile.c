@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <langinfo.h>   /* nl_langinfo(RADIXCHAR): hmmfile_atof() takes its fast path only for a '.' radix */
 
 #ifdef HMMER_THREADS
 #include <pthread.h>
@@ -53,6 +54,7 @@ static uint32_t  v3f_magic = 0xe8ededba; /* 3/f binary: "hmma" + 0x80808080 */
 
 
 static int read_asc30hmm(P7_HMMFILE *hfp, ESL_ALPHABET **ret_abc, P7_HMM **opt_hmm);
+static inline double hmmfile_atof(const char *s, int dot_ok);
 static int read_bin30hmm(P7_HMMFILE *hfp, ESL_ALPHABET **ret_abc, P7_HMM **opt_hmm);
 static int read_asc20hmm(P7_HMMFILE *hfp, ESL_ALPHABET **ret_abc, P7_HMM **opt_hmm);
 
@@ -1203,6 +1205,51 @@ p7_hmmfile_Position(P7_HMMFILE *hfp, const off_t offset)
  * 4.  Private, specific profile HMM file format parsers.
  *****************************************************************/
 
+/* hmmfile_atof()
+ * Same value as atof(<s>), faster for the plain decimals that fill
+ * HMMER3 files ("2.35312").
+ *
+ * A token that is entirely [+-]?digits[.digits] (at least one digit),
+ * with at most 15 significant digits and at most 22 digits after the
+ * point, has the value m / 10^e with m < 2^53 and 10^e exact in double,
+ * so one IEEE division rounds it correctly: exactly the double strtod()
+ * returns (Clinger's fast path). Everything else (exponents, inf/nan,
+ * hex, more digits, trailing characters) goes to atof(), and so does
+ * every token when the locale's radix isn't '.' (<dot_ok> FALSE).
+ */
+static const double hmmfile_p10[23] = { 1e0,  1e1,  1e2,  1e3,  1e4,  1e5,  1e6,  1e7,  1e8,  1e9,  1e10, 1e11,
+                                        1e12, 1e13, 1e14, 1e15, 1e16, 1e17, 1e18, 1e19, 1e20, 1e21, 1e22 };
+static inline double
+hmmfile_atof(const char *s, int dot_ok)
+{
+  const char *p   = s;
+  uint64_t    m   = 0;      /* the digits as an integer                        */
+  int         nd  = 0;      /* significant digits in m (leading zeros skipped)  */
+  int         ne  = 0;      /* digits after the point                          */
+  int         any = FALSE;  /* saw a digit                                     */
+  int         neg = FALSE;
+  double      d;
+
+  if (! dot_ok) return atof(s);
+  if      (*p == '-') { neg = TRUE; p++; }
+  else if (*p == '+') p++;
+  for (; *p >= '0' && *p <= '9'; p++)
+    {
+      any = TRUE;
+      if (m || *p != '0') { m = m * 10 + (uint64_t) (*p - '0'); if (++nd > 15) return atof(s); }
+    }
+  if (*p == '.')
+    for (p++; *p >= '0' && *p <= '9'; p++)
+      {
+        any = TRUE;
+        if (++ne > 22) return atof(s);
+        if (m || *p != '0') { m = m * 10 + (uint64_t) (*p - '0'); if (++nd > 15) return atof(s); }
+      }
+  if (! any || *p != '\0') return atof(s);
+  d = (double) m / hmmfile_p10[ne];
+  return (neg ? -d : d);
+}
+
 /* Parsing save files from HMMER 3.x
  * All parsers follow the same API.
  * 
@@ -1256,6 +1303,7 @@ read_asc30hmm(P7_HMMFILE *hfp, ESL_ALPHABET **ret_abc, P7_HMM **opt_hmm)
   off_t         offset = 0;
   int           status;
   uint32_t      statstracker = 0;
+  int           dot_ok       = (strcmp(nl_langinfo(RADIXCHAR), ".") == 0);  /* for hmmfile_atof() */
 
   hfp->errbuf[0]    = '\0';
   hfp->rr_errbuf[0] = '\0';
@@ -1483,7 +1531,7 @@ read_asc30hmm(P7_HMMFILE *hfp, ESL_ALPHABET **ret_abc, P7_HMM **opt_hmm)
   if (strcmp(tok1, "COMPO") == 0) {
     for (x = 0; x < abc->K; x++)  {
       if ((status = esl_fileparser_GetTokenOnLine(hfp->efp, &tok1, NULL))     != eslOK)  ESL_XFAIL(status,     hfp->errbuf, "Too few fields on COMPO line");
-      hmm->compo[x] = (*tok1 == '*' ? 0.0 : expf(-1.0 * atof(tok1)));
+      hmm->compo[x] = (*tok1 == '*' ? 0.0 : expf(-1.0 * hmmfile_atof(tok1, dot_ok)));
     }
     hmm->flags |= p7H_COMPO;
     if ((status = esl_fileparser_NextLine(hfp->efp))                          != eslOK)  ESL_XFAIL(status,     hfp->errbuf, "Premature end of data after COMPO line");  
@@ -1492,15 +1540,15 @@ read_asc30hmm(P7_HMMFILE *hfp, ESL_ALPHABET **ret_abc, P7_HMM **opt_hmm)
 
   /* First two lines are node 0: insert emissions, then transitions from node 0 (begin) */
 
-  hmm->ins[0][0] = (*tok1 == '*' ? 0.0 : expf(-1.0 *atof(tok1)));
+  hmm->ins[0][0] = (*tok1 == '*' ? 0.0 : expf(-1.0 * hmmfile_atof(tok1, dot_ok)));
   for (x = 1; x < abc->K; x++) {
     if ((status = esl_fileparser_GetTokenOnLine(hfp->efp, &tok1, NULL))       != eslOK)  ESL_XFAIL(status,     hfp->errbuf, "Too few fields on insert line, node 0: expected %d, got %d\n", abc->K, x);
-    hmm->ins[0][x] = (*tok1 == '*' ? 0.0 : expf(-1.0 *atof(tok1)));
+    hmm->ins[0][x] = (*tok1 == '*' ? 0.0 : expf(-1.0 * hmmfile_atof(tok1, dot_ok)));
   }
   if ((status = esl_fileparser_NextLine(hfp->efp))                            != eslOK)  ESL_XFAIL(status,     hfp->errbuf, "Premature end of data in main model: no node 0 transition line");
   for (x = 0; x < p7H_NTRANSITIONS; x++) {
     if ((status = esl_fileparser_GetTokenOnLine(hfp->efp, &tok1, NULL))       != eslOK)  ESL_XFAIL(status,     hfp->errbuf, "Too few fields on begin (0) transition line");
-    hmm->t[0][x] = (*tok1 == '*' ? 0.0 : expf(-1.0 *atof(tok1)));
+    hmm->t[0][x] = (*tok1 == '*' ? 0.0 : expf(-1.0 * hmmfile_atof(tok1, dot_ok)));
   }
 
   /* The main model section. */
@@ -1513,7 +1561,7 @@ read_asc30hmm(P7_HMMFILE *hfp, ESL_ALPHABET **ret_abc, P7_HMM **opt_hmm)
       
       for (x = 0; x < abc->K; x++) {
 	if ((status = esl_fileparser_GetTokenOnLine(hfp->efp, &tok1, NULL))   != eslOK)  ESL_XFAIL(status,     hfp->errbuf, "Too few probability fields on match line, node %d: expected %d, got %d\n", k, abc->K, x);
-	hmm->mat[k][x] = (*tok1 == '*' ? 0.0 : expf(-1.0 *atof(tok1)));
+	hmm->mat[k][x] = (*tok1 == '*' ? 0.0 : expf(-1.0 * hmmfile_atof(tok1, dot_ok)));
       }
       
       if ((status = esl_fileparser_GetTokenOnLine(hfp->efp, &tok1, NULL))     != eslOK)  ESL_XFAIL(status,     hfp->errbuf, "Missing MAP field on match line for node %d: should at least be -", k);
@@ -1539,12 +1587,12 @@ read_asc30hmm(P7_HMMFILE *hfp, ESL_ALPHABET **ret_abc, P7_HMM **opt_hmm)
       if ((status = esl_fileparser_NextLine(hfp->efp))                        != eslOK)  ESL_XFAIL(status,     hfp->errbuf, "Premature end of data in main model: no insert emission line, node %d", k);
       for (x = 0; x < abc->K; x++) {
 	if ((status = esl_fileparser_GetTokenOnLine(hfp->efp, &tok1, NULL))   != eslOK)  ESL_XFAIL(status,     hfp->errbuf, "Too few probability fields on insert line, node %d: expected %d, got %d\n", k, abc->K, x);
-	hmm->ins[k][x] = (*tok1 == '*' ? 0.0 : expf(-1.0 *atof(tok1)));
+	hmm->ins[k][x] = (*tok1 == '*' ? 0.0 : expf(-1.0 * hmmfile_atof(tok1, dot_ok)));
       }
       if ((status = esl_fileparser_NextLine(hfp->efp))                        != eslOK)  ESL_XFAIL(status,     hfp->errbuf, "Premature end of data in main model: no transition line, node %d", k);
       for (x = 0; x < p7H_NTRANSITIONS; x++) {
 	if ((status = esl_fileparser_GetTokenOnLine(hfp->efp, &tok1, NULL))   != eslOK)  ESL_XFAIL(status,     hfp->errbuf, "Too few probability fields on transition line, node %d: expected %d, got %d\n", k, abc->K, x);
-	hmm->t[k][x] = (*tok1 == '*' ? 0.0 : expf(-1.0 *atof(tok1)));
+	hmm->t[k][x] = (*tok1 == '*' ? 0.0 : expf(-1.0 * hmmfile_atof(tok1, dot_ok)));
       }
     }
 
@@ -2402,6 +2450,81 @@ utest_io_3a(char *tmpfile, P7_HMM *hmm)
   return eslOK;
 }
 
+/* utest_atof: hmmfile_atof() must return atof()'s double, bit for bit.
+ *             Random decimal strings around its limits (15 significant
+ *             digits, 22 after the point), signs, leading and trailing
+ *             zeros, exponents and junk that must fall back to atof(),
+ *             plus fixed edge cases. Both outcomes must be reached.
+ *             With <fname>, also every whitespace-separated token of
+ *             that file (e.g. Pfam-A.hmm).
+ */
+static int
+check_atof(const char *tok, int *ret_nfast)
+{
+  double a = atof(tok);
+  double b = hmmfile_atof(tok, TRUE);
+  double c = hmmfile_atof(tok, FALSE);
+
+  if (memcmp(&a, &b, sizeof(double)) != 0 || memcmp(&a, &c, sizeof(double)) != 0)
+    esl_fatal("hmmfile_atof() unit test failed: \"%s\": atof %a, hmmfile_atof %a / %a", tok, a, b, c);
+  if (ret_nfast) *ret_nfast += (strpbrk(tok, "eExXnNiI*") == NULL && strlen(tok) < 18); /* rough: plain short decimals */
+  return eslOK;
+}
+
+static int
+utest_atof(ESL_RANDOMNESS *r, int N, char *fname)
+{
+  char *edge[] = { "0", "-0", "+0", "0.", ".0", "-.0", "0.00000", "-0.00000", "1", "1.", ".5", "-.5", "+1.5", "2.35312",
+                   "999999999999999", "9999999999999999", "123456789012345", "1234567890123456", "12345678901234567890",
+                   "0.000000000000000000001", "0.0000000000000000000001", "0.00000000000000000000001",
+                   "0.123456789012345", "0.1234567890123456", "1.0000000000000000000000", "100000000000000000000000",
+                   "000000000000000000000000001.5", "4503599627370497", "9007199254740993", "0.30000000000000004",
+                   "1e5", "1E-3", "1.5e+2", "inf", "-inf", "INF", "nan", "NaN", "*", "", "-", "+", ".", "-.", "1.2.3",
+                   "12abc", "1.5 ", " 1.5", "0x1p3", "0X1A", "--1", "+-1", "1-", "1,5" };
+  char  tok[64];
+  int   nfast = 0;
+  int   i, k, n, ni, nf;
+
+  for (i = 0; i < (int) (sizeof(edge) / sizeof(char *)); i++) check_atof(edge[i], NULL);
+
+  for (n = 0; n < N; n++)
+    {
+      k  = 0;
+      ni = esl_rnd_Roll(r, 10);                 /* digits before the point: 0..9  */
+      nf = esl_rnd_Roll(r, 26);                 /* digits after the point:  0..25 */
+      switch (esl_rnd_Roll(r, 4)) { case 0: tok[k++] = '-'; break; case 1: if (esl_rnd_Roll(r, 4) == 0) tok[k++] = '+'; break; }
+      for (i = 0; i < ni; i++) tok[k++] = (i == 0 && esl_rnd_Roll(r, 3) == 0) ? '0' : '0' + esl_rnd_Roll(r, 10);
+      if (nf > 0 || ni == 0 || esl_rnd_Roll(r, 8) == 0)
+        {
+          tok[k++] = '.';
+          for (i = 0; i < nf; i++)
+            switch (esl_rnd_Roll(r, 6)) {
+            case 0:  tok[k++] = '0'; break;     /* runs of zeros: leading/trailing zero handling */
+            case 1:  tok[k++] = '9'; break;     /* runs of nines: values just below a power of ten */
+            default: tok[k++] = '0' + esl_rnd_Roll(r, 10); break;
+            }
+        }
+      switch (esl_rnd_Roll(r, 40)) {           /* now and then, something the fast path must refuse */
+      case 0: k += sprintf(tok + k, "e%d", (int) esl_rnd_Roll(r, 40) - 20); break;
+      case 1: tok[k++] = 'x';                                                break;
+      case 2: tok[k++] = '.';                                                break;
+      }
+      tok[k] = '\0';
+      check_atof(tok, &nfast);
+    }
+  if (nfast < N / 4 || nfast == N) esl_fatal("hmmfile_atof() unit test failed: fast path taken %d of %d times", nfast, N);
+
+  if (fname)
+    {
+      FILE *fp;
+      if ((fp = fopen(fname, "r")) == NULL) esl_fatal("can't open %s", fname);
+      for (n = 0; fscanf(fp, "%63s", tok) == 1; n++) check_atof(tok, NULL);
+      fclose(fp);
+      printf("hmmfile_atof(): %d tokens of %s match atof()\n", n, fname);
+    }
+  return eslOK;
+}
+
 #endif /*p7HMMFILE_TESTDRIVE*/
 /*-------------------- end, unit tests --------------------------*/
 
@@ -2439,6 +2562,8 @@ main(int argc, char **argv)
   if ((r      = esl_randomness_CreateFast(0))  == NULL)  esl_fatal("failed to create randomness");
   if ((esl_tmpfile_named(tmpfile, &fp))        != eslOK) esl_fatal("failed to create tmp file");
   fclose(fp);
+
+  utest_atof(r, 1000000, (argc > 1 ? argv[1] : NULL));
 
   /* Protein HMMs */
   p7_hmm_Sample(r, M, aa_abc, &hmm);
