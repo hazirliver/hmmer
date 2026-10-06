@@ -110,11 +110,13 @@ typedef struct p7_oprofile_s {
   __m128   *rfv_mem;
 
   /* Copies of filter scores for wider vectors (simd.c): the same values as above,
-   * striped for 32 lanes (AVX2). Valid only while <simd> is p7_SIMD_AVX2; the
-   * filters then run their AVX2 versions on them.                                   */
+   * striped for 32 byte or 16 word lanes (AVX2). Valid only while <simd> is
+   * p7_SIMD_AVX2; the filters then run their AVX2 versions on them.                 */
   int        simd;              /* p7_SIMD_SSE (no valid copies) or p7_SIMD_AVX2     */
   uint8_t  **rbw;               /* [x][32*q]: MSV costs like rbv                     */
   uint8_t  **sbw;               /* [x][32*q]: SSV scores like sbv; q < Q + extra     */
+  int16_t  **rww;               /* [x][16*q]: VF match scores like rwv               */
+  int16_t   *tww;               /* VF transitions like twv: [16*(7q+t)], DDs [16*(7Q+q)] */
   void      *simd_mem;          /* one allocation (row pointers + rows), for allocM  */
   size_t     simd_nalloc;       /* its size in bytes                                 */
 
@@ -365,8 +367,9 @@ extern int p7_OATrace        (const P7_OPROFILE *om, const P7_OMX *pp, const P7_
 /* stotrace.c */
 extern int p7_StochasticTrace(ESL_RANDOMNESS *rng, const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, const P7_OMX *ox, P7_TRACE *tr);
 
-/* vitfilter.c */
+/* vitfilter.c, vitfilter_avx2.c */
 extern int p7_ViterbiFilter(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox, float *ret_sc);
+extern int p7_ViterbiFilter_avx2(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox, int16_t *ret_xC);
 extern int p7_ViterbiFilter_longtarget(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox,
                                         float filtersc, double P, P7_HMM_WINDOWLIST *windowlist);
 

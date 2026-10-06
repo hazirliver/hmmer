@@ -74,6 +74,8 @@ p7_oprofile_Create(int allocM, const ESL_ALPHABET *abc)
   om->simd        = p7_SIMD_SSE;   /* no AVX2 copies until p7_oprofile_SetSIMD() (Convert) */
   om->rbw         = NULL;
   om->sbw         = NULL;
+  om->rww         = NULL;
+  om->tww         = NULL;
   om->simd_mem    = NULL;
   om->simd_nalloc = 0;
 
@@ -295,6 +297,8 @@ p7_oprofile_Copy(P7_OPROFILE *om1)
   om2->simd        = p7_SIMD_SSE;
   om2->rbw         = NULL;
   om2->sbw         = NULL;
+  om2->rww         = NULL;
+  om2->tww         = NULL;
   om2->simd_mem    = NULL;
   om2->simd_nalloc = 0;
 
@@ -565,6 +569,7 @@ p7_oprofile_UpdateVitEmissionScores(P7_OPROFILE *om, P7_BG *bg, float *fwd_emiss
     }
   }
 
+  if (om->simd != p7_SIMD_SSE) p7_oprofile_SetSIMD(om, om->simd); /* AVX2 copies follow the new scores */
   return eslOK;
 }
 

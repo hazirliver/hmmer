@@ -131,17 +131,19 @@ p7_simd_Name(int level)
 
 /* stripe_index()
  * Offsets of nodes k=1..M (index k-1) in a row striped for <Q> vectors
- * of <n> lanes: vector (k-1)%Q, lane (k-1)/Q. Nested loops instead of
- * wrapping counters: the wraps were a branch miss every few nodes.
+ * of <n> lanes: vector (k-1)%Q, lane (k-1)/Q, at <stride> elements per
+ * vector (n, or 7n for the interleaved transitions). Nested loops
+ * instead of wrapping counters: the wraps were a branch miss every few
+ * nodes.
  */
 static void
-stripe_index(int M, int Q, int n, int *pos)
+stripe_index(int M, int Q, int n, int stride, int *pos)
 {
   int q, z, k;
 
   for (z = 0, k = 0; z < n && k < M; z++)
     for (q = 0; q < Q && k < M; q++, k++)
-      pos[k] = q * n + z;
+      pos[k] = q * stride + z;
 }
 
 /* stripe_u8()
@@ -158,12 +160,32 @@ stripe_u8(const uint8_t *src, const int *spos, uint8_t *dst, const int *dpos, in
   for (k = 0; k < M; k++) dst[dpos[k]] = src[spos[k]];
 }
 
+/* stripe_i16()
+ * The same for words; <dst> is assumed already filled with the padding.
+ */
+static void
+stripe_i16(const int16_t *src, const int *spos, int16_t *dst, const int *dpos, int M)
+{
+  int k;
+
+  for (k = 0; k < M; k++) dst[dpos[k]] = src[spos[k]];
+}
+
+/* fill_i16(): <n> words of <dst> := <val> */
+static void
+fill_i16(int16_t *dst, int n, int16_t val)
+{
+  int j;
+  for (j = 0; j < n; j++) dst[j] = val;
+}
+
 
 /* Function:  p7_oprofile_SetSIMD()
  * Synopsis:  Make (or drop) the AVX2 copies of a profile's filter scores.
  *
  * Purpose:   For <level> <p7_SIMD_AVX2>, fill the AVX2 copies of
- *            <om>'s MSV and SSV scores from the SSE ones and set <om->simd>,
+ *            <om>'s MSV, SSV and Viterbi filter scores from the SSE ones
+ *            and set <om->simd>,
  *            so the filters run their AVX2 versions on <om>. For
  *            <p7_SIMD_SSE>, only reset <om->simd>: the filters use
  *            the SSE versions.
@@ -187,7 +209,12 @@ p7_oprofile_SetSIMD(P7_OPROFILE *om, int level)
   int     Kp = om->abc->Kp;
   int     Qs = p7O_NQB(om->M);       /* # of SSE byte vectors   */
   int     Qd = p7O_NQV(om->M, 32);   /* # of AVX2 byte vectors  */
+  int     Qsw = p7O_NQW(om->M);      /* # of SSE word vectors   */
+  int     Qdw = p7O_NQV(om->M, 16);  /* # of AVX2 word vectors  */
   int    *spos, *dpos;               /* node k's offset in an SSE row, an AVX2 row */
+  int    *sposw, *dposw;             /* ... for words                              */
+  int    *tposs, *tposd;             /* ... in the interleaved word transitions    */
+  int     t;
   __m128i tmp, tmp2;
   int     x, q, j;
   int     status;
@@ -201,30 +228,41 @@ p7_oprofile_SetSIMD(P7_OPROFILE *om, int level)
    */
   if (om->simd_mem == NULL)
     {
-      size_t ptrsz = sizeof(uint8_t *) * Kp;
-      size_t idxsz = sizeof(int) * 2 * om->allocM;
+      size_t ptrsz = sizeof(uint8_t *) * Kp;           /* rbw, sbw; rww (same size: pointers) */
+      size_t idxsz = sizeof(int) * 6 * om->allocM;
       size_t rbsz  = (size_t) p7O_NQV(om->allocM, 32) * 32;
       size_t sbsz  = (size_t) (p7O_NQV(om->allocM, 32) + p7O_EXTRA_SB_AVX2) * 32;
+      size_t rwsz  = (size_t) p7O_NQV(om->allocM, 16) * 32;
+      size_t twsz  = (size_t) p7O_NQV(om->allocM, 16) * 32 * p7O_NTRANS;
       uint8_t *data;
 
-      om->simd_nalloc = 2 * ptrsz + idxsz + 63 + (rbsz + sbsz) * Kp;
+      om->simd_nalloc = 3 * ptrsz + idxsz + 63 + (rbsz + sbsz + rwsz) * Kp + twsz;
       ESL_ALLOC(om->simd_mem, om->simd_nalloc);
       om->rbw = (uint8_t **) om->simd_mem;
       om->sbw = om->rbw + Kp;
-      data    = (uint8_t *) (((uintptr_t) om->simd_mem + 2 * ptrsz + idxsz + 63) & ~((uintptr_t) 63));
+      om->rww = (int16_t **) (om->sbw + Kp);
+      data    = (uint8_t *) (((uintptr_t) om->simd_mem + 3 * ptrsz + idxsz + 63) & ~((uintptr_t) 63));
       for (x = 0; x < Kp; x++) om->rbw[x] = data + x * rbsz;
       data   += Kp * rbsz;
       for (x = 0; x < Kp; x++) om->sbw[x] = data + x * sbsz;
+      data   += Kp * sbsz;
+      for (x = 0; x < Kp; x++) om->rww[x] = (int16_t *) (data + x * rwsz);
+      data   += Kp * rwsz;
+      om->tww = (int16_t *) data;
     }
-  spos = (int *) ((uint8_t *) om->simd_mem + 2 * sizeof(uint8_t *) * Kp);  /* scratch: node offsets */
-  dpos = spos + om->allocM;
+  spos  = (int *) ((uint8_t *) om->simd_mem + 3 * sizeof(uint8_t *) * Kp);  /* scratch: node offsets */
+  dpos  = spos  + om->allocM;
+  sposw = dpos  + om->allocM;
+  dposw = sposw + om->allocM;
+  tposs = dposw + om->allocM;
+  tposd = tposs + om->allocM;
 
   /* MSV costs. SSV scores from them as sf_conversion() makes sbv from rbv (bytewise:
    * ((127 + bias) -sat rbv) ^ 127), and the extra vectors past Q that
    * ssvfilter_avx2.c reads: copies of q % Q, as in sf_conversion().
    */
-  stripe_index(om->M, Qs, 16, spos);
-  stripe_index(om->M, Qd, 32, dpos);
+  stripe_index(om->M, Qs, 16, 16, spos);
+  stripe_index(om->M, Qd, 32, 32, dpos);
   tmp  = _mm_set1_epi8((int8_t) (om->bias_b + 127));
   tmp2 = _mm_set1_epi8(127);
   for (x = 0; x < Kp; x++)
@@ -235,6 +273,26 @@ p7_oprofile_SetSIMD(P7_OPROFILE *om, int level)
       for (q = Qd; q < Qd + p7O_EXTRA_SB_AVX2; q++)
 	memcpy(om->sbw[x] + q * 32, om->sbw[x] + (q % Qd) * 32, 32);
     }
+
+  /* Viterbi filter scores; padding -32768, as vf_conversion() pads. The
+   * transitions are interleaved by vector: 7 of them (p7O_BM..p7O_II) for
+   * q = 0, 7 for q = 1, ...; then the DDs, one vector per q. A node's
+   * value goes to the node's own place whatever the transition's
+   * offset (BM, MM, IM, DM are stored one node "early" in both).
+   */
+  stripe_index(om->M, Qsw,  8,  8, sposw);
+  stripe_index(om->M, Qdw, 16, 16, dposw);
+  stripe_index(om->M, Qsw,  8,  8 * 7, tposs);
+  stripe_index(om->M, Qdw, 16, 16 * 7, tposd);
+  for (x = 0; x < Kp; x++)
+    {
+      fill_i16(om->rww[x], Qdw * 16, -32768);
+      stripe_i16((const int16_t *) om->rwv[x], sposw, om->rww[x], dposw, om->M);
+    }
+  fill_i16(om->tww, p7O_NTRANS * Qdw * 16, -32768);
+  for (t = 0; t < 7; t++)
+    stripe_i16((const int16_t *) om->twv + t * 8, tposs, om->tww + t * 16, tposd, om->M);
+  stripe_i16((const int16_t *) (om->twv + 7 * Qsw), sposw, om->tww + 7 * Qdw * 16, dposw, om->M);
 
   om->simd = level;
   return eslOK;
@@ -320,6 +378,33 @@ utest_level(void)
   if (p7_simd_Level() != level)                                        esl_fatal("simd level unit test failed: level changed");
 }
 
+/* sample_om()
+ * A random model of length <M> configured (local multihit) for length
+ * <Lcfg>, as p7_oprofile_Sample() makes; <pfamlike> TRUE samples
+ * position-independent, Pfam-like transitions (strong M->M, varied
+ * D->D) instead of fully random ones: random transitions make long
+ * match runs too costly for the Viterbi filter to ever overflow on DNA.
+ */
+static void
+sample_om(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, const P7_BG *bg, int M, int Lcfg, int pfamlike,
+	  P7_HMM **ret_hmm, P7_PROFILE **ret_gm, P7_OPROFILE **ret_om)
+{
+  P7_HMM      *hmm = NULL;
+  P7_PROFILE  *gm  = p7_profile_Create(M, abc);
+  P7_OPROFILE *om  = p7_oprofile_Create(M, abc);
+  int          status;
+
+  if (pfamlike) status = p7_hmm_SampleUniform(r, M, abc, 0.02, 0.5, 0.01 + 0.09 * esl_random(r), 0.1 + 0.8 * esl_random(r), &hmm);
+  else          status = p7_hmm_Sample(r, M, abc, &hmm);
+  if (status != eslOK || gm == NULL || om == NULL)                      esl_fatal("model sampling failed");
+  if (p7_ProfileConfig(hmm, bg, gm, Lcfg, p7_LOCAL) != eslOK)           esl_fatal("model sampling failed");
+  if (p7_oprofile_Convert(gm, om)                   != eslOK)           esl_fatal("model sampling failed");
+  if (p7_oprofile_ReconfigLength(om, Lcfg)          != eslOK)           esl_fatal("model sampling failed");
+  *ret_hmm = hmm;
+  *ret_gm  = gm;
+  *ret_om  = om;
+}
+
 /* Test sequences for comparing a wide kernel with the SSE one, cycling
  * through six kinds by <n>: iid from the background; uniform over all
  * residue codes (degenerate ones too); emitted by the model; emitted
@@ -367,11 +452,12 @@ sample_target(ESL_RANDOMNESS *r, const P7_HMM *hmm, const P7_PROFILE *gm, const 
  * overflowed. Counts SSV outcomes in <nout>: [0] eslOK, [1] eslERANGE,
  * [2] eslENORESULT from the J state test, [3] eslENORESULT from a
  * possible overflow, [4] eslENORESULT before any DP (score system can't
- * be trusted); and full MSV outcomes (after an SSV eslENORESULT): [5]
- * eslOK, [6] eslERANGE.
+ * be trusted); full MSV outcomes (after an SSV eslENORESULT): [5]
+ * eslOK, [6] eslERANGE; Viterbi filter outcomes: [7] eslOK, [8]
+ * eslERANGE.
  */
 static void
-utest_filters(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg, int M, int Lcfg, int N, int nout[7])
+utest_filters(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg, int M, int Lcfg, int N, int nout[9])
 {
   char         msg[] = "simd SSV unit test failed";
   P7_HMM      *hmm = NULL;
@@ -387,8 +473,8 @@ utest_filters(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg, int M, int 
   uint8_t      xE0, xE1;
   int          ovfl;
 
-  if (p7_oprofile_Sample(r, abc, bg, M, Lcfg, &hmm, &gm, &om) != eslOK) esl_fatal(msg);
-  if (p7_oprofile_SetSIMD(om, p7_SIMD_AVX2)                    != eslOK) esl_fatal(msg);
+  sample_om(r, abc, bg, M, Lcfg, esl_rnd_Roll(r, 2), &hmm, &gm, &om);
+  if (p7_oprofile_SetSIMD(om, p7_SIMD_AVX2) != eslOK) esl_fatal(msg);
 
   for (n = 0; n < N; n++)
     {
@@ -419,6 +505,15 @@ utest_filters(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg, int M, int 
       if (st0 != st1 || memcmp(&sc0, &sc1, sizeof(float)) != 0)
 	esl_fatal("simd MSV unit test failed: M=%d L=%d: SSE status %d score %g, AVX2 status %d score %g", M, L, st0, sc0, st1, sc1);
       if (ssv_st == eslENORESULT) nout[st0 == eslOK ? 5 : 6]++;
+
+      /* Viterbi filter (not on the longest targets against the largest models: slow, and nothing new) */
+      if ((int64_t) L * M > 20000000) continue;
+      sc0 = sc1 = -42.0f;
+      om->simd = p7_SIMD_SSE;  st0 = p7_ViterbiFilter(dsq, L, om, ox, &sc0);
+      om->simd = p7_SIMD_AVX2; st1 = p7_ViterbiFilter(dsq, L, om, ox, &sc1);
+      if (st0 != st1 || memcmp(&sc0, &sc1, sizeof(float)) != 0)
+	esl_fatal("simd VF unit test failed: M=%d L=%d: SSE status %d score %g, AVX2 status %d score %g", M, L, st0, sc0, st1, sc1);
+      nout[st0 == eslOK ? 7 : 8]++;
     }
 
   free(dsq);
@@ -453,8 +548,8 @@ utest_msv_boundary(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg, int M,
   int          j, st0, st1;
   int          novfl = 0;
 
-  if (p7_oprofile_Sample(r, abc, bg, M, flank, &hmm, &gm, &om) != eslOK) esl_fatal(msg);
-  if (p7_oprofile_SetSIMD(om, p7_SIMD_AVX2)                     != eslOK) esl_fatal(msg);
+  sample_om(r, abc, bg, M, flank, esl_rnd_Roll(r, 2), &hmm, &gm, &om);
+  if (p7_oprofile_SetSIMD(om, p7_SIMD_AVX2) != eslOK) esl_fatal(msg);
   if (p7_emit_SimpleConsensus(hmm, sq)                          != eslOK) esl_fatal(msg);
   esl_rsq_xfIID(r, bg->f, abc->K, flank, dsq);
   for (j = 1; j <= sq->n; j++)
@@ -473,6 +568,59 @@ utest_msv_boundary(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg, int M,
       if (st0 == eslERANGE && ++novfl > 5) break;  /* well past the boundary */
     }
   nout[1] += novfl;
+
+  free(dsq);
+  esl_sq_Destroy(sq);
+  p7_omx_Destroy(ox);
+  p7_hmm_Destroy(hmm);
+  p7_profile_Destroy(gm);
+  p7_oprofile_Destroy(om);
+}
+
+/* utest_vf_deletions()
+ * The Viterbi filter on the consensus of a Pfam-like model with <d>
+ * nodes deleted at each position j in turn (d = 1, then 2..8 at random):
+ * the best path then goes M->D->M or through D->D at every node,
+ * including those at the ends of the striped segments, where the D
+ * values cross from one vector to the next (the lazy-F loop, or the
+ * stored M->D values when the DD bound skips it). Counts targets in
+ * <nout>.
+ */
+static void
+utest_vf_deletions(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg, int M, int *nout)
+{
+  char         msg[] = "simd VF deletion unit test failed";
+  P7_HMM      *hmm = NULL;
+  P7_PROFILE  *gm  = NULL;
+  P7_OPROFILE *om  = NULL;
+  P7_OMX      *ox  = p7_omx_Create(M, 0, 0);
+  ESL_SQ      *sq  = esl_sq_CreateDigital(abc);
+  ESL_DSQ     *dsq = malloc(sizeof(ESL_DSQ) * (M + 2));
+  float        sc0, sc1;
+  int          j, d, L, st0, st1, pass;
+
+  sample_om(r, abc, bg, M, M, TRUE, &hmm, &gm, &om);
+  if (p7_oprofile_SetSIMD(om, p7_SIMD_AVX2) != eslOK) esl_fatal(msg);
+  if (p7_emit_SimpleConsensus(hmm, sq)       != eslOK) esl_fatal(msg);
+
+  for (pass = 0; pass < 2; pass++)
+    for (j = 1; j < sq->n; j++)
+      {
+	d = (pass == 0) ? 1 : 2 + esl_rnd_Roll(r, 7);
+	if (j + d > sq->n) continue;
+	memcpy(dsq + 1, sq->dsq + 1, j - 1);                       /* consensus 1..j-1      */
+	memcpy(dsq + j, sq->dsq + j + d, sq->n - (j + d) + 1);     /* ... then j+d..n       */
+	L = sq->n - d;
+	dsq[0] = dsq[L+1] = eslDSQ_SENTINEL;
+	p7_oprofile_ReconfigLength(om, L);
+
+	sc0 = sc1 = -42.0f;
+	om->simd = p7_SIMD_SSE;  st0 = p7_ViterbiFilter(dsq, L, om, ox, &sc0);
+	om->simd = p7_SIMD_AVX2; st1 = p7_ViterbiFilter(dsq, L, om, ox, &sc1);
+	if (st0 != st1 || memcmp(&sc0, &sc1, sizeof(float)) != 0)
+	  esl_fatal("%s: M=%d deletion %d..%d: SSE status %d score %g, AVX2 status %d score %g", msg, M, j, j+d-1, st0, sc0, st1, sc1);
+	(*nout)++;
+      }
 
   free(dsq);
   esl_sq_Destroy(sq);
@@ -552,9 +700,10 @@ main(int argc, char **argv)
   int             atype[2]   = { eslAMINO, eslDNA };
   int             bigM[]     = { 150, 200, 255, 256, 257, 300, 448, 449, 500, 1000, 2295, 3000 };
   int             Lcfg[]     = { 10, 100, 400, 3000, 100000 };
+  int             granular[2] = { 13, 17 };  /* model length steps for the VF deletion test */
   ESL_ALPHABET   *abc;
   P7_BG          *bg;
-  int             nout[7];
+  int             nout[9];
   int             a, M, i, j;
 
   if (be_verbose) printf("SIMD level: %s (widest here: %s)\n", p7_simd_Name(p7_simd_Level()), p7_simd_Name(simd_cpu_max()));
@@ -569,21 +718,26 @@ main(int argc, char **argv)
       {
 	if ((abc = esl_alphabet_Create(atype[a])) == NULL) esl_fatal("failed to create alphabet");
 	if ((bg  = p7_bg_Create(abc))             == NULL) esl_fatal("failed to create null model");
-	esl_vec_ISet(nout, 7, 0);
+	esl_vec_ISet(nout, 9, 0);
 
 	utest_copies(r, abc, bg);
 	for (M = 1; M <= 130; M++)                                 utest_filters(r, abc, bg, M,       Lcfg[M % 3],            N, nout);
 	for (i = 0; i < (int) (sizeof(bigM)/sizeof(int)); i++)
 	  for (j = 0; j < (int) (sizeof(Lcfg)/sizeof(int)); j++)            utest_filters(r, abc, bg, bigM[i], Lcfg[j], ESL_MAX(6, N/(j+1)), nout);
 
-	if (be_verbose) printf("%s SSV: %d ok, %d overflow, %d J state, %d possible overflow, %d untrusted; full MSV: %d ok, %d overflow\n",
-			       esl_abc_DecodeType(atype[a]), nout[0], nout[1], nout[2], nout[3], nout[4], nout[5], nout[6]);
-	if (nout[0] == 0 || nout[1] == 0 || nout[2] == 0 || nout[5] == 0 || nout[6] == 0) esl_fatal("simd unit test didn't reach every outcome");
+	if (be_verbose) printf("%s SSV: %d ok, %d overflow, %d J state, %d possible overflow, %d untrusted; full MSV: %d ok, %d overflow; VF: %d ok, %d overflow\n",
+			       esl_abc_DecodeType(atype[a]), nout[0], nout[1], nout[2], nout[3], nout[4], nout[5], nout[6], nout[7], nout[8]);
+	if (nout[0] == 0 || nout[1] == 0 || nout[2] == 0 || nout[5] == 0 || nout[6] == 0 || nout[7] == 0 || nout[8] == 0)
+	  esl_fatal("simd unit test didn't reach every outcome");
 
 	esl_vec_ISet(nout, 2, 0);
 	for (i = 0; i < 12; i++) utest_msv_boundary(r, abc, bg, 100 + 25 * i, 10000, nout);
 	if (be_verbose) printf("%s full MSV at the overflow boundary: %d targets, %d overflowed\n", esl_abc_DecodeType(atype[a]), nout[0], nout[1]);
 	if (nout[0] == 0 || nout[1] == 0 || nout[1] == nout[0]) esl_fatal("simd MSV boundary unit test didn't reach both outcomes");
+
+	nout[0] = 0;
+	for (M = 10; M <= 300; M += granular[a]) utest_vf_deletions(r, abc, bg, M, &nout[0]);
+	if (be_verbose) printf("%s VF with deletions: %d targets\n", esl_abc_DecodeType(atype[a]), nout[0]);
 
 	p7_bg_Destroy(bg);
 	esl_alphabet_Destroy(abc);
