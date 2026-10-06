@@ -258,7 +258,7 @@ struct cfg_s {
 
 #define BLOCK_SIZE 1000
 #define BLOCK_MIN  20     /* smallest block a small, cached target db is split into */
-#define MAXQ       1      /* queries searched per pass over the targets             */
+#define MAXQ       16     /* threaded: queries searched per pass over the targets    */
 #define SLICES     4      /* cached passes: blocks per worker...                     */
 #define SLICES_FREE 16    /*   ... or this many, when splitting can't change results  */
 
@@ -326,6 +326,7 @@ typedef struct {
   FILE *pfamtblfp;   /* --pfamtblout, or NULL               */
 } OUTPUTS;
 
+static int  output_query_header(FILE *ofp, const P7_HMM *hmm);
 static int  output_results(const OUTPUTS *outs, const ESL_GETOPTS *go, const ESL_ALPHABET *abc, int textw, const P7_HMM *hmm, int nquery,
 			   P7_TOPHITS *th, P7_PIPELINE *pli, ESL_STOPWATCH *w);
 #ifdef HMMER_THREADS
@@ -340,7 +341,7 @@ static int  serial_master(ESL_GETOPTS *go, struct cfg_s *cfg);
 static int  serial_loop  (WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc);
 
 #ifdef HMMER_THREADS
-static int  thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc);
+static int  thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc, int nq);
 static void pipeline_thread(void *arg);
 static void search_pass(WORKER_INFO *info);
 static int  split_is_free(const ESL_GETOPTS *go);
@@ -567,7 +568,13 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
   P7_BG           *bg       = NULL;              /* null model, for building profiles here          */
   ESL_ALPHABET    *abc      = NULL;              /* digital alphabet                                */
   int              dbfmt    = eslSQFILE_UNKNOWN; /* format code for sequence database file          */
-  ESL_STOPWATCH   *w;
+  ESL_STOPWATCH   *w[MAXQ];                       /* per query of a pass: its elapsed time           */
+  P7_HMM          *bhmm[MAXQ];                    /* the queries of a pass, and their profiles       */
+  P7_PROFILE      *bgm[MAXQ];
+  P7_OPROFILE     *bom[MAXQ];
+  int              bnum[MAXQ];                    /* their query numbers                             */
+  int              nb;                            /* queries in the pass                             */
+  int              maxb;                          /* most queries the pass may take                  */
   int              textw    = 0;
   OUTPUTS          outs;                          /* the output streams, for output_results()       */
   int              nquery   = 0;
@@ -592,9 +599,10 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 #endif
   P7_PROFILE      *next_gm  = NULL;              /* profiles of the next query, if prefetched       */
   P7_OPROFILE     *next_om  = NULL;
+  P7_HMM          *hmm_err  = NULL;              /* a query the pipeline can't use (p7_pli_NewModel()) */
   char             errbuf[eslERRBUFSIZE];
 
-  w = esl_stopwatch_Create();
+  for (k = 0; k < MAXQ; k++) w[k] = esl_stopwatch_Create();
 
   if (esl_opt_GetBoolean(go, "--notextw")) textw = 0;
   else                                     textw = esl_opt_GetInteger(go, "--textw");
@@ -753,8 +761,6 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       if (ncpus > 0 && (status = qp_Drain(&qp, &gate, &outs, go, abc, textw)) != eslOK) return status;
 #endif
 
-      esl_stopwatch_Start(w);
-
       /* seqfile may need to be rewound (multiquery mode), unless every target is cached */
       if (nquery > 1 && ! (dbc && dbc->complete))
       {
@@ -775,46 +781,81 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
           p7_Fail("Failure setting restrictdb_stkey to %d\n", cfg->firstseq_key);
       }
 
-      if (fprintf(ofp, "Query:       %s  [M=%d]\n", hmm->name, hmm->M)  < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");
-      if (hmm->acc)  { if (fprintf(ofp, "Accession:   %s\n", hmm->acc)  < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed"); }
-      if (hmm->desc) { if (fprintf(ofp, "Description: %s\n", hmm->desc) < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed"); }
-
-      /* Convert to an optimized model, unless the prefetch thread already did */
-      if (next_om)
+      /* One pass over the targets searches a batch of queries: this one
+       * and, in threaded mode after the first pass, up to MAXQ-1 more that
+       * follow it in the file. Every block of targets is then read (or
+       * taken from the --dbcache) once for the whole batch, and each
+       * worker searches it with each query. Per query, the targets and the
+       * pipeline calls are those of a one-query pass, so the results don't
+       * change; the queries' outputs are printed in order after the pass.
+       * A query the pipeline can't use (p7_pli_NewModel() fails, e.g.
+       * --cut_ga without GA lines) ends the batch; it's reported after
+       * the queries before it, as a one-query pass would.
+       */
+      maxb    = (ncpus > 0 && nquery > 1) ? MAXQ : 1;
+      nb      = 0;
+      hmm_err = NULL;
+      for (;;)
 	{
-	  gm = next_gm;  next_gm = NULL;
-	  om = next_om;  next_om = NULL;
-	}
-      else
-	{
-	  gm = p7_profile_Create (hmm->M, abc);
-	  om = p7_oprofile_Create(hmm->M, abc);
-	  p7_ProfileConfig(hmm, bg, gm, 100, p7_LOCAL); /* 100 is a dummy length for now; and MSVFilter requires local mode */
-	  p7_oprofile_Convert(gm, om);                  /* <om> is now p7_LOCAL, multihit */
-	}
+	  /* Convert to an optimized model, unless the prefetch thread already did */
+	  if (next_om)
+	    {
+	      gm = next_gm;  next_gm = NULL;
+	      om = next_om;  next_om = NULL;
+	    }
+	  else
+	    {
+	      gm = p7_profile_Create (hmm->M, abc);
+	      om = p7_oprofile_Create(hmm->M, abc);
+	      p7_ProfileConfig(hmm, bg, gm, 100, p7_LOCAL); /* 100 is a dummy length for now; and MSVFilter requires local mode */
+	      p7_oprofile_Convert(gm, om);                  /* <om> is now p7_LOCAL, multihit */
+	    }
+	  esl_stopwatch_Start(w[nb]);
 
-      for (i = 0; i < infocnt; ++i)
-      {
-        /* the query's pipeline, hit list and profile clone in each worker */
-        status = worker_SetQuery(&info[i], 0, om, go, abc);
-        if (status == eslEINVAL) p7_Fail(info->wq[0].pli->errbuf);
-        info[i].nq = 1;
-
-        /* workers reset the reused blocks they read into, but never cached targets */
-        info[i].reuse_seqs = (dbc == NULL || ! dbc->complete);
-
+	  /* the query's pipeline, hit list and profile clone in each worker */
+	  for (i = 0; i < infocnt; ++i)
+	    if ((status = worker_SetQuery(&info[i], nb, om, go, abc)) == eslEINVAL) break;
+	  if (status == eslEINVAL)
+	    {
+	      for (k = 0; k <= i && k < infocnt; k++) p7_oprofile_Destroy(info[k].wq[nb].om);
+	      hmm_err = hmm;
+	      p7_oprofile_Destroy(om);
+	      p7_profile_Destroy(gm);
+	      break;
+	    }
+	  bhmm[nb] = hmm;
+	  bgm[nb]  = gm;
+	  bom[nb]  = om;
+	  bnum[nb] = nquery;
+	  nb++;
+	  if (nb == maxb) break;
 #ifdef HMMER_THREADS
-        if (ncpus > 0 && nquery == 1) esl_threads_AddThread(threadObj, &info[i]); /* workers persist across queries */
+	  query_prep_Next(&prep, &hmm, &next_gm, &next_om, &hstatus);
 #endif
-      }
+	  if (hstatus != eslOK) break;
+	  nquery++;
+	}
+
+      if (nb > 0)
+	{
+	  for (i = 0; i < infocnt; ++i)
+	    {
+	      info[i].nq = nb;
+	      /* workers reset the reused blocks they read into, but never cached targets */
+	      info[i].reuse_seqs = (dbc == NULL || ! dbc->complete);
+#ifdef HMMER_THREADS
+	      if (ncpus > 0 && bnum[0] == 1) esl_threads_AddThread(threadObj, &info[i]); /* workers persist across queries */
+#endif
+	    }
 
 #ifdef HMMER_THREADS
-      if (ncpus > 0 && nquery == 1) esl_threads_WaitForStart(threadObj);
-      if (ncpus > 0)  sstatus = thread_loop(threadObj, queue, &gate, dbfp, cfg->n_targetseq, dbc);
-      else            sstatus = serial_loop(info, dbfp, cfg->n_targetseq, dbc);
+	  if (ncpus > 0 && bnum[0] == 1) esl_threads_WaitForStart(threadObj);
+	  if (ncpus > 0)  sstatus = thread_loop(threadObj, queue, &gate, dbfp, cfg->n_targetseq, dbc, nb);
+	  else            sstatus = serial_loop(info, dbfp, cfg->n_targetseq, dbc);
 #else
-      sstatus = serial_loop(info, dbfp, cfg->n_targetseq, dbc);
+	  sstatus = serial_loop(info, dbfp, cfg->n_targetseq, dbc);
 #endif
+	}
       switch(sstatus)
       {
       case eslEFORMAT:
@@ -828,29 +869,42 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
         esl_fatal("Unexpected error %d reading sequence file %s", sstatus, dbfp->filename);
       }
 
-      /* merge the results of the search results */
-      for (i = 1; i < infocnt; ++i)
-      {
-        p7_tophits_Merge(info[0].wq[0].th, info[i].wq[0].th);
-        p7_pipeline_Merge(info[0].wq[0].pli, info[i].wq[0].pli);
+      for (k = 0; k < nb; k++)
+	{
+	  /* merge the results of the search results */
+	  for (i = 1; i < infocnt; ++i)
+	    {
+	      p7_tophits_Merge(info[0].wq[k].th, info[i].wq[k].th);
+	      p7_pipeline_Merge(info[0].wq[k].pli, info[i].wq[k].pli);
 
-        p7_oprofile_Destroy(info[i].wq[0].om);
-      }
+	      p7_oprofile_Destroy(info[i].wq[k].om);
+	    }
 
-      /* Print the results.  */
-      if ((status = output_results(&outs, go, abc, textw, hmm, nquery, info->wq[0].th, info->wq[0].pli, w)) != eslOK) return status;
+	  /* Print the results.  */
+	  if ((status = output_query_header(ofp, bhmm[k])) != eslOK) return status;
+	  if ((status = output_results(&outs, go, abc, textw, bhmm[k], bnum[k], info->wq[k].th, info->wq[k].pli, w[k])) != eslOK) return status;
 
-      p7_oprofile_Destroy(info->wq[0].om);
-      p7_oprofile_Destroy(om);
-      p7_profile_Destroy(gm);
-      p7_hmm_Destroy(hmm);
+	  p7_oprofile_Destroy(info->wq[k].om);
+	  p7_oprofile_Destroy(bom[k]);
+	  p7_profile_Destroy(bgm[k]);
+	  p7_hmm_Destroy(bhmm[k]);
+	}
 
+      if (hmm_err)
+	{
+	  if ((status = output_query_header(ofp, hmm_err)) != eslOK) return status;
+	  p7_Fail(info->wq[nb].pli->errbuf);
+	}
+
+      if (nb == maxb)   /* else the batch ended at a read error or EOF, in <hstatus> */
+	{
 #ifdef HMMER_THREADS
-      if (ncpus > 0) query_prep_Next(&prep, &hmm, &next_gm, &next_om, &hstatus);
-      else           hstatus = p7_hmmfile_Read(hfp, &abc, &hmm);
+	  if (ncpus > 0) query_prep_Next(&prep, &hmm, &next_gm, &next_om, &hstatus);
+	  else           hstatus = p7_hmmfile_Read(hfp, &abc, &hmm);
 #else
-      hstatus = p7_hmmfile_Read(hfp, &abc, &hmm);
+	  hstatus = p7_hmmfile_Read(hfp, &abc, &hmm);
 #endif
+	}
     } /* end outer loop over query HMMs */
 
 #ifdef HMMER_THREADS
@@ -920,7 +974,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
   p7_hmmfile_Close(hfp);
   esl_sqfile_Close(dbfp);
   esl_alphabet_Destroy(abc);
-  esl_stopwatch_Destroy(w);
+  for (k = 0; k < MAXQ; k++) esl_stopwatch_Destroy(w[k]);
 
   if (ofp != stdout) fclose(ofp);
   if (afp)           fclose(afp);
@@ -1859,6 +1913,18 @@ dbcache_Destroy(DBCACHE *dbc)
 }
 
 
+/* output_query_header()
+ * The lines that open a query's results.
+ */
+static int
+output_query_header(FILE *ofp, const P7_HMM *hmm)
+{
+  if (fprintf(ofp, "Query:       %s  [M=%d]\n", hmm->name, hmm->M)  < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed");
+  if (hmm->acc)  { if (fprintf(ofp, "Accession:   %s\n", hmm->acc)  < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed"); }
+  if (hmm->desc) { if (fprintf(ofp, "Description: %s\n", hmm->desc) < 0) ESL_EXCEPTION_SYS(eslEWRITE, "write failed"); }
+  return eslOK;
+}
+
 /* output_results()
  * Print one query's results: per-target and per-domain hit lists, the
  * tabular outputs, the pipeline statistics and the -A alignment. Stops
@@ -1953,7 +2019,7 @@ serial_loop(WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc)
 
 #ifdef HMMER_THREADS
 static int
-thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc)
+thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc, int nq)
 {
   int  status  = eslOK;
   int  sstatus = eslOK;
@@ -1980,12 +2046,14 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFI
    * slices even out the end of a pass better, but they change how many
    * targets each worker has seen when it decides to keep a hit, so they're
    * used only when that can't matter (split_is_free()). Without
-   * the cache, the reader sets the pace and small blocks don't help.
+   * the cache, the reader sets the pace of a one-query pass and small
+   * blocks don't help; a pass with several queries reads blocks of the
+   * same size as the slices, when splitting can't change results.
    * Then wake only as many workers as there will be blocks: the rest
    * would only collect an end-of-pass block. Which worker searches which
    * target doesn't change the results.
    */
-  if (dbc && dbc->complete && gate->nseqs > 0)
+  if (gate->nseqs > 0 && ((dbc && dbc->complete) || (nq > 1 && gate->split_free)))
     {
       int nper = (gate->split_free ? SLICES_FREE : SLICES) * gate->nworkers;
       bs = (gate->nseqs + nper - 1) / nper;
@@ -2032,7 +2100,7 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFI
         block->count = 0;
         sstatus = eslEOF;
       } else {
-        sstatus = esl_sqio_ReadBlock(dbfp, block, -1, n_targetseqs, /*max_init_window=*/FALSE, FALSE);
+        sstatus = esl_sqio_ReadBlock(dbfp, block, -1, (bs > 0 && (n_targetseqs < 0 || n_targetseqs > bs)) ? bs : n_targetseqs, /*max_init_window=*/FALSE, FALSE);
         n_targetseqs -= block->count;
       }
 
