@@ -953,9 +953,12 @@ p7_SSVFilter(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, float *ret_sc)
   }
 
 #if defined(p7_ENABLE_AVX2) || defined(p7_ENABLE_AVX512)
-  if (om->simd != p7_SIMD_SSE)
+  /* The wide DP, 32 or 64 lanes; but not for models of at most two wide
+   * vectors (AVX2: M <= 64), where every residue shifts one of them across
+   * 128-bit lanes (3-cycle latency) and the SSE DP is faster. */
+  if (om->simd != p7_SIMD_SSE && om->M > 2 * (om->simd == p7_SIMD_AVX512 ? 64 : 32))
     {
-      xE = ssv_xE_wide(dsq, L, om); /* same DP, 32 or 64 lanes */
+      xE = ssv_xE_wide(dsq, L, om);
 #ifdef p7_CROSSCHECK
       { /* the outcome must be the SSE one, bit for bit (xE itself may differ once both overflowed) */
         float sc_sse = 0.0f, sc_wide = 0.0f;
