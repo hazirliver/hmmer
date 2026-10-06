@@ -131,15 +131,31 @@ typedef struct {
 } QUERY_PREP;
 #endif
 
+/* One query's state in one worker. A pass over the targets can search
+ * several queries (wq[0..nq-1]): each has its own profile clone (its
+ * length is reconfigured per target), null model (the bias filter HMM is
+ * set per query), hit list and pipeline. The pipelines of wq[1..] are
+ * struct copies of wq[0]'s with their own thresholds and accounting:
+ * they share wq[0]'s DP matrices, domain definition workspace and RNG,
+ * which only ever hold one target's work (the RNG is reseeded for every
+ * region), so a worker needs one such workspace however many queries a
+ * pass has.
+ */
+typedef struct {
+  P7_BG            *bg;	         /* null model                              */
+  P7_PIPELINE      *pli;         /* pipeline: thresholds and accounting     */
+  P7_TOPHITS       *th;          /* top hit results                         */
+  P7_OPROFILE      *om;          /* optimized query profile (a clone)       */
+} WORKER_QUERY;
+
 typedef struct {
 #ifdef HMMER_THREADS
   ESL_WORK_QUEUE   *queue;
   WORKER_GATE      *gate;
 #endif 
-  P7_BG            *bg;	         /* null model                              */
-  P7_PIPELINE      *pli;         /* work pipeline                           */
-  P7_TOPHITS       *th;          /* top hit results                         */
-  P7_OPROFILE      *om;          /* optimized query profile                 */
+  WORKER_QUERY     *wq;          /* [0..maxq-1] queries; [0..nq-1] in the current pass */
+  int               nq;
+  int               maxq;
   int               reuse_seqs;  /* TRUE: reset each target after use. FALSE: targets are cached, read-only */
 } WORKER_INFO;
 
@@ -242,6 +258,7 @@ struct cfg_s {
 
 #define BLOCK_SIZE 1000
 #define BLOCK_MIN  20     /* smallest block a small, cached target db is split into */
+#define MAXQ       1      /* queries searched per pass over the targets             */
 #define SLICES     4      /* cached passes: blocks per worker...                     */
 #define SLICES_FREE 16    /*   ... or this many, when splitting can't change results  */
 
@@ -327,6 +344,8 @@ static int  thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *ga
 static void pipeline_thread(void *arg);
 static void search_pass(WORKER_INFO *info);
 static int  split_is_free(const ESL_GETOPTS *go);
+static int  worker_SetQuery(WORKER_INFO *info, int k, const P7_OPROFILE *om, const ESL_GETOPTS *go, const ESL_ALPHABET *abc);
+static void worker_Search(WORKER_INFO *info, ESL_SQ *dbsq, int n);
 static void search_query(WORKER_INFO *info, WORKER_GATE *gate, QP_JOB *job);
 static void query_prep_Start(QUERY_PREP *prep, P7_HMMFILE *hfp, ESL_ALPHABET *abc, int nthreads);
 static void query_prep_Next (QUERY_PREP *prep, P7_HMM **ret_hmm, P7_PROFILE **ret_gm, P7_OPROFILE **ret_om, int *ret_hstatus);
@@ -545,6 +564,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
   P7_HMMFILE      *hfp      = NULL;              /* open input HMM file                             */
   ESL_SQFILE      *dbfp     = NULL;              /* open input sequence file                        */
   P7_HMM          *hmm      = NULL;              /* one HMM query                                   */
+  P7_BG           *bg       = NULL;              /* null model, for building profiles here          */
   ESL_ALPHABET    *abc      = NULL;              /* digital alphabet                                */
   int              dbfmt    = eslSQFILE_UNKNOWN; /* format code for sequence database file          */
   ESL_STOPWATCH   *w;
@@ -554,7 +574,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
   int              status   = eslOK;
   int              hstatus  = eslOK;
   int              sstatus  = eslOK;
-  int              i;
+  int              i, k;
 
   int              ncpus    = 0;
 
@@ -663,6 +683,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       /* One-time initializations after alphabet <abc> becomes known */
       output_header(ofp, go, cfg->hmmfile, cfg->dbfile);
       esl_sqfile_SetDigital(dbfp, abc); //ReadBlock requires knowledge of the alphabet to decide how best to read blocks
+      bg = p7_bg_Create(abc);           /* p7_ProfileConfig() only reads its background frequencies */
 
       if (esl_opt_GetBoolean(go, "--dbcache"))
 	{
@@ -675,9 +696,9 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 
       for (i = 0; i < infocnt; ++i)
 	{
-	  info[i].bg         = p7_bg_Create(abc);
-	  info[i].pli        = NULL;  /* created for the first query, then reinitialized for each next one */
-	  info[i].th         = NULL;
+	  ESL_ALLOC(info[i].wq, sizeof(WORKER_QUERY) * MAXQ);
+	  info[i].maxq       = 0;     /* slots are made as they're needed (worker_SetQuery()) */
+	  info[i].nq         = 0;
 	  info[i].reuse_seqs = (dbc == NULL);
 #ifdef HMMER_THREADS
 	  info[i].queue = queue;
@@ -725,7 +746,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
        */
       if (ncpus > 0 && dbc && dbc->complete && dbc->nres <= QP_MAXRES)
 	{
-	  if ((status = qp_Submit(&qp, &gate, &outs, go, abc, textw, hmm, nquery, &next_gm, &next_om, info->bg)) != eslOK) return status;
+	  if ((status = qp_Submit(&qp, &gate, &outs, go, abc, textw, hmm, nquery, &next_gm, &next_om, bg)) != eslOK) return status;
 	  query_prep_Next(&prep, &hmm, &next_gm, &next_om, &hstatus);
 	  continue;
 	}
@@ -768,24 +789,16 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 	{
 	  gm = p7_profile_Create (hmm->M, abc);
 	  om = p7_oprofile_Create(hmm->M, abc);
-	  p7_ProfileConfig(hmm, info->bg, gm, 100, p7_LOCAL); /* 100 is a dummy length for now; and MSVFilter requires local mode */
+	  p7_ProfileConfig(hmm, bg, gm, 100, p7_LOCAL); /* 100 is a dummy length for now; and MSVFilter requires local mode */
 	  p7_oprofile_Convert(gm, om);                  /* <om> is now p7_LOCAL, multihit */
 	}
 
       for (i = 0; i < infocnt; ++i)
       {
-        /* Create processing pipeline and hit list, or reset the ones from the previous query */
-        if (info[i].pli == NULL)
-        {
-          info[i].th  = p7_tophits_Create();
-          info[i].pli = p7_pipeline_Create(go, om->M, 100, FALSE, p7_SEARCH_SEQS); /* L_hint = 100 is just a dummy for now */
-        } else {
-          p7_tophits_Reuse(info[i].th);
-          p7_pipeline_Reinit(info[i].pli, go);
-        }
-        info[i].om  = p7_oprofile_Clone(om);
-        status = p7_pli_NewModel(info[i].pli, info[i].om, info[i].bg);
-        if (status == eslEINVAL) p7_Fail(info->pli->errbuf);
+        /* the query's pipeline, hit list and profile clone in each worker */
+        status = worker_SetQuery(&info[i], 0, om, go, abc);
+        if (status == eslEINVAL) p7_Fail(info->wq[0].pli->errbuf);
+        info[i].nq = 1;
 
         /* workers reset the reused blocks they read into, but never cached targets */
         info[i].reuse_seqs = (dbc == NULL || ! dbc->complete);
@@ -818,16 +831,16 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       /* merge the results of the search results */
       for (i = 1; i < infocnt; ++i)
       {
-        p7_tophits_Merge(info[0].th, info[i].th);
-        p7_pipeline_Merge(info[0].pli, info[i].pli);
+        p7_tophits_Merge(info[0].wq[0].th, info[i].wq[0].th);
+        p7_pipeline_Merge(info[0].wq[0].pli, info[i].wq[0].pli);
 
-        p7_oprofile_Destroy(info[i].om);
+        p7_oprofile_Destroy(info[i].wq[0].om);
       }
 
       /* Print the results.  */
-      if ((status = output_results(&outs, go, abc, textw, hmm, nquery, info->th, info->pli, w)) != eslOK) return status;
+      if ((status = output_results(&outs, go, abc, textw, hmm, nquery, info->wq[0].th, info->wq[0].pli, w)) != eslOK) return status;
 
-      p7_oprofile_Destroy(info->om);
+      p7_oprofile_Destroy(info->wq[0].om);
       p7_oprofile_Destroy(om);
       p7_profile_Destroy(gm);
       p7_hmm_Destroy(hmm);
@@ -864,9 +877,14 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
    */
   for (i = 0; i < infocnt; ++i)
     {
-      p7_pipeline_Destroy(info[i].pli);
-      p7_tophits_Destroy(info[i].th);
-      p7_bg_Destroy(info[i].bg);
+      for (k = 0; k < info[i].maxq; k++)
+	{
+	  if (k == 0) p7_pipeline_Destroy(info[i].wq[k].pli);
+	  else        free(info[i].wq[k].pli);   /* a struct copy; the workspace is wq[0]'s */
+	  p7_tophits_Destroy(info[i].wq[k].th);
+	  p7_bg_Destroy(info[i].wq[k].bg);
+	}
+      free(info[i].wq);
     }
 
 #ifdef HMMER_THREADS
@@ -897,6 +915,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 #endif
 
   dbcache_Destroy(dbc);
+  p7_bg_Destroy(bg);
   free(info);
   p7_hmmfile_Close(hfp);
   esl_sqfile_Close(dbfp);
@@ -1908,32 +1927,20 @@ serial_loop(WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc)
         for (i = 0; i < blk->count; i++)
           {
             dbsq = blk->list + i;
-            p7_pli_NewSeq(info->pli, dbsq);
-            p7_bg_SetLength(info->bg, dbsq->n);
-            p7_oprofile_ReconfigLength(info->om, dbsq->n);
-
-            p7_Pipeline(info->pli, info->om, info->bg, dbsq, NULL, info->th);
-
+            worker_Search(info, dbsq, 1);
             if (reading) esl_sq_Reuse(dbsq);
-            p7_pipeline_Reuse(info->pli);
           }
       return sstatus;
     }
 
-  dbsq = esl_sq_CreateDigital(info->om->abc);
+  dbsq = esl_sq_CreateDigital(info->wq[0].om->abc);
 
   /* Main loop: */
   while ( (n_targetseqs==-1 || seq_cnt<n_targetseqs) &&  (sstatus = esl_sqio_Read(dbfp, dbsq)) == eslOK)
   {
-      p7_pli_NewSeq(info->pli, dbsq);
-      p7_bg_SetLength(info->bg, dbsq->n);
-      p7_oprofile_ReconfigLength(info->om, dbsq->n);
-      
-      p7_Pipeline(info->pli, info->om, info->bg, dbsq, NULL, info->th);
-
+      worker_Search(info, dbsq, 1);
       seq_cnt++;
       esl_sq_Reuse(dbsq);
-      p7_pipeline_Reuse(info->pli);
   }
 
   if (n_targetseqs!=-1 && seq_cnt==n_targetseqs)
@@ -2117,6 +2124,67 @@ pipeline_thread(void *arg)
   return;
 }
 
+/* worker_SetQuery()
+ * Prepare query slot <k> of a worker for query profile <om>, as a fresh
+ * pipeline would be: a hit list, the pipeline (reinitialized; slots
+ * after the first share the first one's workspace), a clone of <om>, and
+ * p7_pli_NewModel(). Slots are made on first use; slot <k-1> must be set
+ * up already for this pass. Returns eslOK, or eslEINVAL if the pipeline
+ * can't use this model (e.g. --cut_ga without GA lines); the message is
+ * in the slot's pli->errbuf.
+ */
+static int
+worker_SetQuery(WORKER_INFO *info, int k, const P7_OPROFILE *om, const ESL_GETOPTS *go, const ESL_ALPHABET *abc)
+{
+  WORKER_QUERY *q = &(info->wq[k]);
+  int           status;
+
+  if (k == info->maxq)
+    {
+      if ((q->th = p7_tophits_Create())  == NULL) goto ERROR;
+      if ((q->bg = p7_bg_Create(abc))    == NULL) goto ERROR;
+      if (k == 0) { if ((q->pli = p7_pipeline_Create(go, om->M, 100, FALSE, p7_SEARCH_SEQS)) == NULL) goto ERROR; } /* L_hint = 100 is just a dummy for now */
+      else        ESL_ALLOC(q->pli, sizeof(P7_PIPELINE));
+      info->maxq++;
+    }
+  else p7_tophits_Reuse(q->th);
+
+  if (k > 0) *(q->pli) = *(info->wq[0].pli);   /* share the workspace */
+  if (k > 0 || q->pli->nmodels > 0) p7_pipeline_Reinit(q->pli, go);   /* a new pipeline is fresh already */
+  q->om = p7_oprofile_Clone(om);
+  return p7_pli_NewModel(q->pli, q->om, q->bg);
+
+ ERROR:
+  esl_fatal("Failed to allocate a query's pipeline");
+  return eslEMEM;
+}
+
+/* worker_Search()
+ * Search targets <dbsq[0..n-1]> with each query of the current pass, in
+ * order: per query, exactly the calls a one-query search makes.
+ */
+static void
+worker_Search(WORKER_INFO *info, ESL_SQ *dbsq, int n)
+{
+  WORKER_QUERY *q;
+  int           k, i;
+
+  for (k = 0; k < info->nq; k++)
+    {
+      q = &(info->wq[k]);
+      for (i = 0; i < n; i++)
+	{
+	  p7_pli_NewSeq(q->pli, dbsq + i);
+	  p7_bg_SetLength(q->bg, dbsq[i].n);
+	  p7_oprofile_ReconfigLength(q->om, dbsq[i].n);
+
+	  p7_Pipeline(q->pli, q->om, q->bg, dbsq + i, NULL, q->th);
+
+	  p7_pipeline_Reuse(q->pli);
+	}
+    }
+}
+
 /* split_is_free()
  * TRUE if splitting the targets among workers differently can't change
  * any output. A worker keeps a hit for the final thresholding when
@@ -2141,13 +2209,14 @@ split_is_free(const ESL_GETOPTS *go)
 static void
 search_query(WORKER_INFO *info, WORKER_GATE *gate, QP_JOB *job)
 {
-  P7_PIPELINE  *pli = info->pli;
+  P7_PIPELINE  *pli = info->wq[0].pli;
+  P7_BG        *bg  = info->wq[0].bg;
   ESL_SQ_BLOCK *blk;
   ESL_SQ       *dbsq;
   int           b, i;
 
   p7_pipeline_Reinit(pli, gate->go_opts);
-  job->status = p7_pli_NewModel(pli, job->om, info->bg);
+  job->status = p7_pli_NewModel(pli, job->om, bg);
   if (job->status == eslEINVAL) { strcpy(job->errbuf, pli->errbuf); return; }
 
   for (b = 0; b < gate->dbc->nblk; b++)
@@ -2157,10 +2226,10 @@ search_query(WORKER_INFO *info, WORKER_GATE *gate, QP_JOB *job)
 	{
 	  dbsq = blk->list + i;
 	  p7_pli_NewSeq(pli, dbsq);
-	  p7_bg_SetLength(info->bg, dbsq->n);
+	  p7_bg_SetLength(bg, dbsq->n);
 	  p7_oprofile_ReconfigLength(job->om, dbsq->n);
 
-	  p7_Pipeline(pli, job->om, info->bg, dbsq, NULL, job->th);
+	  p7_Pipeline(pli, job->om, bg, dbsq, NULL, job->th);
 
 	  p7_pipeline_Reuse(pli);   /* cached targets are read-only: no esl_sq_Reuse() */
 	}
@@ -2194,19 +2263,9 @@ search_pass(WORKER_INFO *info)
   while (block->count > 0)
     {
       /* Main loop: */
-      for (i = 0; i < block->count; ++i)
-	{
-	  ESL_SQ *dbsq = block->list + i;
-
-	  p7_pli_NewSeq(info->pli, dbsq);
-	  p7_bg_SetLength(info->bg, dbsq->n);
-	  p7_oprofile_ReconfigLength(info->om, dbsq->n);
-	  
-	  p7_Pipeline(info->pli, info->om, info->bg, dbsq, NULL, info->th);
-
-	  if (info->reuse_seqs) esl_sq_Reuse(dbsq); /* not with --dbcache: cached targets are read-only */
-	  p7_pipeline_Reuse(info->pli);
-	}
+      worker_Search(info, block->list, block->count);
+      if (info->reuse_seqs)   /* not with --dbcache: cached targets are read-only */
+	for (i = 0; i < block->count; ++i) esl_sq_Reuse(block->list + i);
 
       status = esl_workqueue_WorkerUpdate(info->queue, block, &newBlock);
       if (status != eslOK) esl_fatal("Work queue worker failed");
