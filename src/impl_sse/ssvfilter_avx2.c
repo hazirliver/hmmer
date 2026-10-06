@@ -33,9 +33,9 @@
 #include "hmmer.h"
 #include "impl_sse.h"
 
-/* 16 ymm registers, as for SSE's xmm ones (ssvfilter.c). Must stay
- * <= p7O_EXTRA_SB_AVX2 + 1. */
-#define  MAX_BANDS 14
+/* 16 ymm registers, as for SSE's xmm ones (ssvfilter.c). p7_oprofile_SetSIMD()
+ * copies MAX_BANDS-1 extra vectors at most, the most a band reads past Q. */
+#define  MAX_BANDS p7O_MAXBANDS_AVX2
 
 /* Shift the 32 bytes of <v> up by one lane; lane 0 gets 0. (The SSE
  * version's _mm_slli_si128(v, 1); the AVX2 byte shift works within

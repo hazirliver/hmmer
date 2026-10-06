@@ -29,8 +29,10 @@
 
 /* The same for vectors of <n> lanes (AVX2/AVX-512 copies of the filter profiles, simd.c) */
 #define p7O_NQV(M, n) ( ESL_MAX(2, ((((M)-1) / (n)) + 1)))
-#define p7O_EXTRA_SB_AVX2   16  /* SSV reads past the last vector; >= MAX_BANDS-1 of ssvfilter_avx2.c   */
-#define p7O_EXTRA_SB_AVX512 32  /* ... and of ssvfilter_avx512.c                                        */
+#define p7O_MAXBANDS_AVX2   14  /* most vectors an SSV band holds: ssvfilter_avx2.c (16 ymm registers)   */
+#define p7O_MAXBANDS_AVX512 28  /* ... ssvfilter_avx512.c (32 zmm registers)                             */
+#define p7O_EXTRA_SB_AVX2   16  /* room for the vectors SSV reads past the last one (>= MAXBANDS-1)     */
+#define p7O_EXTRA_SB_AVX512 32
 
 
 /*****************************************************************

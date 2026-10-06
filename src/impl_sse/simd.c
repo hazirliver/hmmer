@@ -265,21 +265,22 @@ p7_oprofile_SetSIMD(P7_OPROFILE *om, int level)
 {
   int     Kp = om->abc->Kp;
   int     Qs = p7O_NQB(om->M);       /* # of SSE byte vectors   */
-  int     vb, nextra;                /* wide vector bytes, extra SSV vectors past Q */
+  int     vb, nextra;                /* wide vector bytes, room for extra SSV vectors past Q */
+  int     maxbands, nx;              /* most vectors in an SSV band; extra vectors to copy */
   int     Qd;                        /* # of wide byte vectors  */
   int    *spos, *dpos;               /* node k's offset in an SSE row, a wide row */
   size_t  ptrsz, idxsz, rbsz, sbsz, rwsz, twsz, need;
   uint8_t *data;
   __m128i tmp, tmp2;
-  int     x, q, j;
+  int     x, j;
   int     status;
 
   if      (level == p7_SIMD_SSE) { om->simd = p7_SIMD_SSE; return eslOK; }
 #ifdef p7_ENABLE_AVX2
-  else if (level == p7_SIMD_AVX2)   nextra = p7O_EXTRA_SB_AVX2;
+  else if (level == p7_SIMD_AVX2)   { nextra = p7O_EXTRA_SB_AVX2;   maxbands = p7O_MAXBANDS_AVX2;   }
 #endif
 #ifdef p7_ENABLE_AVX512
-  else if (level == p7_SIMD_AVX512) nextra = p7O_EXTRA_SB_AVX512;
+  else if (level == p7_SIMD_AVX512) { nextra = p7O_EXTRA_SB_AVX512; maxbands = p7O_MAXBANDS_AVX512; }
 #endif
   else ESL_EXCEPTION(eslEINVAL, "no such SIMD level in this build");
   vb = simd_vb(level);
@@ -322,8 +323,11 @@ p7_oprofile_SetSIMD(P7_OPROFILE *om, int level)
 
   /* MSV costs. SSV scores from them as sf_conversion() makes sbv from rbv (bytewise:
    * ((127 + bias) -sat rbv) ^ 127), and the extra vectors past Q that
-   * the SSV kernels read: copies of q % Q, as in sf_conversion().
+   * the SSV kernels read: copies of q % Q, as in sf_conversion(). A band
+   * of w <= min(Q, maxbands) vectors reads up to vector Q + w - 2, so
+   * vectors 0..w-2 are copied, in one piece (fewer than Q of them).
    */
+  nx = ESL_MIN(Qd, maxbands) - 1;
   stripe_index(om->M, Qs, 16, 16, spos);
   stripe_index(om->M, Qd, vb, vb, dpos);
   tmp  = _mm_set1_epi8((int8_t) (om->bias_b + 127));
@@ -333,8 +337,7 @@ p7_oprofile_SetSIMD(P7_OPROFILE *om, int level)
       stripe_u8((const uint8_t *) om->rbv[x], spos, om->rbw[x], dpos, om->M, Qd * vb, 255);
       for (j = 0; j < Qd * vb / 16; j++)
 	((__m128i *) om->sbw[x])[j] = _mm_xor_si128(_mm_subs_epu8(tmp, ((__m128i *) om->rbw[x])[j]), tmp2);
-      for (q = Qd; q < Qd + nextra; q++)
-	memcpy(om->sbw[x] + q * vb, om->sbw[x] + (q % Qd) * vb, vb);
+      memcpy(om->sbw[x] + Qd * vb, om->sbw[x], nx * vb);
     }
 
   /* The Viterbi filter's copies: on first use */

@@ -22,8 +22,8 @@
 #include "hmmer.h"
 #include "impl_sse.h"
 
-/* Must stay <= p7O_EXTRA_SB_AVX512 + 1 */
-#define  MAX_BANDS 28
+/* p7_oprofile_SetSIMD() copies MAX_BANDS-1 extra vectors at most, the most a band reads past Q */
+#define  MAX_BANDS p7O_MAXBANDS_AVX512
 
 /* Shift the 64 bytes of <v> up by one lane; lane 0 gets 0. The byte
  * shift works within 128-bit lanes; the bytes crossing them come from
