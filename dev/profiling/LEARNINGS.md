@@ -1,4 +1,4 @@
-# Lessons from the hmmsearch speedup work (Phases 0-4)
+# Lessons from the hmmsearch speedup work (Phases 0-5)
 
 These are practical lessons from doing [`PLAN.md`](PLAN.md) step by step. The measured numbers are in [`PROGRESS.md`](PROGRESS.md). Read this before measuring or changing anything.
 
@@ -33,6 +33,11 @@ These are practical lessons from doing [`PLAN.md`](PLAN.md) step by step. The me
 
 10. **Count how often a shortcut fires before adding it.** An exact early-out that skips a divide (4.8, `nov <= 0` in the clustering link test) almost never fired on real data. It added +0.15% instructions and cost 2% cycles on W5. Likewise, removing an integer divide that was off the critical path (4.3) gained nothing measurable. A quick counter in a throwaway build answers this before any A/B.
 
+11. **Check the measuring tool's clock.** `ab.py` timed runs around `Popen.wait(timeout=...)`, which polls with sleeps growing to 50 ms: every wall time was rounded up to the next poll (X2 samples sat on a 0.865/0.915/0.965/1.016 s ladder, ~5% of a 0.9 s run). A blocking `wait()` plus a timer that kills on timeout gives the exact exit time. `dev/bench` had the same flaw.
+12. **On this VM the clock rate varies between runs.** On 2026-10-05 R1's task-clock spread was 8-14% and X2's wall 16-25% while cycles stayed within 1-2%. For single-threaded steps that move work between user and kernel (system calls), judge by user + kernel `cycles` (ab.sh `reader` set, `cycles_uk`), not task-clock.
+13. **Loop alignment can hide a small gain completely.** 5.1 removed 80k `lseek`s (kernel cycles −9%), but `seebuf()`/`header_fasta()` lost 2% user cycles because an inlined callee changed and moved their loops; a "control" build landed 2% *below* A, so ±3% was layout. `-falign-functions=64` doesn't align loops. A real −0.5% can't be resolved that way; it was dropped (5.2 cut the calls 4× anyway).
+14. **Bigger buffers aren't automatically faster.** 16 KB reads beat 64 KB-1 MB by 1-7% cycles because the old parser made two passes over each buffer and needs it in L1; the plan had guessed 64-256 KB.
+
 ## Byte-identical rewrites of floating-point code
 
 1. **Same operations, same order, same types.** IEEE `+` and `*` are commutative but not associative, so keep the evaluation tree. Keep `(float) log((double) x)` and float accumulators as they were.
@@ -46,6 +51,16 @@ These are practical lessons from doing [`PLAN.md`](PLAN.md) step by step. The me
    2. a mutation test showing the unit test fails on a slightly non-identical rewrite (`x/max` → `x*(1/max)` was caught at a 6-ULP difference);
    3. a `-Dp7_CROSSCHECK` build that runs old and new code side by side and aborts on any bit difference, run over the goldens and all real-data workloads.
 4. **Random inputs rarely hit the boundary of an RNG-driven choice.** To test a sampler bitwise, peek the next roll with a third RNG of the same seed and build the probabilities so a cumulative sum lands on it (4.1). Then rounding decides the outcome, and a `<` vs `<=` or float-vs-double mutant is caught within a few trials.
+
+## Rewriting a parser byte-identically (Phase 5)
+
+1. **Keep the old implementation as a verbatim, renamed copy and drive both through the public API.** `testsuite/sqio_ascii_ref.c` is upstream `esl_sqio_ascii.c` byte for byte; the test driver `#include`s it with every function renamed `ref_*` by macros. `ref_esl_sqascii_Open()` then installs the old routines in an `ESL_SQFILE`'s dispatch table, so every `esl_sqio_*` call (Read, ReadBlock, ReadWindow, Position, Echo, SSI fetches, guessing, Parse) runs on either parser with identical arguments. Compare everything that leaks out: return codes, error messages, line numbers, bookkeeping fields, every `ESL_SQ` field.
+2. **Make the buffer size a variable in the test build and run down to 1 byte.** A boundary-handling mistake then shows on almost every file instead of once per 16 KB. The unchanged parser at sizes 1-4095 against the 4 KB reference proved the old code boundary-independent where it matters, and found where it isn't (next item).
+3. **Old code can depend on where reads end; find those cases before changing the read size.** Found here: on pipes `ftello()` fails, so record offsets are -1 plus the position in the current read; daemon-format files read a byte past the buffer at record ends; with an alphabet that disagrees with the format's input map, `seebuf()` and `addbuf()` fall out of step and which residues survive depends on the chunking; `skip_whitespace()` indexes the input map with a negative `char`. Keep such inputs at the old read size where that's cheap (pipes, daemon format), and leave the undefined ones out of the comparison with the reason written next to the exclusion.
+4. **ASan the differential test, not only the product.** It found an upstream line-buffer overflow that only bigger reads trigger (`if` instead of `while` when growing; fixed in 5.2) and the negative-index read. A test that compares garbage-dependent results flakes; the sweep over seeds shows it as rare, irreproducible failures.
+5. **Make the generator reach each path's preconditions.** Two mutants survived the random files: advancing an offset by the read size instead of the byte count (needs a header at EOF after a partial read) and not restoring the line number on hand-over (needs the disagreeing byte after the first lines). Hand-written edge-case files run at every read size, and generators that place features deliberately, caught them.
+6. **A fast path needs an exact hand-over.** `seeaddbuf()` returns `eslENORESULT` with all state restored when it can't stand in for the old pair (line-based formats, another record terminator, a disagreeing alphabet), and the caller runs the old code. The hand-over itself needs a test that reaches it, or it is dead weight that can be wrong.
+7. **Re-profile after each step, down to the instruction.** After 5.4 the header parser still took 31% of the reader; `perf annotate` put 85% of it on one byte loop (the description scan, two taken branches per byte, ~3 cycles per character on ~210-byte Swiss-Prot headers). Replacing it with `memchr()` (5.4b) gave another −11% on R1 and X2, more than 5.4 itself.
 
 ## Determinism
 
@@ -99,3 +114,6 @@ These are practical lessons from doing [`PLAN.md`](PLAN.md) step by step. The me
 - A background shell task is capped at 2 h. Long benchmark tiers have to be split.
 - `gdb` isn't installed. To prove a code path runs, look for one of its non-inlined functions in a `perf record` profile.
 - `perf record -g` makes thread creation look far more expensive than it is (counter setup per new thread). Profile thread-creation-heavy runs without `-g`, or after the threads are made persistent.
+- HMMER's `hmmpgmd_ga`/`hmmpgmd_shard_ga` sqc tests bind fixed ports 51373/51374, inside Linux's ephemeral range (32768-60999). A long-lived outbound connection (here the Claude Code session's own HTTPS connection) can hold one, and the master dies with "bind error 98"; the tests then fail and leave a worker running. Rerun later, or run a copy on ports 61373/61374 (hmmpgmd requires > 49151).
+- The Claude Code safety check refuses `rm -rf` of directories and `xargs sh -c '...'`; use fresh `mktemp -d` directories and a small script file for parallel runs.
+- `snap.sh --rev` must build the Easel commit that revision pins (it used to symlink the current `easel/`, which silently gave an old A the new Easel).

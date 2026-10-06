@@ -212,17 +212,26 @@ Every step must keep the RNG stream exactly the same: the same number and order 
 
 Out of scope, because it isn't byte-identical: fewer than 200 samples, a different RNG, or a deterministic replacement for sampling.
 
-### Phase 5 — FASTA parsing speed (first pass, and single-query runs such as X2)
+### Phase 5 — FASTA parsing speed (first pass, and single-query runs such as X2) · **done** (5.1 measured and dropped; 5.0/5.0b test harness and 5.4b added; 5.5 not started; see PROGRESS.md)
 
-These steps change **Easel**, which is pinned in `dev/easel.ref` and lives outside this repo. **Decided:** Easel changes go to a fork of Easel in the user's GitHub. Each step commits on a branch there and bumps `dev/easel.ref` (url + commit).
+These steps change **Easel**, which is pinned in `dev/easel.ref` and lives outside this repo. **Decided:** Easel changes go to a fork of Easel in the user's GitHub. Each step commits on a branch there and bumps `dev/easel.ref` (url + commit). Fork: `hazirliver/easel`, branch `hmmer-perf/phase5-fasta` (easel-0.49 + one commit per step).
 
 | Step | Change (`easel/esl_sqio_ascii.c`) | BI | Measure / Expect |
 |---|---|---|---|
-| **5.1** | Track the file offset arithmetically and stop calling `ftello` (`lseek`) on every 4 KB read | Offsets are compared by an Easel utest | X2, cpu W2. `strace -c` shows no `lseek` |
-| **5.2** | Raise `eslREADBUFSIZE` from 4 KB to 64-256 KB for sequence files | Buffer size only | X2 |
-| **5.3** | `seebuf`/`addbuf`: scan lines with `memchr` and validate and digitize in one fused table-driven pass | A utest compares parsed blocks to the old parser on the bench FASTA files | X2. Expect reader 220 → ≥ 500 M res/s |
-| **5.4** | `header_fasta`: `memchr`/`strpbrk` instead of byte-at-a-time `nextchar()` | Same name/desc strings | X2 |
-| 5.5 *(optional, new dependency)* | In-process zlib or libdeflate for `.gz` instead of a `gzip -dc` pipe | Same bytes | `hmmsearch_in_gzip_sprot` (2.1× slower today) |
+| **5.0** ✔ *(added)* | Test harness: `esl_sqio_ascii_utest` includes upstream 0.49 `esl_sqio_ascii.c` verbatim as `ref_*` and compares both parsers call by call through the esl_sqio API, at read sizes down to 1 byte (test build only) | Test only | 6 of 6 mutants caught |
+| **5.0b** ✔ *(added)* | Edge-case files (record/file ends) at every read size | Test only | Caught a mutant the random files missed |
+| ~~5.1~~ *(dropped)* | Track the file offset arithmetically and stop calling `ftello` (`lseek`) on every 4 KB read | Offsets are compared by the utest | `lseek` 80,846 → 3 on X2, kernel cycles −9% on R1, but net −0.5% at best under ±3% loop-alignment noise; 5.2 cut the calls 4× anyway |
+| **5.2** ✔ | Read files 16 KB at a time instead of 4 KB (measured; the plan's 64-256 KB was slower: the old two-pass parser wants the buffer in L1). Pipes and daemon format keep 4 KB, where results depend on where reads end | Read size only; the utest reads at 1 B-64 KB | R1 −4.8% user+kernel cycles |
+| **5.3** ✔ | `seeaddbuf()`: validate and digitize in one pass, lines and record end found with `memchr`; exact hand-over to `seebuf`/`addbuf` where it can't stand in | Utest, incl. a mismatched alphabet that forces the hand-over | X2 wall −29%, X1 −34 to −40%, R1 −24% |
+| **5.4** ✔ | `header_fasta`: run scans within the buffer (`header_run()`), `memcpy`, `nextchar()` only across buffers | Same strings, same allocation growth | R1 −6.1%, X1 −7 to −9% |
+| **5.4b** ✔ *(added)* | Description end with `memchr('\n')`, then `\r`/`^A` before it (the byte loop was ~85% of `header_fasta()` after 5.4) | Same end position | R1 −11%, X2 −11%, X1 −11 to −17% |
+| 5.5 *(optional, new dependency; not started)* | In-process zlib or libdeflate for `.gz` instead of a `gzip -dc` pipe | Same bytes | `hmmsearch_in_gzip_sprot` (2.1× slower today) |
+
+Outcome (milestone, default `-O3` vs 62d1c72, outputs identical everywhere): X5 `pfam_1k × human --cut_ga` @ 16 uncached 48.2 → 25.7 s (−47%); X1 @ 4/8/16 −41 to −51%; X2 0.86 → 0.50 s; R1 −39% user+kernel cycles; W1-W4 −11 to −22% cycles; X3 −16 to −18%; `--dbcache` runs, X4 and W5 unchanged (little FASTA parsing). The reader alone (Swiss-Prot, 1000-sequence blocks, digital) is 2.6× faster, ~270 → ~700 M residues/s (cycles −61%, instructions −58%), with an identical hash over every parsed field on four bench files.
+
+Found on the way (upstream behaviours, documented in the utest): on pipes, record offsets are -1 plus the position in the current read; `GuessAlphabet()` leaves the file mid-recording when it fails; daemon-format files read a byte past the buffer at record ends; `skip_whitespace()` indexes the input map with a negative `char` for bytes > 127; with an alphabet that disagrees with the format's input map (no standard alphabet does), which residues survive depends on where reads end, so 5.2 changed those (already garbage) results.
+
+**Candidates (unscheduled):** a 256-entry combined classify-and-digitize table in `seeaddbuf()` (12 → ~8 instructions per residue; needs a cache invalidated whenever the input map changes); a faster name scan in `header_fasta()`; reads of 32-128 KB (~1% in the reader alone, not resolvable on R1 today).
 
 ### Phase 6 — wider SIMD for the integer filters (S1 25-55%, S3 9-15% of worker CPU)
 
