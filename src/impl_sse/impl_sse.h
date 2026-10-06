@@ -115,8 +115,8 @@ typedef struct p7_oprofile_s {
   int        simd;              /* p7_SIMD_SSE (no valid copies) or p7_SIMD_AVX2     */
   uint8_t  **rbw;               /* [x][32*q]: MSV costs like rbv                     */
   uint8_t  **sbw;               /* [x][32*q]: SSV scores like sbv; q < Q + extra     */
-  int16_t  **rww;               /* [x][16*q]: VF match scores like rwv               */
-  int16_t   *tww;               /* VF transitions like twv: [16*(7q+t)], DDs [16*(7Q+q)] */
+  int16_t  **rww;               /* [x][16*q]: VF match scores like rwv (made on first use: */
+  int16_t   *tww;               /* VF transitions like twv: [16*(7q+t)], DDs [16*(7Q+q)]  ...SIMDViterbiReady()) */
   void      *simd_mem;          /* one allocation (row pointers + rows), for allocM  */
   size_t     simd_nalloc;       /* its size in bytes                                 */
 
@@ -344,6 +344,7 @@ enum p7_simd_e { p7_SIMD_SSE = 0, p7_SIMD_AVX2 = 1 };
 extern int         p7_simd_Level(void);
 extern const char *p7_simd_Name(int level);
 extern int         p7_oprofile_SetSIMD(P7_OPROFILE *om, int level);
+extern int         p7_oprofile_SIMDViterbiReady(const P7_OPROFILE *om);
 extern void       *p7_omx_SIMDRow(P7_OMX *ox, size_t nbytes);
 
 /* ssvfilter.c, ssvfilter_avx2.c */

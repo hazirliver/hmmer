@@ -180,19 +180,28 @@ fill_i16(int16_t *dst, int n, int16_t val)
 }
 
 
+/* The Viterbi filter's copies are made on first use (p7_oprofile_SIMDViterbiReady()):
+ * only a few percent of targets reach that filter, and with many models
+ * against a small database most profiles never need them. Their state
+ * sits at the start of om->simd_mem, which clones share.
+ */
+enum simd_vfcopy_e { VFCOPY_NONE = 0, VFCOPY_BUILDING = 1, VFCOPY_READY = 2 };
+#define SIMD_HDRSZ 64              /* bytes before the row pointers: the state, alone on its cache line */
+
 /* Function:  p7_oprofile_SetSIMD()
  * Synopsis:  Make (or drop) the AVX2 copies of a profile's filter scores.
  *
- * Purpose:   For <level> <p7_SIMD_AVX2>, fill the AVX2 copies of
- *            <om>'s MSV, SSV and Viterbi filter scores from the SSE ones
- *            and set <om->simd>,
- *            so the filters run their AVX2 versions on <om>. For
- *            <p7_SIMD_SSE>, only reset <om->simd>: the filters use
- *            the SSE versions.
+ * Purpose:   For <level> <p7_SIMD_AVX2>, fill the AVX2 copies of <om>'s
+ *            MSV and SSV scores from the SSE ones, mark its Viterbi
+ *            filter copies as not made yet, and set <om->simd>, so the
+ *            filters run their AVX2 versions on <om>. For
+ *            <p7_SIMD_SSE>, only reset <om->simd>: the filters use the
+ *            SSE versions.
  *
  *            <p7_oprofile_Convert()> calls this with <p7_simd_Level()>.
  *            Anything that changes the SSE scores of a profile with
- *            copies has to call it again.
+ *            copies has to call it again. Don't call it while other
+ *            threads search with <om> or its clones.
  *
  *            The copies hold the same values and pad nodes beyond M
  *            like the SSE conversion does, so the AVX2 kernels compute
@@ -209,12 +218,7 @@ p7_oprofile_SetSIMD(P7_OPROFILE *om, int level)
   int     Kp = om->abc->Kp;
   int     Qs = p7O_NQB(om->M);       /* # of SSE byte vectors   */
   int     Qd = p7O_NQV(om->M, 32);   /* # of AVX2 byte vectors  */
-  int     Qsw = p7O_NQW(om->M);      /* # of SSE word vectors   */
-  int     Qdw = p7O_NQV(om->M, 16);  /* # of AVX2 word vectors  */
   int    *spos, *dpos;               /* node k's offset in an SSE row, an AVX2 row */
-  int    *sposw, *dposw;             /* ... for words                              */
-  int    *tposs, *tposd;             /* ... in the interleaved word transitions    */
-  int     t;
   __m128i tmp, tmp2;
   int     x, q, j;
   int     status;
@@ -223,8 +227,8 @@ p7_oprofile_SetSIMD(P7_OPROFILE *om, int level)
 #ifdef p7_ENABLE_AVX2
   if (level != p7_SIMD_AVX2) ESL_EXCEPTION(eslEINVAL, "no such SIMD level");
 
-  /* Allocated once, for om->allocM (Convert() refuses bigger models):
-   * row pointers, then 64-byte aligned rows of Q + extra vectors.
+  /* Allocated once, for om->allocM (Convert() refuses bigger models): the
+   * Viterbi copies' state, row pointers, index scratch, then 64-byte aligned rows.
    */
   if (om->simd_mem == NULL)
     {
@@ -236,12 +240,12 @@ p7_oprofile_SetSIMD(P7_OPROFILE *om, int level)
       size_t twsz  = (size_t) p7O_NQV(om->allocM, 16) * 32 * p7O_NTRANS;
       uint8_t *data;
 
-      om->simd_nalloc = 3 * ptrsz + idxsz + 63 + (rbsz + sbsz + rwsz) * Kp + twsz;
+      om->simd_nalloc = SIMD_HDRSZ + 3 * ptrsz + idxsz + 63 + (rbsz + sbsz + rwsz) * Kp + twsz;
       ESL_ALLOC(om->simd_mem, om->simd_nalloc);
-      om->rbw = (uint8_t **) om->simd_mem;
+      om->rbw = (uint8_t **) ((uint8_t *) om->simd_mem + SIMD_HDRSZ);
       om->sbw = om->rbw + Kp;
       om->rww = (int16_t **) (om->sbw + Kp);
-      data    = (uint8_t *) (((uintptr_t) om->simd_mem + 3 * ptrsz + idxsz + 63) & ~((uintptr_t) 63));
+      data    = (uint8_t *) (((uintptr_t) om->simd_mem + SIMD_HDRSZ + 3 * ptrsz + idxsz + 63) & ~((uintptr_t) 63));
       for (x = 0; x < Kp; x++) om->rbw[x] = data + x * rbsz;
       data   += Kp * rbsz;
       for (x = 0; x < Kp; x++) om->sbw[x] = data + x * sbsz;
@@ -250,12 +254,8 @@ p7_oprofile_SetSIMD(P7_OPROFILE *om, int level)
       data   += Kp * rwsz;
       om->tww = (int16_t *) data;
     }
-  spos  = (int *) ((uint8_t *) om->simd_mem + 3 * sizeof(uint8_t *) * Kp);  /* scratch: node offsets */
+  spos  = (int *) ((uint8_t *) om->simd_mem + SIMD_HDRSZ + 3 * sizeof(uint8_t *) * Kp);  /* scratch: node offsets */
   dpos  = spos  + om->allocM;
-  sposw = dpos  + om->allocM;
-  dposw = sposw + om->allocM;
-  tposs = dposw + om->allocM;
-  tposd = tposs + om->allocM;
 
   /* MSV costs. SSV scores from them as sf_conversion() makes sbv from rbv (bytewise:
    * ((127 + bias) -sat rbv) ^ 127), and the extra vectors past Q that
@@ -274,12 +274,39 @@ p7_oprofile_SetSIMD(P7_OPROFILE *om, int level)
 	memcpy(om->sbw[x] + q * 32, om->sbw[x] + (q % Qd) * 32, 32);
     }
 
-  /* Viterbi filter scores; padding -32768, as vf_conversion() pads. The
-   * transitions are interleaved by vector: 7 of them (p7O_BM..p7O_II) for
-   * q = 0, 7 for q = 1, ...; then the DDs, one vector per q. A node's
-   * value goes to the node's own place whatever the transition's
-   * offset (BM, MM, IM, DM are stored one node "early" in both).
-   */
+  /* The Viterbi filter's copies: on first use */
+  __atomic_store_n((int *) om->simd_mem, VFCOPY_NONE, __ATOMIC_RELEASE);
+
+  om->simd = level;
+  return eslOK;
+
+ ERROR:
+  return status;
+#else
+  ESL_EXCEPTION(eslEINVAL, "no AVX2 in this build");
+#endif
+}
+
+/* stripe_vf()
+ * Fill <om>'s AVX2 copies of the Viterbi filter scores; padding -32768,
+ * as vf_conversion() pads. The transitions are interleaved by vector: 7
+ * of them (p7O_BM..p7O_II) for q = 0, 7 for q = 1, ...; then the DDs,
+ * one vector per q. A node's value goes to the node's own place whatever
+ * the transition's offset (BM, MM, IM, DM are stored one node "early"
+ * in both).
+ */
+static void
+stripe_vf(const P7_OPROFILE *om)
+{
+  int  Kp    = om->abc->Kp;
+  int  Qsw   = p7O_NQW(om->M);       /* # of SSE word vectors   */
+  int  Qdw   = p7O_NQV(om->M, 16);   /* # of AVX2 word vectors  */
+  int *sposw = (int *) ((uint8_t *) om->simd_mem + SIMD_HDRSZ + 3 * sizeof(uint8_t *) * Kp) + 2 * om->allocM;
+  int *dposw = sposw + om->allocM;
+  int *tposs = dposw + om->allocM;   /* ... in the interleaved transitions */
+  int *tposd = tposs + om->allocM;
+  int  x, t;
+
   stripe_index(om->M, Qsw,  8,  8, sposw);
   stripe_index(om->M, Qdw, 16, 16, dposw);
   stripe_index(om->M, Qsw,  8,  8 * 7, tposs);
@@ -293,15 +320,34 @@ p7_oprofile_SetSIMD(P7_OPROFILE *om, int level)
   for (t = 0; t < 7; t++)
     stripe_i16((const int16_t *) om->twv + t * 8, tposs, om->tww + t * 16, tposd, om->M);
   stripe_i16((const int16_t *) (om->twv + 7 * Qsw), sposw, om->tww + 7 * Qdw * 16, dposw, om->M);
+}
 
-  om->simd = level;
-  return eslOK;
+/* Function:  p7_oprofile_SIMDViterbiReady()
+ * Synopsis:  Are the wide Viterbi filter copies of <om> made? Make them if no one is.
+ *
+ * Purpose:   For a profile with wide copies (<om->simd> not
+ *            <p7_SIMD_SSE>), returns TRUE if its Viterbi filter copies
+ *            are ready to use, making them first if no other thread is
+ *            making them (for <om> or a clone); FALSE if another thread
+ *            is, in which case the caller uses the SSE filter this time
+ *            (same results). Thread-safe: the first caller wins an
+ *            atomic exchange and publishes the copies with a release
+ *            store; callers see them through an acquire load.
+ */
+int
+p7_oprofile_SIMDViterbiReady(const P7_OPROFILE *om)
+{
+  int *state = (int *) om->simd_mem;
+  int  s     = __atomic_load_n(state, __ATOMIC_ACQUIRE);
 
- ERROR:
-  return status;
-#else
-  ESL_EXCEPTION(eslEINVAL, "no AVX2 in this build");
-#endif
+  if (s == VFCOPY_READY) return TRUE;
+  if (s == VFCOPY_NONE && __atomic_compare_exchange_n(state, &s, VFCOPY_BUILDING, FALSE, __ATOMIC_ACQUIRE, __ATOMIC_RELAXED))
+    {
+      stripe_vf(om);
+      __atomic_store_n(state, VFCOPY_READY, __ATOMIC_RELEASE);
+      return TRUE;
+    }
+  return FALSE;
 }
 
 
@@ -630,6 +676,139 @@ utest_vf_deletions(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg, int M,
   p7_oprofile_Destroy(om);
 }
 
+/* utest_vf_lazy()
+ * The Viterbi filter's copies are made on first use and remade after the
+ * profile changes: convert model A into a profile, filter (copies made),
+ * convert model B (another length) into the same profile, filter again;
+ * each against SSE. A profile that kept A's copies fails here.
+ */
+static void
+utest_vf_lazy(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg)
+{
+  char         msg[] = "simd VF lazy copies unit test failed";
+  P7_HMM      *hmm = NULL;
+  P7_PROFILE  *gm  = p7_profile_Create(400, abc);
+  P7_OPROFILE *om  = p7_oprofile_Create(400, abc);
+  P7_OMX      *ox  = p7_omx_Create(400, 0, 0);
+  ESL_SQ      *sq  = esl_sq_CreateDigital(abc);
+  int          Ms[3] = { 400, 151, 37 };
+  float        sc0, sc1;
+  int          m, n, st0, st1;
+
+  for (m = 0; m < 3; m++)
+    {
+      if (p7_hmm_SampleUniform(r, Ms[m], abc, 0.02, 0.5, 0.05, 0.5, &hmm) != eslOK) esl_fatal(msg);
+      if (p7_ProfileConfig(hmm, bg, gm, 400, p7_LOCAL)                     != eslOK) esl_fatal(msg);
+      if (p7_oprofile_Convert(gm, om)                                       != eslOK) esl_fatal(msg);
+      if (p7_oprofile_SetSIMD(om, p7_SIMD_AVX2)                             != eslOK) esl_fatal(msg);
+      for (n = 0; n < 6; n++)
+	{
+	  esl_sq_Reuse(sq);
+	  if (n % 2) p7_emit_SimpleConsensus(hmm, sq); else p7_ProfileEmit(r, hmm, gm, bg, sq, NULL);
+	  p7_oprofile_ReconfigLength(om, sq->n);
+	  sc0 = sc1 = -42.0f;
+	  om->simd = p7_SIMD_SSE;  st0 = p7_ViterbiFilter(sq->dsq, sq->n, om, ox, &sc0);
+	  om->simd = p7_SIMD_AVX2; st1 = p7_ViterbiFilter(sq->dsq, sq->n, om, ox, &sc1);
+	  if (st0 != st1 || memcmp(&sc0, &sc1, sizeof(float)) != 0)
+	    esl_fatal("%s: model %d (M=%d): SSE status %d score %g, %s status %d score %g", msg, m, Ms[m], st0, sc0, "avx2", st1, sc1);
+	}
+      if (! p7_oprofile_SIMDViterbiReady(om)) esl_fatal(msg);  /* made by the filter, nobody else making them */
+      p7_hmm_Destroy(hmm);
+    }
+
+  esl_sq_Destroy(sq);
+  p7_omx_Destroy(ox);
+  p7_profile_Destroy(gm);
+  p7_oprofile_Destroy(om);
+}
+
+#ifdef HMMER_THREADS
+#include <pthread.h>
+
+/* utest_vf_threads()
+ * Several threads filter with clones of one profile at once, as
+ * hmmsearch's workers do, while its Viterbi copies are being made on
+ * first use: every result must be the SSE one. (Run under
+ * ThreadSanitizer too.)
+ */
+struct vf_thread_s { const P7_OPROFILE *om; const ESL_DSQ **dsq; const int *L; const float *sc; const int *st; int n; int nwide; };
+
+static void *
+vf_thread(void *arg)
+{
+  struct vf_thread_s *a  = arg;
+  P7_OPROFILE        *om = p7_oprofile_Clone(a->om);
+  P7_OMX             *ox = p7_omx_Create(om->M, 0, 0);
+  float               sc;
+  int                 i, st;
+
+  for (i = 0; i < a->n; i++)
+    {
+      sc = -42.0f;
+      st = p7_ViterbiFilter(a->dsq[i], a->L[i], om, ox, &sc);
+      if (st != a->st[i] || memcmp(&sc, &a->sc[i], sizeof(float)) != 0) esl_fatal("simd VF threads unit test failed: target %d", i);
+      a->nwide += p7_oprofile_SIMDViterbiReady(om);
+    }
+  p7_omx_Destroy(ox);
+  p7_oprofile_Destroy(om);
+  return NULL;
+}
+
+static void
+utest_vf_threads(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg)
+{
+  char               msg[] = "simd VF threads unit test failed";
+  int                nthreads = 8, ntargets = 200, rounds = 20;
+  P7_HMM            *hmm = NULL;
+  P7_PROFILE        *gm  = NULL;
+  P7_OPROFILE       *om  = NULL;
+  P7_OMX            *ox  = NULL;
+  ESL_SQ            *sq  = esl_sq_CreateDigital(abc);
+  ESL_DSQ          **dsq = malloc(sizeof(ESL_DSQ *) * ntargets);
+  int               *L   = malloc(sizeof(int)       * ntargets);
+  float             *sc  = malloc(sizeof(float)     * ntargets);
+  int               *st  = malloc(sizeof(int)       * ntargets);
+  pthread_t          tid[8];
+  struct vf_thread_s a[8];
+  int                i, t, k;
+
+  sample_om(r, abc, bg, 300, 300, TRUE, &hmm, &gm, &om);
+  ox = p7_omx_Create(om->M, 0, 0);
+  for (i = 0; i < ntargets; i++)       /* targets and their SSE results (length 300 for all: one length config) */
+    {
+      esl_sq_Reuse(sq);
+      if (i % 2) p7_emit_SimpleConsensus(hmm, sq); else p7_ProfileEmit(r, hmm, gm, bg, sq, NULL);
+      dsq[i] = malloc(sizeof(ESL_DSQ) * 302);
+      esl_rsq_xfIID(r, bg->f, abc->K, 300, dsq[i]);
+      memcpy(dsq[i] + 1, sq->dsq + 1, ESL_MIN(sq->n, 300));
+      L[i] = 300;
+    }
+  p7_oprofile_ReconfigLength(om, 300);
+  om->simd = p7_SIMD_SSE;
+  for (i = 0; i < ntargets; i++) st[i] = p7_ViterbiFilter(dsq[i], L[i], om, ox, &sc[i]);
+
+  for (k = 0; k < rounds; k++)
+    {
+      if (p7_oprofile_SetSIMD(om, p7_SIMD_AVX2) != eslOK) esl_fatal(msg);  /* copies to be made again */
+      for (t = 0; t < nthreads; t++)
+	{
+	  a[t] = (struct vf_thread_s) { om, (const ESL_DSQ **) dsq, L, sc, st, ntargets, 0 };
+	  if (pthread_create(&tid[t], NULL, vf_thread, &a[t]) != 0) esl_fatal(msg);
+	}
+      for (t = 0; t < nthreads; t++) pthread_join(tid[t], NULL);
+      for (t = 0; t < nthreads; t++) if (a[t].nwide == 0) esl_fatal("%s: a thread never got the wide copies", msg);
+    }
+
+  for (i = 0; i < ntargets; i++) free(dsq[i]);
+  free(dsq); free(L); free(sc); free(st);
+  esl_sq_Destroy(sq);
+  p7_omx_Destroy(ox);
+  p7_hmm_Destroy(hmm);
+  p7_profile_Destroy(gm);
+  p7_oprofile_Destroy(om);
+}
+#endif /*HMMER_THREADS*/
+
 /* utest_copies()
  * A profile's AVX2 copies survive p7_oprofile_Copy(), and a Clone()
  * shares them; destroying either doesn't touch the other's.
@@ -721,6 +900,10 @@ main(int argc, char **argv)
 	esl_vec_ISet(nout, 9, 0);
 
 	utest_copies(r, abc, bg);
+	utest_vf_lazy(r, abc, bg);
+#ifdef HMMER_THREADS
+	utest_vf_threads(r, abc, bg);
+#endif
 	for (M = 1; M <= 130; M++)                                 utest_filters(r, abc, bg, M,       Lcfg[M % 3],            N, nout);
 	for (i = 0; i < (int) (sizeof(bigM)/sizeof(int)); i++)
 	  for (j = 0; j < (int) (sizeof(Lcfg)/sizeof(int)); j++)            utest_filters(r, abc, bg, bigM[i], Lcfg[j], ESL_MAX(6, N/(j+1)), nout);

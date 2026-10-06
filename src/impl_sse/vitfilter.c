@@ -109,7 +109,7 @@ p7_ViterbiFilter(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox, f
   ox->M   = om->M;
 
 #ifdef p7_ENABLE_AVX2
-  if (om->simd == p7_SIMD_AVX2)
+  if (om->simd == p7_SIMD_AVX2 && p7_oprofile_SIMDViterbiReady(om))
     { /* same DP, 16 lanes (vitfilter_avx2.c); the score as at the end below */
       int16_t xC_avx2;
       int     status = p7_ViterbiFilter_avx2(dsq, L, om, ox, &xC_avx2);
