@@ -40,6 +40,7 @@ OBJS =  decoding.o\
 	ssvfilter.o\
 	ssvfilter_avx2.o\
 	msvfilter.o\
+	msvfilter_avx2.o\
 	null2.o\
 	optacc.o\
 	stotrace.o\
@@ -111,7 +112,7 @@ libhmmer-impl.stamp: ${OBJS}
 ${OBJS}:   ${HDRS} ../hmmer.h 
 
 # AVX2 kernels: only these files get the wider instruction set (the CPU is checked at run time)
-ssvfilter_avx2.o: SIMD_CFLAGS = ${P7_AVX2_CFLAGS}
+ssvfilter_avx2.o msvfilter_avx2.o: SIMD_CFLAGS = ${P7_AVX2_CFLAGS}
 
 .c.o:  
 	${QUIET_CC}${CC} ${CFLAGS} ${PIC_CFLAGS} ${PTHREAD_CFLAGS} ${SSE_CFLAGS} ${SIMD_CFLAGS} ${CPPFLAGS} ${DEFS} ${MYINCDIRS} -o $@ -c $<

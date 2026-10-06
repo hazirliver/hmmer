@@ -19,6 +19,10 @@
 
 #include <stdio.h>
 #include <math.h>
+#ifdef p7_CROSSCHECK
+#include <stdlib.h>
+#include <string.h>
+#endif
 
 #include <xmmintrin.h>		/* SSE  */
 #include <emmintrin.h>		/* SSE2 */
@@ -102,6 +106,33 @@ p7_MSVFilter(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox, float
   /* Try highly optimized ssv filter first */
   status = p7_SSVFilter(dsq, L, om, ret_sc);
   if (status != eslENORESULT) return status;
+
+#ifdef p7_ENABLE_AVX2
+  if (om->simd == p7_SIMD_AVX2)
+    { /* same DP, 32 lanes (msvfilter_avx2.c); the score as below */
+      uint8_t xJ_avx2;
+      status = p7_MSVFilter_avx2(dsq, L, om, ox, &xJ_avx2);
+      if (status == eslERANGE) *ret_sc = eslINFINITY;
+      if (status == eslOK)
+	{
+	  *ret_sc = ((float) (xJ_avx2 - om->tjb_b) - (float) om->base_b);
+	  *ret_sc /= om->scale_b;
+	  *ret_sc -= 3.0; /* that's ~ L \log \frac{L}{L+3}, for our NN,CC,JJ */
+	}
+#ifdef p7_CROSSCHECK
+      { /* the SSE version on a copy of <om> that has no AVX2 copies: same status, same score bits */
+	P7_OPROFILE om_sse = *om;
+	float       sc_sse = 0.0f;
+	int         st_sse;
+	om_sse.simd = p7_SIMD_SSE;
+	st_sse = p7_MSVFilter(dsq, L, &om_sse, ox, &sc_sse);
+	if (st_sse != status || (status != eslEMEM && memcmp(&sc_sse, ret_sc, sizeof(float)) != 0))
+	  { fprintf(stderr, "p7_MSVFilter crosscheck: SSE %d %g, AVX2 %d %g (M=%d L=%d)\n", st_sse, sc_sse, status, *ret_sc, om->M, L); abort(); }
+      }
+#endif
+      return status;
+    }
+#endif
 
   /* Initialization. In offset unsigned arithmetic, -infinity is 0, and 0 is om->base.
    */

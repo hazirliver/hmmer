@@ -72,6 +72,7 @@ p7_oprofile_Create(int allocM, const ESL_ALPHABET *abc)
   om->tfv     = NULL;
   om->clone   = 0;
   om->simd        = p7_SIMD_SSE;   /* no AVX2 copies until p7_oprofile_SetSIMD() (Convert) */
+  om->rbw         = NULL;
   om->sbw         = NULL;
   om->simd_mem    = NULL;
   om->simd_nalloc = 0;
@@ -292,6 +293,7 @@ p7_oprofile_Copy(P7_OPROFILE *om1)
   om2->rfv     = NULL;
   om2->tfv     = NULL;
   om2->simd        = p7_SIMD_SSE;
+  om2->rbw         = NULL;
   om2->sbw         = NULL;
   om2->simd_mem    = NULL;
   om2->simd_nalloc = 0;

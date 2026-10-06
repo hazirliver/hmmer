@@ -72,6 +72,8 @@ p7_omx_Create(int allocM, int allocL, int allocXL)
   ox->dpf    = NULL;
   ox->xmx    = NULL;
   ox->x_mem  = NULL;
+  ox->simd_mem    = NULL;
+  ox->simd_nalloc = 0;
 
   /* DP matrix will be allocated for allocL+1 rows 0,1..L; allocQ4*p7X_NSCELLS columns */
   ox->allocR   = allocL+1;
@@ -299,6 +301,7 @@ p7_omx_Destroy(P7_OMX *ox)
   if (ox->dpf     != NULL) free(ox->dpf);
   if (ox->dpw     != NULL) free(ox->dpw);
   if (ox->dpb     != NULL) free(ox->dpb);
+  if (ox->simd_mem != NULL) free(ox->simd_mem);
   free(ox);
   return;
 }

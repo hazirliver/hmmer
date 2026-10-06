@@ -113,6 +113,7 @@ typedef struct p7_oprofile_s {
    * striped for 32 lanes (AVX2). Valid only while <simd> is p7_SIMD_AVX2; the
    * filters then run their AVX2 versions on them.                                   */
   int        simd;              /* p7_SIMD_SSE (no valid copies) or p7_SIMD_AVX2     */
+  uint8_t  **rbw;               /* [x][32*q]: MSV costs like rbv                     */
   uint8_t  **sbw;               /* [x][32*q]: SSV scores like sbv; q < Q + extra     */
   void      *simd_mem;          /* one allocation (row pointers + rows), for allocM  */
   size_t     simd_nalloc;       /* its size in bytes                                 */
@@ -220,6 +221,10 @@ typedef struct p7_omx_s {
    */
   int     debugging;    /* TRUE if we're in debugging mode                             */
   FILE   *dfp;      /* output stream for diagnostics                               */
+
+  /* One-row DP for the AVX2 filters (simd.c: p7_omx_SIMDRow()), grown on demand      */
+  void   *simd_mem;
+  size_t  simd_nalloc;
 } P7_OMX;
 
 /* ?MXo(q) access macros work for either uchar or float, so long as you
@@ -337,13 +342,15 @@ enum p7_simd_e { p7_SIMD_SSE = 0, p7_SIMD_AVX2 = 1 };
 extern int         p7_simd_Level(void);
 extern const char *p7_simd_Name(int level);
 extern int         p7_oprofile_SetSIMD(P7_OPROFILE *om, int level);
+extern void       *p7_omx_SIMDRow(P7_OMX *ox, size_t nbytes);
 
 /* ssvfilter.c, ssvfilter_avx2.c */
 extern int     p7_SSVFilter    (const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, float *ret_sc);
 extern uint8_t p7_SSVFilter_xE_avx2(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om);
 
-/* msvfilter.c */
+/* msvfilter.c, msvfilter_avx2.c */
 extern int p7_MSVFilter           (const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox, float *ret_sc);
+extern int p7_MSVFilter_avx2      (const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox, uint8_t *ret_xJ);
 extern int p7_SSVFilter_longtarget(const ESL_DSQ *dsq, int L, P7_OPROFILE *om, P7_OMX *ox, const P7_SCOREDATA *msvdata, P7_BG *bg, double P, P7_HMM_WINDOWLIST *windowlist);
 
 
