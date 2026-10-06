@@ -27,6 +27,10 @@
 
 #define p7O_EXTRA_SB 17    /* see ssvfilter.c for explanation */
 
+/* The same for vectors of <n> lanes (AVX2 copies of the filter profiles, simd.c) */
+#define p7O_NQV(M, n) ( ESL_MAX(2, ((((M)-1) / (n)) + 1)))
+#define p7O_EXTRA_SB_AVX2 16    /* SSV reads past the last vector; >= MAX_BANDS-1 of ssvfilter_avx2.c */
+
 
 /*****************************************************************
  * 1. P7_OPROFILE: an optimized score profile
@@ -104,7 +108,15 @@ typedef struct p7_oprofile_s {
   __m128i  *twv_mem;
   __m128   *tfv_mem;
   __m128   *rfv_mem;
-  
+
+  /* Copies of filter scores for wider vectors (simd.c): the same values as above,
+   * striped for 32 lanes (AVX2). Valid only while <simd> is p7_SIMD_AVX2; the
+   * filters then run their AVX2 versions on them.                                   */
+  int        simd;              /* p7_SIMD_SSE (no valid copies) or p7_SIMD_AVX2     */
+  uint8_t  **sbw;               /* [x][32*q]: SSV scores like sbv; q < Q + extra     */
+  void      *simd_mem;          /* one allocation (row pointers + rows), for allocM  */
+  size_t     simd_nalloc;       /* its size in bytes                                 */
+
   /* Disk offset information for hmmpfam's fast model retrieval                      */
   off_t  offs[p7_NOFFSETS];     /* p7_{MFP}OFFSET, or -1                             */
 
@@ -324,9 +336,11 @@ extern void p7_oprofile_DestroyBlock(P7_OM_BLOCK *block);
 enum p7_simd_e { p7_SIMD_SSE = 0, p7_SIMD_AVX2 = 1 };
 extern int         p7_simd_Level(void);
 extern const char *p7_simd_Name(int level);
+extern int         p7_oprofile_SetSIMD(P7_OPROFILE *om, int level);
 
-/* ssvfilter.c */
-extern int p7_SSVFilter    (const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, float *ret_sc);
+/* ssvfilter.c, ssvfilter_avx2.c */
+extern int     p7_SSVFilter    (const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, float *ret_sc);
+extern uint8_t p7_SSVFilter_xE_avx2(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om);
 
 /* msvfilter.c */
 extern int p7_MSVFilter           (const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox, float *ret_sc);

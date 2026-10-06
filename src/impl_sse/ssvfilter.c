@@ -406,6 +406,11 @@
 #include <p7_config.h>
 
 #include <math.h>
+#ifdef p7_CROSSCHECK
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#endif
 
 #include <xmmintrin.h>		/* SSE  */
 #include <emmintrin.h>		/* SSE2 */
@@ -872,20 +877,14 @@ get_xE(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om)
 }
 
 
-int
-p7_SSVFilter(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, float *ret_sc)
+/* ssv_score()
+ * The rest of p7_SSVFilter(), from the DP's maximum <xE>.
+ */
+static inline int
+ssv_score(const P7_OPROFILE *om, uint16_t xE, float *ret_sc)
 {
   /* Use 16 bit values to avoid overflow due to moved baseline */
-  uint16_t  xE;
   uint16_t  xJ;
-
-  if (om->tjb_b + om->tbm_b + om->tec_b + om->bias_b >= 127) {
-    /* the optimizations are not guaranteed to work under these
-       conditions (see comments at start of file) */
-    return eslENORESULT;
-  }
-
-  xE = get_xE(dsq, L, om);
 
   if (xE >= 255 - om->bias_b)
     {
@@ -921,6 +920,39 @@ p7_SSVFilter(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, float *ret_sc)
   *ret_sc -= 3.0; /* that's ~ L \log \frac{L}{L+3}, for our NN,CC,JJ */
 
   return eslOK;
+}
+
+
+int
+p7_SSVFilter(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, float *ret_sc)
+{
+  uint16_t  xE;
+
+  if (om->tjb_b + om->tbm_b + om->tec_b + om->bias_b >= 127) {
+    /* the optimizations are not guaranteed to work under these
+       conditions (see comments at start of file) */
+    return eslENORESULT;
+  }
+
+#ifdef p7_ENABLE_AVX2
+  if (om->simd == p7_SIMD_AVX2)
+    {
+      xE = p7_SSVFilter_xE_avx2(dsq, L, om); /* same DP, 32 lanes (ssvfilter_avx2.c) */
+#ifdef p7_CROSSCHECK
+      { /* the outcome must be the SSE one, bit for bit (xE itself may differ once both overflowed) */
+        float sc_sse = 0.0f, sc_avx2 = 0.0f;
+        int   st_sse  = ssv_score(om, get_xE(dsq, L, om), &sc_sse);
+        int   st_avx2 = ssv_score(om, xE, &sc_avx2);
+        if (st_sse != st_avx2 || memcmp(&sc_sse, &sc_avx2, sizeof(float)) != 0)
+          { fprintf(stderr, "p7_SSVFilter crosscheck: SSE %d %g, AVX2 %d %g (M=%d L=%d)\n", st_sse, sc_sse, st_avx2, sc_avx2, om->M, L); abort(); }
+      }
+#endif
+      return ssv_score(om, xE, ret_sc);
+    }
+#endif
+
+  xE = get_xE(dsq, L, om);
+  return ssv_score(om, xE, ret_sc);
 }
 
 

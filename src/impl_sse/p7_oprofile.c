@@ -71,6 +71,10 @@ p7_oprofile_Create(int allocM, const ESL_ALPHABET *abc)
   om->rfv     = NULL;
   om->tfv     = NULL;
   om->clone   = 0;
+  om->simd        = p7_SIMD_SSE;   /* no AVX2 copies until p7_oprofile_SetSIMD() (Convert) */
+  om->sbw         = NULL;
+  om->simd_mem    = NULL;
+  om->simd_nalloc = 0;
 
   /* level 1 */
   ESL_ALLOC(om->rbv_mem, sizeof(__m128i) * nqb  * abc->Kp          +15); /* +15 is for manual 16-byte alignment */
@@ -184,6 +188,7 @@ p7_oprofile_Destroy(P7_OPROFILE *om)
       if (om->twv_mem   != NULL) free(om->twv_mem);
       if (om->rfv_mem   != NULL) free(om->rfv_mem);
       if (om->tfv_mem   != NULL) free(om->tfv_mem);
+      if (om->simd_mem  != NULL) free(om->simd_mem);
       if (om->rbv       != NULL) free(om->rbv);
       if (om->sbv       != NULL) free(om->sbv);
       if (om->rwv       != NULL) free(om->rwv);
@@ -229,6 +234,7 @@ p7_oprofile_Sizeof(P7_OPROFILE *om)
   n  += sizeof(__m128i) * nqw  * p7O_NTRANS  +15; /* om->twv_mem   */
   n  += sizeof(__m128)  * nqf  * om->abc->Kp +15; /* om->rfv_mem   */
   n  += sizeof(__m128)  * nqf  * p7O_NTRANS  +15; /* om->tfv_mem   */
+  n  += om->simd_nalloc;                          /* om->simd_mem: AVX2 copies, if any */
   
   n  += sizeof(__m128i *) * om->abc->Kp;          /* om->rbv       */
   n  += sizeof(__m128i *) * om->abc->Kp;          /* om->sbv       */
@@ -285,6 +291,10 @@ p7_oprofile_Copy(P7_OPROFILE *om1)
   om2->twv     = NULL;
   om2->rfv     = NULL;
   om2->tfv     = NULL;
+  om2->simd        = p7_SIMD_SSE;
+  om2->sbw         = NULL;
+  om2->simd_mem    = NULL;
+  om2->simd_nalloc = 0;
 
   /* level 1 */
   ESL_ALLOC(om2->rbv_mem, sizeof(__m128i) * nqb  * abc->Kp    +15);	/* +15 is for manual 16-byte alignment */
@@ -380,6 +390,9 @@ p7_oprofile_Copy(P7_OPROFILE *om1)
   om2->max_length   = om1->max_length;
 
   om2->clone     = om1->clone;
+
+  /* AVX2 copies of the filter scores: made from om2's SSE ones, which equal om1's */
+  if ((status = p7_oprofile_SetSIMD(om2, om1->simd)) != eslOK) goto ERROR;
 
   return om2;
 
@@ -642,6 +655,7 @@ p7_oprofile_UpdateMSVEmissionScores(P7_OPROFILE *om, P7_BG *bg, float *fwd_emiss
   }
 
   sf_conversion(om);
+  if (om->simd != p7_SIMD_SSE) p7_oprofile_SetSIMD(om, om->simd); /* AVX2 copies follow the new scores */
 
   return eslOK;
 }
@@ -1028,6 +1042,7 @@ p7_oprofile_Convert(const P7_PROFILE *gm, P7_OPROFILE *om)
   if ((status =  mf_conversion(gm, om)) != eslOK) return status;   /* MSVFilter()'s information     */
   if ((status =  vf_conversion(gm, om)) != eslOK) return status;   /* ViterbiFilter()'s information */
   if ((status =  fb_conversion(gm, om)) != eslOK) return status;   /* ForwardFilter()'s information */
+  if ((status =  p7_oprofile_SetSIMD(om, p7_simd_Level())) != eslOK) return status; /* AVX2 copies, if used */
 
   if (om->name != NULL) free(om->name);
   if (om->acc  != NULL) free(om->acc);
