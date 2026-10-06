@@ -32,9 +32,10 @@ Usage: dev/check.sh [options]
   --force-opt OPT    regression with every hmmsearch run given OPT (e.g. --dbcache): outputs
                      must equal the goldens once OPT's own echo lines are masked; cases listed
                      in dev/regress/force-opt.expected-diff are skipped for that OPT
-  --simd LEVEL       regression with HMMER_SIMD=LEVEL (sse, avx2): every program runs the
+  --simd LEVEL       regression with HMMER_SIMD=LEVEL (sse, avx2, avx512): every program runs the
                      integer filters on that vector width; outputs must equal the goldens
-                     (without --simd, programs use the widest width the CPU has)
+                     (without --simd: AVX2 where the CPU has it, AVX-512 only for models
+                     longer than 448 nodes; see src/impl_sse/simd.c)
   --full             'make check' at sqc level 3 (adds valgrind tests; needs valgrind)
   --clean            wipe the build dir and rebuild from scratch
   --bench [S|M|L]    also run the speed benchmark tier (default S; ~5 min / ~30 min / hours)

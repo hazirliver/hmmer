@@ -16,6 +16,7 @@ PTHREAD_CFLAGS = @PTHREAD_CFLAGS@
 PIC_CFLAGS     = @PIC_CFLAGS@
 SSE_CFLAGS     = @SSE_CFLAGS@
 P7_AVX2_CFLAGS = @P7_AVX2_CFLAGS@
+P7_AVX512_CFLAGS = @P7_AVX512_CFLAGS@
 CPPFLAGS       = @CPPFLAGS@
 LDFLAGS        = @LDFLAGS@
 DEFS           = @DEFS@
@@ -39,13 +40,16 @@ OBJS =  decoding.o\
 	io.o\
 	ssvfilter.o\
 	ssvfilter_avx2.o\
+	ssvfilter_avx512.o\
 	msvfilter.o\
 	msvfilter_avx2.o\
+	msvfilter_avx512.o\
 	null2.o\
 	optacc.o\
 	stotrace.o\
 	vitfilter.o\
 	vitfilter_avx2.o\
+	vitfilter_avx512.o\
 	p7_omx.o\
 	p7_oprofile.o\
 	simd.o\
@@ -114,6 +118,7 @@ ${OBJS}:   ${HDRS} ../hmmer.h
 
 # AVX2 kernels: only these files get the wider instruction set (the CPU is checked at run time)
 ssvfilter_avx2.o msvfilter_avx2.o vitfilter_avx2.o: SIMD_CFLAGS = ${P7_AVX2_CFLAGS}
+ssvfilter_avx512.o msvfilter_avx512.o vitfilter_avx512.o: SIMD_CFLAGS = ${P7_AVX512_CFLAGS}
 
 .c.o:  
 	${QUIET_CC}${CC} ${CFLAGS} ${PIC_CFLAGS} ${PTHREAD_CFLAGS} ${SSE_CFLAGS} ${SIMD_CFLAGS} ${CPPFLAGS} ${DEFS} ${MYINCDIRS} -o $@ -c $<

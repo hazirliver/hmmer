@@ -1049,7 +1049,7 @@ p7_oprofile_Convert(const P7_PROFILE *gm, P7_OPROFILE *om)
   if ((status =  mf_conversion(gm, om)) != eslOK) return status;   /* MSVFilter()'s information     */
   if ((status =  vf_conversion(gm, om)) != eslOK) return status;   /* ViterbiFilter()'s information */
   if ((status =  fb_conversion(gm, om)) != eslOK) return status;   /* ForwardFilter()'s information */
-  if ((status =  p7_oprofile_SetSIMD(om, p7_simd_Level())) != eslOK) return status; /* AVX2 copies, if used */
+  if ((status =  p7_oprofile_SetSIMD(om, p7_simd_LevelFor(om->M))) != eslOK) return status; /* wide copies, if used */
 
   if (om->name != NULL) free(om->name);
   if (om->acc  != NULL) free(om->acc);

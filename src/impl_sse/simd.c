@@ -1,19 +1,26 @@
 /* Run-time choice of the vector width for the integer filters (SSV, MSV,
  * Viterbi filter).
  *
- * The SSE kernels always exist. Builds on x86 may also carry AVX2
- * versions of the same kernels (configure: p7_ENABLE_AVX2), compiled
- * with -mavx2 in their own files; they run only on CPUs that have the
- * instructions. They compute the same integer DP on the same scores,
- * striped for more lanes, so every choice gives identical results.
+ * The SSE kernels always exist. Builds on x86 may also carry AVX2 and
+ * AVX-512BW versions of the same kernels (configure: p7_ENABLE_AVX2,
+ * p7_ENABLE_AVX512), compiled with those instruction sets in their own
+ * files; they run only on CPUs that have the instructions. They compute
+ * the same integer DP on the same scores, striped for more lanes, so
+ * every choice gives identical results.
  *
- * The environment variable HMMER_SIMD=sse|avx2 forces one path. It
+ * By default the filters use AVX2 where the CPU has it, and AVX-512 only
+ * for models longer than one AVX2 SSV pass covers (p7_simd_LevelFor():
+ * below that the AVX-512 kernels measured slower here, and at 16 threads
+ * the CPU's clock dropped ~1-1.5% with AVX-512 code running).
+ *
+ * The environment variable HMMER_SIMD=sse|avx2|avx512 forces one path. It
  * exists for testing and benchmarking one binary on each path
  * (dev/check.sh --simd); asking for a path that this build or CPU
  * doesn't have is an error.
  *
- * The AVX2 kernels read their own copies of the profile's filter
- * scores: the same values, striped for 32 lanes (p7_oprofile_SetSIMD()).
+ * The wide kernels read their own copies of the profile's filter
+ * scores: the same values, striped for 32 or 64 byte lanes
+ * (p7_oprofile_SetSIMD()).
  *
  * Contents:
  *   1. Choosing the level.
@@ -39,7 +46,8 @@
  * 1. Choosing the level.
  *****************************************************************/
 
-static int simd_level = -1;     /* p7_SIMD_*; -1 until first use. Accessed atomically. */
+static int simd_level  = -1;    /* p7_SIMD_*; -1 until first use. Accessed atomically. */
+static int simd_forced = 0;     /* TRUE if HMMER_SIMD chose simd_level; set before it    */
 
 /* simd_cpu_max()
  * The widest level that both this build and this CPU support.
@@ -52,6 +60,9 @@ simd_cpu_max(void)
   int level = p7_SIMD_SSE;
 #ifdef p7_ENABLE_AVX2
   if (__builtin_cpu_supports("avx2")) level = p7_SIMD_AVX2;
+#endif
+#ifdef p7_ENABLE_AVX512
+  if (__builtin_cpu_supports("avx512f") && __builtin_cpu_supports("avx512bw")) level = p7_SIMD_AVX512;
 #endif
   return level;
 }
@@ -70,6 +81,7 @@ simd_parse(const char *s, int max, int *ret_level)
   if      (s == NULL || *s == '\0') level = max;
   else if (strcmp(s, "sse")  == 0)  level = p7_SIMD_SSE;
   else if (strcmp(s, "avx2") == 0)  level = p7_SIMD_AVX2;
+  else if (strcmp(s, "avx512") == 0) level = p7_SIMD_AVX512;
   else return eslEINVAL;
 
   if (level > max) return eslENORESULT;
@@ -81,9 +93,9 @@ simd_parse(const char *s, int max, int *ret_level)
 /* Function:  p7_simd_Level()
  * Synopsis:  The vector width the integer filters use in this process.
  *
- * Purpose:   Returns <p7_SIMD_SSE> or <p7_SIMD_AVX2>: the widest level
- *            this build and CPU support, or the one HMMER_SIMD asks
- *            for. Decided on the first call, then fixed. Safe to call
+ * Purpose:   Returns <p7_SIMD_SSE>, <p7_SIMD_AVX2> or <p7_SIMD_AVX512>:
+ *            the widest level this build and CPU support, or the one
+ *            HMMER_SIMD asks for. Decided on the first call, then fixed. Safe to call
  *            from several threads.
  *
  * Throws:    Fails (<p7_Fail()>) if HMMER_SIMD names an unknown level
@@ -92,7 +104,7 @@ simd_parse(const char *s, int max, int *ret_level)
 int
 p7_simd_Level(void)
 {
-  int   level = __atomic_load_n(&simd_level, __ATOMIC_RELAXED);
+  int   level = __atomic_load_n(&simd_level, __ATOMIC_ACQUIRE);
   char *s;
   int   max;
   int   status;
@@ -102,10 +114,38 @@ p7_simd_Level(void)
   s      = getenv("HMMER_SIMD");
   max    = simd_cpu_max();
   status = simd_parse(s, max, &level);
-  if (status == eslEINVAL)    p7_Fail("HMMER_SIMD=%s: expected sse or avx2", s);
+  if (status == eslEINVAL)    p7_Fail("HMMER_SIMD=%s: expected sse, avx2 or avx512", s);
   if (status == eslENORESULT) p7_Fail("HMMER_SIMD=%s: not available (this build and CPU support up to %s)", s, p7_simd_Name(max));
 
-  __atomic_store_n(&simd_level, level, __ATOMIC_RELAXED); /* threads racing here all store the same value */
+  __atomic_store_n(&simd_forced, (s != NULL && *s != '\0'), __ATOMIC_RELAXED);
+  __atomic_store_n(&simd_level,  level, __ATOMIC_RELEASE);   /* threads racing here all store the same values */
+  return level;
+}
+
+/* Function:  p7_simd_LevelFor()
+ * Synopsis:  The vector width for the filters of a model of length <M>.
+ *
+ * Purpose:   The level <p7_oprofile_Convert()> makes copies for: the
+ *            process's level (<p7_simd_Level()>), except that AVX-512 is
+ *            used only for models too long for one pass of the AVX2 SSV
+ *            filter (M > 14*32 = 448), unless HMMER_SIMD asked for it.
+ *            Below that, the AVX-512 kernels were slower than the AVX2
+ *            ones on this machine (Sapphire Rapids: two vector ports at
+ *            512 bits, and the SSV's per-residue lane shift is spread
+ *            over fewer vectors); above it, the AVX2 SSV needs several
+ *            passes over the sequence and AVX-512 needs one.
+ */
+int
+p7_simd_LevelFor(int M)
+{
+  int level = p7_simd_Level();   /* also makes simd_forced valid */
+
+  if (level == p7_SIMD_AVX512 && M <= 14 * 32 && ! __atomic_load_n(&simd_forced, __ATOMIC_RELAXED))
+    {
+#ifdef p7_ENABLE_AVX2
+      level = p7_SIMD_AVX2;
+#endif
+    }
   return level;
 }
 
@@ -118,6 +158,7 @@ p7_simd_Name(int level)
   switch (level) {
   case p7_SIMD_SSE:  return "sse";
   case p7_SIMD_AVX2: return "avx2";
+  case p7_SIMD_AVX512: return "avx512";
   default:           return "unknown";
   }
 }
@@ -188,23 +229,30 @@ fill_i16(int16_t *dst, int n, int16_t val)
 enum simd_vfcopy_e { VFCOPY_NONE = 0, VFCOPY_BUILDING = 1, VFCOPY_READY = 2 };
 #define SIMD_HDRSZ 64              /* bytes before the row pointers: the state, alone on its cache line */
 
+/* simd_vb(): vector bytes of a wide level */
+static int
+simd_vb(int level)
+{
+  return (level == p7_SIMD_AVX512) ? 64 : 32;
+}
+
 /* Function:  p7_oprofile_SetSIMD()
- * Synopsis:  Make (or drop) the AVX2 copies of a profile's filter scores.
+ * Synopsis:  Make (or drop) the wide copies of a profile's filter scores.
  *
- * Purpose:   For <level> <p7_SIMD_AVX2>, fill the AVX2 copies of <om>'s
- *            MSV and SSV scores from the SSE ones, mark its Viterbi
- *            filter copies as not made yet, and set <om->simd>, so the
- *            filters run their AVX2 versions on <om>. For
- *            <p7_SIMD_SSE>, only reset <om->simd>: the filters use the
- *            SSE versions.
+ * Purpose:   For <level> <p7_SIMD_AVX2> or <p7_SIMD_AVX512>, fill the
+ *            copies of <om>'s MSV and SSV scores that level's kernels
+ *            read, from the SSE ones, mark its Viterbi filter copies as
+ *            not made yet, and set <om->simd>, so the filters run that
+ *            level's versions on <om>. For <p7_SIMD_SSE>, only reset
+ *            <om->simd>: the filters use the SSE versions.
  *
- *            <p7_oprofile_Convert()> calls this with <p7_simd_Level()>.
+ *            <p7_oprofile_Convert()> calls this with <p7_simd_LevelFor(M)>.
  *            Anything that changes the SSE scores of a profile with
  *            copies has to call it again. Don't call it while other
  *            threads search with <om> or its clones.
  *
  *            The copies hold the same values and pad nodes beyond M
- *            like the SSE conversion does, so the AVX2 kernels compute
+ *            like the SSE conversion does, so the wide kernels compute
  *            the same DP.
  *
  * Returns:   <eslOK> on success.
@@ -217,61 +265,76 @@ p7_oprofile_SetSIMD(P7_OPROFILE *om, int level)
 {
   int     Kp = om->abc->Kp;
   int     Qs = p7O_NQB(om->M);       /* # of SSE byte vectors   */
-  int     Qd = p7O_NQV(om->M, 32);   /* # of AVX2 byte vectors  */
-  int    *spos, *dpos;               /* node k's offset in an SSE row, an AVX2 row */
+  int     vb, nextra;                /* wide vector bytes, extra SSV vectors past Q */
+  int     Qd;                        /* # of wide byte vectors  */
+  int    *spos, *dpos;               /* node k's offset in an SSE row, a wide row */
+  size_t  ptrsz, idxsz, rbsz, sbsz, rwsz, twsz, need;
+  uint8_t *data;
   __m128i tmp, tmp2;
   int     x, q, j;
   int     status;
 
-  if (level == p7_SIMD_SSE) { om->simd = p7_SIMD_SSE; return eslOK; }
+  if      (level == p7_SIMD_SSE) { om->simd = p7_SIMD_SSE; return eslOK; }
 #ifdef p7_ENABLE_AVX2
-  if (level != p7_SIMD_AVX2) ESL_EXCEPTION(eslEINVAL, "no such SIMD level");
+  else if (level == p7_SIMD_AVX2)   nextra = p7O_EXTRA_SB_AVX2;
+#endif
+#ifdef p7_ENABLE_AVX512
+  else if (level == p7_SIMD_AVX512) nextra = p7O_EXTRA_SB_AVX512;
+#endif
+  else ESL_EXCEPTION(eslEINVAL, "no such SIMD level in this build");
+  vb = simd_vb(level);
+  Qd = p7O_NQV(om->M, vb);
 
-  /* Allocated once, for om->allocM (Convert() refuses bigger models): the
-   * Viterbi copies' state, row pointers, index scratch, then 64-byte aligned rows.
+  /* Sized for om->allocM (Convert() refuses bigger models): the Viterbi
+   * copies' state, row pointers, index scratch, then 64-byte aligned rows.
+   * Grown if a wider level needs more; row pointers are set on every call
+   * (they depend on the level).
    */
-  if (om->simd_mem == NULL)
+  ptrsz = sizeof(uint8_t *) * Kp;                 /* rbw, sbw; rww (same size: pointers) */
+  idxsz = sizeof(int) * 6 * om->allocM;
+  rbsz  = (size_t) p7O_NQV(om->allocM, vb) * vb;
+  sbsz  = (size_t) (p7O_NQV(om->allocM, vb) + nextra) * vb;
+  rwsz  = (size_t) p7O_NQV(om->allocM, vb/2) * vb;
+  twsz  = (size_t) p7O_NQV(om->allocM, vb/2) * vb * p7O_NTRANS;
+  need  = SIMD_HDRSZ + 3 * ptrsz + idxsz + 63 + (rbsz + sbsz + rwsz) * Kp + twsz;
+  if (om->simd_nalloc < need)
     {
-      size_t ptrsz = sizeof(uint8_t *) * Kp;           /* rbw, sbw; rww (same size: pointers) */
-      size_t idxsz = sizeof(int) * 6 * om->allocM;
-      size_t rbsz  = (size_t) p7O_NQV(om->allocM, 32) * 32;
-      size_t sbsz  = (size_t) (p7O_NQV(om->allocM, 32) + p7O_EXTRA_SB_AVX2) * 32;
-      size_t rwsz  = (size_t) p7O_NQV(om->allocM, 16) * 32;
-      size_t twsz  = (size_t) p7O_NQV(om->allocM, 16) * 32 * p7O_NTRANS;
-      uint8_t *data;
-
-      om->simd_nalloc = SIMD_HDRSZ + 3 * ptrsz + idxsz + 63 + (rbsz + sbsz + rwsz) * Kp + twsz;
-      ESL_ALLOC(om->simd_mem, om->simd_nalloc);
-      om->rbw = (uint8_t **) ((uint8_t *) om->simd_mem + SIMD_HDRSZ);
-      om->sbw = om->rbw + Kp;
-      om->rww = (int16_t **) (om->sbw + Kp);
-      data    = (uint8_t *) (((uintptr_t) om->simd_mem + SIMD_HDRSZ + 3 * ptrsz + idxsz + 63) & ~((uintptr_t) 63));
-      for (x = 0; x < Kp; x++) om->rbw[x] = data + x * rbsz;
-      data   += Kp * rbsz;
-      for (x = 0; x < Kp; x++) om->sbw[x] = data + x * sbsz;
-      data   += Kp * sbsz;
-      for (x = 0; x < Kp; x++) om->rww[x] = (int16_t *) (data + x * rwsz);
-      data   += Kp * rwsz;
-      om->tww = (int16_t *) data;
+      free(om->simd_mem);
+      om->simd_nalloc = 0;
+      om->simd        = p7_SIMD_SSE;
+      ESL_ALLOC(om->simd_mem, need);
+      om->simd_nalloc = need;
     }
-  spos  = (int *) ((uint8_t *) om->simd_mem + SIMD_HDRSZ + 3 * sizeof(uint8_t *) * Kp);  /* scratch: node offsets */
+  om->rbw = (uint8_t **) ((uint8_t *) om->simd_mem + SIMD_HDRSZ);
+  om->sbw = om->rbw + Kp;
+  om->rww = (int16_t **) (om->sbw + Kp);
+  data    = (uint8_t *) (((uintptr_t) om->simd_mem + SIMD_HDRSZ + 3 * ptrsz + idxsz + 63) & ~((uintptr_t) 63));
+  for (x = 0; x < Kp; x++) om->rbw[x] = data + x * rbsz;
+  data   += Kp * rbsz;
+  for (x = 0; x < Kp; x++) om->sbw[x] = data + x * sbsz;
+  data   += Kp * sbsz;
+  for (x = 0; x < Kp; x++) om->rww[x] = (int16_t *) (data + x * rwsz);
+  data   += Kp * rwsz;
+  om->tww = (int16_t *) data;
+
+  spos  = (int *) ((uint8_t *) om->simd_mem + SIMD_HDRSZ + 3 * ptrsz);  /* scratch: node offsets */
   dpos  = spos  + om->allocM;
 
   /* MSV costs. SSV scores from them as sf_conversion() makes sbv from rbv (bytewise:
    * ((127 + bias) -sat rbv) ^ 127), and the extra vectors past Q that
-   * ssvfilter_avx2.c reads: copies of q % Q, as in sf_conversion().
+   * the SSV kernels read: copies of q % Q, as in sf_conversion().
    */
   stripe_index(om->M, Qs, 16, 16, spos);
-  stripe_index(om->M, Qd, 32, 32, dpos);
+  stripe_index(om->M, Qd, vb, vb, dpos);
   tmp  = _mm_set1_epi8((int8_t) (om->bias_b + 127));
   tmp2 = _mm_set1_epi8(127);
   for (x = 0; x < Kp; x++)
     {
-      stripe_u8((const uint8_t *) om->rbv[x], spos, om->rbw[x], dpos, om->M, Qd * 32, 255);
-      for (j = 0; j < 2 * Qd; j++)
+      stripe_u8((const uint8_t *) om->rbv[x], spos, om->rbw[x], dpos, om->M, Qd * vb, 255);
+      for (j = 0; j < Qd * vb / 16; j++)
 	((__m128i *) om->sbw[x])[j] = _mm_xor_si128(_mm_subs_epu8(tmp, ((__m128i *) om->rbw[x])[j]), tmp2);
-      for (q = Qd; q < Qd + p7O_EXTRA_SB_AVX2; q++)
-	memcpy(om->sbw[x] + q * 32, om->sbw[x] + (q % Qd) * 32, 32);
+      for (q = Qd; q < Qd + nextra; q++)
+	memcpy(om->sbw[x] + q * vb, om->sbw[x] + (q % Qd) * vb, vb);
     }
 
   /* The Viterbi filter's copies: on first use */
@@ -282,44 +345,42 @@ p7_oprofile_SetSIMD(P7_OPROFILE *om, int level)
 
  ERROR:
   return status;
-#else
-  ESL_EXCEPTION(eslEINVAL, "no AVX2 in this build");
-#endif
 }
 
 /* stripe_vf()
- * Fill <om>'s AVX2 copies of the Viterbi filter scores; padding -32768,
- * as vf_conversion() pads. The transitions are interleaved by vector: 7
- * of them (p7O_BM..p7O_II) for q = 0, 7 for q = 1, ...; then the DDs,
- * one vector per q. A node's value goes to the node's own place whatever
- * the transition's offset (BM, MM, IM, DM are stored one node "early"
- * in both).
+ * Fill <om>'s wide copies of the Viterbi filter scores, for its level;
+ * padding -32768, as vf_conversion() pads. The transitions are
+ * interleaved by vector: 7 of them (p7O_BM..p7O_II) for q = 0, 7 for
+ * q = 1, ...; then the DDs, one vector per q. A node's value goes to the
+ * node's own place whatever the transition's offset (BM, MM, IM, DM are
+ * stored one node "early" in both).
  */
 static void
 stripe_vf(const P7_OPROFILE *om)
 {
   int  Kp    = om->abc->Kp;
-  int  Qsw   = p7O_NQW(om->M);       /* # of SSE word vectors   */
-  int  Qdw   = p7O_NQV(om->M, 16);   /* # of AVX2 word vectors  */
+  int  nw    = simd_vb(om->simd) / 2; /* wide word lanes          */
+  int  Qsw   = p7O_NQW(om->M);       /* # of SSE word vectors    */
+  int  Qdw   = p7O_NQV(om->M, nw);   /* # of wide word vectors   */
   int *sposw = (int *) ((uint8_t *) om->simd_mem + SIMD_HDRSZ + 3 * sizeof(uint8_t *) * Kp) + 2 * om->allocM;
   int *dposw = sposw + om->allocM;
   int *tposs = dposw + om->allocM;   /* ... in the interleaved transitions */
   int *tposd = tposs + om->allocM;
   int  x, t;
 
-  stripe_index(om->M, Qsw,  8,  8, sposw);
-  stripe_index(om->M, Qdw, 16, 16, dposw);
-  stripe_index(om->M, Qsw,  8,  8 * 7, tposs);
-  stripe_index(om->M, Qdw, 16, 16 * 7, tposd);
+  stripe_index(om->M, Qsw,  8,  8,      sposw);
+  stripe_index(om->M, Qdw, nw, nw,      dposw);
+  stripe_index(om->M, Qsw,  8,  8 * 7,  tposs);
+  stripe_index(om->M, Qdw, nw, nw * 7,  tposd);
   for (x = 0; x < Kp; x++)
     {
-      fill_i16(om->rww[x], Qdw * 16, -32768);
+      fill_i16(om->rww[x], Qdw * nw, -32768);
       stripe_i16((const int16_t *) om->rwv[x], sposw, om->rww[x], dposw, om->M);
     }
-  fill_i16(om->tww, p7O_NTRANS * Qdw * 16, -32768);
+  fill_i16(om->tww, p7O_NTRANS * Qdw * nw, -32768);
   for (t = 0; t < 7; t++)
-    stripe_i16((const int16_t *) om->twv + t * 8, tposs, om->tww + t * 16, tposd, om->M);
-  stripe_i16((const int16_t *) (om->twv + 7 * Qsw), sposw, om->tww + 7 * Qdw * 16, dposw, om->M);
+    stripe_i16((const int16_t *) om->twv + t * 8, tposs, om->tww + t * nw, tposd, om->M);
+  stripe_i16((const int16_t *) (om->twv + 7 * Qsw), sposw, om->tww + 7 * Qdw * nw, dposw, om->M);
 }
 
 /* Function:  p7_oprofile_SIMDViterbiReady()
@@ -394,17 +455,19 @@ utest_parse(void)
   char msg[] = "simd parse unit test failed";
   int  max, level;
 
-  for (max = p7_SIMD_SSE; max <= p7_SIMD_AVX2; max++)
+  for (max = p7_SIMD_SSE; max <= p7_SIMD_AVX512; max++)
     {
       level = -1; if (simd_parse(NULL, max, &level) != eslOK || level != max)          esl_fatal(msg);
       level = -1; if (simd_parse("",   max, &level) != eslOK || level != max)          esl_fatal(msg);
       level = -1; if (simd_parse("sse", max, &level) != eslOK || level != p7_SIMD_SSE) esl_fatal(msg);
-      if (max >= p7_SIMD_AVX2) { level = -1; if (simd_parse("avx2", max, &level) != eslOK || level != p7_SIMD_AVX2) esl_fatal(msg); }
-      else                     {             if (simd_parse("avx2", max, &level) != eslENORESULT)                  esl_fatal(msg); }
+      if (max >= p7_SIMD_AVX2)   { level = -1; if (simd_parse("avx2",   max, &level) != eslOK || level != p7_SIMD_AVX2)   esl_fatal(msg); }
+      else                       {             if (simd_parse("avx2",   max, &level) != eslENORESULT)                    esl_fatal(msg); }
+      if (max >= p7_SIMD_AVX512) { level = -1; if (simd_parse("avx512", max, &level) != eslOK || level != p7_SIMD_AVX512) esl_fatal(msg); }
+      else                       {             if (simd_parse("avx512", max, &level) != eslENORESULT)                    esl_fatal(msg); }
       if (simd_parse("SSE",    max, &level) != eslEINVAL) esl_fatal(msg);
       if (simd_parse("avx",    max, &level) != eslEINVAL) esl_fatal(msg);
       if (simd_parse("sse ",   max, &level) != eslEINVAL) esl_fatal(msg);
-      if (simd_parse("avx512", max, &level) != eslEINVAL) esl_fatal(msg);
+      if (simd_parse("avx-512", max, &level) != eslEINVAL) esl_fatal(msg);
     }
 }
 
@@ -422,6 +485,35 @@ utest_level(void)
   if (level < p7_SIMD_SSE || level > simd_cpu_max())                   esl_fatal("simd level unit test failed: level %d", level);
   if (simd_parse(s, simd_cpu_max(), &want) != eslOK || level != want)  esl_fatal("simd level unit test failed: HMMER_SIMD not honored");
   if (p7_simd_Level() != level)                                        esl_fatal("simd level unit test failed: level changed");
+
+  /* per-model choice: AVX-512 only above one AVX2 SSV pass, unless forced */
+  if (level == p7_SIMD_AVX512 && ! simd_forced)
+    {
+      if (p7_simd_LevelFor(1) != p7_SIMD_AVX2 || p7_simd_LevelFor(448) != p7_SIMD_AVX2 || p7_simd_LevelFor(449) != p7_SIMD_AVX512)
+	esl_fatal("simd level unit test failed: per-model level");
+    }
+  else if (p7_simd_LevelFor(1) != level || p7_simd_LevelFor(449) != level)
+    esl_fatal("simd level unit test failed: per-model level");
+}
+
+/* The kernel comparisons below run for the wide level <test_level>:
+ * the profile gets that level's copies, and <om->simd> switches between
+ * it and p7_SIMD_SSE to run each filter both ways.
+ */
+static int test_level = p7_SIMD_AVX2;
+
+/* wide_xE(): the SSV DP of <om>'s wide level */
+static uint8_t
+wide_xE(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om)
+{
+#ifdef p7_ENABLE_AVX512
+  if (om->simd == p7_SIMD_AVX512) return p7_SSVFilter_xE_avx512(dsq, L, om);
+#endif
+#ifdef p7_ENABLE_AVX2
+  if (om->simd == p7_SIMD_AVX2)   return p7_SSVFilter_xE_avx2(dsq, L, om);
+#endif
+  esl_fatal("wide_xE(): no such level");
+  return 0;
 }
 
 /* sample_om()
@@ -520,7 +612,7 @@ utest_filters(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg, int M, int 
   int          ovfl;
 
   sample_om(r, abc, bg, M, Lcfg, esl_rnd_Roll(r, 2), &hmm, &gm, &om);
-  if (p7_oprofile_SetSIMD(om, p7_SIMD_AVX2) != eslOK) esl_fatal(msg);
+  if (p7_oprofile_SetSIMD(om, test_level) != eslOK) esl_fatal(msg);
 
   for (n = 0; n < N; n++)
     {
@@ -529,13 +621,13 @@ utest_filters(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg, int M, int 
 
       sc0 = sc1 = -42.0f;
       om->simd = p7_SIMD_SSE;  st0 = p7_SSVFilter(dsq, L, om, &sc0);  xE0 = get_xE(dsq, L, om);
-      om->simd = p7_SIMD_AVX2; st1 = p7_SSVFilter(dsq, L, om, &sc1);  xE1 = p7_SSVFilter_xE_avx2(dsq, L, om);
+      om->simd = test_level; st1 = p7_SSVFilter(dsq, L, om, &sc1);  xE1 = wide_xE(dsq, L, om);
 
       ovfl = (xE0 >= 255 - om->bias_b);
       if (st0 != st1 || memcmp(&sc0, &sc1, sizeof(float)) != 0)
-	esl_fatal("%s: M=%d L=%d: SSE status %d score %g, AVX2 status %d score %g", msg, M, L, st0, sc0, st1, sc1);
+	esl_fatal("%s: M=%d L=%d: SSE status %d score %g, %s status %d score %g", msg, M, L, st0, sc0, p7_simd_Name(test_level), st1, sc1);
       if (ovfl ? (xE1 < 255 - om->bias_b) : (xE1 != xE0))
-	esl_fatal("%s: M=%d L=%d: xE %d (SSE) vs %d (AVX2), bias %d", msg, M, L, xE0, xE1, om->bias_b);
+	esl_fatal("%s: M=%d L=%d: xE %d (SSE) vs %d (%s), bias %d", msg, M, L, xE0, xE1, p7_simd_Name(test_level), om->bias_b);
 
       if      (st0 == eslOK)      nout[0]++;
       else if (st0 == eslERANGE)  nout[1]++;
@@ -547,18 +639,18 @@ utest_filters(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg, int M, int 
       /* MSV: the SSV filter, then the full DP if it couldn't decide */
       sc0 = sc1 = -42.0f;
       om->simd = p7_SIMD_SSE;  st0 = p7_MSVFilter(dsq, L, om, ox, &sc0);
-      om->simd = p7_SIMD_AVX2; st1 = p7_MSVFilter(dsq, L, om, ox, &sc1);
+      om->simd = test_level; st1 = p7_MSVFilter(dsq, L, om, ox, &sc1);
       if (st0 != st1 || memcmp(&sc0, &sc1, sizeof(float)) != 0)
-	esl_fatal("simd MSV unit test failed: M=%d L=%d: SSE status %d score %g, AVX2 status %d score %g", M, L, st0, sc0, st1, sc1);
+	esl_fatal("simd MSV unit test failed: M=%d L=%d: SSE status %d score %g, %s status %d score %g", M, L, st0, sc0, p7_simd_Name(test_level), st1, sc1);
       if (ssv_st == eslENORESULT) nout[st0 == eslOK ? 5 : 6]++;
 
       /* Viterbi filter (not on the longest targets against the largest models: slow, and nothing new) */
       if ((int64_t) L * M > 20000000) continue;
       sc0 = sc1 = -42.0f;
       om->simd = p7_SIMD_SSE;  st0 = p7_ViterbiFilter(dsq, L, om, ox, &sc0);
-      om->simd = p7_SIMD_AVX2; st1 = p7_ViterbiFilter(dsq, L, om, ox, &sc1);
+      om->simd = test_level; st1 = p7_ViterbiFilter(dsq, L, om, ox, &sc1);
       if (st0 != st1 || memcmp(&sc0, &sc1, sizeof(float)) != 0)
-	esl_fatal("simd VF unit test failed: M=%d L=%d: SSE status %d score %g, AVX2 status %d score %g", M, L, st0, sc0, st1, sc1);
+	esl_fatal("simd VF unit test failed: M=%d L=%d: SSE status %d score %g, %s status %d score %g", M, L, st0, sc0, p7_simd_Name(test_level), st1, sc1);
       nout[st0 == eslOK ? 7 : 8]++;
     }
 
@@ -595,7 +687,7 @@ utest_msv_boundary(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg, int M,
   int          novfl = 0;
 
   sample_om(r, abc, bg, M, flank, esl_rnd_Roll(r, 2), &hmm, &gm, &om);
-  if (p7_oprofile_SetSIMD(om, p7_SIMD_AVX2) != eslOK) esl_fatal(msg);
+  if (p7_oprofile_SetSIMD(om, test_level) != eslOK) esl_fatal(msg);
   if (p7_emit_SimpleConsensus(hmm, sq)                          != eslOK) esl_fatal(msg);
   esl_rsq_xfIID(r, bg->f, abc->K, flank, dsq);
   for (j = 1; j <= sq->n; j++)
@@ -607,9 +699,9 @@ utest_msv_boundary(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg, int M,
 
       sc0 = sc1 = -42.0f;
       om->simd = p7_SIMD_SSE;  st0 = p7_MSVFilter(dsq, flank + j, om, ox, &sc0);
-      om->simd = p7_SIMD_AVX2; st1 = p7_MSVFilter(dsq, flank + j, om, ox, &sc1);
+      om->simd = test_level; st1 = p7_MSVFilter(dsq, flank + j, om, ox, &sc1);
       if (st0 != st1 || memcmp(&sc0, &sc1, sizeof(float)) != 0)
-	esl_fatal("%s: M=%d L=%d: SSE status %d score %g, AVX2 status %d score %g", msg, M, flank + j, st0, sc0, st1, sc1);
+	esl_fatal("%s: M=%d L=%d: SSE status %d score %g, %s status %d score %g", msg, M, flank + j, st0, sc0, p7_simd_Name(test_level), st1, sc1);
       nout[0]++;
       if (st0 == eslERANGE && ++novfl > 5) break;  /* well past the boundary */
     }
@@ -646,7 +738,7 @@ utest_vf_deletions(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg, int M,
   int          j, d, L, st0, st1, pass;
 
   sample_om(r, abc, bg, M, M, TRUE, &hmm, &gm, &om);
-  if (p7_oprofile_SetSIMD(om, p7_SIMD_AVX2) != eslOK) esl_fatal(msg);
+  if (p7_oprofile_SetSIMD(om, test_level) != eslOK) esl_fatal(msg);
   if (p7_emit_SimpleConsensus(hmm, sq)       != eslOK) esl_fatal(msg);
 
   for (pass = 0; pass < 2; pass++)
@@ -662,9 +754,9 @@ utest_vf_deletions(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg, int M,
 
 	sc0 = sc1 = -42.0f;
 	om->simd = p7_SIMD_SSE;  st0 = p7_ViterbiFilter(dsq, L, om, ox, &sc0);
-	om->simd = p7_SIMD_AVX2; st1 = p7_ViterbiFilter(dsq, L, om, ox, &sc1);
+	om->simd = test_level; st1 = p7_ViterbiFilter(dsq, L, om, ox, &sc1);
 	if (st0 != st1 || memcmp(&sc0, &sc1, sizeof(float)) != 0)
-	  esl_fatal("%s: M=%d deletion %d..%d: SSE status %d score %g, AVX2 status %d score %g", msg, M, j, j+d-1, st0, sc0, st1, sc1);
+	  esl_fatal("%s: M=%d deletion %d..%d: SSE status %d score %g, %s status %d score %g", msg, M, j, j+d-1, st0, sc0, p7_simd_Name(test_level), st1, sc1);
 	(*nout)++;
       }
 
@@ -700,7 +792,7 @@ utest_vf_lazy(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg)
       if (p7_hmm_SampleUniform(r, Ms[m], abc, 0.02, 0.5, 0.05, 0.5, &hmm) != eslOK) esl_fatal(msg);
       if (p7_ProfileConfig(hmm, bg, gm, 400, p7_LOCAL)                     != eslOK) esl_fatal(msg);
       if (p7_oprofile_Convert(gm, om)                                       != eslOK) esl_fatal(msg);
-      if (p7_oprofile_SetSIMD(om, p7_SIMD_AVX2)                             != eslOK) esl_fatal(msg);
+      if (p7_oprofile_SetSIMD(om, test_level)                             != eslOK) esl_fatal(msg);
       for (n = 0; n < 6; n++)
 	{
 	  esl_sq_Reuse(sq);
@@ -708,9 +800,9 @@ utest_vf_lazy(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg)
 	  p7_oprofile_ReconfigLength(om, sq->n);
 	  sc0 = sc1 = -42.0f;
 	  om->simd = p7_SIMD_SSE;  st0 = p7_ViterbiFilter(sq->dsq, sq->n, om, ox, &sc0);
-	  om->simd = p7_SIMD_AVX2; st1 = p7_ViterbiFilter(sq->dsq, sq->n, om, ox, &sc1);
+	  om->simd = test_level; st1 = p7_ViterbiFilter(sq->dsq, sq->n, om, ox, &sc1);
 	  if (st0 != st1 || memcmp(&sc0, &sc1, sizeof(float)) != 0)
-	    esl_fatal("%s: model %d (M=%d): SSE status %d score %g, %s status %d score %g", msg, m, Ms[m], st0, sc0, "avx2", st1, sc1);
+	    esl_fatal("%s: model %d (M=%d): SSE status %d score %g, %s status %d score %g", msg, m, Ms[m], st0, sc0, p7_simd_Name(test_level), st1, sc1);
 	}
       if (! p7_oprofile_SIMDViterbiReady(om)) esl_fatal(msg);  /* made by the filter, nobody else making them */
       p7_hmm_Destroy(hmm);
@@ -789,7 +881,7 @@ utest_vf_threads(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg)
 
   for (k = 0; k < rounds; k++)
     {
-      if (p7_oprofile_SetSIMD(om, p7_SIMD_AVX2) != eslOK) esl_fatal(msg);  /* copies to be made again */
+      if (p7_oprofile_SetSIMD(om, test_level) != eslOK) esl_fatal(msg);  /* copies to be made again */
       for (t = 0; t < nthreads; t++)
 	{
 	  a[t] = (struct vf_thread_s) { om, (const ESL_DSQ **) dsq, L, sc, st, ntargets, 0 };
@@ -823,9 +915,9 @@ utest_copies(ESL_RANDOMNESS *r, const ESL_ALPHABET *abc, P7_BG *bg)
   int          i;
 
   if (p7_oprofile_Sample(r, abc, bg, 77, 300, NULL, NULL, &om) != eslOK) esl_fatal(msg);
-  if (p7_oprofile_SetSIMD(om, p7_SIMD_AVX2) != eslOK)                    esl_fatal(msg);
-  if ((om2 = p7_oprofile_Copy(om))  == NULL || om2->simd != p7_SIMD_AVX2 || om2->simd_mem == om->simd_mem) esl_fatal(msg);
-  if ((om3 = p7_oprofile_Clone(om)) == NULL || om3->simd != p7_SIMD_AVX2 || om3->simd_mem != om->simd_mem) esl_fatal(msg);
+  if (p7_oprofile_SetSIMD(om, test_level) != eslOK)                    esl_fatal(msg);
+  if ((om2 = p7_oprofile_Copy(om))  == NULL || om2->simd != test_level || om2->simd_mem == om->simd_mem) esl_fatal(msg);
+  if ((om3 = p7_oprofile_Clone(om)) == NULL || om3->simd != test_level || om3->simd_mem != om->simd_mem) esl_fatal(msg);
   for (i = 0; i < 20; i++)
     {
       esl_rsq_xfIID(r, bg->f, abc->K, 300, dsq);
@@ -890,9 +982,8 @@ main(int argc, char **argv)
   utest_parse();
   utest_level();
 
-  if (simd_cpu_max() < p7_SIMD_AVX2)
-    { if (be_verbose) printf("no AVX2 here: kernel comparisons skipped\n"); }
-  else
+  if (simd_cpu_max() < p7_SIMD_AVX2 && be_verbose) printf("no wide level here: kernel comparisons skipped\n");
+  for (test_level = p7_SIMD_AVX2; test_level <= simd_cpu_max(); test_level++)
     for (a = 0; a < 2; a++)
       {
 	if ((abc = esl_alphabet_Create(atype[a])) == NULL) esl_fatal("failed to create alphabet");
@@ -908,19 +999,19 @@ main(int argc, char **argv)
 	for (i = 0; i < (int) (sizeof(bigM)/sizeof(int)); i++)
 	  for (j = 0; j < (int) (sizeof(Lcfg)/sizeof(int)); j++)            utest_filters(r, abc, bg, bigM[i], Lcfg[j], ESL_MAX(6, N/(j+1)), nout);
 
-	if (be_verbose) printf("%s SSV: %d ok, %d overflow, %d J state, %d possible overflow, %d untrusted; full MSV: %d ok, %d overflow; VF: %d ok, %d overflow\n",
-			       esl_abc_DecodeType(atype[a]), nout[0], nout[1], nout[2], nout[3], nout[4], nout[5], nout[6], nout[7], nout[8]);
+	if (be_verbose) printf("%s %s SSV: %d ok, %d overflow, %d J state, %d possible overflow, %d untrusted; full MSV: %d ok, %d overflow; VF: %d ok, %d overflow\n",
+			       p7_simd_Name(test_level), esl_abc_DecodeType(atype[a]), nout[0], nout[1], nout[2], nout[3], nout[4], nout[5], nout[6], nout[7], nout[8]);
 	if (nout[0] == 0 || nout[1] == 0 || nout[2] == 0 || nout[5] == 0 || nout[6] == 0 || nout[7] == 0 || nout[8] == 0)
 	  esl_fatal("simd unit test didn't reach every outcome");
 
 	esl_vec_ISet(nout, 2, 0);
 	for (i = 0; i < 12; i++) utest_msv_boundary(r, abc, bg, 100 + 25 * i, 10000, nout);
-	if (be_verbose) printf("%s full MSV at the overflow boundary: %d targets, %d overflowed\n", esl_abc_DecodeType(atype[a]), nout[0], nout[1]);
+	if (be_verbose) printf("%s %s full MSV at the overflow boundary: %d targets, %d overflowed\n", p7_simd_Name(test_level), esl_abc_DecodeType(atype[a]), nout[0], nout[1]);
 	if (nout[0] == 0 || nout[1] == 0 || nout[1] == nout[0]) esl_fatal("simd MSV boundary unit test didn't reach both outcomes");
 
 	nout[0] = 0;
 	for (M = 10; M <= 300; M += granular[a]) utest_vf_deletions(r, abc, bg, M, &nout[0]);
-	if (be_verbose) printf("%s VF with deletions: %d targets\n", esl_abc_DecodeType(atype[a]), nout[0]);
+	if (be_verbose) printf("%s %s VF with deletions: %d targets\n", p7_simd_Name(test_level), esl_abc_DecodeType(atype[a]), nout[0]);
 
 	p7_bg_Destroy(bg);
 	esl_alphabet_Destroy(abc);

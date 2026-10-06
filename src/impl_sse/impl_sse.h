@@ -27,9 +27,10 @@
 
 #define p7O_EXTRA_SB 17    /* see ssvfilter.c for explanation */
 
-/* The same for vectors of <n> lanes (AVX2 copies of the filter profiles, simd.c) */
+/* The same for vectors of <n> lanes (AVX2/AVX-512 copies of the filter profiles, simd.c) */
 #define p7O_NQV(M, n) ( ESL_MAX(2, ((((M)-1) / (n)) + 1)))
-#define p7O_EXTRA_SB_AVX2 16    /* SSV reads past the last vector; >= MAX_BANDS-1 of ssvfilter_avx2.c */
+#define p7O_EXTRA_SB_AVX2   16  /* SSV reads past the last vector; >= MAX_BANDS-1 of ssvfilter_avx2.c   */
+#define p7O_EXTRA_SB_AVX512 32  /* ... and of ssvfilter_avx512.c                                        */
 
 
 /*****************************************************************
@@ -110,13 +111,14 @@ typedef struct p7_oprofile_s {
   __m128   *rfv_mem;
 
   /* Copies of filter scores for wider vectors (simd.c): the same values as above,
-   * striped for 32 byte or 16 word lanes (AVX2). Valid only while <simd> is
-   * p7_SIMD_AVX2; the filters then run their AVX2 versions on them.                 */
-  int        simd;              /* p7_SIMD_SSE (no valid copies) or p7_SIMD_AVX2     */
-  uint8_t  **rbw;               /* [x][32*q]: MSV costs like rbv                     */
-  uint8_t  **sbw;               /* [x][32*q]: SSV scores like sbv; q < Q + extra     */
-  int16_t  **rww;               /* [x][16*q]: VF match scores like rwv (made on first use: */
-  int16_t   *tww;               /* VF transitions like twv: [16*(7q+t)], DDs [16*(7Q+q)]  ...SIMDViterbiReady()) */
+   * striped for the vectors of level <simd>: n = 32 byte (16 word) lanes for AVX2,
+   * 64 (32) for AVX-512. Valid only while <simd> isn't p7_SIMD_SSE; the filters
+   * then run that level's versions on them.                                         */
+  int        simd;              /* p7_SIMD_SSE (no valid copies), _AVX2, _AVX512     */
+  uint8_t  **rbw;               /* [x][n*q]: MSV costs like rbv                      */
+  uint8_t  **sbw;               /* [x][n*q]: SSV scores like sbv; q < Q + extra      */
+  int16_t  **rww;               /* [x][n/2*q]: VF match scores like rwv (made on first */
+  int16_t   *tww;               /* VF transitions like twv: [n/2*(7q+t)], DDs [n/2*(7Q+q)]  use: ...SIMDViterbiReady()) */
   void      *simd_mem;          /* one allocation (row pointers + rows), for allocM  */
   size_t     simd_nalloc;       /* its size in bytes                                 */
 
@@ -340,8 +342,9 @@ extern P7_OM_BLOCK *p7_oprofile_CreateBlock(int size);
 extern void p7_oprofile_DestroyBlock(P7_OM_BLOCK *block);
 
 /* simd.c */
-enum p7_simd_e { p7_SIMD_SSE = 0, p7_SIMD_AVX2 = 1 };
+enum p7_simd_e { p7_SIMD_SSE = 0, p7_SIMD_AVX2 = 1, p7_SIMD_AVX512 = 2 };
 extern int         p7_simd_Level(void);
+extern int         p7_simd_LevelFor(int M);
 extern const char *p7_simd_Name(int level);
 extern int         p7_oprofile_SetSIMD(P7_OPROFILE *om, int level);
 extern int         p7_oprofile_SIMDViterbiReady(const P7_OPROFILE *om);
@@ -350,10 +353,12 @@ extern void       *p7_omx_SIMDRow(P7_OMX *ox, size_t nbytes);
 /* ssvfilter.c, ssvfilter_avx2.c */
 extern int     p7_SSVFilter    (const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, float *ret_sc);
 extern uint8_t p7_SSVFilter_xE_avx2(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om);
+extern uint8_t p7_SSVFilter_xE_avx512(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om);
 
 /* msvfilter.c, msvfilter_avx2.c */
 extern int p7_MSVFilter           (const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox, float *ret_sc);
 extern int p7_MSVFilter_avx2      (const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox, uint8_t *ret_xJ);
+extern int p7_MSVFilter_avx512    (const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox, uint8_t *ret_xJ);
 extern int p7_SSVFilter_longtarget(const ESL_DSQ *dsq, int L, P7_OPROFILE *om, P7_OMX *ox, const P7_SCOREDATA *msvdata, P7_BG *bg, double P, P7_HMM_WINDOWLIST *windowlist);
 
 
@@ -371,6 +376,7 @@ extern int p7_StochasticTrace(ESL_RANDOMNESS *rng, const ESL_DSQ *dsq, int L, co
 /* vitfilter.c, vitfilter_avx2.c */
 extern int p7_ViterbiFilter(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox, float *ret_sc);
 extern int p7_ViterbiFilter_avx2(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox, int16_t *ret_xC);
+extern int p7_ViterbiFilter_avx512(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox, int16_t *ret_xC);
 extern int p7_ViterbiFilter_longtarget(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox,
                                         float filtersc, double P, P7_HMM_WINDOWLIST *windowlist);
 

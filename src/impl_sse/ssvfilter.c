@@ -923,6 +923,24 @@ ssv_score(const P7_OPROFILE *om, uint16_t xE, float *ret_sc)
 }
 
 
+#if defined(p7_ENABLE_AVX2) || defined(p7_ENABLE_AVX512)
+/* ssv_xE_wide()
+ * The DP of the level <om>'s copies are for (ssvfilter_avx2.c, _avx512.c).
+ */
+static inline uint8_t
+ssv_xE_wide(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om)
+{
+#ifdef p7_ENABLE_AVX512
+  if (om->simd == p7_SIMD_AVX512) return p7_SSVFilter_xE_avx512(dsq, L, om);
+#endif
+#ifdef p7_ENABLE_AVX2
+  if (om->simd == p7_SIMD_AVX2)   return p7_SSVFilter_xE_avx2(dsq, L, om);
+#endif
+  return get_xE(dsq, L, om);  /* not reached: om->simd is a level this build has */
+}
+#endif
+
+
 int
 p7_SSVFilter(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, float *ret_sc)
 {
@@ -934,17 +952,17 @@ p7_SSVFilter(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, float *ret_sc)
     return eslENORESULT;
   }
 
-#ifdef p7_ENABLE_AVX2
-  if (om->simd == p7_SIMD_AVX2)
+#if defined(p7_ENABLE_AVX2) || defined(p7_ENABLE_AVX512)
+  if (om->simd != p7_SIMD_SSE)
     {
-      xE = p7_SSVFilter_xE_avx2(dsq, L, om); /* same DP, 32 lanes (ssvfilter_avx2.c) */
+      xE = ssv_xE_wide(dsq, L, om); /* same DP, 32 or 64 lanes */
 #ifdef p7_CROSSCHECK
       { /* the outcome must be the SSE one, bit for bit (xE itself may differ once both overflowed) */
-        float sc_sse = 0.0f, sc_avx2 = 0.0f;
+        float sc_sse = 0.0f, sc_wide = 0.0f;
         int   st_sse  = ssv_score(om, get_xE(dsq, L, om), &sc_sse);
-        int   st_avx2 = ssv_score(om, xE, &sc_avx2);
-        if (st_sse != st_avx2 || memcmp(&sc_sse, &sc_avx2, sizeof(float)) != 0)
-          { fprintf(stderr, "p7_SSVFilter crosscheck: SSE %d %g, AVX2 %d %g (M=%d L=%d)\n", st_sse, sc_sse, st_avx2, sc_avx2, om->M, L); abort(); }
+        int   st_wide = ssv_score(om, xE, &sc_wide);
+        if (st_sse != st_wide || memcmp(&sc_sse, &sc_wide, sizeof(float)) != 0)
+          { fprintf(stderr, "p7_SSVFilter crosscheck: SSE %d %g, %s %d %g (M=%d L=%d)\n", st_sse, sc_sse, p7_simd_Name(om->simd), st_wide, sc_wide, om->M, L); abort(); }
       }
 #endif
       return ssv_score(om, xE, ret_sc);

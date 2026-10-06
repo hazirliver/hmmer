@@ -108,17 +108,23 @@ p7_ViterbiFilter(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox, f
   if (om->mode != p7_LOCAL && om->mode != p7_UNILOCAL) ESL_EXCEPTION(eslEINVAL, "Fast filter only works for local alignment");
   ox->M   = om->M;
 
+#if defined(p7_ENABLE_AVX2) || defined(p7_ENABLE_AVX512)
+  if (om->simd != p7_SIMD_SSE && p7_oprofile_SIMDViterbiReady(om))
+    { /* same DP, 16 or 32 lanes (vitfilter_avx2.c, _avx512.c); the score as at the end below */
+      int16_t xC_wide = -32768;
+      int     status  = eslOK;
+#ifdef p7_ENABLE_AVX512
+      if (om->simd == p7_SIMD_AVX512) status = p7_ViterbiFilter_avx512(dsq, L, om, ox, &xC_wide);
+#endif
 #ifdef p7_ENABLE_AVX2
-  if (om->simd == p7_SIMD_AVX2 && p7_oprofile_SIMDViterbiReady(om))
-    { /* same DP, 16 lanes (vitfilter_avx2.c); the score as at the end below */
-      int16_t xC_avx2;
-      int     status = p7_ViterbiFilter_avx2(dsq, L, om, ox, &xC_avx2);
+      if (om->simd == p7_SIMD_AVX2)   status = p7_ViterbiFilter_avx2  (dsq, L, om, ox, &xC_wide);
+#endif
       if (status == eslERANGE) *ret_sc = eslINFINITY;
       if (status == eslOK)
 	{
-	  if (xC_avx2 > -32768)
+	  if (xC_wide > -32768)
 	    {
-	      *ret_sc = (float) xC_avx2 + (float) om->xw[p7O_C][p7O_MOVE] - (float) om->base_w;
+	      *ret_sc = (float) xC_wide + (float) om->xw[p7O_C][p7O_MOVE] - (float) om->base_w;
 	      *ret_sc /= om->scale_w;
 	      *ret_sc -= 3.0;
 	    }
@@ -132,7 +138,7 @@ p7_ViterbiFilter(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox, f
 	om_sse.simd = p7_SIMD_SSE;
 	st_sse = p7_ViterbiFilter(dsq, L, &om_sse, ox, &sc_sse);
 	if (st_sse != status || (status != eslEMEM && memcmp(&sc_sse, ret_sc, sizeof(float)) != 0))
-	  { fprintf(stderr, "p7_ViterbiFilter crosscheck: SSE %d %g, AVX2 %d %g (M=%d L=%d)\n", st_sse, sc_sse, status, *ret_sc, om->M, L); abort(); }
+	  { fprintf(stderr, "p7_ViterbiFilter crosscheck: SSE %d %g, %s %d %g (M=%d L=%d)\n", st_sse, sc_sse, p7_simd_Name(om->simd), status, *ret_sc, om->M, L); abort(); }
       }
 #endif
       return status;
