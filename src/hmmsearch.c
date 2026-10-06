@@ -258,7 +258,7 @@ struct cfg_s {
 
 #define BLOCK_SIZE 1000
 #define BLOCK_MIN  20     /* smallest block a small, cached target db is split into */
-#define MAXQ       16     /* threaded: queries searched per pass over the targets    */
+#define MAXQ       16     /* queries searched per pass over the targets              */
 #define SLICES     4      /* cached passes: blocks per worker...                     */
 #define SLICES_FREE 16    /*   ... or this many, when splitting can't change results  */
 
@@ -782,8 +782,10 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       }
 
       /* One pass over the targets searches a batch of queries: this one
-       * and, in threaded mode after the first pass, up to MAXQ-1 more that
-       * follow it in the file. Every block of targets is then read (or
+       * and, after the first pass, up to MAXQ-1 more that follow it in the
+       * file (the first pass is alone: it learns the number of targets,
+       * fills the --dbcache, and a target file that can't be rewound fails
+       * at the second query as before). Every block of targets is then read (or
        * taken from the --dbcache) once for the whole batch, and each
        * worker searches it with each query. Per query, the targets and the
        * pipeline calls are those of a one-query pass, so the results don't
@@ -792,7 +794,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
        * --cut_ga without GA lines) ends the batch; it's reported after
        * the queries before it, as a one-query pass would.
        */
-      maxb    = (ncpus > 0 && nquery > 1) ? MAXQ : 1;
+      maxb    = (nquery > 1) ? MAXQ : 1;
       nb      = 0;
       hmm_err = NULL;
       for (;;)
@@ -830,7 +832,10 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 	  nb++;
 	  if (nb == maxb) break;
 #ifdef HMMER_THREADS
-	  query_prep_Next(&prep, &hmm, &next_gm, &next_om, &hstatus);
+	  if (ncpus > 0) query_prep_Next(&prep, &hmm, &next_gm, &next_om, &hstatus);
+	  else           hstatus = p7_hmmfile_Read(hfp, &abc, &hmm);
+#else
+	  hstatus = p7_hmmfile_Read(hfp, &abc, &hmm);
 #endif
 	  if (hstatus != eslOK) break;
 	  nquery++;
