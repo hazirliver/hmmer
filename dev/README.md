@@ -78,6 +78,9 @@ To add coverage, append a line to `cases.txt` with the format `<name> <shell com
 --force-opt OPT    rerun the regression with OPT added to every hmmsearch call (for example
                    --dbcache); outputs must equal the goldens once OPT's echo lines are masked.
                    Cases in regress/force-opt.expected-diff are skipped
+--simd LEVEL       rerun the regression with HMMER_SIMD=LEVEL (sse, avx2, avx512) for every
+                   program: the integer filters run on that vector width; outputs must equal
+                   the goldens. Without it, programs pick their default (src/impl_sse/simd.c)
 --full             make check at sqc level 3 (valgrind tests; needs valgrind)
 --clean            rebuild from scratch
 -j N               parallelism (default: nproc)
@@ -97,4 +100,6 @@ When the regression fails, the actual outputs stay in `build-dev/regress-work/ac
 
 - `hmmpgmd` and `hmmc2`, the daemon and client. The sqc suite exercises them partly (`hmmpgmd_ga`).
 - MPI builds.
-- Non-SSE SIMD backends.
+- Non-x86 SIMD backends (NEON, VMX). On x86 the SSE kernels and the AVX2 and AVX-512BW
+  integer filters are all covered: the plain run uses the default choice, `--simd`
+  forces each one, and `simd_utest` compares the wide filters with the SSE ones bitwise.

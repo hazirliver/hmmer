@@ -233,17 +233,24 @@ Found on the way (upstream behaviours, documented in the utest): on pipes, recor
 
 **Candidates (unscheduled):** a 256-entry combined classify-and-digitize table in `seeaddbuf()` (12 → ~8 instructions per residue; needs a cache invalidated whenever the input map changes); a faster name scan in `header_fasta()`; reads of 32-128 KB (~1% in the reader alone, not resolvable on R1 today).
 
-### Phase 6 — wider SIMD for the integer filters (S1 25-55%, S3 9-15% of worker CPU)
+### Phase 6 — wider SIMD for the integer filters (S1 25-55%, S3 9-15% of worker CPU) · **done** (6.3b, 6.4b, 6.4c added; AVX-512 used only for long models; see PROGRESS.md)
 
 SSV/MSV (uint8/int8, saturating) and the Viterbi filter (int16) compute exact integer DP values. The lane count changes only the layout, so **bit-exact AVX2/AVX-512 versions are possible**, including identical overflow detection.
 
-| Step | Change | BI | Measure / Expect |
+Profile at the start (f9dcb6b, pfam_1k × human `--cut_ga`, `--cpu 1`): SSV/MSV 38.6%, Viterbi filter 12.9% of all CPU (51.5% together; the reader 14.7%, down from 26.2% before Phase 5).
+
+| Step | Change | BI | Measure / Outcome |
 |---|---|---|---|
-| **6.0** | Build plumbing: configure check for AVX2/AVX-512BW, runtime dispatch (`__builtin_cpu_supports`), and an env override `HMMER_SIMD=sse` so one binary can be A/B-tested and golden-tested on both paths | No kernel change | Neutral |
-| **6.1** | AVX2 SSV (`calc_band_*`) using a 32-lane striped byte profile, added to `P7_OPROFILE` at `p7_oprofile_Convert`. The crosscheck build compares the score against the SSE path | Integer-exact. Crosscheck plus golden under both `HMMER_SIMD` values | `k_msv_*` Mc/s, W2 `cycles:u`. Expect SSV up to ~1.7-2× |
-| **6.2** | AVX2 full MSV fallback | Same | Kernel bench and W2 |
-| **6.3** | AVX2 Viterbi filter (16 × int16) | Same | `k_vit_*`, W2 |
-| **6.4** | AVX-512BW variants of 6.1-6.3. This box has them. Watch for clock-down | Same | Same as above |
+| **6.0** ✔ | Build plumbing: configure checks for AVX2 (`-mavx2`) and AVX-512BW, run-time choice `p7_simd_Level()` (`__builtin_cpu_supports`), env override `HMMER_SIMD=sse\|avx2\|avx512` (fatal on a bad value), `dev/check.sh --simd LEVEL`, `ab.sh --a-env/--b-env` | No kernel change | Neutral (instructions 0.9995-1.0000). Also fixed: `src/*.o` didn't depend on `impl_sse.h`; `check.sh`/`snap.sh` didn't reconfigure on `Makefile.in` changes |
+| **6.1** ✔ | AVX2 SSV (`ssvfilter_avx2.c`) on a 32-lane copy of the SSV scores, made in `p7_oprofile_Convert()` (`p7_oprofile_SetSIMD()`, `simd.c`) | Integer-exact (argument in the file header). `simd_utest` bitwise vs SSE; crosscheck; goldens under every `HMMER_SIMD` | W2 −16.8%, W4 −16.1%, W3 −12.4% cycles; X5 −6.1% wall (`--dbcache` −11.3%) |
+| **6.2** ✔ | AVX2 full MSV (`msvfilter_avx2.c`); row max kept in vector registers (a scalar round trip was 25% slower than SSE) | Same; plus an overflow-boundary scan in the utest | W3 −1.2% cycles |
+| **6.3** ✔ | AVX2 Viterbi filter (`vitfilter_avx2.c`, 16 × int16) | Same; plus a deletion scan (M->D->M, D->D at every node) | W2 −7.8%, W4 −6.5%, W3 −4.4% cycles; X5 `--dbcache` −4.1% wall; X4 pressed serial +1.9% cycles (per-query copies) |
+| **6.3b** ✔ *(added)* | The Viterbi filter's copies made on first use (lock-free, SSE fallback while another thread builds them) | Same; re-conversion and racing-clone utests; TSan | X4 pressed serial −1.8% cycles (back to the 6.2 level) |
+| **6.4** ✔ | AVX-512BW variants of the three kernels, used only for models longer than one AVX2 SSV pass (M > 448; `p7_simd_LevelFor()`) | Same, for both wide levels | AVX-512 for every model was slower here (W3/W4 +3.5% cycles, X5 @ 16 +1.3/+2.6% wall, clock −1 to −1.6% at 16 threads); for M > 448: W2 −7.1% cycles, X5 neutral |
+| **6.4b** ✔ *(added)* | Copy only the extra SSV vectors a band reads (a run-time vector width had turned 16 `memcpy`s per row into `rep movsq`) | Same | X4 pressed serial −2.8% cycles |
+| **6.4c** ✔ *(added)* | SSE SSV for models of ≤ 2 wide vectors (AVX2: M ≤ 64), where the AVX2 cross-lane shift latency loses | Chooses between two exact kernels | R1 −6.7% cycles |
+
+Outcome (milestone, default `-O3` vs f9dcb6b, outputs identical everywhere): W2 −29.5%, W4 −21.8%, W3 −17.2%, W1 −5.8% cycles; X5 `pfam_1k × human --cut_ga` @ 16 28.2 → 26.6 s, with `--dbcache` 14.4 → 12.0 s (−16%); X3 −14 to −18%; X1 −4 to −15%; X4, W5 unchanged; nothing slower. Instructions −26 to −52% on filter-heavy runs. Uncached X5 is held back by the serial reader at 16 threads. Profiles read from pressed files (hmmscan) get no wide copies and stay on SSE: per model and target sequence, restriping costs about what the AVX2 SSV saves.
 
 Out of scope, because it isn't byte-identical: wider Forward/Backward and the posterior kernels. Lane count changes the float summation order (the D-chain serialization and the E-state horizontal sum). They need an explicit, reviewed golden update, which is a separate decision.
 
@@ -252,7 +259,7 @@ Out of scope, because it isn't byte-identical: wider Forward/Backward and the po
 ## 5. Order and expected end state
 
 ```
-0.1-0.4  ->  1.1-1.2 (protocol warm-up)  ->  2.1-2.5  ->  3.1-3.4  ->  4.1-4.7  ->  6.0-6.4
+0.1-0.4  ->  1.1-1.2 (protocol warm-up)  ->  2.1-2.5  ->  3.1-3.4  ->  4.1-4.7  ->  6.0-6.4 (all done)
                                               \-> 5.x can run in parallel once the Easel decision is made
 ```
 
