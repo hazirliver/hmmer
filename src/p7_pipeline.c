@@ -748,20 +748,55 @@ p7_pipeline_Merge(P7_PIPELINE *p1, P7_PIPELINE *p2)
 int
 p7_Pipeline(P7_PIPELINE *pli, P7_OPROFILE *om, P7_BG *bg, const ESL_SQ *sq, const ESL_SQ *ntsq, P7_TOPHITS *hitlist)
 {
-  P7_HIT          *hit     = NULL;     /* ptr to the current hit output data      */
-  float            usc, vfsc, fwdsc;   /* filter scores                           */
+  float            nullsc, filtersc, fwdsc;
+  int              pass;
+  int              status;
+
+  if ((status = p7_pli_Filter(pli, om, bg, sq, &nullsc, &filtersc, &pass)) != eslOK || ! pass) return status;
+
+  /* Parse it with Forward and obtain its real Forward score. */
+  p7_ForwardParser(sq->dsq, sq->n, om, pli->oxf, &fwdsc);
+  if (! p7_pli_ForwardPass(pli, om, filtersc, fwdsc)) return eslOK;
+
+  /* ok, it's for real. Now a Backwards parser pass, and hand it to domain definition workflow */
+  p7_omx_GrowTo(pli->oxb, om->M, 0, sq->n);
+  p7_BackwardParser(sq->dsq, sq->n, om, pli->oxf, pli->oxb, NULL);
+
+  return p7_pli_Domains(pli, om, bg, sq, ntsq, nullsc, fwdsc, pli->oxf, pli->oxb, hitlist);
+}
+
+/* Function:  p7_pli_Filter()
+ * Synopsis:  The filter stages of p7_Pipeline() for one target.
+ *
+ * Purpose:   Run the first part of <p7_Pipeline()> on target <sq>: the
+ *            null model score, the MSV filter, the bias filter and the
+ *            Viterbi filter, with the same calls and accounting. Set
+ *            <*ret_pass> TRUE if the target goes on to the Forward
+ *            parser, and return the null and filter null scores the
+ *            later stages need in <*ret_nullsc>, <*ret_filtersc>.
+ *
+ *            <p7_Pipeline()> is <p7_pli_Filter()>, <p7_ForwardParser()>,
+ *            <p7_pli_ForwardPass()>, <p7_BackwardParser()> and
+ *            <p7_pli_Domains()> in that order; a caller may run the
+ *            parsers itself (e.g. two targets at once), as long as each
+ *            target's own calls stay in that order, with <om> and <bg>
+ *            configured for its length and, when per-target E-values
+ *            use the running count of targets, the pipeline's <Z> as it
+ *            was for that target.
+ *
+ * Returns:   <eslOK> on success; errors as <p7_Pipeline()>.
+ */
+int
+p7_pli_Filter(P7_PIPELINE *pli, P7_OPROFILE *om, P7_BG *bg, const ESL_SQ *sq, float *ret_nullsc, float *ret_filtersc, int *ret_pass)
+{
+  float            usc, vfsc;          /* filter scores                           */
   float            filtersc;           /* HMM null filter score                   */
   float            nullsc;             /* null model score                        */
-  float            seqbias;  
   float            seq_score;          /* the corrected per-seq bit score */
-  float            sum_score;           /* the corrected reconstruction score for the seq */
-  float            pre_score, pre2_score; /* uncorrected bit scores for seq */
   double           P;                /* P-value of a hit */
-  double           lnP;              /* log P-value of a hit */
-  int              Ld;               /* # of residues in envelopes */
-  int              d;
   int              status;
-  
+
+  *ret_pass = FALSE;
   if (sq->n == 0) return eslOK;    /* silently skip length 0 seqs; they'd cause us all sorts of weird problems */
   if (sq->n > 100000) ESL_EXCEPTION(eslETYPE, "Target sequence length > 100K, over comparison pipeline limit.\n(Did you mean to use nhmmer/nhmmscan?)");
 
@@ -806,19 +841,55 @@ p7_Pipeline(P7_PIPELINE *pli, P7_OPROFILE *om, P7_BG *bg, const ESL_SQ *sq, cons
     }
   pli->n_past_vit++;
 
+  *ret_nullsc   = nullsc;
+  *ret_filtersc = filtersc;
+  *ret_pass     = TRUE;
+  return eslOK;
+}
 
-  /* Parse it with Forward and obtain its real Forward score. */
-  p7_ForwardParser(sq->dsq, sq->n, om, pli->oxf, &fwdsc);
+/* Function:  p7_pli_ForwardPass()
+ * Synopsis:  The Forward filter test of p7_Pipeline().
+ *
+ * Purpose:   Given a target's Forward parser score <fwdsc> and its filter
+ *            null score <filtersc>, return TRUE if it passes the Forward
+ *            filter (F3), counting it as <p7_Pipeline()> does.
+ */
+int
+p7_pli_ForwardPass(P7_PIPELINE *pli, const P7_OPROFILE *om, float filtersc, float fwdsc)
+{
+  float  seq_score;
+  double P;
+
   seq_score = (fwdsc-filtersc) / eslCONST_LOG2;
   P = esl_exp_surv(seq_score,  om->evparam[p7_FTAU],  om->evparam[p7_FLAMBDA]);
-  if (P > pli->F3) return eslOK;
+  if (P > pli->F3) return FALSE;
   pli->n_past_fwd++;
+  return TRUE;
+}
 
-  /* ok, it's for real. Now a Backwards parser pass, and hand it to domain definition workflow */
-  p7_omx_GrowTo(pli->oxb, om->M, 0, sq->n);
-  p7_BackwardParser(sq->dsq, sq->n, om, pli->oxf, pli->oxb, NULL);
+/* Function:  p7_pli_Domains()
+ * Synopsis:  The domain stage of p7_Pipeline(), after both parsers.
+ *
+ * Purpose:   For a target that passed the Forward filter, with its
+ *            Forward and Backward parser matrices <oxf>, <oxb>: domain
+ *            definition, the null2-corrected scores, and the hit list
+ *            entry, as <p7_Pipeline()> does.
+ */
+int
+p7_pli_Domains(P7_PIPELINE *pli, P7_OPROFILE *om, P7_BG *bg, const ESL_SQ *sq, const ESL_SQ *ntsq, float nullsc, float fwdsc,
+	       P7_OMX *oxf, P7_OMX *oxb, P7_TOPHITS *hitlist)
+{
+  P7_HIT          *hit     = NULL;     /* ptr to the current hit output data      */
+  float            seqbias;  
+  float            seq_score;          /* the corrected per-seq bit score */
+  float            sum_score;           /* the corrected reconstruction score for the seq */
+  float            pre_score, pre2_score; /* uncorrected bit scores for seq */
+  double           lnP;              /* log P-value of a hit */
+  int              Ld;               /* # of residues in envelopes */
+  int              d;
+  int              status;
 
-  status = p7_domaindef_ByPosteriorHeuristics(sq, ntsq, om, pli->oxf, pli->oxb, pli->fwd, pli->bck, pli->ddef, bg, FALSE, NULL, NULL, NULL);
+  status = p7_domaindef_ByPosteriorHeuristics(sq, ntsq, om, oxf, oxb, pli->fwd, pli->bck, pli->ddef, bg, FALSE, NULL, NULL, NULL);
   if (status != eslOK) ESL_FAIL(status, pli->errbuf, "domain definition workflow failure"); /* eslERANGE can happen  */
   if (pli->ddef->nregions   == 0) return eslOK; /* score passed threshold but there's no discrete domains here       */
   if (pli->ddef->nenvelopes == 0) return eslOK; /* rarer: region was found, stochastic clustered, no envelopes found */
