@@ -57,6 +57,10 @@ hmmsearch_dbcache_stdin_multi cat data/protdb.fa | hmmsearch --dbcache --cpu 0 -
 # over the --dbcache_max limit: warning, then read per query (same results); a .gz target can't be re-read
 hmmsearch_dbcache_cap_fallback hmmsearch --dbcache --dbcache_max 1 --cpu 2 --tblout t.tbl -o main.out fx/minipfam.hmm data/protdb.fa
 hmmsearch_dbcache_cap_gz_err gzip -nc data/protdb.fa > db.fa.gz && hmmsearch --dbcache --dbcache_max 1 --cpu 2 --tblout t.tbl -o main.out fx/minipfam.hmm db.fa.gz; rc=$?; rm -f db.fa.gz; exit $rc
+# --cut_ga on a model without GA lines: on the first query, and in the middle of a run (minipfam without its first model: the 5th has no GA)
+hmmsearch_cut_ga_err_cpu4 hmmsearch --cut_ga --cpu 4 --tblout t.tbl -o main.out fx/minipfam.hmm data/protdb.fa
+hmmsearch_cut_ga_mid_cpu0 awk '/^HMMER3/{n++} n>=2' fx/minipfam.hmm > ga.hmm && hmmsearch --cut_ga --cpu 0 --tblout t.tbl -o main.out ga.hmm data/protdb.fa; rc=$?; rm -f ga.hmm; exit $rc
+hmmsearch_cut_ga_mid_cpu4 awk '/^HMMER3/{n++} n>=2' fx/minipfam.hmm > ga.hmm && hmmsearch --cut_ga --cpu 4 --tblout t.tbl -o main.out ga.hmm data/protdb.fa; rc=$?; rm -f ga.hmm; exit $rc
 
 # ---------- hmmpress / hmmscan ----------
 hmmpress_protdb       cp fx/minipfam.hmm db.hmm && hmmpress db.hmm && rm db.hmm
