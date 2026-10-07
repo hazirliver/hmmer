@@ -486,11 +486,9 @@ filter_forward(const ESL_DSQ *dsq, int L, const ESL_HMM *hmm)
 
   for (i = 2; i <= L; i++)
     {
-      n0  = 0.0;  n0 += d0 * t0[0];  n0 += d1 * t1[0];  n0 *= hmm->eo[dsq[i]][0];
-      n1  = 0.0;  n1 += d0 * t0[1];  n1 += d1 * t1[1];  n1 *= hmm->eo[dsq[i]][1];
-      max = 0.0;
-      max = ESL_MAX(n0, max);
-      max = ESL_MAX(n1, max);
+      n0  = d0 * t0[0];  n0 += d1 * t1[0];  n0 *= hmm->eo[dsq[i]][0];
+      n1  = d0 * t0[1];  n1 += d1 * t1[1];  n1 *= hmm->eo[dsq[i]][1];
+      max = ESL_MAX(n1, n0);
       d0  = n0 / max;
       d1  = n1 / max;
       logsc += (float) log(max);
