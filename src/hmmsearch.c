@@ -86,6 +86,20 @@ typedef struct {
   int               nidle;
   const ESL_GETOPTS *go_opts;    /* for p7_pipeline_Reinit() in query-parallel jobs     */
   struct dbcache_s *dbc;         /* the target db cache (--dbcache), or NULL            */
+
+  /* Streaming (after the first pass, see stream_Start()): workers stay in the
+   * work queue and search blocks of two batches of queries in flight. Each
+   * pool block is tagged with the batch (slot set 0 or 1) it carries.
+   */
+  int               stream;      /* TRUE: woken workers run stream_search()             */
+  ESL_SQ_BLOCK    **pool;        /* [0..npool-1] the work queue's blocks                */
+  int              *tag;         /* [0..npool-1] slot set of the batch a block carries  */
+  int               npool;
+  int               bnq[2];      /* per slot set: queries in its batch                  */
+  int64_t           bid[2];      /*   ... the batch's number                            */
+  int               bsent[2];    /*   ... blocks handed out (final once bfin is set)    */
+  int               bdone[2];    /*   ... blocks searched                               */
+  int               bfin[2];     /*   ... TRUE: all its blocks are handed out           */
 } WORKER_GATE;
 
 #define QP_MAXRES 2000000  /* query-parallel mode when the cached target db has up to this many residues */
@@ -132,14 +146,16 @@ typedef struct {
 #endif
 
 /* One query's state in one worker. A pass over the targets can search
- * several queries (wq[0..nq-1]): each has its own profile clone (its
- * length is reconfigured per target), null model (the bias filter HMM is
- * set per query), hit list and pipeline. The pipelines of wq[1..] are
- * struct copies of wq[0]'s with their own thresholds and accounting:
- * they share wq[0]'s DP matrices, domain definition workspace and RNG,
- * which only ever hold one target's work (the RNG is reseeded for every
- * region), so a worker needs one such workspace however many queries a
- * pass has.
+ * several queries (a batch, in slots wq[qbase..qbase+nq-1]): each has its
+ * own profile clone (its length is reconfigured per target), null model
+ * (the bias filter HMM is set per query), hit list and pipeline. The
+ * slots' pipelines are struct copies of <tmpl>, the freshly configured
+ * state of the worker's own pipeline <work>: each has its own thresholds
+ * and accounting, and they all share <work>'s DP matrices, domain
+ * definition workspace and RNG, which only ever hold one target's work
+ * (the RNG is reseeded for every region). So a worker needs one such
+ * workspace however many queries are in flight, and setting up a slot
+ * never touches it. There are two sets of MAXQ slots, for two batches.
  */
 typedef struct {
   P7_BG            *bg;	         /* null model                              */
@@ -153,9 +169,11 @@ typedef struct {
   ESL_WORK_QUEUE   *queue;
   WORKER_GATE      *gate;
 #endif 
-  WORKER_QUERY     *wq;          /* [0..maxq-1] queries; [0..nq-1] in the current pass */
+  P7_PIPELINE      *work;        /* owns the DP matrices, domain definition workspace and RNG */
+  P7_PIPELINE       tmpl;        /* <work> as configured by p7_pipeline_Create(); slots start as copies */
+  WORKER_QUERY     *wq;          /* [0..2*MAXQ-1] query slots; pli NULL until first used  */
+  int               qbase;       /* a one-batch pass searches slots wq[qbase..qbase+nq-1] */
   int               nq;
-  int               maxq;
   int               reuse_seqs;  /* TRUE: reset each target after use. FALSE: targets are cached, read-only */
 } WORKER_INFO;
 
@@ -346,7 +364,18 @@ static void pipeline_thread(void *arg);
 static void search_pass(WORKER_INFO *info);
 static int  split_is_free(const ESL_GETOPTS *go);
 static int  worker_SetQuery(WORKER_INFO *info, int k, const P7_OPROFILE *om, const ESL_GETOPTS *go, const ESL_ALPHABET *abc);
-static void worker_Search(WORKER_INFO *info, ESL_SQ *dbsq, int n);
+static void worker_Fresh(WORKER_INFO *info);
+static void worker_Search(WORKER_INFO *info, int base, int nq, ESL_SQ *dbsq, int n);
+static int  output_batch(WORKER_INFO *info, int infocnt, int base, int nb, P7_HMM **bhmm, P7_PROFILE **bgm, P7_OPROFILE **bom, int *bnum, ESL_STOPWATCH **w,
+                         const OUTPUTS *outs, const ESL_GETOPTS *go, const ESL_ALPHABET *abc, int textw);
+#ifdef HMMER_THREADS
+static int  pass_blocksize(const WORKER_GATE *gate, const DBCACHE *dbc, int nq);
+static void stream_Start  (ESL_WORK_QUEUE *queue, WORKER_GATE *gate, void **ret_block);
+static int  stream_HandOut(ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc, int set, int nq, int64_t bid, void **io_block);
+static void stream_Wait   (WORKER_GATE *gate, int set);
+static void stream_Stop   (ESL_WORK_QUEUE *queue, WORKER_GATE *gate, DBCACHE *dbc, void **io_block);
+static void stream_search (WORKER_INFO *info);
+#endif
 static void search_query(WORKER_INFO *info, WORKER_GATE *gate, QP_JOB *job);
 static void query_prep_Start(QUERY_PREP *prep, P7_HMMFILE *hfp, ESL_ALPHABET *abc, int nthreads);
 static void query_prep_Next (QUERY_PREP *prep, P7_HMM **ret_hmm, P7_PROFILE **ret_gm, P7_OPROFILE **ret_om, int *ret_hstatus);
@@ -568,13 +597,20 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
   P7_BG           *bg       = NULL;              /* null model, for building profiles here          */
   ESL_ALPHABET    *abc      = NULL;              /* digital alphabet                                */
   int              dbfmt    = eslSQFILE_UNKNOWN; /* format code for sequence database file          */
-  ESL_STOPWATCH   *w[MAXQ];                       /* per query of a pass: its elapsed time           */
-  P7_HMM          *bhmm[MAXQ];                    /* the queries of a pass, and their profiles       */
-  P7_PROFILE      *bgm[MAXQ];
-  P7_OPROFILE     *bom[MAXQ];
-  int              bnum[MAXQ];                    /* their query numbers                             */
-  int              nb;                            /* queries in the pass                             */
-  int              maxb;                          /* most queries the pass may take                  */
+  ESL_STOPWATCH   *w[2][MAXQ];                    /* per slot set and query of a batch: elapsed time */
+  P7_HMM          *bhmm[2][MAXQ];                 /* the queries of a batch, and their profiles      */
+  P7_PROFILE      *bgm[2][MAXQ];
+  P7_OPROFILE     *bom[2][MAXQ];
+  int              bnum[2][MAXQ];                 /* their query numbers                             */
+  int              nbs[2]   = { 0, 0 };           /* queries in each slot set's batch                */
+  int              nb;                            /* queries in this batch                           */
+  int              maxb;                          /* most queries this batch may take                */
+  int              set      = 0;                  /* slot set of this batch                          */
+  int              pending  = -1;                 /* streaming: slot set of the batch handed out
+                                                     before this one and not printed yet, or -1     */
+  int64_t          nbatch   = 0;                  /* streaming: batches handed out                   */
+  int              streaming = FALSE;
+  void            *sblock   = NULL;               /* streaming: the empty block the master holds     */
   int              textw    = 0;
   OUTPUTS          outs;                          /* the output streams, for output_results()       */
   int              nquery   = 0;
@@ -602,7 +638,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
   P7_HMM          *hmm_err  = NULL;              /* a query the pipeline can't use (p7_pli_NewModel()) */
   char             errbuf[eslERRBUFSIZE];
 
-  for (k = 0; k < MAXQ; k++) w[k] = esl_stopwatch_Create();
+  for (k = 0; k < 2*MAXQ; k++) w[k/MAXQ][k%MAXQ] = esl_stopwatch_Create();
 
   if (esl_opt_GetBoolean(go, "--notextw")) textw = 0;
   else                                     textw = esl_opt_GetInteger(go, "--textw");
@@ -677,6 +713,10 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       gate.nseqs    = 0;
       gate.split_free = split_is_free(go);
       gate.quit     = FALSE;
+      gate.stream   = FALSE;
+      gate.npool    = 0;
+      ESL_ALLOC(gate.pool, sizeof(ESL_SQ_BLOCK *) * ncpus * 2);
+      ESL_ALLOC(gate.tag,  sizeof(int)            * ncpus * 2);
       qp_Create(&qp, 2 * ncpus);
     }
 #endif
@@ -704,8 +744,10 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 
       for (i = 0; i < infocnt; ++i)
 	{
-	  ESL_ALLOC(info[i].wq, sizeof(WORKER_QUERY) * MAXQ);
-	  info[i].maxq       = 0;     /* slots are made as they're needed (worker_SetQuery()) */
+	  ESL_ALLOC(info[i].wq, sizeof(WORKER_QUERY) * 2 * MAXQ);
+	  for (k = 0; k < 2*MAXQ; k++) info[i].wq[k].pli = NULL;   /* made as they're needed (worker_SetQuery()) */
+	  info[i].work       = NULL;
+	  info[i].qbase      = 0;
 	  info[i].nq         = 0;
 	  info[i].reuse_seqs = (dbc == NULL);
 #ifdef HMMER_THREADS
@@ -722,6 +764,8 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 
  	  status = esl_workqueue_Init(queue, block);
 	  if (status != eslOK)	      esl_fatal("Failed to add block to work queue");
+	  gate.pool[gate.npool]  = block;
+	  gate.tag[gate.npool++] = -1;
 
 	  if (dbc) { /* pool blocks may carry cached sequences; remember their own lists */
 	    dbc->carrier[dbc->ncarrier]      = block;
@@ -797,6 +841,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       maxb    = (nquery > 1) ? MAXQ : 1;
       nb      = 0;
       hmm_err = NULL;
+      set     = (ncpus > 0 && nquery > 1) ? (int) ((nbatch + 1) & 1) : 0;   /* streaming batches alternate slot sets */
       for (;;)
 	{
 	  /* Convert to an optimized model, unless the prefetch thread already did */
@@ -812,23 +857,23 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 	      p7_ProfileConfig(hmm, bg, gm, 100, p7_LOCAL); /* 100 is a dummy length for now; and MSVFilter requires local mode */
 	      p7_oprofile_Convert(gm, om);                  /* <om> is now p7_LOCAL, multihit */
 	    }
-	  esl_stopwatch_Start(w[nb]);
+	  esl_stopwatch_Start(w[set][nb]);
 
 	  /* the query's pipeline, hit list and profile clone in each worker */
 	  for (i = 0; i < infocnt; ++i)
-	    if ((status = worker_SetQuery(&info[i], nb, om, go, abc)) == eslEINVAL) break;
+	    if ((status = worker_SetQuery(&info[i], set*MAXQ + nb, om, go, abc)) == eslEINVAL) break;
 	  if (status == eslEINVAL)
 	    {
-	      for (k = 0; k <= i && k < infocnt; k++) p7_oprofile_Destroy(info[k].wq[nb].om);
+	      for (k = 0; k <= i && k < infocnt; k++) p7_oprofile_Destroy(info[k].wq[set*MAXQ + nb].om);
 	      hmm_err = hmm;
 	      p7_oprofile_Destroy(om);
 	      p7_profile_Destroy(gm);
 	      break;
 	    }
-	  bhmm[nb] = hmm;
-	  bgm[nb]  = gm;
-	  bom[nb]  = om;
-	  bnum[nb] = nquery;
+	  bhmm[set][nb] = hmm;
+	  bgm[set][nb]  = gm;
+	  bom[set][nb]  = om;
+	  bnum[set][nb] = nquery;
 	  nb++;
 	  if (nb == maxb) break;
 #ifdef HMMER_THREADS
@@ -841,22 +886,38 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 	  nquery++;
 	}
 
+      nbs[set] = nb;
       if (nb > 0)
 	{
-	  for (i = 0; i < infocnt; ++i)
-	    {
-	      info[i].nq = nb;
-	      /* workers reset the reused blocks they read into, but never cached targets */
-	      info[i].reuse_seqs = (dbc == NULL || ! dbc->complete);
+	  /* (while streaming, the workers' fields stay as stream_Start() found them) */
+	  if (! streaming)
+	    for (i = 0; i < infocnt; ++i)
+	      {
+		info[i].qbase = set * MAXQ;
+		info[i].nq    = nb;
+		/* workers reset the reused blocks they read into, but never cached targets */
+		info[i].reuse_seqs = (dbc == NULL || ! dbc->complete);
 #ifdef HMMER_THREADS
-	      if (ncpus > 0 && bnum[0] == 1) esl_threads_AddThread(threadObj, &info[i]); /* workers persist across queries */
+		if (ncpus > 0 && bnum[set][0] == 1) esl_threads_AddThread(threadObj, &info[i]); /* workers persist across queries */
 #endif
-	    }
+	      }
 
 #ifdef HMMER_THREADS
-	  if (ncpus > 0 && bnum[0] == 1) esl_threads_WaitForStart(threadObj);
-	  if (ncpus > 0)  sstatus = thread_loop(threadObj, queue, &gate, dbfp, cfg->n_targetseq, dbc, nb);
-	  else            sstatus = serial_loop(info, dbfp, cfg->n_targetseq, dbc);
+	  if (ncpus > 0 && bnum[set][0] == 1) esl_threads_WaitForStart(threadObj);
+	  if (ncpus > 0 && bnum[set][0] > 1)
+	    { /* after the first pass: hand this batch out, then print the one before it (see stream_Start()) */
+	      if (! streaming) { stream_Start(queue, &gate, &sblock); streaming = TRUE; }
+	      sstatus = stream_HandOut(queue, &gate, dbfp, cfg->n_targetseq, dbc, set, nb, ++nbatch, &sblock);
+	      if (pending >= 0)
+		{
+		  stream_Wait(&gate, pending);
+		  if ((status = output_batch(info, infocnt, pending*MAXQ, nbs[pending], bhmm[pending], bgm[pending], bom[pending], bnum[pending], w[pending],
+					     &outs, go, abc, textw)) != eslOK) return status;
+		}
+	      pending = set;
+	    }
+	  else if (ncpus > 0) sstatus = thread_loop(threadObj, queue, &gate, dbfp, cfg->n_targetseq, dbc, nb);
+	  else                sstatus = serial_loop(info, dbfp, cfg->n_targetseq, dbc);
 #else
 	  sstatus = serial_loop(info, dbfp, cfg->n_targetseq, dbc);
 #endif
@@ -874,31 +935,21 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 	  }
 	}
 
-      for (k = 0; k < nb; k++)
-	{
-	  /* merge the results of the search results */
-	  for (i = 1; i < infocnt; ++i)
-	    {
-	      p7_tophits_Merge(info[0].wq[k].th, info[i].wq[k].th);
-	      p7_pipeline_Merge(info[0].wq[k].pli, info[i].wq[k].pli);
-
-	      p7_oprofile_Destroy(info[i].wq[k].om);
-	    }
-
-	  /* Print the results.  */
-	  if ((status = output_query_header(ofp, bhmm[k])) != eslOK) return status;
-	  if ((status = output_results(&outs, go, abc, textw, bhmm[k], bnum[k], info->wq[k].th, info->wq[k].pli, w[k])) != eslOK) return status;
-
-	  p7_oprofile_Destroy(info->wq[k].om);
-	  p7_oprofile_Destroy(bom[k]);
-	  p7_profile_Destroy(bgm[k]);
-	  p7_hmm_Destroy(bhmm[k]);
-	}
+      /* a pass that ran here (not streamed): print its batch now */
+      if (pending != set && (status = output_batch(info, infocnt, set*MAXQ, nb, bhmm[set], bgm[set], bom[set], bnum[set], w[set], &outs, go, abc, textw)) != eslOK) return status;
 
       if (hmm_err)
 	{
+#ifdef HMMER_THREADS
+	  if (pending >= 0)
+	    {
+	      stream_Wait(&gate, pending);
+	      if ((status = output_batch(info, infocnt, pending*MAXQ, nbs[pending], bhmm[pending], bgm[pending], bom[pending], bnum[pending], w[pending],
+					 &outs, go, abc, textw)) != eslOK) return status;
+	    }
+#endif
 	  if ((status = output_query_header(ofp, hmm_err)) != eslOK) return status;
-	  p7_Fail(info->wq[nb].pli->errbuf);
+	  p7_Fail(info->wq[set*MAXQ + nb].pli->errbuf);
 	}
 
       if (nb == maxb)   /* else the batch ended at a read error or EOF, in <hstatus> */
@@ -913,6 +964,14 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
     } /* end outer loop over query HMMs */
 
 #ifdef HMMER_THREADS
+  if (pending >= 0)
+    {
+      stream_Wait(&gate, pending);
+      if ((status = output_batch(info, infocnt, pending*MAXQ, nbs[pending], bhmm[pending], bgm[pending], bom[pending], bnum[pending], w[pending],
+				 &outs, go, abc, textw)) != eslOK) return status;
+      pending = -1;
+    }
+  if (streaming) stream_Stop(queue, &gate, dbc, &sblock);
   if (ncpus > 0 && (status = qp_Drain(&qp, &gate, &outs, go, abc, textw)) != eslOK) return status;   /* before any read error */
 #endif
 
@@ -936,13 +995,14 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
    */
   for (i = 0; i < infocnt; ++i)
     {
-      for (k = 0; k < info[i].maxq; k++)
-	{
-	  if (k == 0) p7_pipeline_Destroy(info[i].wq[k].pli);
-	  else        free(info[i].wq[k].pli);   /* a struct copy; the workspace is wq[0]'s */
-	  p7_tophits_Destroy(info[i].wq[k].th);
-	  p7_bg_Destroy(info[i].wq[k].bg);
-	}
+      for (k = 0; k < 2*MAXQ; k++)
+	if (info[i].wq[k].pli)
+	  {
+	    free(info[i].wq[k].pli);   /* a struct copy; the workspace is <work>'s */
+	    p7_tophits_Destroy(info[i].wq[k].th);
+	    p7_bg_Destroy(info[i].wq[k].bg);
+	  }
+      p7_pipeline_Destroy(info[i].work);
       free(info[i].wq);
     }
 
@@ -963,6 +1023,8 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
       free(gate.wpass);
       free(gate.wjob);
       free(gate.idle);
+      free(gate.pool);
+      free(gate.tag);
       qp_Destroy(&qp);
 
       esl_workqueue_Reset(queue);
@@ -979,7 +1041,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
   p7_hmmfile_Close(hfp);
   esl_sqfile_Close(dbfp);
   esl_alphabet_Destroy(abc);
-  for (k = 0; k < MAXQ; k++) esl_stopwatch_Destroy(w[k]);
+  for (k = 0; k < 2*MAXQ; k++) esl_stopwatch_Destroy(w[k/MAXQ][k%MAXQ]);
 
   if (ofp != stdout) fclose(ofp);
   if (afp)           fclose(afp);
@@ -1988,6 +2050,7 @@ serial_loop(WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc)
   int seq_cnt = 0;
   int i;
 
+  worker_Fresh(info);
   if (dbc)
     { /* --dbcache: the same targets in the same order, one block at a time */
       ESL_SQ_BLOCK *blk;
@@ -1998,18 +2061,18 @@ serial_loop(WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc)
         for (i = 0; i < blk->count; i++)
           {
             dbsq = blk->list + i;
-            worker_Search(info, dbsq, 1);
+            worker_Search(info, info->qbase, info->nq, dbsq, 1);
             if (reading) esl_sq_Reuse(dbsq);
           }
       return sstatus;
     }
 
-  dbsq = esl_sq_CreateDigital(info->wq[0].om->abc);
+  dbsq = esl_sq_CreateDigital(info->wq[info->qbase].om->abc);
 
   /* Main loop: */
   while ( (n_targetseqs==-1 || seq_cnt<n_targetseqs) &&  (sstatus = esl_sqio_Read(dbfp, dbsq)) == eslOK)
   {
-      worker_Search(info, dbsq, 1);
+      worker_Search(info, info->qbase, info->nq, dbsq, 1);
       seq_cnt++;
       esl_sq_Reuse(dbsq);
   }
@@ -2058,13 +2121,7 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFI
    * would only collect an end-of-pass block. Which worker searches which
    * target doesn't change the results.
    */
-  if (gate->nseqs > 0 && ((dbc && dbc->complete) || (nq > 1 && gate->split_free)))
-    {
-      int nper = (gate->split_free ? SLICES_FREE : SLICES) * gate->nworkers;
-      bs = (gate->nseqs + nper - 1) / nper;
-      bs = ESL_MAX(bs, BLOCK_MIN);
-      if (bs >= BLOCK_SIZE) bs = 0;
-    }
+  bs = pass_blocksize(gate, dbc, nq);
   if      (bs > 0)          nactive = ESL_MIN((gate->nseqs + bs - 1) / bs, gate->nworkers);
   else if (gate->nblocks)   nactive = ESL_MIN(gate->nblocks, gate->nworkers);
   else                      nactive = gate->nworkers;
@@ -2141,11 +2198,222 @@ thread_loop(ESL_THREADS *obj, ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFI
   return sstatus;
 }
 
+/* pass_blocksize()
+ * Most targets per block in a pass with <nq> queries (0: as many as a
+ * block holds), from the number of targets seen in the first pass; see
+ * the comment in thread_loop().
+ */
+static int
+pass_blocksize(const WORKER_GATE *gate, const DBCACHE *dbc, int nq)
+{
+  int bs = 0;
+  int nper;
+
+  if (gate->nseqs > 0 && ((dbc && dbc->complete) || (nq > 1 && gate->split_free)))
+    {
+      nper = (gate->split_free ? SLICES_FREE : SLICES) * gate->nworkers;
+      bs   = (gate->nseqs + nper - 1) / nper;
+      bs   = ESL_MAX(bs, BLOCK_MIN);
+      if (bs >= BLOCK_SIZE) bs = 0;
+    }
+  return bs;
+}
+
+/* Streaming: after the first pass, consecutive batches of queries
+ * overlap. The master hands out all blocks of batch b (read, or sliced
+ * from the --dbcache), each tagged with b's slot set, and only then waits
+ * for batch b-1 to finish and prints it; workers that run out of b-1's
+ * blocks go on with b's instead of waiting at a barrier. Two batches are
+ * in flight at most, in slot sets 0 and 1. Which worker searches which
+ * block, and when, doesn't change any result (PLAN.md §2), and each
+ * query's results are printed in order, as before.
+ *
+ * stream_Start() puts all workers into stream_search(); stream_HandOut()
+ * hands out one batch; stream_Wait() waits for one; stream_Stop() sends
+ * each worker an empty block to leave the stream and waits for them.
+ */
+static void
+stream_Start(ESL_WORK_QUEUE *queue, WORKER_GATE *gate, void **ret_block)
+{
+  int w;
+
+  esl_workqueue_Reset(queue);   /* safe: the workers are parked at the gate */
+  pthread_mutex_lock(&gate->mutex);
+  gate->stream   = TRUE;
+  gate->nrunning = gate->nworkers;
+  gate->pass++;
+  gate->bfin[0]  = gate->bfin[1]  = TRUE;
+  gate->bsent[0] = gate->bsent[1] = gate->bdone[0] = gate->bdone[1] = 0;
+  for (w = 0; w < gate->nworkers; w++) { gate->wpass[w] = gate->pass; pthread_cond_signal(&gate->go[w]); }
+  pthread_mutex_unlock(&gate->mutex);
+  if (esl_workqueue_ReaderUpdate(queue, NULL, ret_block) != eslOK) esl_fatal("Work queue reader failed");
+}
+
+/* the slot set a pool block carries */
+static int
+stream_tag(const WORKER_GATE *gate, const ESL_SQ_BLOCK *block)
+{
+  int i;
+  for (i = 0; i < gate->npool; i++) if (gate->pool[i] == block) return gate->tag[i];
+  esl_fatal("stream: block not in the pool");
+  return -1;
+}
+
+static void
+stream_settag(WORKER_GATE *gate, const ESL_SQ_BLOCK *block, int set)
+{
+  int i;
+  for (i = 0; i < gate->npool; i++) if (gate->pool[i] == block) { gate->tag[i] = set; return; }
+  esl_fatal("stream: block not in the pool");
+}
+
+/* stream_HandOut()
+ * Hand out every block of batch <bid> (<nq> queries in slot set <set>):
+ * read from <dbfp> (rewound by the caller) or sliced from the complete
+ * --dbcache, as thread_loop() does for a pass. <*io_block> is the empty
+ * block the master holds; on return, it holds the next one. Returns
+ * eslEOF at the end of the targets, or a read error.
+ */
+static int
+stream_HandOut(ESL_WORK_QUEUE *queue, WORKER_GATE *gate, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc, int set, int nq, int64_t bid, void **io_block)
+{
+  ESL_SQ_BLOCK *block;
+  ESL_SQ_BLOCK *cblk;
+  ESL_SQ_BLOCK *cur     = NULL;   /* --dbcache: cached block being handed out in slices */
+  int           off     = 0;
+  int           bs      = pass_blocksize(gate, dbc, nq);
+  int           nsent   = 0;
+  int           sstatus = eslOK;
+  int           inplace;
+
+  /* the set's previous batch is printed already: its slots are free */
+  pthread_mutex_lock(&gate->mutex);
+  gate->bnq[set]   = nq;
+  gate->bid[set]   = bid;
+  gate->bsent[set] = gate->bdone[set] = 0;
+  gate->bfin[set]  = FALSE;
+  pthread_mutex_unlock(&gate->mutex);
+  if (dbc) dbcache_StartPass(dbc);
+
+  for (;;)
+    {
+      block = (ESL_SQ_BLOCK *) *io_block;
+      if (dbc)
+	{
+	  inplace = FALSE;
+	  while (cur == NULL || off >= cur->count)
+	    {
+	      sstatus = dbcache_NextBlock(dbc, dbfp, &n_targetseqs, block, &cblk);
+	      if (sstatus != eslOK) break;
+	      if (cblk == block) { inplace = TRUE; break; }
+	      cur = cblk;
+	      off = 0;
+	    }
+	  if (sstatus != eslOK) break;
+	  if (! inplace)
+	    {
+	      block->list  = cur->list + off;
+	      block->count = (bs > 0) ? ESL_MIN(bs, cur->count - off) : cur->count - off;
+	      off += block->count;
+	    }
+	}
+      else
+	{
+	  if (n_targetseqs == 0) { sstatus = eslEOF; break; }
+	  sstatus = esl_sqio_ReadBlock(dbfp, block, -1, (bs > 0 && (n_targetseqs < 0 || n_targetseqs > bs)) ? bs : n_targetseqs, /*max_init_window=*/FALSE, FALSE);
+	  if (sstatus != eslOK) break;
+	  n_targetseqs -= block->count;
+	}
+      if (block->count == 0) continue;
+
+      stream_settag(gate, block, set);
+      nsent++;
+      if (esl_workqueue_ReaderUpdate(queue, block, io_block) != eslOK) esl_fatal("Work queue reader failed");
+    }
+
+  pthread_mutex_lock(&gate->mutex);
+  gate->bsent[set] = nsent;
+  gate->bfin[set]  = TRUE;
+  pthread_mutex_unlock(&gate->mutex);
+  return sstatus;
+}
+
+/* stream_Wait()
+ * Wait until every block of the batch in slot set <set> is searched.
+ */
+static void
+stream_Wait(WORKER_GATE *gate, int set)
+{
+  pthread_mutex_lock(&gate->mutex);
+  while (! (gate->bfin[set] && gate->bdone[set] == gate->bsent[set])) pthread_cond_wait(&gate->done, &gate->mutex);
+  pthread_mutex_unlock(&gate->mutex);
+}
+
+/* stream_Stop()
+ * After the last batch: one empty block per worker takes it out of the
+ * stream; wait until all are parked at the gate again.
+ */
+static void
+stream_Stop(ESL_WORK_QUEUE *queue, WORKER_GATE *gate, DBCACHE *dbc, void **io_block)
+{
+  ESL_SQ_BLOCK *block;
+  int           w;
+
+  for (w = 0; w < gate->nworkers; w++)
+    {
+      block = (ESL_SQ_BLOCK *) *io_block;
+      block->count = 0;
+      if (esl_workqueue_ReaderUpdate(queue, block, (w < gate->nworkers - 1) ? io_block : NULL) != eslOK) esl_fatal("Work queue reader failed");
+    }
+  *io_block = NULL;
+  pthread_mutex_lock(&gate->mutex);
+  while (gate->nrunning > 0) pthread_cond_wait(&gate->done, &gate->mutex);
+  gate->stream = FALSE;
+  pthread_mutex_unlock(&gate->mutex);
+  esl_workqueue_Complete(queue);
+  if (dbc) dbcache_EndPass(dbc);
+}
+
+/* stream_search()
+ * A worker's part of the stream: search each block with the queries of
+ * the batch it's tagged with, until an empty block arrives.
+ */
+static void
+stream_search(WORKER_INFO *info)
+{
+  WORKER_GATE  *gate = info->gate;
+  ESL_SQ_BLOCK *block;
+  void         *newBlock;
+  int64_t       last = -1;
+  int           set, i;
+
+  if (esl_workqueue_WorkerUpdate(info->queue, NULL, &newBlock) != eslOK) esl_fatal("Work queue worker failed");
+  block = (ESL_SQ_BLOCK *) newBlock;
+  while (block->count > 0)
+    {
+      set = stream_tag(gate, block);
+      if (gate->bid[set] != last) { worker_Fresh(info); last = gate->bid[set]; }
+
+      worker_Search(info, set * MAXQ, gate->bnq[set], block->list, block->count);
+      if (info->reuse_seqs)   /* not with --dbcache: cached targets are read-only */
+	for (i = 0; i < block->count; ++i) esl_sq_Reuse(block->list + i);
+
+      pthread_mutex_lock(&gate->mutex);
+      if (++gate->bdone[set] == gate->bsent[set] && gate->bfin[set]) pthread_cond_signal(&gate->done);
+      pthread_mutex_unlock(&gate->mutex);
+
+      if (esl_workqueue_WorkerUpdate(info->queue, block, &newBlock) != eslOK) esl_fatal("Work queue worker failed");
+      block = (ESL_SQ_BLOCK *) newBlock;
+    }
+  if (esl_workqueue_WorkerUpdate(info->queue, block, NULL) != eslOK) esl_fatal("Work queue worker failed");
+}
+
 static void 
 pipeline_thread(void *arg)
 {
   int            workeridx;
   int            pass = 0;
+  int            stream;
   WORKER_INFO   *info;
   ESL_THREADS   *obj;
   WORKER_GATE   *gate;
@@ -2183,10 +2451,12 @@ pipeline_thread(void *arg)
 	  continue;
 	}
 
-      pass = gate->wpass[workeridx];
+      pass   = gate->wpass[workeridx];
+      stream = gate->stream;
       pthread_mutex_unlock(&gate->mutex);
 
-      search_pass(info);
+      if (stream) stream_search(info);
+      else        search_pass(info);
 
       pthread_mutex_lock(&gate->mutex);
       if (--gate->nrunning == 0) pthread_cond_signal(&gate->done);
@@ -2198,13 +2468,14 @@ pipeline_thread(void *arg)
 }
 
 /* worker_SetQuery()
- * Prepare query slot <k> of a worker for query profile <om>, as a fresh
- * pipeline would be: a hit list, the pipeline (reinitialized; slots
- * after the first share the first one's workspace), a clone of <om>, and
- * p7_pli_NewModel(). Slots are made on first use; slot <k-1> must be set
- * up already for this pass. Returns eslOK, or eslEINVAL if the pipeline
- * can't use this model (e.g. --cut_ga without GA lines); the message is
- * in the slot's pli->errbuf.
+ * Prepare query slot <k> of a worker for query profile <om>: a hit
+ * list, the pipeline (a copy of the worker's freshly configured one,
+ * sharing its workspace), a clone of <om>, and p7_pli_NewModel(). The
+ * worker's own pipeline is created on first use. A slot's setup touches
+ * nothing the worker may be using for other slots, so the master can set
+ * up one batch while the workers search another. Returns eslOK, or
+ * eslEINVAL if the pipeline can't use this model (e.g. --cut_ga without
+ * GA lines); the message is in the slot's pli->errbuf.
  */
 static int
 worker_SetQuery(WORKER_INFO *info, int k, const P7_OPROFILE *om, const ESL_GETOPTS *go, const ESL_ALPHABET *abc)
@@ -2212,18 +2483,20 @@ worker_SetQuery(WORKER_INFO *info, int k, const P7_OPROFILE *om, const ESL_GETOP
   WORKER_QUERY *q = &(info->wq[k]);
   int           status;
 
-  if (k == info->maxq)
+  if (info->work == NULL)
+    {
+      if ((info->work = p7_pipeline_Create(go, om->M, 100, FALSE, p7_SEARCH_SEQS)) == NULL) goto ERROR; /* L_hint = 100 is just a dummy for now */
+      info->tmpl = *(info->work);
+    }
+  if (q->pli == NULL)
     {
       if ((q->th = p7_tophits_Create())  == NULL) goto ERROR;
       if ((q->bg = p7_bg_Create(abc))    == NULL) goto ERROR;
-      if (k == 0) { if ((q->pli = p7_pipeline_Create(go, om->M, 100, FALSE, p7_SEARCH_SEQS)) == NULL) goto ERROR; } /* L_hint = 100 is just a dummy for now */
-      else        ESL_ALLOC(q->pli, sizeof(P7_PIPELINE));
-      info->maxq++;
+      ESL_ALLOC(q->pli, sizeof(P7_PIPELINE));
     }
   else p7_tophits_Reuse(q->th);
 
-  if (k > 0) *(q->pli) = *(info->wq[0].pli);   /* share the workspace */
-  if (k > 0 || q->pli->nmodels > 0) p7_pipeline_Reinit(q->pli, go);   /* a new pipeline is fresh already */
+  *(q->pli) = info->tmpl;
   q->om = p7_oprofile_Clone(om);
   return p7_pli_NewModel(q->pli, q->om, q->bg);
 
@@ -2232,17 +2505,30 @@ worker_SetQuery(WORKER_INFO *info, int k, const P7_OPROFILE *om, const ESL_GETOP
   return eslEMEM;
 }
 
+/* worker_Fresh()
+ * Called by the worker itself when it starts on a new batch: lay out the
+ * DP matrices' rows for the next model length again, as a new pipeline
+ * would (p7_pipeline_Reinit() does the same), instead of keeping the
+ * widest model's row stride. Only speed depends on it.
+ */
+static void
+worker_Fresh(WORKER_INFO *info)
+{
+  if (info->work == NULL) return;
+  info->work->oxf->validR = info->work->oxb->validR = info->work->fwd->validR = info->work->bck->validR = 0;
+}
+
 /* worker_Search()
- * Search targets <dbsq[0..n-1]> with each query of the current pass, in
+ * Search targets <dbsq[0..n-1]> with queries wq[base..base+nq-1], in
  * order: per query, exactly the calls a one-query search makes.
  */
 static void
-worker_Search(WORKER_INFO *info, ESL_SQ *dbsq, int n)
+worker_Search(WORKER_INFO *info, int base, int nq, ESL_SQ *dbsq, int n)
 {
   WORKER_QUERY *q;
   int           k, i;
 
-  for (k = 0; k < info->nq; k++)
+  for (k = base; k < base + nq; k++)
     {
       q = &(info->wq[k]);
       for (i = 0; i < n; i++)
@@ -2256,6 +2542,40 @@ worker_Search(WORKER_INFO *info, ESL_SQ *dbsq, int n)
 	  p7_pipeline_Reuse(q->pli);
 	}
     }
+}
+
+/* output_batch()
+ * After a batch's pass: for each of its queries (slots base..base+nb-1),
+ * merge the workers' hit lists and accounting into worker 0's, print the
+ * results, and free the query.
+ */
+static int
+output_batch(WORKER_INFO *info, int infocnt, int base, int nb, P7_HMM **bhmm, P7_PROFILE **bgm, P7_OPROFILE **bom, int *bnum, ESL_STOPWATCH **w,
+	     const OUTPUTS *outs, const ESL_GETOPTS *go, const ESL_ALPHABET *abc, int textw)
+{
+  int i, k;
+  int status;
+
+  for (k = 0; k < nb; k++)
+    {
+      /* merge the results of the search results */
+      for (i = 1; i < infocnt; ++i)
+	{
+	  p7_tophits_Merge (info[0].wq[base+k].th,  info[i].wq[base+k].th);
+	  p7_pipeline_Merge(info[0].wq[base+k].pli, info[i].wq[base+k].pli);
+	  p7_oprofile_Destroy(info[i].wq[base+k].om);
+	}
+
+      /* Print the results.  */
+      if ((status = output_query_header(outs->ofp, bhmm[k])) != eslOK) return status;
+      if ((status = output_results(outs, go, abc, textw, bhmm[k], bnum[k], info->wq[base+k].th, info->wq[base+k].pli, w[k])) != eslOK) return status;
+
+      p7_oprofile_Destroy(info->wq[base+k].om);
+      p7_oprofile_Destroy(bom[k]);
+      p7_profile_Destroy(bgm[k]);
+      p7_hmm_Destroy(bhmm[k]);
+    }
+  return eslOK;
 }
 
 /* split_is_free()
@@ -2288,7 +2608,8 @@ search_query(WORKER_INFO *info, WORKER_GATE *gate, QP_JOB *job)
   ESL_SQ       *dbsq;
   int           b, i;
 
-  p7_pipeline_Reinit(pli, gate->go_opts);
+  *pli = info->tmpl;
+  worker_Fresh(info);
   job->status = p7_pli_NewModel(pli, job->om, bg);
   if (job->status == eslEINVAL) { strcpy(job->errbuf, pli->errbuf); return; }
 
@@ -2328,6 +2649,7 @@ search_pass(WORKER_INFO *info)
   ESL_SQ_BLOCK  *block = NULL;
   void          *newBlock;
 
+  worker_Fresh(info);
   status = esl_workqueue_WorkerUpdate(info->queue, NULL, &newBlock);
   if (status != eslOK) esl_fatal("Work queue worker failed");
 
@@ -2336,7 +2658,7 @@ search_pass(WORKER_INFO *info)
   while (block->count > 0)
     {
       /* Main loop: */
-      worker_Search(info, block->list, block->count);
+      worker_Search(info, info->qbase, info->nq, block->list, block->count);
       if (info->reuse_seqs)   /* not with --dbcache: cached targets are read-only */
 	for (i = 0; i < block->count; ++i) esl_sq_Reuse(block->list + i);
 
