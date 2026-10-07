@@ -1,5 +1,5 @@
 {
- "date": "20261006-154046",
+ "date": "20261007-105638+20261007-114939",
  "machine": "Intel(R) Xeon(R) Platinum 8468",
  "ncpu": 16,
  "reps": 3,
@@ -98,7 +98,7 @@
    "path": "/home/asokolov/Projects/hmmer/bench-results/bins/series-p6/hmmsearch"
   },
   {
-   "label": "final",
+   "label": "5.6",
    "name": "series-p56",
    "date": "2026-10-06T15:40:27Z",
    "src": "7d637cb @ /tmp/hmmer-snap.RNV5yx",
@@ -109,6 +109,19 @@
    "cflags": "-O3",
    "hmmsearch": "b1f6ca44b3d90462",
    "path": "/home/asokolov/Projects/hmmer/bench-results/bins/series-p56/hmmsearch"
+  },
+  {
+   "label": "P7",
+   "name": "series-p7",
+   "date": "2026-10-07T10:56:33Z",
+   "src": "HEAD @ /tmp/hmmer-snap.gtkqZa",
+   "git_sha": "50882a6893214a60272908d644339e87efcfc32a",
+   "git_branch": "perf/phase7",
+   "easel_sha": "2be6bccb1f997d7c49f1d1b811a07547fc7afc5f",
+   "build_dir": "/tmp/hmmer-snap.gtkqZa/build",
+   "cflags": "-O3",
+   "hmmsearch": "148405417462bb23",
+   "path": "/home/asokolov/Projects/hmmer/bench-results/bins/series-p7/hmmsearch"
   }
  ],
  "workloads": [
@@ -121,282 +134,317 @@
    "runs": {
     "upstream": [
      {
-      "wall": 0.8628769090282731,
-      "user": 0.83,
+      "wall": 0.894222840999646,
+      "user": 0.86,
       "sys": 0.02,
-      "maxrss_mb": 12.6484375,
+      "maxrss_mb": 12.69921875,
       "rc": 0,
-      "task_clock": 0.85084,
-      "instructions": 9493623329.0,
-      "cycles": 2868138712.0,
-      "cycles_uk": 2916339146.0
+      "task_clock": 0.882,
+      "instructions": 9493623450.0,
+      "cycles": 2872680819.0,
+      "cycles_uk": 2931099148.0
      },
      {
-      "wall": 0.872407522983849,
-      "user": 0.85,
+      "wall": 0.9076484719989821,
+      "user": 0.88,
       "sys": 0.01,
-      "maxrss_mb": 12.5859375,
+      "maxrss_mb": 12.58984375,
       "rc": 0,
-      "task_clock": 0.8596699999999999,
-      "instructions": 9493623155.0,
-      "cycles": 2864393673.0,
-      "cycles_uk": 2912631205.0
+      "task_clock": 0.89567,
+      "instructions": 9493623314.0,
+      "cycles": 2875241127.0,
+      "cycles_uk": 2934061201.0
      },
      {
-      "wall": 0.9158346169861034,
-      "user": 0.89,
+      "wall": 0.8905218639993109,
+      "user": 0.86,
       "sys": 0.02,
-      "maxrss_mb": 12.65625,
+      "maxrss_mb": 12.64453125,
       "rc": 0,
-      "task_clock": 0.90335,
-      "instructions": 9493623018.0,
-      "cycles": 2862857691.0,
-      "cycles_uk": 2916279754.0
+      "task_clock": 0.87809,
+      "instructions": 9493623462.0,
+      "cycles": 2875516257.0,
+      "cycles_uk": 2933685639.0
      }
     ],
     "P1": [
      {
-      "wall": 0.879866479022894,
+      "wall": 0.8695597049991193,
       "user": 0.83,
       "sys": 0.02,
-      "maxrss_mb": 12.63671875,
+      "maxrss_mb": 12.51953125,
       "rc": 0,
-      "task_clock": 0.84957,
-      "instructions": 9342561198.0,
-      "cycles": 2845642643.0,
-      "cycles_uk": 2898455550.0
+      "task_clock": 0.84825,
+      "instructions": 9342561363.0,
+      "cycles": 2822481505.0,
+      "cycles_uk": 2878582649.0
      },
      {
-      "wall": 0.8683166980044916,
-      "user": 0.84,
-      "sys": 0.02,
-      "maxrss_mb": 12.67578125,
-      "rc": 0,
-      "task_clock": 0.85588,
-      "instructions": 9342561343.0,
-      "cycles": 2818254703.0,
-      "cycles_uk": 2870143242.0
-     },
-     {
-      "wall": 0.9040857459767722,
-      "user": 0.88,
+      "wall": 0.8728105120007967,
+      "user": 0.85,
       "sys": 0.01,
-      "maxrss_mb": 12.66015625,
+      "maxrss_mb": 12.54296875,
       "rc": 0,
-      "task_clock": 0.89115,
-      "instructions": 9342560945.0,
-      "cycles": 2816536166.0,
-      "cycles_uk": 2866882720.0
+      "task_clock": 0.86054,
+      "instructions": 9342561439.0,
+      "cycles": 2818183689.0,
+      "cycles_uk": 2872266028.0
+     },
+     {
+      "wall": 0.869378453000536,
+      "user": 0.85,
+      "sys": 0.01,
+      "maxrss_mb": 12.625,
+      "rc": 0,
+      "task_clock": 0.85722,
+      "instructions": 9342561269.0,
+      "cycles": 2829684342.0,
+      "cycles_uk": 2883286520.0
      }
     ],
     "P2": [
      {
-      "wall": 0.8530403070035391,
-      "user": 0.82,
-      "sys": 0.02,
-      "maxrss_mb": 12.56640625,
-      "rc": 0,
-      "task_clock": 0.84027,
-      "instructions": 9342453168.0,
-      "cycles": 2817324883.0,
-      "cycles_uk": 2867343125.0
-     },
-     {
-      "wall": 0.8408461379585788,
-      "user": 0.81,
-      "sys": 0.02,
-      "maxrss_mb": 12.67578125,
-      "rc": 0,
-      "task_clock": 0.8286699999999999,
-      "instructions": 9342453235.0,
-      "cycles": 2816576124.0,
-      "cycles_uk": 2869513929.0
-     },
-     {
-      "wall": 0.9041425689938478,
-      "user": 0.88,
+      "wall": 0.8833681799987971,
+      "user": 0.86,
       "sys": 0.01,
-      "maxrss_mb": 12.61328125,
+      "maxrss_mb": 12.703125,
       "rc": 0,
-      "task_clock": 0.89175,
-      "instructions": 9342452885.0,
-      "cycles": 2817237306.0,
-      "cycles_uk": 2870038572.0
+      "task_clock": 0.8712799999999999,
+      "instructions": 9342453010.0,
+      "cycles": 2832906883.0,
+      "cycles_uk": 2883850581.0
+     },
+     {
+      "wall": 0.8609971969999606,
+      "user": 0.83,
+      "sys": 0.02,
+      "maxrss_mb": 12.4453125,
+      "rc": 0,
+      "task_clock": 0.84874,
+      "instructions": 9342453194.0,
+      "cycles": 2812726551.0,
+      "cycles_uk": 2864884105.0
+     },
+     {
+      "wall": 0.871286224000869,
+      "user": 0.84,
+      "sys": 0.01,
+      "maxrss_mb": 12.50390625,
+      "rc": 0,
+      "task_clock": 0.85937,
+      "instructions": 9342453497.0,
+      "cycles": 2814376991.0,
+      "cycles_uk": 2868642794.0
      }
     ],
     "P3": [
      {
-      "wall": 0.8434572499827482,
-      "user": 0.82,
+      "wall": 0.8703524899992772,
+      "user": 0.85,
       "sys": 0.01,
-      "maxrss_mb": 12.578125,
+      "maxrss_mb": 12.63671875,
       "rc": 0,
-      "task_clock": 0.83123,
-      "instructions": 9341957216.0,
-      "cycles": 2809606822.0,
-      "cycles_uk": 2858832080.0
+      "task_clock": 0.8589,
+      "instructions": 9341957264.0,
+      "cycles": 2805285208.0,
+      "cycles_uk": 2852730317.0
      },
      {
-      "wall": 0.8511670420411974,
+      "wall": 0.8770236610016582,
+      "user": 0.85,
+      "sys": 0.01,
+      "maxrss_mb": 12.421875,
+      "rc": 0,
+      "task_clock": 0.86488,
+      "instructions": 9341957330.0,
+      "cycles": 2808222590.0,
+      "cycles_uk": 2854592127.0
+     },
+     {
+      "wall": 0.8691990410006838,
       "user": 0.83,
-      "sys": 0.01,
-      "maxrss_mb": 12.80078125,
+      "sys": 0.02,
+      "maxrss_mb": 12.5703125,
       "rc": 0,
-      "task_clock": 0.83885,
-      "instructions": 9341957360.0,
-      "cycles": 2802060644.0,
-      "cycles_uk": 2847811071.0
-     },
-     {
-      "wall": 0.8898705890169367,
-      "user": 0.87,
-      "sys": 0.01,
-      "maxrss_mb": 12.69140625,
-      "rc": 0,
-      "task_clock": 0.87741,
-      "instructions": 9341957252.0,
-      "cycles": 2808010271.0,
-      "cycles_uk": 2850868861.0
+      "task_clock": 0.857,
+      "instructions": 9341957551.0,
+      "cycles": 2805481250.0,
+      "cycles_uk": 2854882628.0
      }
     ],
     "P4": [
      {
-      "wall": 0.7833419960225001,
-      "user": 0.75,
-      "sys": 0.02,
-      "maxrss_mb": 12.546875,
-      "rc": 0,
-      "task_clock": 0.7702100000000001,
-      "instructions": 8499289306.0,
-      "cycles": 2544984988.0,
-      "cycles_uk": 2593113168.0
-     },
-     {
-      "wall": 0.8083238819963299,
-      "user": 0.78,
-      "sys": 0.02,
-      "maxrss_mb": 12.625,
-      "rc": 0,
-      "task_clock": 0.79575,
-      "instructions": 8499289190.0,
-      "cycles": 2545004991.0,
-      "cycles_uk": 2587908825.0
-     },
-     {
-      "wall": 0.8208803559537046,
-      "user": 0.8,
+      "wall": 0.7881454200014559,
+      "user": 0.76,
       "sys": 0.01,
-      "maxrss_mb": 12.7109375,
+      "maxrss_mb": 12.44140625,
       "rc": 0,
-      "task_clock": 0.80771,
-      "instructions": 8499289140.0,
-      "cycles": 2547731648.0,
-      "cycles_uk": 2593431100.0
+      "task_clock": 0.77596,
+      "instructions": 8499289306.0,
+      "cycles": 2553805493.0,
+      "cycles_uk": 2597672089.0
+     },
+     {
+      "wall": 0.7793706589982321,
+      "user": 0.76,
+      "sys": 0.01,
+      "maxrss_mb": 12.48046875,
+      "rc": 0,
+      "task_clock": 0.76713,
+      "instructions": 8499289183.0,
+      "cycles": 2545886095.0,
+      "cycles_uk": 2589807158.0
+     },
+     {
+      "wall": 0.7778443800016248,
+      "user": 0.76,
+      "sys": 0.01,
+      "maxrss_mb": 12.5703125,
+      "rc": 0,
+      "task_clock": 0.7660800000000001,
+      "instructions": 8499289196.0,
+      "cycles": 2551250444.0,
+      "cycles_uk": 2595114527.0
      }
     ],
     "P5": [
      {
-      "wall": 0.7093230299651623,
-      "user": 0.69,
-      "sys": 0.01,
-      "maxrss_mb": 12.828125,
-      "rc": 0,
-      "task_clock": 0.6970700000000001,
-      "instructions": 7520554752.0,
-      "cycles": 2278540551.0,
-      "cycles_uk": 2318674884.0
-     },
-     {
-      "wall": 0.7204820190090686,
+      "wall": 0.719064034999974,
       "user": 0.7,
       "sys": 0.01,
-      "maxrss_mb": 12.66015625,
+      "maxrss_mb": 12.5703125,
       "rc": 0,
-      "task_clock": 0.70765,
-      "instructions": 7520554698.0,
-      "cycles": 2272076388.0,
-      "cycles_uk": 2307379178.0
+      "task_clock": 0.7070299999999999,
+      "instructions": 7520554720.0,
+      "cycles": 2323637866.0,
+      "cycles_uk": 2360595218.0
      },
      {
-      "wall": 0.7320863979985006,
-      "user": 0.71,
+      "wall": 0.6959826450001856,
+      "user": 0.67,
       "sys": 0.01,
-      "maxrss_mb": 12.7890625,
+      "maxrss_mb": 12.45703125,
       "rc": 0,
-      "task_clock": 0.7194400000000001,
-      "instructions": 7520554822.0,
-      "cycles": 2273104959.0,
-      "cycles_uk": 2309845960.0
+      "task_clock": 0.6841499999999999,
+      "instructions": 7520554665.0,
+      "cycles": 2283834672.0,
+      "cycles_uk": 2319943827.0
+     },
+     {
+      "wall": 0.6786033260013937,
+      "user": 0.66,
+      "sys": 0.01,
+      "maxrss_mb": 12.4296875,
+      "rc": 0,
+      "task_clock": 0.66662,
+      "instructions": 7520554790.0,
+      "cycles": 2275274845.0,
+      "cycles_uk": 2309923065.0
      }
     ],
     "P6": [
      {
-      "wall": 0.6601116640376858,
-      "user": 0.63,
+      "wall": 0.6794266300003073,
+      "user": 0.65,
       "sys": 0.01,
-      "maxrss_mb": 12.71484375,
+      "maxrss_mb": 12.49609375,
       "rc": 0,
-      "task_clock": 0.64765,
-      "instructions": 6825004119.0,
-      "cycles": 2141709021.0,
-      "cycles_uk": 2180176918.0
+      "task_clock": 0.6675099999999999,
+      "instructions": 6825004049.0,
+      "cycles": 2143961648.0,
+      "cycles_uk": 2180534881.0
      },
      {
-      "wall": 0.6871598279685713,
-      "user": 0.66,
+      "wall": 0.6702188130002469,
+      "user": 0.65,
       "sys": 0.01,
-      "maxrss_mb": 12.78125,
+      "maxrss_mb": 12.5625,
       "rc": 0,
-      "task_clock": 0.67426,
-      "instructions": 6825003900.0,
-      "cycles": 2140159427.0,
-      "cycles_uk": 2174444547.0
+      "task_clock": 0.6584,
+      "instructions": 6825003940.0,
+      "cycles": 2143087265.0,
+      "cycles_uk": 2178633407.0
      },
      {
-      "wall": 0.7016355589730665,
-      "user": 0.68,
+      "wall": 0.6679593329990894,
+      "user": 0.64,
       "sys": 0.01,
-      "maxrss_mb": 12.5234375,
+      "maxrss_mb": 12.53125,
       "rc": 0,
-      "task_clock": 0.6890700000000001,
-      "instructions": 6825004133.0,
-      "cycles": 2141667540.0,
-      "cycles_uk": 2179778881.0
+      "task_clock": 0.65646,
+      "instructions": 6825003967.0,
+      "cycles": 2144323275.0,
+      "cycles_uk": 2182043622.0
      }
     ],
-    "final": [
+    "5.6": [
      {
-      "wall": 0.6345767640159465,
-      "user": 0.61,
+      "wall": 0.6664480980016378,
+      "user": 0.64,
       "sys": 0.01,
-      "maxrss_mb": 12.55078125,
+      "maxrss_mb": 12.52734375,
       "rc": 0,
-      "task_clock": 0.62236,
-      "instructions": 6489540628.0,
-      "cycles": 2091720199.0,
-      "cycles_uk": 2132122953.0
+      "task_clock": 0.6542899999999999,
+      "instructions": 6489540441.0,
+      "cycles": 2091322026.0,
+      "cycles_uk": 2127460116.0
      },
      {
-      "wall": 0.7045749030075967,
-      "user": 0.68,
-      "sys": 0.01,
-      "maxrss_mb": 12.65234375,
-      "rc": 0,
-      "task_clock": 0.6921,
-      "instructions": 6489540718.0,
-      "cycles": 2212085383.0,
-      "cycles_uk": 2245481138.0
-     },
-     {
-      "wall": 0.6942850329796784,
+      "wall": 0.6912816259991814,
       "user": 0.67,
       "sys": 0.01,
-      "maxrss_mb": 12.6484375,
+      "maxrss_mb": 12.73046875,
       "rc": 0,
-      "task_clock": 0.68183,
-      "instructions": 6489540720.0,
-      "cycles": 2111231397.0,
-      "cycles_uk": 2148662264.0
+      "task_clock": 0.67901,
+      "instructions": 6489540561.0,
+      "cycles": 2217705192.0,
+      "cycles_uk": 2253424759.0
+     },
+     {
+      "wall": 0.7188934929999959,
+      "user": 0.7,
+      "sys": 0.01,
+      "maxrss_mb": 12.4375,
+      "rc": 0,
+      "task_clock": 0.7064600000000001,
+      "instructions": 6489540499.0,
+      "cycles": 2248318635.0,
+      "cycles_uk": 2294278031.0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 0.5994114379991515,
+      "user": 0.58,
+      "sys": 0.01,
+      "maxrss_mb": 12.6015625,
+      "rc": 0,
+      "task_clock": 0.58692,
+      "instructions": 5604310779.0,
+      "cycles": 1881076873.0,
+      "cycles_uk": 1910467681.0
+     },
+     {
+      "wall": 0.5984579539999686,
+      "user": 0.58,
+      "sys": 0.01,
+      "maxrss_mb": 12.5703125,
+      "rc": 0,
+      "task_clock": 0.5866699999999999,
+      "instructions": 5604310751.0,
+      "cycles": 1892229960.0,
+      "cycles_uk": 1921149654.0
+     },
+     {
+      "wall": 0.5921116190002067,
+      "user": 0.57,
+      "sys": 0.01,
+      "maxrss_mb": 12.546875,
+      "rc": 0,
+      "task_clock": 0.58005,
+      "instructions": 5604310798.0,
+      "cycles": 1888088168.0,
+      "cycles_uk": 1915799651.0
      }
     ]
    },
@@ -413,282 +461,317 @@
    "runs": {
     "upstream": [
      {
-      "wall": 3.400905304995831,
+      "wall": 3.436012735000986,
+      "user": 3.36,
+      "sys": 0.07,
+      "maxrss_mb": 44.16015625,
+      "rc": 0,
+      "task_clock": 3.42281,
+      "instructions": 39823009661.0,
+      "cycles": 10937920540.0,
+      "cycles_uk": 11220398554.0
+     },
+     {
+      "wall": 3.4020600500007276,
       "user": 3.31,
-      "sys": 0.08,
-      "maxrss_mb": 44.24609375,
-      "rc": 0,
-      "task_clock": 3.3879200000000003,
-      "instructions": 39823010111.0,
-      "cycles": 10951705320.0,
-      "cycles_uk": 11232900632.0
-     },
-     {
-      "wall": 3.451366727997083,
-      "user": 3.35,
-      "sys": 0.09,
-      "maxrss_mb": 44.20703125,
-      "rc": 0,
-      "task_clock": 3.43825,
-      "instructions": 39823009903.0,
-      "cycles": 10938689744.0,
-      "cycles_uk": 11209097435.0
-     },
-     {
-      "wall": 3.5424665869795717,
-      "user": 3.45,
       "sys": 0.08,
       "maxrss_mb": 44.27734375,
       "rc": 0,
-      "task_clock": 3.5293099999999997,
-      "instructions": 39823009695.0,
-      "cycles": 10955715570.0,
-      "cycles_uk": 11235246083.0
+      "task_clock": 3.39,
+      "instructions": 39823010009.0,
+      "cycles": 10936948036.0,
+      "cycles_uk": 11220419150.0
+     },
+     {
+      "wall": 3.424387287999707,
+      "user": 3.32,
+      "sys": 0.09,
+      "maxrss_mb": 44.328125,
+      "rc": 0,
+      "task_clock": 3.41163,
+      "instructions": 39823010006.0,
+      "cycles": 10940372146.0,
+      "cycles_uk": 11220760889.0
      }
     ],
     "P1": [
      {
-      "wall": 3.412162920983974,
-      "user": 3.31,
-      "sys": 0.08,
-      "maxrss_mb": 44.1640625,
+      "wall": 3.326432341000327,
+      "user": 3.21,
+      "sys": 0.09,
+      "maxrss_mb": 44.234375,
       "rc": 0,
-      "task_clock": 3.38731,
-      "instructions": 39281988460.0,
-      "cycles": 10760983282.0,
-      "cycles_uk": 11033117711.0
+      "task_clock": 3.29652,
+      "instructions": 39281988781.0,
+      "cycles": 10759631156.0,
+      "cycles_uk": 11037278565.0
      },
      {
-      "wall": 3.4759897379553877,
-      "user": 3.38,
-      "sys": 0.09,
-      "maxrss_mb": 44.046875,
+      "wall": 3.2938697219997266,
+      "user": 3.21,
+      "sys": 0.07,
+      "maxrss_mb": 44.203125,
       "rc": 0,
-      "task_clock": 3.46289,
-      "instructions": 39281988360.0,
-      "cycles": 10746289395.0,
-      "cycles_uk": 11019466998.0
+      "task_clock": 3.28116,
+      "instructions": 39281988233.0,
+      "cycles": 10757735177.0,
+      "cycles_uk": 11036283149.0
      },
      {
-      "wall": 3.45011928898748,
-      "user": 3.35,
-      "sys": 0.09,
-      "maxrss_mb": 44.03125,
+      "wall": 3.348436659998697,
+      "user": 3.26,
+      "sys": 0.07,
+      "maxrss_mb": 44.09765625,
       "rc": 0,
-      "task_clock": 3.43698,
-      "instructions": 39281988792.0,
-      "cycles": 10746988500.0,
-      "cycles_uk": 11019832763.0
+      "task_clock": 3.33595,
+      "instructions": 39281988426.0,
+      "cycles": 10762824162.0,
+      "cycles_uk": 11035887966.0
      }
     ],
     "P2": [
      {
-      "wall": 3.3472281720023602,
-      "user": 3.25,
+      "wall": 3.2632104929998604,
+      "user": 3.17,
       "sys": 0.08,
-      "maxrss_mb": 44.25390625,
+      "maxrss_mb": 44.140625,
       "rc": 0,
-      "task_clock": 3.33434,
-      "instructions": 39277354406.0,
-      "cycles": 10756559891.0,
-      "cycles_uk": 11029560270.0
+      "task_clock": 3.25047,
+      "instructions": 39277354197.0,
+      "cycles": 10777043264.0,
+      "cycles_uk": 11051407204.0
      },
      {
-      "wall": 3.316338466014713,
-      "user": 3.22,
-      "sys": 0.09,
-      "maxrss_mb": 44.23046875,
+      "wall": 3.3871285770001123,
+      "user": 3.3,
+      "sys": 0.08,
+      "maxrss_mb": 44.19921875,
       "rc": 0,
-      "task_clock": 3.3034499999999998,
-      "instructions": 39277354461.0,
-      "cycles": 10747926308.0,
-      "cycles_uk": 11022591726.0
+      "task_clock": 3.3747399999999996,
+      "instructions": 39277354826.0,
+      "cycles": 10748692835.0,
+      "cycles_uk": 11029014644.0
      },
      {
-      "wall": 3.4440428190282546,
-      "user": 3.36,
-      "sys": 0.07,
-      "maxrss_mb": 44.30078125,
+      "wall": 3.2908791410009144,
+      "user": 3.2,
+      "sys": 0.08,
+      "maxrss_mb": 44.0078125,
       "rc": 0,
-      "task_clock": 3.43087,
-      "instructions": 39277354567.0,
-      "cycles": 10738889901.0,
-      "cycles_uk": 11008146271.0
+      "task_clock": 3.27833,
+      "instructions": 39277354419.0,
+      "cycles": 10766886749.0,
+      "cycles_uk": 11045411034.0
      }
     ],
     "P3": [
      {
-      "wall": 3.2907866039895453,
-      "user": 3.23,
-      "sys": 0.05,
-      "maxrss_mb": 32.8515625,
-      "rc": 0,
-      "task_clock": 3.2775700000000003,
-      "instructions": 39276641654.0,
-      "cycles": 10737875771.0,
-      "cycles_uk": 10907384733.0
-     },
-     {
-      "wall": 3.3984355030115694,
-      "user": 3.35,
-      "sys": 0.03,
-      "maxrss_mb": 32.7734375,
-      "rc": 0,
-      "task_clock": 3.3857199999999996,
-      "instructions": 39276641715.0,
-      "cycles": 10720587474.0,
-      "cycles_uk": 10910151664.0
-     },
-     {
-      "wall": 3.3837584070279263,
-      "user": 3.33,
+      "wall": 3.2567066159990645,
+      "user": 3.2,
       "sys": 0.04,
-      "maxrss_mb": 32.85546875,
+      "maxrss_mb": 32.90234375,
       "rc": 0,
-      "task_clock": 3.3708899999999997,
-      "instructions": 39276641821.0,
-      "cycles": 10720041607.0,
-      "cycles_uk": 10893753708.0
+      "task_clock": 3.24479,
+      "instructions": 39276641393.0,
+      "cycles": 10708334715.0,
+      "cycles_uk": 10881701232.0
+     },
+     {
+      "wall": 3.297051983001438,
+      "user": 3.24,
+      "sys": 0.05,
+      "maxrss_mb": 32.859375,
+      "rc": 0,
+      "task_clock": 3.28416,
+      "instructions": 39276641643.0,
+      "cycles": 10704185393.0,
+      "cycles_uk": 10880778447.0
+     },
+     {
+      "wall": 3.3112377699999342,
+      "user": 3.25,
+      "sys": 0.05,
+      "maxrss_mb": 32.94140625,
+      "rc": 0,
+      "task_clock": 3.2985700000000002,
+      "instructions": 39276641458.0,
+      "cycles": 10693360272.0,
+      "cycles_uk": 10865280028.0
      }
     ],
     "P4": [
      {
-      "wall": 3.287549458036665,
-      "user": 3.23,
+      "wall": 3.2316925289997016,
+      "user": 3.18,
       "sys": 0.04,
-      "maxrss_mb": 33.02734375,
+      "maxrss_mb": 32.89453125,
       "rc": 0,
-      "task_clock": 3.27445,
-      "instructions": 38927636938.0,
-      "cycles": 10566786845.0,
-      "cycles_uk": 10734532852.0
+      "task_clock": 3.21922,
+      "instructions": 38927636893.0,
+      "cycles": 10600981954.0,
+      "cycles_uk": 10772815257.0
      },
      {
-      "wall": 3.26224439998623,
-      "user": 3.2,
-      "sys": 0.05,
-      "maxrss_mb": 33.01171875,
-      "rc": 0,
-      "task_clock": 3.24944,
-      "instructions": 38927636644.0,
-      "cycles": 10573463841.0,
-      "cycles_uk": 10748062556.0
-     },
-     {
-      "wall": 3.2758982270024717,
+      "wall": 3.2792959210000845,
       "user": 3.22,
       "sys": 0.05,
-      "maxrss_mb": 32.94140625,
+      "maxrss_mb": 33.015625,
       "rc": 0,
-      "task_clock": 3.26235,
-      "instructions": 38927637363.0,
-      "cycles": 10597519495.0,
-      "cycles_uk": 10766356557.0
+      "task_clock": 3.2666500000000003,
+      "instructions": 38927637218.0,
+      "cycles": 10590408930.0,
+      "cycles_uk": 10769590962.0
+     },
+     {
+      "wall": 3.267577390999577,
+      "user": 3.21,
+      "sys": 0.04,
+      "maxrss_mb": 32.89453125,
+      "rc": 0,
+      "task_clock": 3.25502,
+      "instructions": 38927637143.0,
+      "cycles": 10587559079.0,
+      "cycles_uk": 10767738638.0
      }
     ],
     "P5": [
      {
-      "wall": 2.955925668007694,
-      "user": 2.9,
+      "wall": 2.869146503000593,
+      "user": 2.82,
       "sys": 0.04,
-      "maxrss_mb": 32.92578125,
+      "maxrss_mb": 32.90234375,
       "rc": 0,
-      "task_clock": 2.9426,
-      "instructions": 35012757307.0,
-      "cycles": 9405584323.0,
-      "cycles_uk": 9548176949.0
+      "task_clock": 2.85609,
+      "instructions": 35012757367.0,
+      "cycles": 9410769903.0,
+      "cycles_uk": 9553211775.0
      },
      {
-      "wall": 2.894711114000529,
+      "wall": 2.8908583620013815,
+      "user": 2.85,
+      "sys": 0.03,
+      "maxrss_mb": 32.66015625,
+      "rc": 0,
+      "task_clock": 2.87826,
+      "instructions": 35012757298.0,
+      "cycles": 9411079867.0,
+      "cycles_uk": 9559084864.0
+     },
+     {
+      "wall": 2.892478084000686,
       "user": 2.84,
       "sys": 0.04,
-      "maxrss_mb": 32.83203125,
+      "maxrss_mb": 32.9609375,
       "rc": 0,
-      "task_clock": 2.88132,
-      "instructions": 35012757524.0,
-      "cycles": 9440120064.0,
-      "cycles_uk": 9579648311.0
-     },
-     {
-      "wall": 2.8624292270396836,
-      "user": 2.81,
-      "sys": 0.04,
-      "maxrss_mb": 32.94140625,
-      "rc": 0,
-      "task_clock": 2.8495100000000004,
-      "instructions": 35012757907.0,
-      "cycles": 9403611825.0,
-      "cycles_uk": 9537065805.0
+      "task_clock": 2.8799200000000003,
+      "instructions": 35012756687.0,
+      "cycles": 9431751207.0,
+      "cycles_uk": 9578239987.0
      }
     ],
     "P6": [
      {
-      "wall": 2.1103511989931576,
-      "user": 2.06,
-      "sys": 0.03,
-      "maxrss_mb": 33.83203125,
-      "rc": 0,
-      "task_clock": 2.09747,
-      "instructions": 16986683531.0,
-      "cycles": 6649478700.0,
-      "cycles_uk": 6778527638.0
-     },
-     {
-      "wall": 2.0786967870080844,
-      "user": 2.03,
-      "sys": 0.03,
-      "maxrss_mb": 33.82421875,
-      "rc": 0,
-      "task_clock": 2.06632,
-      "instructions": 16986683251.0,
-      "cycles": 6628194918.0,
-      "cycles_uk": 6750785024.0
-     },
-     {
-      "wall": 2.1141468500136398,
-      "user": 2.06,
-      "sys": 0.04,
-      "maxrss_mb": 33.7890625,
-      "rc": 0,
-      "task_clock": 2.1016500000000002,
-      "instructions": 16986684037.0,
-      "cycles": 6640314554.0,
-      "cycles_uk": 6767701683.0
-     }
-    ],
-    "final": [
-     {
-      "wall": 1.9601788930012845,
-      "user": 1.91,
-      "sys": 0.04,
-      "maxrss_mb": 34.01171875,
-      "rc": 0,
-      "task_clock": 1.94752,
-      "instructions": 15644824904.0,
-      "cycles": 6434434685.0,
-      "cycles_uk": 6557809289.0
-     },
-     {
-      "wall": 2.0762964030145667,
-      "user": 2.03,
-      "sys": 0.04,
-      "maxrss_mb": 34.1171875,
-      "rc": 0,
-      "task_clock": 2.0636900000000002,
-      "instructions": 15644825085.0,
-      "cycles": 6453852329.0,
-      "cycles_uk": 6578016729.0
-     },
-     {
-      "wall": 2.061184933001641,
+      "wall": 2.0631051210002624,
       "user": 2.02,
       "sys": 0.03,
-      "maxrss_mb": 34.0234375,
+      "maxrss_mb": 33.921875,
       "rc": 0,
-      "task_clock": 2.04839,
-      "instructions": 15644824976.0,
-      "cycles": 6447358043.0,
-      "cycles_uk": 6568913712.0
+      "task_clock": 2.05036,
+      "instructions": 16986683391.0,
+      "cycles": 6634190275.0,
+      "cycles_uk": 6765778329.0
+     },
+     {
+      "wall": 2.0535327500001586,
+      "user": 2.01,
+      "sys": 0.04,
+      "maxrss_mb": 33.64453125,
+      "rc": 0,
+      "task_clock": 2.04107,
+      "instructions": 16986683991.0,
+      "cycles": 6633963737.0,
+      "cycles_uk": 6767659867.0
+     },
+     {
+      "wall": 2.0629764730001625,
+      "user": 2.01,
+      "sys": 0.04,
+      "maxrss_mb": 33.9609375,
+      "rc": 0,
+      "task_clock": 2.05092,
+      "instructions": 16986683452.0,
+      "cycles": 6641844356.0,
+      "cycles_uk": 6780007314.0
+     }
+    ],
+    "5.6": [
+     {
+      "wall": 1.9638457729997754,
+      "user": 1.91,
+      "sys": 0.04,
+      "maxrss_mb": 33.65625,
+      "rc": 0,
+      "task_clock": 1.95109,
+      "instructions": 15644824987.0,
+      "cycles": 6454600584.0,
+      "cycles_uk": 6591766288.0
+     },
+     {
+      "wall": 2.042077681000592,
+      "user": 1.98,
+      "sys": 0.05,
+      "maxrss_mb": 33.8359375,
+      "rc": 0,
+      "task_clock": 2.02973,
+      "instructions": 15644825009.0,
+      "cycles": 6449224133.0,
+      "cycles_uk": 6582415913.0
+     },
+     {
+      "wall": 1.984861427999931,
+      "user": 1.92,
+      "sys": 0.05,
+      "maxrss_mb": 33.83203125,
+      "rc": 0,
+      "task_clock": 1.97258,
+      "instructions": 15644825245.0,
+      "cycles": 6451913158.0,
+      "cycles_uk": 6587849789.0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 1.8419116940003732,
+      "user": 1.8,
+      "sys": 0.03,
+      "maxrss_mb": 41.23046875,
+      "rc": 0,
+      "task_clock": 1.82907,
+      "instructions": 12653188264.0,
+      "cycles": 5820381268.0,
+      "cycles_uk": 5909676909.0
+     },
+     {
+      "wall": 1.853817016000903,
+      "user": 1.82,
+      "sys": 0.02,
+      "maxrss_mb": 41.06640625,
+      "rc": 0,
+      "task_clock": 1.84097,
+      "instructions": 12653188183.0,
+      "cycles": 5812067181.0,
+      "cycles_uk": 5899868757.0
+     },
+     {
+      "wall": 1.8574749509989488,
+      "user": 1.81,
+      "sys": 0.03,
+      "maxrss_mb": 41.3203125,
+      "rc": 0,
+      "task_clock": 1.84546,
+      "instructions": 12653188080.0,
+      "cycles": 5850569427.0,
+      "cycles_uk": 5941661349.0
      }
     ]
    },
@@ -705,282 +788,317 @@
    "runs": {
     "upstream": [
      {
-      "wall": 4.048454409989063,
-      "user": 3.97,
-      "sys": 0.06,
-      "maxrss_mb": 12.6484375,
-      "rc": 0,
-      "task_clock": 4.03542,
-      "instructions": 42385383072.0,
-      "cycles": 12874678770.0,
-      "cycles_uk": 13118593178.0
-     },
-     {
-      "wall": 4.003012577944901,
-      "user": 3.93,
-      "sys": 0.06,
-      "maxrss_mb": 12.62890625,
-      "rc": 0,
-      "task_clock": 3.9900100000000003,
-      "instructions": 42385383006.0,
-      "cycles": 12943022981.0,
-      "cycles_uk": 13190017990.0
-     },
-     {
-      "wall": 3.8553292169817723,
-      "user": 3.78,
+      "wall": 3.929566642998907,
+      "user": 3.85,
       "sys": 0.07,
-      "maxrss_mb": 12.5859375,
+      "maxrss_mb": 12.54296875,
       "rc": 0,
-      "task_clock": 3.84255,
-      "instructions": 42385382710.0,
-      "cycles": 12940185206.0,
-      "cycles_uk": 13189565135.0
+      "task_clock": 3.91725,
+      "instructions": 42385382867.0,
+      "cycles": 12881914672.0,
+      "cycles_uk": 13142694442.0
+     },
+     {
+      "wall": 3.9507285510007932,
+      "user": 3.88,
+      "sys": 0.06,
+      "maxrss_mb": 12.609375,
+      "rc": 0,
+      "task_clock": 3.9379899999999997,
+      "instructions": 42385382947.0,
+      "cycles": 12918657082.0,
+      "cycles_uk": 13180455064.0
+     },
+     {
+      "wall": 3.933073254998817,
+      "user": 3.87,
+      "sys": 0.06,
+      "maxrss_mb": 12.54296875,
+      "rc": 0,
+      "task_clock": 3.92062,
+      "instructions": 42385382924.0,
+      "cycles": 12900956050.0,
+      "cycles_uk": 13164307636.0
      }
     ],
     "P1": [
      {
-      "wall": 3.806002799014095,
-      "user": 3.7,
-      "sys": 0.08,
-      "maxrss_mb": 12.57421875,
+      "wall": 3.7736974969993753,
+      "user": 3.68,
+      "sys": 0.06,
+      "maxrss_mb": 12.7109375,
       "rc": 0,
-      "task_clock": 3.78154,
-      "instructions": 40325225447.0,
-      "cycles": 12256480105.0,
-      "cycles_uk": 12500741561.0
+      "task_clock": 3.73796,
+      "instructions": 40325225475.0,
+      "cycles": 12285657621.0,
+      "cycles_uk": 12541462109.0
      },
      {
-      "wall": 3.7945809609955177,
-      "user": 3.7,
-      "sys": 0.08,
-      "maxrss_mb": 12.796875,
+      "wall": 3.738059630000862,
+      "user": 3.66,
+      "sys": 0.07,
+      "maxrss_mb": 12.54296875,
       "rc": 0,
-      "task_clock": 3.78143,
-      "instructions": 40325225486.0,
-      "cycles": 12301547565.0,
-      "cycles_uk": 12543534483.0
+      "task_clock": 3.72566,
+      "instructions": 40325225503.0,
+      "cycles": 12259686145.0,
+      "cycles_uk": 12515376977.0
      },
      {
-      "wall": 3.730139348015655,
-      "user": 3.67,
-      "sys": 0.05,
-      "maxrss_mb": 12.7265625,
+      "wall": 3.747046651000346,
+      "user": 3.66,
+      "sys": 0.08,
+      "maxrss_mb": 12.54296875,
       "rc": 0,
-      "task_clock": 3.7183,
-      "instructions": 40325225430.0,
-      "cycles": 12260494404.0,
-      "cycles_uk": 12505585577.0
+      "task_clock": 3.73436,
+      "instructions": 40325225500.0,
+      "cycles": 12303503863.0,
+      "cycles_uk": 12565455090.0
      }
     ],
     "P2": [
      {
-      "wall": 3.785962410038337,
-      "user": 3.71,
+      "wall": 3.811412843000653,
+      "user": 3.73,
       "sys": 0.07,
-      "maxrss_mb": 12.70703125,
+      "maxrss_mb": 12.64453125,
       "rc": 0,
-      "task_clock": 3.77313,
-      "instructions": 40326319151.0,
-      "cycles": 12403472409.0,
-      "cycles_uk": 12644610508.0
+      "task_clock": 3.7987800000000003,
+      "instructions": 40326319189.0,
+      "cycles": 12433612062.0,
+      "cycles_uk": 12690916693.0
      },
      {
-      "wall": 3.8725270929862745,
-      "user": 3.8,
+      "wall": 3.822534987999461,
+      "user": 3.75,
       "sys": 0.06,
-      "maxrss_mb": 12.69921875,
+      "maxrss_mb": 12.53515625,
       "rc": 0,
-      "task_clock": 3.85962,
-      "instructions": 40326319347.0,
-      "cycles": 12400398950.0,
-      "cycles_uk": 12641526206.0
+      "task_clock": 3.80991,
+      "instructions": 40326319183.0,
+      "cycles": 12461569788.0,
+      "cycles_uk": 12718290694.0
      },
      {
-      "wall": 3.881244596967008,
-      "user": 3.8,
+      "wall": 3.7721974439991754,
+      "user": 3.69,
       "sys": 0.07,
-      "maxrss_mb": 12.6484375,
+      "maxrss_mb": 12.5,
       "rc": 0,
-      "task_clock": 3.86823,
-      "instructions": 40326319302.0,
-      "cycles": 12420332900.0,
-      "cycles_uk": 12661248427.0
+      "task_clock": 3.75948,
+      "instructions": 40326319210.0,
+      "cycles": 12409793337.0,
+      "cycles_uk": 12667538201.0
      }
     ],
     "P3": [
      {
-      "wall": 3.7567990330280736,
-      "user": 3.68,
-      "sys": 0.06,
-      "maxrss_mb": 12.55859375,
-      "rc": 0,
-      "task_clock": 3.74348,
-      "instructions": 40326874431.0,
-      "cycles": 12189181974.0,
-      "cycles_uk": 12432021851.0
-     },
-     {
-      "wall": 3.723835521028377,
-      "user": 3.65,
-      "sys": 0.06,
-      "maxrss_mb": 12.796875,
-      "rc": 0,
-      "task_clock": 3.71072,
-      "instructions": 40326874432.0,
-      "cycles": 12182239564.0,
-      "cycles_uk": 12426955771.0
-     },
-     {
-      "wall": 3.7225213469937444,
+      "wall": 3.719293991000086,
       "user": 3.64,
       "sys": 0.07,
-      "maxrss_mb": 12.6171875,
+      "maxrss_mb": 12.44140625,
       "rc": 0,
-      "task_clock": 3.7093499999999997,
-      "instructions": 40326874387.0,
-      "cycles": 12163763562.0,
-      "cycles_uk": 12406452472.0
+      "task_clock": 3.70681,
+      "instructions": 40326874422.0,
+      "cycles": 12208131581.0,
+      "cycles_uk": 12464989636.0
+     },
+     {
+      "wall": 3.738879287999225,
+      "user": 3.65,
+      "sys": 0.08,
+      "maxrss_mb": 12.5859375,
+      "rc": 0,
+      "task_clock": 3.7262199999999996,
+      "instructions": 40326874435.0,
+      "cycles": 12165485219.0,
+      "cycles_uk": 12420331514.0
+     },
+     {
+      "wall": 3.695081048999782,
+      "user": 3.62,
+      "sys": 0.06,
+      "maxrss_mb": 12.44921875,
+      "rc": 0,
+      "task_clock": 3.68256,
+      "instructions": 40326874450.0,
+      "cycles": 12155219467.0,
+      "cycles_uk": 12412042298.0
      }
     ],
     "P4": [
      {
-      "wall": 3.5158937179949135,
-      "user": 3.44,
+      "wall": 3.4974386480007524,
+      "user": 3.43,
       "sys": 0.06,
-      "maxrss_mb": 12.62890625,
+      "maxrss_mb": 12.5234375,
       "rc": 0,
-      "task_clock": 3.50338,
-      "instructions": 37171902342.0,
-      "cycles": 11280643408.0,
-      "cycles_uk": 11520425810.0
+      "task_clock": 3.48489,
+      "instructions": 37171902366.0,
+      "cycles": 11277444425.0,
+      "cycles_uk": 11530799001.0
      },
      {
-      "wall": 3.5061153460410424,
-      "user": 3.42,
-      "sys": 0.08,
-      "maxrss_mb": 12.60546875,
+      "wall": 3.4744948739989923,
+      "user": 3.4,
+      "sys": 0.06,
+      "maxrss_mb": 12.64453125,
       "rc": 0,
-      "task_clock": 3.4931799999999997,
-      "instructions": 37171902317.0,
-      "cycles": 11275055410.0,
-      "cycles_uk": 11515106827.0
+      "task_clock": 3.46159,
+      "instructions": 37171902368.0,
+      "cycles": 11264009302.0,
+      "cycles_uk": 11519924695.0
      },
      {
-      "wall": 3.5333965410245582,
-      "user": 3.45,
-      "sys": 0.07,
-      "maxrss_mb": 12.6484375,
+      "wall": 3.41403537000042,
+      "user": 3.34,
+      "sys": 0.06,
+      "maxrss_mb": 12.6015625,
       "rc": 0,
-      "task_clock": 3.52062,
-      "instructions": 37171902405.0,
-      "cycles": 11281331241.0,
-      "cycles_uk": 11522050675.0
+      "task_clock": 3.40144,
+      "instructions": 37171902351.0,
+      "cycles": 11298904091.0,
+      "cycles_uk": 11553473961.0
      }
     ],
     "P5": [
      {
-      "wall": 3.0235839490196668,
-      "user": 2.96,
+      "wall": 2.9477514319987677,
+      "user": 2.89,
       "sys": 0.05,
-      "maxrss_mb": 12.6328125,
+      "maxrss_mb": 12.43359375,
       "rc": 0,
-      "task_clock": 3.0108099999999998,
-      "instructions": 31578034633.0,
-      "cycles": 9626358352.0,
-      "cycles_uk": 9807589641.0
+      "task_clock": 2.93524,
+      "instructions": 31578034515.0,
+      "cycles": 9626112184.0,
+      "cycles_uk": 9826487620.0
      },
      {
-      "wall": 3.005519562982954,
-      "user": 2.95,
-      "sys": 0.04,
-      "maxrss_mb": 12.7734375,
-      "rc": 0,
-      "task_clock": 2.99268,
-      "instructions": 31578034560.0,
-      "cycles": 9658513058.0,
-      "cycles_uk": 9842988051.0
-     },
-     {
-      "wall": 2.987838775967248,
+      "wall": 2.9917804730011994,
       "user": 2.93,
       "sys": 0.05,
-      "maxrss_mb": 12.77734375,
+      "maxrss_mb": 12.63671875,
       "rc": 0,
-      "task_clock": 2.97443,
-      "instructions": 31578034558.0,
-      "cycles": 9641926331.0,
-      "cycles_uk": 9827024287.0
+      "task_clock": 2.97961,
+      "instructions": 31578034604.0,
+      "cycles": 9619702538.0,
+      "cycles_uk": 9816367530.0
+     },
+     {
+      "wall": 2.94702587699976,
+      "user": 2.89,
+      "sys": 0.04,
+      "maxrss_mb": 12.421875,
+      "rc": 0,
+      "task_clock": 2.93473,
+      "instructions": 31578034590.0,
+      "cycles": 9630933027.0,
+      "cycles_uk": 9833427487.0
      }
     ],
     "P6": [
      {
-      "wall": 2.5515464070485905,
-      "user": 2.49,
-      "sys": 0.05,
-      "maxrss_mb": 12.6015625,
+      "wall": 2.5047185690000333,
+      "user": 2.43,
+      "sys": 0.06,
+      "maxrss_mb": 12.5390625,
       "rc": 0,
-      "task_clock": 2.53808,
-      "instructions": 25643694096.0,
-      "cycles": 7977714904.0,
-      "cycles_uk": 8151722952.0
+      "task_clock": 2.49218,
+      "instructions": 25643694055.0,
+      "cycles": 8006340269.0,
+      "cycles_uk": 8199085392.0
      },
      {
-      "wall": 2.5237373689888045,
-      "user": 2.46,
-      "sys": 0.05,
-      "maxrss_mb": 12.71875,
-      "rc": 0,
-      "task_clock": 2.51064,
-      "instructions": 25643694179.0,
-      "cycles": 7998105463.0,
-      "cycles_uk": 8174006184.0
-     },
-     {
-      "wall": 2.523858410946559,
-      "user": 2.46,
-      "sys": 0.05,
+      "wall": 2.545408490999762,
+      "user": 2.47,
+      "sys": 0.06,
       "maxrss_mb": 12.55859375,
       "rc": 0,
-      "task_clock": 2.51131,
-      "instructions": 25643694145.0,
-      "cycles": 7992368210.0,
-      "cycles_uk": 8169897852.0
+      "task_clock": 2.5335,
+      "instructions": 25643694257.0,
+      "cycles": 7985524999.0,
+      "cycles_uk": 8175897137.0
+     },
+     {
+      "wall": 2.5286340309994557,
+      "user": 2.46,
+      "sys": 0.06,
+      "maxrss_mb": 12.80859375,
+      "rc": 0,
+      "task_clock": 2.51631,
+      "instructions": 25643694151.0,
+      "cycles": 7982528292.0,
+      "cycles_uk": 8171278356.0
      }
     ],
-    "final": [
+    "5.6": [
      {
-      "wall": 2.4937765169888735,
-      "user": 2.44,
-      "sys": 0.05,
-      "maxrss_mb": 12.67578125,
-      "rc": 0,
-      "task_clock": 2.48142,
-      "instructions": 23724074869.0,
-      "cycles": 7719096156.0,
-      "cycles_uk": 7893433387.0
-     },
-     {
-      "wall": 2.4511460280045867,
+      "wall": 2.4445514710005227,
       "user": 2.38,
-      "sys": 0.06,
-      "maxrss_mb": 12.63671875,
+      "sys": 0.05,
+      "maxrss_mb": 12.44921875,
       "rc": 0,
-      "task_clock": 2.43827,
-      "instructions": 23724074877.0,
-      "cycles": 7701575242.0,
-      "cycles_uk": 7876306987.0
+      "task_clock": 2.43191,
+      "instructions": 23724074872.0,
+      "cycles": 7768426846.0,
+      "cycles_uk": 7962718113.0
      },
      {
-      "wall": 2.4534268639981747,
-      "user": 2.4,
-      "sys": 0.04,
-      "maxrss_mb": 12.546875,
+      "wall": 2.448563052999816,
+      "user": 2.38,
+      "sys": 0.05,
+      "maxrss_mb": 12.77734375,
       "rc": 0,
-      "task_clock": 2.44093,
-      "instructions": 23724074847.0,
-      "cycles": 7709471692.0,
-      "cycles_uk": 7886384064.0
+      "task_clock": 2.43594,
+      "instructions": 23724075049.0,
+      "cycles": 7704272058.0,
+      "cycles_uk": 7894201081.0
+     },
+     {
+      "wall": 2.4289036160007527,
+      "user": 2.37,
+      "sys": 0.05,
+      "maxrss_mb": 12.59765625,
+      "rc": 0,
+      "task_clock": 2.41642,
+      "instructions": 23724074925.0,
+      "cycles": 7725376937.0,
+      "cycles_uk": 7917957974.0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 2.3174343179998687,
+      "user": 2.25,
+      "sys": 0.06,
+      "maxrss_mb": 12.671875,
+      "rc": 0,
+      "task_clock": 2.3048,
+      "instructions": 22541518996.0,
+      "cycles": 7330530622.0,
+      "cycles_uk": 7520228374.0
+     },
+     {
+      "wall": 2.320870911000384,
+      "user": 2.25,
+      "sys": 0.06,
+      "maxrss_mb": 12.55078125,
+      "rc": 0,
+      "task_clock": 2.30814,
+      "instructions": 22541519109.0,
+      "cycles": 7327172306.0,
+      "cycles_uk": 7516388393.0
+     },
+     {
+      "wall": 2.2961554379999143,
+      "user": 2.23,
+      "sys": 0.05,
+      "maxrss_mb": 12.5625,
+      "rc": 0,
+      "task_clock": 2.28351,
+      "instructions": 22541519160.0,
+      "cycles": 7325752276.0,
+      "cycles_uk": 7516367232.0
      }
     ]
    },
@@ -997,282 +1115,317 @@
    "runs": {
     "upstream": [
      {
-      "wall": 0.36305850400822237,
-      "user": 0.34,
-      "sys": 0.01,
-      "maxrss_mb": 12.56640625,
-      "rc": 0,
-      "task_clock": 0.35152999999999995,
-      "instructions": 4155705649.0,
-      "cycles": 1110265065.0,
-      "cycles_uk": 1132754145.0
-     },
-     {
-      "wall": 0.35340954398270696,
+      "wall": 0.35023184199963,
       "user": 0.33,
       "sys": 0.01,
-      "maxrss_mb": 12.6015625,
+      "maxrss_mb": 12.69921875,
       "rc": 0,
-      "task_clock": 0.34113,
-      "instructions": 4155705778.0,
-      "cycles": 1109605027.0,
-      "cycles_uk": 1133031441.0
+      "task_clock": 0.33901,
+      "instructions": 4155705767.0,
+      "cycles": 1104000155.0,
+      "cycles_uk": 1129370393.0
      },
      {
-      "wall": 0.35652634798316285,
-      "user": 0.34,
+      "wall": 0.34577007000007143,
+      "user": 0.33,
       "sys": 0.01,
-      "maxrss_mb": 12.75,
+      "maxrss_mb": 12.53125,
       "rc": 0,
-      "task_clock": 0.34468,
-      "instructions": 4155705701.0,
-      "cycles": 1114389951.0,
-      "cycles_uk": 1137752642.0
+      "task_clock": 0.33403,
+      "instructions": 4155705643.0,
+      "cycles": 1109148234.0,
+      "cycles_uk": 1135568559.0
+     },
+     {
+      "wall": 0.3502991719997226,
+      "user": 0.33,
+      "sys": 0.01,
+      "maxrss_mb": 12.46875,
+      "rc": 0,
+      "task_clock": 0.3391,
+      "instructions": 4155705713.0,
+      "cycles": 1111939561.0,
+      "cycles_uk": 1137720540.0
      }
     ],
     "P1": [
      {
-      "wall": 0.3670699179638177,
-      "user": 0.33,
+      "wall": 0.3585799379998207,
+      "user": 0.32,
       "sys": 0.01,
-      "maxrss_mb": 12.6484375,
+      "maxrss_mb": 12.5390625,
       "rc": 0,
-      "task_clock": 0.33988999999999997,
-      "instructions": 3963437176.0,
-      "cycles": 1077362228.0,
-      "cycles_uk": 1098914577.0
+      "task_clock": 0.32699,
+      "instructions": 3963437087.0,
+      "cycles": 1075037831.0,
+      "cycles_uk": 1098998572.0
      },
      {
-      "wall": 0.34599007898941636,
-      "user": 0.33,
+      "wall": 0.3394143259993143,
+      "user": 0.32,
       "sys": 0.01,
-      "maxrss_mb": 12.671875,
+      "maxrss_mb": 12.41015625,
       "rc": 0,
-      "task_clock": 0.33367,
-      "instructions": 3963437093.0,
-      "cycles": 1068935898.0,
-      "cycles_uk": 1091327030.0
+      "task_clock": 0.32733,
+      "instructions": 3963437078.0,
+      "cycles": 1076488409.0,
+      "cycles_uk": 1100502425.0
      },
      {
-      "wall": 0.3637420610175468,
-      "user": 0.33,
+      "wall": 0.33483734800029197,
+      "user": 0.31,
       "sys": 0.01,
-      "maxrss_mb": 12.68359375,
+      "maxrss_mb": 12.6015625,
       "rc": 0,
-      "task_clock": 0.33482999999999996,
+      "task_clock": 0.32322,
       "instructions": 3963437117.0,
-      "cycles": 1074969470.0,
-      "cycles_uk": 1097036143.0
+      "cycles": 1071555660.0,
+      "cycles_uk": 1095480436.0
      }
     ],
     "P2": [
      {
-      "wall": 0.3563253130414523,
-      "user": 0.34,
-      "sys": 0.01,
-      "maxrss_mb": 12.58984375,
-      "rc": 0,
-      "task_clock": 0.344,
-      "instructions": 3963102510.0,
-      "cycles": 1084853990.0,
-      "cycles_uk": 1107431386.0
-     },
-     {
-      "wall": 0.3553547270130366,
-      "user": 0.34,
-      "sys": 0.01,
-      "maxrss_mb": 12.703125,
-      "rc": 0,
-      "task_clock": 0.34347000000000005,
-      "instructions": 3963102535.0,
-      "cycles": 1087835523.0,
-      "cycles_uk": 1109908146.0
-     },
-     {
-      "wall": 0.34994369104970247,
+      "wall": 0.3460355709994474,
       "user": 0.33,
       "sys": 0.01,
-      "maxrss_mb": 12.57421875,
+      "maxrss_mb": 12.5625,
       "rc": 0,
-      "task_clock": 0.3379,
-      "instructions": 3963102787.0,
-      "cycles": 1084565481.0,
-      "cycles_uk": 1106908888.0
+      "task_clock": 0.33413,
+      "instructions": 3963102626.0,
+      "cycles": 1087388516.0,
+      "cycles_uk": 1111406551.0
+     },
+     {
+      "wall": 0.34035586299978604,
+      "user": 0.32,
+      "sys": 0.01,
+      "maxrss_mb": 12.70703125,
+      "rc": 0,
+      "task_clock": 0.32912,
+      "instructions": 3963102624.0,
+      "cycles": 1088181604.0,
+      "cycles_uk": 1112367581.0
+     },
+     {
+      "wall": 0.3426074979997793,
+      "user": 0.32,
+      "sys": 0.01,
+      "maxrss_mb": 12.56640625,
+      "rc": 0,
+      "task_clock": 0.33114,
+      "instructions": 3963102503.0,
+      "cycles": 1088114402.0,
+      "cycles_uk": 1112137216.0
      }
     ],
     "P3": [
      {
-      "wall": 0.34365128399804235,
+      "wall": 0.3362201449999702,
       "user": 0.32,
       "sys": 0.01,
-      "maxrss_mb": 12.65625,
+      "maxrss_mb": 12.4296875,
       "rc": 0,
-      "task_clock": 0.33144999999999997,
-      "instructions": 3962838165.0,
-      "cycles": 1053821900.0,
-      "cycles_uk": 1074467189.0
+      "task_clock": 0.32458,
+      "instructions": 3962838203.0,
+      "cycles": 1063760839.0,
+      "cycles_uk": 1087209086.0
      },
      {
-      "wall": 0.3460828919778578,
-      "user": 0.33,
-      "sys": 0.01,
-      "maxrss_mb": 12.70703125,
+      "wall": 0.3369054730010248,
+      "user": 0.32,
+      "sys": 0.0,
+      "maxrss_mb": 12.5859375,
       "rc": 0,
-      "task_clock": 0.33412000000000003,
-      "instructions": 3962838043.0,
-      "cycles": 1059649022.0,
-      "cycles_uk": 1081048656.0
+      "task_clock": 0.32542000000000004,
+      "instructions": 3962838106.0,
+      "cycles": 1063764905.0,
+      "cycles_uk": 1087481014.0
      },
      {
-      "wall": 0.34577780996914953,
+      "wall": 0.3391964440015727,
       "user": 0.32,
       "sys": 0.01,
-      "maxrss_mb": 12.47265625,
+      "maxrss_mb": 12.51171875,
       "rc": 0,
-      "task_clock": 0.33343,
-      "instructions": 3962838161.0,
-      "cycles": 1058580505.0,
-      "cycles_uk": 1080735718.0
+      "task_clock": 0.32754,
+      "instructions": 3962838137.0,
+      "cycles": 1070044660.0,
+      "cycles_uk": 1093435908.0
      }
     ],
     "P4": [
      {
-      "wall": 0.3439994310028851,
-      "user": 0.33,
+      "wall": 0.33193803199901595,
+      "user": 0.31,
       "sys": 0.01,
-      "maxrss_mb": 12.4921875,
+      "maxrss_mb": 12.55078125,
       "rc": 0,
-      "task_clock": 0.33169,
-      "instructions": 3963210939.0,
-      "cycles": 1058706683.0,
-      "cycles_uk": 1079460044.0
+      "task_clock": 0.32022,
+      "instructions": 3963211040.0,
+      "cycles": 1061624831.0,
+      "cycles_uk": 1084850520.0
      },
      {
-      "wall": 0.3470488669699989,
-      "user": 0.33,
+      "wall": 0.3352271540006768,
+      "user": 0.31,
       "sys": 0.01,
       "maxrss_mb": 12.609375,
       "rc": 0,
-      "task_clock": 0.33504,
-      "instructions": 3963210873.0,
-      "cycles": 1060648836.0,
-      "cycles_uk": 1082112072.0
+      "task_clock": 0.32298000000000004,
+      "instructions": 3963210900.0,
+      "cycles": 1055228473.0,
+      "cycles_uk": 1080832492.0
      },
      {
-      "wall": 0.34444536903174594,
-      "user": 0.33,
+      "wall": 0.33837133400083985,
+      "user": 0.32,
       "sys": 0.01,
-      "maxrss_mb": 12.765625,
+      "maxrss_mb": 12.546875,
       "rc": 0,
-      "task_clock": 0.33197000000000004,
-      "instructions": 3963210771.0,
-      "cycles": 1068649460.0,
-      "cycles_uk": 1090704547.0
+      "task_clock": 0.32625,
+      "instructions": 3963210846.0,
+      "cycles": 1067496359.0,
+      "cycles_uk": 1091371126.0
      }
     ],
     "P5": [
      {
-      "wall": 0.2720678090117872,
-      "user": 0.26,
+      "wall": 0.2613244490003126,
+      "user": 0.24,
       "sys": 0.01,
-      "maxrss_mb": 12.61328125,
+      "maxrss_mb": 12.66015625,
       "rc": 0,
-      "task_clock": 0.25995,
-      "instructions": 3132356385.0,
-      "cycles": 827474368.0,
-      "cycles_uk": 842626553.0
+      "task_clock": 0.24988999999999997,
+      "instructions": 3132356380.0,
+      "cycles": 824739034.0,
+      "cycles_uk": 842680471.0
      },
      {
-      "wall": 0.27464680100092664,
-      "user": 0.26,
-      "sys": 0.01,
-      "maxrss_mb": 12.58984375,
-      "rc": 0,
-      "task_clock": 0.26195999999999997,
-      "instructions": 3132356545.0,
-      "cycles": 825710532.0,
-      "cycles_uk": 841019727.0
-     },
-     {
-      "wall": 0.26982715498888865,
+      "wall": 0.2651416759999847,
       "user": 0.25,
       "sys": 0.01,
-      "maxrss_mb": 12.66796875,
+      "maxrss_mb": 12.484375,
       "rc": 0,
-      "task_clock": 0.2577,
-      "instructions": 3132356352.0,
-      "cycles": 825048925.0,
-      "cycles_uk": 840309554.0
+      "task_clock": 0.25308,
+      "instructions": 3132356381.0,
+      "cycles": 823846676.0,
+      "cycles_uk": 841235921.0
+     },
+     {
+      "wall": 0.26307665199965413,
+      "user": 0.25,
+      "sys": 0.01,
+      "maxrss_mb": 12.56640625,
+      "rc": 0,
+      "task_clock": 0.25099,
+      "instructions": 3132356416.0,
+      "cycles": 826000222.0,
+      "cycles_uk": 843835636.0
      }
     ],
     "P6": [
      {
-      "wall": 0.2224304549745284,
+      "wall": 0.21434923100059677,
+      "user": 0.2,
+      "sys": 0.0,
+      "maxrss_mb": 12.59765625,
+      "rc": 0,
+      "task_clock": 0.20297,
+      "instructions": 2496628672.0,
+      "cycles": 646060062.0,
+      "cycles_uk": 663036503.0
+     },
+     {
+      "wall": 0.21470514300017385,
+      "user": 0.2,
+      "sys": 0.0,
+      "maxrss_mb": 12.4609375,
+      "rc": 0,
+      "task_clock": 0.20275,
+      "instructions": 2496628508.0,
+      "cycles": 645936411.0,
+      "cycles_uk": 662914430.0
+     },
+     {
+      "wall": 0.2167689120014984,
       "user": 0.2,
       "sys": 0.01,
-      "maxrss_mb": 12.5703125,
+      "maxrss_mb": 12.46484375,
       "rc": 0,
-      "task_clock": 0.21032,
-      "instructions": 2496628496.0,
-      "cycles": 646371383.0,
-      "cycles_uk": 661187763.0
-     },
-     {
-      "wall": 0.22341623401734978,
-      "user": 0.21,
-      "sys": 0.01,
-      "maxrss_mb": 12.62890625,
-      "rc": 0,
-      "task_clock": 0.21115,
-      "instructions": 2496628566.0,
-      "cycles": 645262325.0,
-      "cycles_uk": 659831442.0
-     },
-     {
-      "wall": 0.21979051601374522,
-      "user": 0.21,
-      "sys": 0.0,
-      "maxrss_mb": 12.6171875,
-      "rc": 0,
-      "task_clock": 0.20805,
-      "instructions": 2496628639.0,
-      "cycles": 645828400.0,
-      "cycles_uk": 660432687.0
+      "task_clock": 0.20492,
+      "instructions": 2496628556.0,
+      "cycles": 646593360.0,
+      "cycles_uk": 663430904.0
      }
     ],
-    "final": [
+    "5.6": [
      {
-      "wall": 0.20357910601887852,
-      "user": 0.19,
+      "wall": 0.19766877199981536,
+      "user": 0.18,
+      "sys": 0.01,
+      "maxrss_mb": 12.58203125,
+      "rc": 0,
+      "task_clock": 0.18563,
+      "instructions": 2086882357.0,
+      "cycles": 589634312.0,
+      "cycles_uk": 606212454.0
+     },
+     {
+      "wall": 0.19496370300112176,
+      "user": 0.18,
+      "sys": 0.01,
+      "maxrss_mb": 12.58203125,
+      "rc": 0,
+      "task_clock": 0.18350999999999998,
+      "instructions": 2086882332.0,
+      "cycles": 588536436.0,
+      "cycles_uk": 605147735.0
+     },
+     {
+      "wall": 0.19790106999971613,
+      "user": 0.18,
+      "sys": 0.01,
+      "maxrss_mb": 12.43359375,
+      "rc": 0,
+      "task_clock": 0.18622999999999998,
+      "instructions": 2086882190.0,
+      "cycles": 587927239.0,
+      "cycles_uk": 604803562.0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 0.16911246400013624,
+      "user": 0.15,
+      "sys": 0.01,
+      "maxrss_mb": 12.3828125,
+      "rc": 0,
+      "task_clock": 0.15775,
+      "instructions": 1724042780.0,
+      "cycles": 506786136.0,
+      "cycles_uk": 516146422.0
+     },
+     {
+      "wall": 0.1711629619985615,
+      "user": 0.16,
       "sys": 0.0,
-      "maxrss_mb": 12.5859375,
+      "maxrss_mb": 12.671875,
       "rc": 0,
-      "task_clock": 0.19213999999999998,
-      "instructions": 2086882296.0,
-      "cycles": 587937601.0,
-      "cycles_uk": 602731036.0
+      "task_clock": 0.15994999999999998,
+      "instructions": 1724042693.0,
+      "cycles": 507060854.0,
+      "cycles_uk": 516606836.0
      },
      {
-      "wall": 0.20992850296897814,
-      "user": 0.18,
-      "sys": 0.01,
-      "maxrss_mb": 12.7890625,
+      "wall": 0.17065688299953763,
+      "user": 0.16,
+      "sys": 0.0,
+      "maxrss_mb": 12.6015625,
       "rc": 0,
-      "task_clock": 0.19562000000000002,
-      "instructions": 2086882264.0,
-      "cycles": 590575992.0,
-      "cycles_uk": 605723874.0
-     },
-     {
-      "wall": 0.2039557810057886,
-      "user": 0.18,
-      "sys": 0.01,
-      "maxrss_mb": 12.5859375,
-      "rc": 0,
-      "task_clock": 0.19216999999999998,
-      "instructions": 2086882224.0,
-      "cycles": 589479218.0,
-      "cycles_uk": 604563436.0
+      "task_clock": 0.15862,
+      "instructions": 1724042711.0,
+      "cycles": 506461219.0,
+      "cycles_uk": 515871934.0
      }
     ]
    },
@@ -1289,282 +1442,317 @@
    "runs": {
     "upstream": [
      {
-      "wall": 3.562009493005462,
-      "user": 3.54,
+      "wall": 3.573082816999886,
+      "user": 3.55,
       "sys": 0.01,
-      "maxrss_mb": 12.671875,
+      "maxrss_mb": 12.5234375,
       "rc": 0,
-      "task_clock": 3.54917,
-      "instructions": 35214124418.0,
-      "cycles": 11767378445.0,
-      "cycles_uk": 11821313448.0
+      "task_clock": 3.5604400000000003,
+      "instructions": 35214124539.0,
+      "cycles": 11769338414.0,
+      "cycles_uk": 11820653549.0
      },
      {
-      "wall": 3.590379749017302,
-      "user": 3.57,
-      "sys": 0.01,
-      "maxrss_mb": 12.5703125,
-      "rc": 0,
-      "task_clock": 3.5773099999999998,
-      "instructions": 35214124531.0,
-      "cycles": 11839412713.0,
-      "cycles_uk": 11892032750.0
-     },
-     {
-      "wall": 3.5850183319998905,
+      "wall": 3.57767318399965,
       "user": 3.56,
-      "sys": 0.02,
-      "maxrss_mb": 12.5078125,
+      "sys": 0.01,
+      "maxrss_mb": 12.66015625,
       "rc": 0,
-      "task_clock": 3.57054,
-      "instructions": 35214124660.0,
-      "cycles": 11843962996.0,
-      "cycles_uk": 11898285190.0
+      "task_clock": 3.565,
+      "instructions": 35214124550.0,
+      "cycles": 11823878757.0,
+      "cycles_uk": 11874853745.0
+     },
+     {
+      "wall": 3.5116227569997136,
+      "user": 3.49,
+      "sys": 0.01,
+      "maxrss_mb": 12.58203125,
+      "rc": 0,
+      "task_clock": 3.4991999999999996,
+      "instructions": 35214125096.0,
+      "cycles": 11745662473.0,
+      "cycles_uk": 11795288563.0
      }
     ],
     "P1": [
      {
-      "wall": 3.6357686409610324,
+      "wall": 3.59415073800119,
+      "user": 3.56,
+      "sys": 0.01,
+      "maxrss_mb": 12.640625,
+      "rc": 0,
+      "task_clock": 3.56109,
+      "instructions": 35214124447.0,
+      "cycles": 11902178055.0,
+      "cycles_uk": 11953120060.0
+     },
+     {
+      "wall": 3.624511881000217,
       "user": 3.6,
       "sys": 0.01,
-      "maxrss_mb": 12.6796875,
+      "maxrss_mb": 12.50390625,
       "rc": 0,
-      "task_clock": 3.60771,
-      "instructions": 35214124473.0,
-      "cycles": 11913311638.0,
-      "cycles_uk": 11965425593.0
+      "task_clock": 3.61206,
+      "instructions": 35214124616.0,
+      "cycles": 11965041554.0,
+      "cycles_uk": 12016291092.0
      },
      {
-      "wall": 3.635861446033232,
-      "user": 3.62,
-      "sys": 0.01,
-      "maxrss_mb": 12.69921875,
+      "wall": 3.49443697300012,
+      "user": 3.47,
+      "sys": 0.02,
+      "maxrss_mb": 12.625,
       "rc": 0,
-      "task_clock": 3.62283,
-      "instructions": 35214124494.0,
-      "cycles": 11980678280.0,
-      "cycles_uk": 12035322726.0
-     },
-     {
-      "wall": 3.5735110929817893,
-      "user": 3.55,
-      "sys": 0.01,
-      "maxrss_mb": 12.69140625,
-      "rc": 0,
-      "task_clock": 3.5608299999999997,
-      "instructions": 35214124562.0,
-      "cycles": 11901135070.0,
-      "cycles_uk": 11952812927.0
+      "task_clock": 3.48184,
+      "instructions": 35214124762.0,
+      "cycles": 11907231800.0,
+      "cycles_uk": 11956050302.0
      }
     ],
     "P2": [
      {
-      "wall": 3.621342030004598,
-      "user": 3.6,
+      "wall": 3.5179643709998345,
+      "user": 3.5,
       "sys": 0.01,
-      "maxrss_mb": 12.7265625,
+      "maxrss_mb": 12.48046875,
       "rc": 0,
-      "task_clock": 3.6079899999999996,
-      "instructions": 35213774793.0,
-      "cycles": 11848046620.0,
-      "cycles_uk": 11899957110.0
+      "task_clock": 3.50531,
+      "instructions": 35213774874.0,
+      "cycles": 11766306363.0,
+      "cycles_uk": 11816578102.0
      },
      {
-      "wall": 3.624139893974643,
-      "user": 3.6,
+      "wall": 3.522694915000102,
+      "user": 3.5,
       "sys": 0.01,
-      "maxrss_mb": 12.65234375,
+      "maxrss_mb": 12.6015625,
       "rc": 0,
-      "task_clock": 3.61116,
-      "instructions": 35213774720.0,
-      "cycles": 11831779112.0,
-      "cycles_uk": 11884379439.0
+      "task_clock": 3.5099899999999997,
+      "instructions": 35213774670.0,
+      "cycles": 11807341406.0,
+      "cycles_uk": 11857957474.0
      },
      {
-      "wall": 3.6110809079837054,
-      "user": 3.59,
-      "sys": 0.01,
-      "maxrss_mb": 12.7578125,
+      "wall": 3.568812138000794,
+      "user": 3.55,
+      "sys": 0.0,
+      "maxrss_mb": 12.52734375,
       "rc": 0,
-      "task_clock": 3.59795,
-      "instructions": 35213774788.0,
-      "cycles": 11773162175.0,
-      "cycles_uk": 11826346063.0
+      "task_clock": 3.55629,
+      "instructions": 35213774802.0,
+      "cycles": 11794410253.0,
+      "cycles_uk": 11846840311.0
      }
     ],
     "P3": [
      {
-      "wall": 3.580668638984207,
-      "user": 3.56,
+      "wall": 3.524989898000058,
+      "user": 3.51,
       "sys": 0.01,
-      "maxrss_mb": 12.6953125,
+      "maxrss_mb": 12.5234375,
       "rc": 0,
-      "task_clock": 3.56786,
-      "instructions": 35212927247.0,
-      "cycles": 11757127660.0,
-      "cycles_uk": 11799556638.0
+      "task_clock": 3.5124400000000002,
+      "instructions": 35212927244.0,
+      "cycles": 11762907564.0,
+      "cycles_uk": 11803610617.0
      },
      {
-      "wall": 3.536648762994446,
-      "user": 3.52,
-      "sys": 0.0,
-      "maxrss_mb": 12.61328125,
+      "wall": 3.4426658930005942,
+      "user": 3.43,
+      "sys": 0.01,
+      "maxrss_mb": 12.64453125,
       "rc": 0,
-      "task_clock": 3.52392,
-      "instructions": 35212927769.0,
-      "cycles": 11811930837.0,
-      "cycles_uk": 11854123905.0
+      "task_clock": 3.43006,
+      "instructions": 35212927413.0,
+      "cycles": 11772458159.0,
+      "cycles_uk": 11811702052.0
      },
      {
-      "wall": 3.6082675640354864,
-      "user": 3.59,
-      "sys": 0.0,
-      "maxrss_mb": 12.67578125,
+      "wall": 3.518928239000161,
+      "user": 3.5,
+      "sys": 0.01,
+      "maxrss_mb": 12.640625,
       "rc": 0,
-      "task_clock": 3.5954200000000003,
-      "instructions": 35212927281.0,
-      "cycles": 11759042281.0,
-      "cycles_uk": 11802526007.0
+      "task_clock": 3.5062399999999996,
+      "instructions": 35212927296.0,
+      "cycles": 11748326384.0,
+      "cycles_uk": 11789252836.0
      }
     ],
     "P4": [
      {
-      "wall": 3.06073861499317,
-      "user": 3.04,
-      "sys": 0.01,
-      "maxrss_mb": 12.5703125,
-      "rc": 0,
-      "task_clock": 3.0467,
-      "instructions": 29454373414.0,
-      "cycles": 10108246942.0,
-      "cycles_uk": 10147853169.0
-     },
-     {
-      "wall": 3.0649975489941426,
-      "user": 3.04,
-      "sys": 0.01,
-      "maxrss_mb": 12.65625,
-      "rc": 0,
-      "task_clock": 3.05175,
-      "instructions": 29454373399.0,
-      "cycles": 10138555155.0,
-      "cycles_uk": 10177500890.0
-     },
-     {
-      "wall": 3.081347126979381,
-      "user": 3.06,
+      "wall": 3.038978541000688,
+      "user": 3.02,
       "sys": 0.0,
-      "maxrss_mb": 12.61328125,
+      "maxrss_mb": 12.62890625,
       "rc": 0,
-      "task_clock": 3.0686,
-      "instructions": 29454373483.0,
-      "cycles": 10099863044.0,
-      "cycles_uk": 10138887960.0
+      "task_clock": 3.02649,
+      "instructions": 29454373464.0,
+      "cycles": 10114676097.0,
+      "cycles_uk": 10151087566.0
+     },
+     {
+      "wall": 2.9569283649998397,
+      "user": 2.94,
+      "sys": 0.0,
+      "maxrss_mb": 12.6484375,
+      "rc": 0,
+      "task_clock": 2.94441,
+      "instructions": 29454373366.0,
+      "cycles": 10096188878.0,
+      "cycles_uk": 10132117111.0
+     },
+     {
+      "wall": 3.0180847350002296,
+      "user": 3.0,
+      "sys": 0.01,
+      "maxrss_mb": 12.51953125,
+      "rc": 0,
+      "task_clock": 3.0036199999999997,
+      "instructions": 29454373356.0,
+      "cycles": 10100423372.0,
+      "cycles_uk": 10136794470.0
      }
     ],
     "P5": [
      {
-      "wall": 3.001151738979388,
-      "user": 2.99,
-      "sys": 0.0,
-      "maxrss_mb": 12.68359375,
-      "rc": 0,
-      "task_clock": 2.98815,
-      "instructions": 29353366213.0,
-      "cycles": 10083886611.0,
-      "cycles_uk": 10120793588.0
-     },
-     {
-      "wall": 3.002224733005278,
-      "user": 2.99,
-      "sys": 0.0,
-      "maxrss_mb": 12.5703125,
-      "rc": 0,
-      "task_clock": 2.98933,
-      "instructions": 29353366262.0,
-      "cycles": 10086450363.0,
-      "cycles_uk": 10123162935.0
-     },
-     {
-      "wall": 3.1563148519489914,
-      "user": 3.14,
+      "wall": 3.0375522319991433,
+      "user": 3.02,
       "sys": 0.01,
-      "maxrss_mb": 12.7890625,
+      "maxrss_mb": 12.62109375,
       "rc": 0,
-      "task_clock": 3.14352,
-      "instructions": 29353366554.0,
-      "cycles": 10349811232.0,
-      "cycles_uk": 10388508701.0
+      "task_clock": 3.0245100000000003,
+      "instructions": 29353366362.0,
+      "cycles": 10078187655.0,
+      "cycles_uk": 10113980170.0
+     },
+     {
+      "wall": 3.006992458998866,
+      "user": 2.99,
+      "sys": 0.01,
+      "maxrss_mb": 12.53515625,
+      "rc": 0,
+      "task_clock": 2.9944699999999997,
+      "instructions": 29353366344.0,
+      "cycles": 10100606742.0,
+      "cycles_uk": 10137440492.0
+     },
+     {
+      "wall": 3.0418296919997374,
+      "user": 3.02,
+      "sys": 0.01,
+      "maxrss_mb": 12.4140625,
+      "rc": 0,
+      "task_clock": 3.02966,
+      "instructions": 29353366362.0,
+      "cycles": 10079988999.0,
+      "cycles_uk": 10114647947.0
      }
     ],
     "P6": [
      {
-      "wall": 3.0523568719509058,
-      "user": 3.03,
-      "sys": 0.01,
-      "maxrss_mb": 12.66015625,
-      "rc": 0,
-      "task_clock": 3.0396900000000002,
-      "instructions": 29326304025.0,
-      "cycles": 10066607939.0,
-      "cycles_uk": 10102956752.0
-     },
-     {
-      "wall": 3.0584635509876534,
-      "user": 3.05,
-      "sys": 0.0,
-      "maxrss_mb": 12.578125,
-      "rc": 0,
-      "task_clock": 3.0453699999999997,
-      "instructions": 29326304072.0,
-      "cycles": 10140916985.0,
-      "cycles_uk": 10178952116.0
-     },
-     {
-      "wall": 3.015610556991305,
+      "wall": 3.010409496999273,
       "user": 3.0,
       "sys": 0.0,
-      "maxrss_mb": 12.66796875,
+      "maxrss_mb": 12.56640625,
       "rc": 0,
-      "task_clock": 3.0026599999999997,
-      "instructions": 29326303975.0,
-      "cycles": 10068479625.0,
-      "cycles_uk": 10105570434.0
+      "task_clock": 2.9980300000000004,
+      "instructions": 29326303939.0,
+      "cycles": 10080850639.0,
+      "cycles_uk": 10116162452.0
+     },
+     {
+      "wall": 3.016765067999586,
+      "user": 3.0,
+      "sys": 0.0,
+      "maxrss_mb": 12.42578125,
+      "rc": 0,
+      "task_clock": 3.00472,
+      "instructions": 29326303901.0,
+      "cycles": 10088143740.0,
+      "cycles_uk": 10123966314.0
+     },
+     {
+      "wall": 3.0454331440014357,
+      "user": 3.03,
+      "sys": 0.0,
+      "maxrss_mb": 12.62890625,
+      "rc": 0,
+      "task_clock": 3.03294,
+      "instructions": 29326304020.0,
+      "cycles": 10062923733.0,
+      "cycles_uk": 10098676775.0
      }
     ],
-    "final": [
+    "5.6": [
      {
-      "wall": 2.9906309979851358,
-      "user": 2.97,
-      "sys": 0.0,
-      "maxrss_mb": 12.61328125,
-      "rc": 0,
-      "task_clock": 2.97774,
-      "instructions": 29291076148.0,
-      "cycles": 10069939855.0,
-      "cycles_uk": 10106052822.0
-     },
-     {
-      "wall": 3.0294396209646948,
-      "user": 3.01,
-      "sys": 0.01,
-      "maxrss_mb": 12.703125,
-      "rc": 0,
-      "task_clock": 3.0167800000000002,
-      "instructions": 29291076174.0,
-      "cycles": 10059076436.0,
-      "cycles_uk": 10094918320.0
-     },
-     {
-      "wall": 3.0810397010063753,
+      "wall": 3.0755052610002167,
       "user": 3.06,
       "sys": 0.01,
-      "maxrss_mb": 12.54296875,
+      "maxrss_mb": 12.58203125,
       "rc": 0,
-      "task_clock": 3.0681700000000003,
-      "instructions": 29291076257.0,
-      "cycles": 10075303563.0,
-      "cycles_uk": 10114053672.0
+      "task_clock": 3.0631,
+      "instructions": 29291076267.0,
+      "cycles": 10072488140.0,
+      "cycles_uk": 10109098892.0
+     },
+     {
+      "wall": 3.0656987679994927,
+      "user": 3.05,
+      "sys": 0.0,
+      "maxrss_mb": 12.51171875,
+      "rc": 0,
+      "task_clock": 3.05325,
+      "instructions": 29291076222.0,
+      "cycles": 10062115173.0,
+      "cycles_uk": 10097676064.0
+     },
+     {
+      "wall": 3.045862120001402,
+      "user": 3.03,
+      "sys": 0.01,
+      "maxrss_mb": 12.5078125,
+      "rc": 0,
+      "task_clock": 3.03261,
+      "instructions": 29291076150.0,
+      "cycles": 10072823886.0,
+      "cycles_uk": 10108322991.0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 2.8131043779994798,
+      "user": 2.79,
+      "sys": 0.01,
+      "maxrss_mb": 12.5,
+      "rc": 0,
+      "task_clock": 2.80025,
+      "instructions": 25047998253.0,
+      "cycles": 9140749025.0,
+      "cycles_uk": 9179169947.0
+     },
+     {
+      "wall": 2.7559720520002884,
+      "user": 2.74,
+      "sys": 0.01,
+      "maxrss_mb": 12.640625,
+      "rc": 0,
+      "task_clock": 2.74332,
+      "instructions": 25047998014.0,
+      "cycles": 9134991693.0,
+      "cycles_uk": 9172290380.0
+     },
+     {
+      "wall": 2.77580369899988,
+      "user": 2.76,
+      "sys": 0.01,
+      "maxrss_mb": 12.4375,
+      "rc": 0,
+      "task_clock": 2.76336,
+      "instructions": 25047998019.0,
+      "cycles": 9133761684.0,
+      "cycles_uk": 9171524862.0
      }
     ]
    },
@@ -1581,282 +1769,317 @@
    "runs": {
     "upstream": [
      {
-      "wall": 1.1910161820123903,
-      "user": 1.12,
-      "sys": 0.06,
-      "maxrss_mb": 12.7578125,
-      "rc": 0,
-      "task_clock": 1.1785999999999999,
-      "instructions": 16055330065.0,
-      "cycles": 3886102340.0,
-      "cycles_uk": 4105713074.0
-     },
-     {
-      "wall": 1.236328051018063,
+      "wall": 1.2321991629996774,
       "user": 1.16,
-      "sys": 0.06,
-      "maxrss_mb": 12.6875,
+      "sys": 0.07,
+      "maxrss_mb": 12.5234375,
       "rc": 0,
-      "task_clock": 1.22401,
-      "instructions": 16055330019.0,
-      "cycles": 3932812074.0,
-      "cycles_uk": 4147094480.0
+      "task_clock": 1.21968,
+      "instructions": 16055330113.0,
+      "cycles": 3876372546.0,
+      "cycles_uk": 4102481103.0
      },
      {
-      "wall": 1.2616969110094942,
-      "user": 1.18,
-      "sys": 0.07,
-      "maxrss_mb": 12.6640625,
+      "wall": 1.2607514250012173,
+      "user": 1.2,
+      "sys": 0.05,
+      "maxrss_mb": 12.44140625,
       "rc": 0,
-      "task_clock": 1.24932,
-      "instructions": 16055330130.0,
-      "cycles": 3882915163.0,
-      "cycles_uk": 4094971271.0
+      "task_clock": 1.2486700000000002,
+      "instructions": 16055330166.0,
+      "cycles": 3910312033.0,
+      "cycles_uk": 4135701848.0
+     },
+     {
+      "wall": 1.2405674879992148,
+      "user": 1.17,
+      "sys": 0.06,
+      "maxrss_mb": 12.59375,
+      "rc": 0,
+      "task_clock": 1.22794,
+      "instructions": 16055330087.0,
+      "cycles": 3851576301.0,
+      "cycles_uk": 4077048594.0
      }
     ],
     "P1": [
      {
-      "wall": 1.1462823239853606,
-      "user": 1.06,
+      "wall": 1.135280098000294,
+      "user": 1.05,
       "sys": 0.06,
-      "maxrss_mb": 12.75390625,
+      "maxrss_mb": 12.69140625,
       "rc": 0,
-      "task_clock": 1.11706,
-      "instructions": 15729731927.0,
-      "cycles": 3459694408.0,
-      "cycles_uk": 3667001712.0
+      "task_clock": 1.11013,
+      "instructions": 15729731947.0,
+      "cycles": 3452052710.0,
+      "cycles_uk": 3674442718.0
      },
      {
-      "wall": 1.1030874340212904,
+      "wall": 1.1255100990001665,
       "user": 1.04,
-      "sys": 0.05,
-      "maxrss_mb": 12.5078125,
+      "sys": 0.08,
+      "maxrss_mb": 12.6484375,
       "rc": 0,
-      "task_clock": 1.09083,
-      "instructions": 15729731988.0,
-      "cycles": 3474312338.0,
-      "cycles_uk": 3686090224.0
+      "task_clock": 1.1130799999999998,
+      "instructions": 15729731880.0,
+      "cycles": 3455692223.0,
+      "cycles_uk": 3679551917.0
      },
      {
-      "wall": 1.1476779019576497,
-      "user": 1.07,
-      "sys": 0.06,
-      "maxrss_mb": 12.6953125,
+      "wall": 1.1227324689989473,
+      "user": 1.03,
+      "sys": 0.08,
+      "maxrss_mb": 12.5859375,
       "rc": 0,
-      "task_clock": 1.1348,
-      "instructions": 15729731949.0,
-      "cycles": 3464584239.0,
-      "cycles_uk": 3674620386.0
+      "task_clock": 1.11027,
+      "instructions": 15729731927.0,
+      "cycles": 3472578245.0,
+      "cycles_uk": 3699869023.0
      }
     ],
     "P2": [
      {
-      "wall": 1.177254316979088,
-      "user": 1.11,
+      "wall": 1.1609070479989896,
+      "user": 1.09,
       "sys": 0.06,
-      "maxrss_mb": 12.44921875,
+      "maxrss_mb": 12.61328125,
       "rc": 0,
-      "task_clock": 1.1646800000000002,
-      "instructions": 15730867710.0,
-      "cycles": 3578359285.0,
-      "cycles_uk": 3789589759.0
+      "task_clock": 1.14832,
+      "instructions": 15730867778.0,
+      "cycles": 3571646815.0,
+      "cycles_uk": 3794150648.0
      },
      {
-      "wall": 1.0995569379883818,
-      "user": 1.03,
-      "sys": 0.06,
-      "maxrss_mb": 12.75390625,
+      "wall": 1.131145072000436,
+      "user": 1.05,
+      "sys": 0.07,
+      "maxrss_mb": 12.43359375,
       "rc": 0,
-      "task_clock": 1.08776,
+      "task_clock": 1.11903,
       "instructions": 15730867722.0,
-      "cycles": 3546722224.0,
-      "cycles_uk": 3761471401.0
+      "cycles": 3531026314.0,
+      "cycles_uk": 3756988155.0
      },
      {
-      "wall": 1.1653049959568307,
-      "user": 1.1,
-      "sys": 0.06,
-      "maxrss_mb": 12.66015625,
+      "wall": 1.1131146589996206,
+      "user": 1.03,
+      "sys": 0.08,
+      "maxrss_mb": 12.61328125,
       "rc": 0,
-      "task_clock": 1.15219,
-      "instructions": 15730867709.0,
-      "cycles": 3565688580.0,
-      "cycles_uk": 3776819620.0
+      "task_clock": 1.10093,
+      "instructions": 15730867703.0,
+      "cycles": 3549858758.0,
+      "cycles_uk": 3779332985.0
      }
     ],
     "P3": [
      {
-      "wall": 1.1598779360065237,
-      "user": 1.09,
-      "sys": 0.06,
-      "maxrss_mb": 12.74609375,
-      "rc": 0,
-      "task_clock": 1.1474600000000001,
-      "instructions": 15731433516.0,
-      "cycles": 3566714313.0,
-      "cycles_uk": 3776029179.0
-     },
-     {
-      "wall": 1.1289012630004436,
+      "wall": 1.1456225429992628,
       "user": 1.06,
-      "sys": 0.05,
-      "maxrss_mb": 12.75,
+      "sys": 0.07,
+      "maxrss_mb": 12.578125,
       "rc": 0,
-      "task_clock": 1.1162100000000001,
-      "instructions": 15731433490.0,
-      "cycles": 3595544957.0,
-      "cycles_uk": 3809640112.0
+      "task_clock": 1.1332200000000001,
+      "instructions": 15731433539.0,
+      "cycles": 3576880055.0,
+      "cycles_uk": 3801358574.0
      },
      {
-      "wall": 1.1428924039937556,
-      "user": 1.09,
-      "sys": 0.04,
+      "wall": 1.1522751130014512,
+      "user": 1.07,
+      "sys": 0.07,
+      "maxrss_mb": 12.52734375,
+      "rc": 0,
+      "task_clock": 1.14,
+      "instructions": 15731433541.0,
+      "cycles": 3581998190.0,
+      "cycles_uk": 3807570765.0
+     },
+     {
+      "wall": 1.1755419450000772,
+      "user": 1.1,
+      "sys": 0.06,
       "maxrss_mb": 12.640625,
       "rc": 0,
-      "task_clock": 1.13062,
-      "instructions": 15731433514.0,
-      "cycles": 3592899263.0,
-      "cycles_uk": 3808350620.0
+      "task_clock": 1.16329,
+      "instructions": 15731433564.0,
+      "cycles": 3607646818.0,
+      "cycles_uk": 3830589026.0
      }
     ],
     "P4": [
      {
-      "wall": 1.187798696977552,
-      "user": 1.12,
+      "wall": 1.1798780760000227,
+      "user": 1.1,
       "sys": 0.06,
-      "maxrss_mb": 12.59375,
+      "maxrss_mb": 12.61328125,
       "rc": 0,
-      "task_clock": 1.17512,
-      "instructions": 15731449147.0,
-      "cycles": 3607148233.0,
-      "cycles_uk": 3817228279.0
+      "task_clock": 1.1676300000000002,
+      "instructions": 15731449253.0,
+      "cycles": 3639275099.0,
+      "cycles_uk": 3864107240.0
      },
      {
-      "wall": 1.155507795047015,
+      "wall": 1.1475655689991981,
       "user": 1.08,
-      "sys": 0.06,
-      "maxrss_mb": 12.734375,
+      "sys": 0.05,
+      "maxrss_mb": 12.68359375,
       "rc": 0,
-      "task_clock": 1.1431099999999998,
-      "instructions": 15731449103.0,
-      "cycles": 3635220306.0,
-      "cycles_uk": 3848534077.0
+      "task_clock": 1.1353900000000001,
+      "instructions": 15731449104.0,
+      "cycles": 3618940967.0,
+      "cycles_uk": 3845770726.0
      },
      {
-      "wall": 1.1545206760056317,
-      "user": 1.08,
-      "sys": 0.07,
-      "maxrss_mb": 12.8125,
+      "wall": 1.1777770349999628,
+      "user": 1.09,
+      "sys": 0.08,
+      "maxrss_mb": 12.5,
       "rc": 0,
-      "task_clock": 1.14197,
-      "instructions": 15731449059.0,
-      "cycles": 3621581501.0,
-      "cycles_uk": 3833652756.0
+      "task_clock": 1.16519,
+      "instructions": 15731449131.0,
+      "cycles": 3628850147.0,
+      "cycles_uk": 3854878770.0
      }
     ],
     "P5": [
      {
-      "wall": 0.7327042180113494,
-      "user": 0.67,
-      "sys": 0.05,
-      "maxrss_mb": 12.80078125,
-      "rc": 0,
-      "task_clock": 0.72009,
-      "instructions": 10137584708.0,
-      "cycles": 2185405941.0,
-      "cycles_uk": 2342240617.0
-     },
-     {
-      "wall": 0.7109292900422588,
-      "user": 0.66,
-      "sys": 0.04,
-      "maxrss_mb": 12.6171875,
-      "rc": 0,
-      "task_clock": 0.69874,
-      "instructions": 10137584698.0,
-      "cycles": 2160719158.0,
-      "cycles_uk": 2321150326.0
-     },
-     {
-      "wall": 0.6955704670399427,
+      "wall": 0.7133076129994151,
       "user": 0.64,
-      "sys": 0.05,
-      "maxrss_mb": 12.58203125,
+      "sys": 0.06,
+      "maxrss_mb": 12.60546875,
       "rc": 0,
-      "task_clock": 0.68333,
-      "instructions": 10137584674.0,
-      "cycles": 2164146655.0,
-      "cycles_uk": 2324826512.0
+      "task_clock": 0.70045,
+      "instructions": 10137584729.0,
+      "cycles": 2162575074.0,
+      "cycles_uk": 2336432885.0
+     },
+     {
+      "wall": 0.7235794110001734,
+      "user": 0.65,
+      "sys": 0.06,
+      "maxrss_mb": 12.38671875,
+      "rc": 0,
+      "task_clock": 0.71166,
+      "instructions": 10137584733.0,
+      "cycles": 2191865616.0,
+      "cycles_uk": 2362081444.0
+     },
+     {
+      "wall": 0.7182977520005807,
+      "user": 0.66,
+      "sys": 0.05,
+      "maxrss_mb": 12.55859375,
+      "rc": 0,
+      "task_clock": 0.7060599999999999,
+      "instructions": 10137584718.0,
+      "cycles": 2160052422.0,
+      "cycles_uk": 2333780159.0
      }
     ],
     "P6": [
      {
-      "wall": 0.7137671830132604,
-      "user": 0.66,
-      "sys": 0.04,
-      "maxrss_mb": 12.69921875,
-      "rc": 0,
-      "task_clock": 0.7012,
-      "instructions": 9771414170.0,
-      "cycles": 2142306628.0,
-      "cycles_uk": 2299797077.0
-     },
-     {
-      "wall": 0.7237775729736313,
-      "user": 0.66,
-      "sys": 0.05,
-      "maxrss_mb": 12.65234375,
-      "rc": 0,
-      "task_clock": 0.71126,
-      "instructions": 9771414183.0,
-      "cycles": 2146585978.0,
-      "cycles_uk": 2302533799.0
-     },
-     {
-      "wall": 0.6981469899765216,
+      "wall": 0.6978017229994293,
       "user": 0.64,
-      "sys": 0.04,
-      "maxrss_mb": 12.62109375,
+      "sys": 0.05,
+      "maxrss_mb": 12.64453125,
       "rc": 0,
-      "task_clock": 0.68574,
-      "instructions": 9771414182.0,
-      "cycles": 2140939170.0,
-      "cycles_uk": 2301048409.0
+      "task_clock": 0.6854600000000001,
+      "instructions": 9771414189.0,
+      "cycles": 2139550893.0,
+      "cycles_uk": 2312500594.0
+     },
+     {
+      "wall": 0.7070056490010757,
+      "user": 0.64,
+      "sys": 0.06,
+      "maxrss_mb": 12.609375,
+      "rc": 0,
+      "task_clock": 0.69443,
+      "instructions": 9771414120.0,
+      "cycles": 2150693715.0,
+      "cycles_uk": 2322175232.0
+     },
+     {
+      "wall": 0.71162109999932,
+      "user": 0.64,
+      "sys": 0.06,
+      "maxrss_mb": 12.6171875,
+      "rc": 0,
+      "task_clock": 0.6991900000000001,
+      "instructions": 9771414177.0,
+      "cycles": 2140943357.0,
+      "cycles_uk": 2310937668.0
      }
     ],
-    "final": [
+    "5.6": [
      {
-      "wall": 0.6315421980107203,
-      "user": 0.58,
-      "sys": 0.04,
-      "maxrss_mb": 12.6875,
+      "wall": 0.609085801999754,
+      "user": 0.55,
+      "sys": 0.05,
+      "maxrss_mb": 12.48828125,
       "rc": 0,
-      "task_clock": 0.61898,
-      "instructions": 7851794940.0,
-      "cycles": 1879853792.0,
-      "cycles_uk": 2035634976.0
+      "task_clock": 0.59668,
+      "instructions": 7851794916.0,
+      "cycles": 1873258056.0,
+      "cycles_uk": 2044934573.0
      },
      {
-      "wall": 0.6250270769814961,
+      "wall": 0.618054034999659,
+      "user": 0.54,
+      "sys": 0.06,
+      "maxrss_mb": 12.6171875,
+      "rc": 0,
+      "task_clock": 0.60575,
+      "instructions": 7851794846.0,
+      "cycles": 1871983427.0,
+      "cycles_uk": 2043777293.0
+     },
+     {
+      "wall": 0.6322123379995901,
       "user": 0.57,
-      "sys": 0.04,
+      "sys": 0.05,
       "maxrss_mb": 12.6640625,
       "rc": 0,
-      "task_clock": 0.6123500000000001,
-      "instructions": 7851794878.0,
-      "cycles": 1871357579.0,
-      "cycles_uk": 2028769997.0
+      "task_clock": 0.61979,
+      "instructions": 7851794867.0,
+      "cycles": 1871688249.0,
+      "cycles_uk": 2039881820.0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 0.6181695309987845,
+      "user": 0.56,
+      "sys": 0.05,
+      "maxrss_mb": 12.6484375,
+      "rc": 0,
+      "task_clock": 0.60565,
+      "instructions": 7826218987.0,
+      "cycles": 1858039402.0,
+      "cycles_uk": 2030642215.0
      },
      {
-      "wall": 0.6226192779722624,
+      "wall": 0.6158957320003537,
+      "user": 0.55,
+      "sys": 0.06,
+      "maxrss_mb": 12.5546875,
+      "rc": 0,
+      "task_clock": 0.6040599999999999,
+      "instructions": 7826218997.0,
+      "cycles": 1853322524.0,
+      "cycles_uk": 2026549223.0
+     },
+     {
+      "wall": 0.6223644109995803,
       "user": 0.57,
       "sys": 0.04,
-      "maxrss_mb": 12.84765625,
+      "maxrss_mb": 12.53125,
       "rc": 0,
       "task_clock": 0.6104299999999999,
-      "instructions": 7851794926.0,
-      "cycles": 1872554576.0,
-      "cycles_uk": 2029696742.0
+      "instructions": 7826218902.0,
+      "cycles": 1851778969.0,
+      "cycles_uk": 2021613557.0
      }
     ]
    },
@@ -1873,282 +2096,317 @@
    "runs": {
     "upstream": [
      {
-      "wall": 9.516154837969225,
-      "user": 25.78,
-      "sys": 3.24,
-      "maxrss_mb": 171.24609375,
+      "wall": 9.199427933999687,
+      "user": 25.05,
+      "sys": 3.52,
+      "maxrss_mb": 173.67578125,
       "rc": 0,
-      "task_clock": 29.05484,
-      "instructions": 265754851067.0,
-      "cycles": 82004811830.0,
-      "cycles_uk": 87712247506.0
+      "task_clock": 28.621299999999998,
+      "instructions": 265750590505.0,
+      "cycles": 80161391283.0,
+      "cycles_uk": 86108979121.0
      },
      {
-      "wall": 9.414983688038774,
-      "user": 25.53,
-      "sys": 3.48,
-      "maxrss_mb": 167.81640625,
+      "wall": 8.865925929001605,
+      "user": 24.29,
+      "sys": 3.37,
+      "maxrss_mb": 165.73828125,
       "rc": 0,
-      "task_clock": 29.047909999999998,
-      "instructions": 265750546185.0,
-      "cycles": 81331752832.0,
-      "cycles_uk": 86955508829.0
+      "task_clock": 27.710060000000002,
+      "instructions": 265749036334.0,
+      "cycles": 80122341760.0,
+      "cycles_uk": 86115990685.0
      },
      {
-      "wall": 9.46849233697867,
-      "user": 25.59,
-      "sys": 3.6,
-      "maxrss_mb": 171.734375,
+      "wall": 9.18597830300132,
+      "user": 24.97,
+      "sys": 3.34,
+      "maxrss_mb": 163.66796875,
       "rc": 0,
-      "task_clock": 29.22719,
-      "instructions": 265750465685.0,
-      "cycles": 81501094513.0,
-      "cycles_uk": 87101198657.0
+      "task_clock": 28.35736,
+      "instructions": 265749724852.0,
+      "cycles": 80651946689.0,
+      "cycles_uk": 86645637020.0
      }
     ],
     "P1": [
      {
-      "wall": 9.220525064971298,
-      "user": 24.9,
-      "sys": 3.48,
-      "maxrss_mb": 167.015625,
+      "wall": 8.844669389000046,
+      "user": 23.73,
+      "sys": 3.5,
+      "maxrss_mb": 163.00390625,
       "rc": 0,
-      "task_clock": 28.42205,
-      "instructions": 259930450021.0,
-      "cycles": 79406179111.0,
-      "cycles_uk": 85034284368.0
+      "task_clock": 27.276619999999998,
+      "instructions": 259930354610.0,
+      "cycles": 77926188340.0,
+      "cycles_uk": 83821883354.0
      },
      {
-      "wall": 9.380520184000488,
-      "user": 25.21,
-      "sys": 3.28,
-      "maxrss_mb": 163.953125,
+      "wall": 9.15767596600017,
+      "user": 24.66,
+      "sys": 3.36,
+      "maxrss_mb": 165.32421875,
       "rc": 0,
-      "task_clock": 28.53837,
-      "instructions": 259930595425.0,
-      "cycles": 80398057913.0,
-      "cycles_uk": 86031665955.0
+      "task_clock": 28.07914,
+      "instructions": 259929128736.0,
+      "cycles": 78690693887.0,
+      "cycles_uk": 84747126358.0
      },
      {
-      "wall": 9.221741468005348,
-      "user": 24.85,
-      "sys": 3.45,
-      "maxrss_mb": 156.41796875,
+      "wall": 8.762325850000707,
+      "user": 23.92,
+      "sys": 3.41,
+      "maxrss_mb": 166.5546875,
       "rc": 0,
-      "task_clock": 28.33937,
-      "instructions": 259930057869.0,
-      "cycles": 79118498270.0,
-      "cycles_uk": 84735014506.0
+      "task_clock": 27.37734,
+      "instructions": 259930398909.0,
+      "cycles": 78010222053.0,
+      "cycles_uk": 83981032814.0
      }
     ],
     "P2": [
      {
-      "wall": 9.143223346967716,
-      "user": 24.78,
-      "sys": 3.45,
-      "maxrss_mb": 161.63671875,
+      "wall": 8.834294498999952,
+      "user": 24.12,
+      "sys": 3.36,
+      "maxrss_mb": 164.60546875,
       "rc": 0,
-      "task_clock": 28.27104,
-      "instructions": 259944586228.0,
-      "cycles": 78410805507.0,
-      "cycles_uk": 83917276424.0
+      "task_clock": 27.52191,
+      "instructions": 259944240848.0,
+      "cycles": 77825194524.0,
+      "cycles_uk": 83834590098.0
      },
      {
-      "wall": 9.141774325980805,
-      "user": 24.93,
-      "sys": 3.28,
-      "maxrss_mb": 161.43359375,
+      "wall": 9.075681259000703,
+      "user": 24.51,
+      "sys": 3.43,
+      "maxrss_mb": 164.30078125,
       "rc": 0,
-      "task_clock": 28.243479999999998,
-      "instructions": 259944667667.0,
-      "cycles": 78982422244.0,
-      "cycles_uk": 84591580032.0
+      "task_clock": 27.989549999999998,
+      "instructions": 259944722234.0,
+      "cycles": 78334726147.0,
+      "cycles_uk": 84357590353.0
      },
      {
-      "wall": 9.131081216968596,
-      "user": 24.97,
-      "sys": 3.31,
-      "maxrss_mb": 166.62890625,
+      "wall": 8.970383359999687,
+      "user": 24.37,
+      "sys": 3.44,
+      "maxrss_mb": 160.25390625,
       "rc": 0,
-      "task_clock": 28.32819,
-      "instructions": 259944965103.0,
-      "cycles": 79123795540.0,
-      "cycles_uk": 84754422169.0
+      "task_clock": 27.86766,
+      "instructions": 259944403130.0,
+      "cycles": 78419513706.0,
+      "cycles_uk": 84426812275.0
      }
     ],
     "P3": [
      {
-      "wall": 8.624381572008133,
-      "user": 24.4,
-      "sys": 2.96,
-      "maxrss_mb": 201.1796875,
-      "rc": 0,
-      "task_clock": 27.42897,
-      "instructions": 259875329981.0,
-      "cycles": 77820304277.0,
-      "cycles_uk": 82486020355.0
-     },
-     {
-      "wall": 8.725158212007955,
-      "user": 24.76,
-      "sys": 2.77,
-      "maxrss_mb": 193.20703125,
-      "rc": 0,
-      "task_clock": 27.58616,
-      "instructions": 259875198134.0,
-      "cycles": 78105196311.0,
-      "cycles_uk": 82775413011.0
-     },
-     {
-      "wall": 8.652927734015975,
-      "user": 24.25,
+      "wall": 8.467764690998592,
+      "user": 24.12,
       "sys": 2.76,
-      "maxrss_mb": 200.546875,
+      "maxrss_mb": 203.70703125,
       "rc": 0,
-      "task_clock": 27.06553,
-      "instructions": 259875281507.0,
-      "cycles": 78535454633.0,
-      "cycles_uk": 83320428610.0
+      "task_clock": 26.96407,
+      "instructions": 259875293871.0,
+      "cycles": 76663060267.0,
+      "cycles_uk": 81758491224.0
+     },
+     {
+      "wall": 8.526924125999358,
+      "user": 24.27,
+      "sys": 2.86,
+      "maxrss_mb": 194.4296875,
+      "rc": 0,
+      "task_clock": 27.203799999999998,
+      "instructions": 259875207387.0,
+      "cycles": 77012922794.0,
+      "cycles_uk": 82102838463.0
+     },
+     {
+      "wall": 8.54526401899966,
+      "user": 24.13,
+      "sys": 2.9,
+      "maxrss_mb": 196.7109375,
+      "rc": 0,
+      "task_clock": 27.09228,
+      "instructions": 259875623577.0,
+      "cycles": 77256302627.0,
+      "cycles_uk": 82408074487.0
      }
     ],
     "P4": [
      {
-      "wall": 8.602037357049994,
-      "user": 24.01,
-      "sys": 2.77,
-      "maxrss_mb": 193.75390625,
+      "wall": 8.390362815000117,
+      "user": 23.51,
+      "sys": 2.91,
+      "maxrss_mb": 201.7890625,
       "rc": 0,
-      "task_clock": 26.84186,
-      "instructions": 253742427496.0,
-      "cycles": 75819823416.0,
-      "cycles_uk": 80477597502.0
+      "task_clock": 26.48896,
+      "instructions": 253742324112.0,
+      "cycles": 75209620768.0,
+      "cycles_uk": 80245022985.0
      },
      {
-      "wall": 8.562653396977112,
-      "user": 23.73,
-      "sys": 2.9,
-      "maxrss_mb": 198.66796875,
+      "wall": 8.17376313800014,
+      "user": 23.16,
+      "sys": 2.57,
+      "maxrss_mb": 194.03515625,
       "rc": 0,
-      "task_clock": 26.69294,
-      "instructions": 253742794075.0,
-      "cycles": 76504376640.0,
-      "cycles_uk": 81209444860.0
+      "task_clock": 25.793470000000003,
+      "instructions": 253742796820.0,
+      "cycles": 74833203884.0,
+      "cycles_uk": 79850259506.0
      },
      {
-      "wall": 8.671621136018075,
-      "user": 23.63,
-      "sys": 3.09,
-      "maxrss_mb": 196.79296875,
+      "wall": 8.38920212999983,
+      "user": 23.6,
+      "sys": 2.73,
+      "maxrss_mb": 196.12109375,
       "rc": 0,
-      "task_clock": 26.80179,
-      "instructions": 253742147939.0,
-      "cycles": 76537019990.0,
-      "cycles_uk": 81242151223.0
+      "task_clock": 26.40207,
+      "instructions": 253742481394.0,
+      "cycles": 75200149225.0,
+      "cycles_uk": 80272319481.0
      }
     ],
     "P5": [
      {
-      "wall": 4.223733777995221,
-      "user": 22.45,
-      "sys": 2.35,
-      "maxrss_mb": 198.4765625,
+      "wall": 4.071335589000228,
+      "user": 21.74,
+      "sys": 2.36,
+      "maxrss_mb": 200.85546875,
       "rc": 0,
-      "task_clock": 24.85291,
-      "instructions": 202806908049.0,
-      "cycles": 70686608361.0,
-      "cycles_uk": 74505558655.0
+      "task_clock": 24.15226,
+      "instructions": 202806661846.0,
+      "cycles": 70221147621.0,
+      "cycles_uk": 74183549890.0
      },
      {
-      "wall": 4.2653112699626945,
-      "user": 22.6,
-      "sys": 2.24,
-      "maxrss_mb": 193.73828125,
+      "wall": 3.973075144000177,
+      "user": 21.27,
+      "sys": 2.28,
+      "maxrss_mb": 193.77734375,
       "rc": 0,
-      "task_clock": 24.89726,
-      "instructions": 202807441613.0,
-      "cycles": 70764845096.0,
-      "cycles_uk": 74558063732.0
+      "task_clock": 23.61244,
+      "instructions": 202807230734.0,
+      "cycles": 70570841851.0,
+      "cycles_uk": 74651767544.0
      },
      {
-      "wall": 4.0700793659780174,
-      "user": 21.92,
-      "sys": 2.26,
-      "maxrss_mb": 198.1015625,
+      "wall": 4.076989433999188,
+      "user": 21.58,
+      "sys": 2.27,
+      "maxrss_mb": 198.48046875,
       "rc": 0,
-      "task_clock": 24.231279999999998,
-      "instructions": 202807321658.0,
-      "cycles": 70889351994.0,
-      "cycles_uk": 74642204616.0
+      "task_clock": 23.917330000000003,
+      "instructions": 202807299147.0,
+      "cycles": 70335837490.0,
+      "cycles_uk": 74418260412.0
      }
     ],
     "P6": [
      {
-      "wall": 4.02901177003514,
-      "user": 16.43,
-      "sys": 2.53,
-      "maxrss_mb": 195.5859375,
+      "wall": 4.065703026999472,
+      "user": 15.92,
+      "sys": 2.82,
+      "maxrss_mb": 199.62109375,
       "rc": 0,
-      "task_clock": 19.04282,
-      "instructions": 139370221592.0,
-      "cycles": 50467736883.0,
-      "cycles_uk": 54339269186.0
+      "task_clock": 18.812189999999998,
+      "instructions": 139370720088.0,
+      "cycles": 49810143828.0,
+      "cycles_uk": 54003946324.0
      },
      {
-      "wall": 4.0044840929913335,
-      "user": 16.25,
-      "sys": 2.47,
-      "maxrss_mb": 197.0546875,
+      "wall": 3.7901345410009526,
+      "user": 15.36,
+      "sys": 2.55,
+      "maxrss_mb": 198.4453125,
       "rc": 0,
-      "task_clock": 18.79454,
-      "instructions": 139370469996.0,
-      "cycles": 50623057969.0,
-      "cycles_uk": 54511180742.0
+      "task_clock": 17.99079,
+      "instructions": 139370841269.0,
+      "cycles": 49914559217.0,
+      "cycles_uk": 54064010687.0
      },
      {
-      "wall": 4.005440207023639,
-      "user": 16.4,
-      "sys": 2.44,
-      "maxrss_mb": 193.63671875,
+      "wall": 3.9017930350000825,
+      "user": 15.73,
+      "sys": 2.41,
+      "maxrss_mb": 199.71484375,
       "rc": 0,
-      "task_clock": 18.91513,
-      "instructions": 139371127038.0,
-      "cycles": 50586391233.0,
-      "cycles_uk": 54458099852.0
+      "task_clock": 18.22252,
+      "instructions": 139370434158.0,
+      "cycles": 50092618312.0,
+      "cycles_uk": 54323107606.0
      }
     ],
-    "final": [
+    "5.6": [
      {
-      "wall": 3.2705314269987866,
-      "user": 15.99,
-      "sys": 2.26,
-      "maxrss_mb": 199.625,
+      "wall": 3.215740519999599,
+      "user": 15.89,
+      "sys": 2.27,
+      "maxrss_mb": 195.6875,
       "rc": 0,
-      "task_clock": 18.336209999999998,
-      "instructions": 121887657992.0,
-      "cycles": 49626976905.0,
-      "cycles_uk": 53347640184.0
+      "task_clock": 18.243650000000002,
+      "instructions": 121887367931.0,
+      "cycles": 49149140264.0,
+      "cycles_uk": 53090225163.0
      },
      {
-      "wall": 3.273290355980862,
-      "user": 16.25,
-      "sys": 2.25,
-      "maxrss_mb": 198.42578125,
+      "wall": 3.1115980579997995,
+      "user": 15.22,
+      "sys": 2.31,
+      "maxrss_mb": 193.57421875,
       "rc": 0,
-      "task_clock": 18.57729,
-      "instructions": 121887903359.0,
-      "cycles": 49756296254.0,
-      "cycles_uk": 53452176184.0
+      "task_clock": 17.6148,
+      "instructions": 121887253794.0,
+      "cycles": 49751136636.0,
+      "cycles_uk": 53764535789.0
      },
      {
-      "wall": 3.2510796129936352,
-      "user": 15.75,
-      "sys": 2.52,
-      "maxrss_mb": 194.20703125,
+      "wall": 3.2240004539999063,
+      "user": 15.74,
+      "sys": 2.45,
+      "maxrss_mb": 195.96484375,
       "rc": 0,
-      "task_clock": 18.34716,
-      "instructions": 121887344218.0,
-      "cycles": 50045089827.0,
-      "cycles_uk": 53806212934.0
+      "task_clock": 18.26793,
+      "instructions": 121887594064.0,
+      "cycles": 49366058542.0,
+      "cycles_uk": 53353437471.0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 1.2339756749988737,
+      "user": 17.18,
+      "sys": 0.27,
+      "maxrss_mb": 156.74609375,
+      "rc": 0,
+      "task_clock": 17.46016,
+      "instructions": 100976685393.0,
+      "cycles": 53453516285.0,
+      "cycles_uk": 54297824753.0
+     },
+     {
+      "wall": 1.1830141409991484,
+      "user": 16.34,
+      "sys": 0.26,
+      "maxrss_mb": 160.46484375,
+      "rc": 0,
+      "task_clock": 16.61336,
+      "instructions": 100976441832.0,
+      "cycles": 53346200992.0,
+      "cycles_uk": 54185786904.0
+     },
+     {
+      "wall": 1.23693358699893,
+      "user": 17.24,
+      "sys": 0.29,
+      "maxrss_mb": 160.15625,
+      "rc": 0,
+      "task_clock": 17.53701,
+      "instructions": 100976401797.0,
+      "cycles": 53389332135.0,
+      "cycles_uk": 54209539593.0
      }
     ]
    },
@@ -2165,282 +2423,317 @@
    "runs": {
     "upstream": [
      {
-      "wall": 1.062445986957755,
-      "user": 4.38,
-      "sys": 0.38,
-      "maxrss_mb": 116.14453125,
+      "wall": 1.0527380389994505,
+      "user": 4.33,
+      "sys": 0.36,
+      "maxrss_mb": 115.77734375,
       "rc": 0,
-      "task_clock": 4.7701899999999995,
-      "instructions": 42547721922.0,
-      "cycles": 14045649257.0,
-      "cycles_uk": 14728976791.0
+      "task_clock": 4.68786,
+      "instructions": 42547183725.0,
+      "cycles": 13969428220.0,
+      "cycles_uk": 14665300323.0
      },
      {
-      "wall": 1.0849898140295409,
-      "user": 4.42,
-      "sys": 0.37,
-      "maxrss_mb": 115.83984375,
+      "wall": 1.0243597730004694,
+      "user": 4.35,
+      "sys": 0.32,
+      "maxrss_mb": 115.32421875,
       "rc": 0,
-      "task_clock": 4.79058,
-      "instructions": 42547471099.0,
-      "cycles": 14042266044.0,
-      "cycles_uk": 14720077987.0
+      "task_clock": 4.6795100000000005,
+      "instructions": 42546968961.0,
+      "cycles": 13971432376.0,
+      "cycles_uk": 14661462316.0
      },
      {
-      "wall": 0.9945208269637078,
-      "user": 4.22,
-      "sys": 0.29,
-      "maxrss_mb": 116.375,
+      "wall": 1.0519854970007145,
+      "user": 4.35,
+      "sys": 0.36,
+      "maxrss_mb": 117.05859375,
       "rc": 0,
-      "task_clock": 4.50684,
-      "instructions": 42547047508.0,
-      "cycles": 13974220243.0,
-      "cycles_uk": 14664379944.0
+      "task_clock": 4.711069999999999,
+      "instructions": 42548004140.0,
+      "cycles": 14031067886.0,
+      "cycles_uk": 14733023687.0
      }
     ],
     "P1": [
      {
-      "wall": 0.9596809659851715,
-      "user": 4.1,
-      "sys": 0.37,
-      "maxrss_mb": 115.359375,
+      "wall": 0.9496739369988063,
+      "user": 4.09,
+      "sys": 0.34,
+      "maxrss_mb": 113.796875,
       "rc": 0,
-      "task_clock": 4.47555,
-      "instructions": 40508438881.0,
-      "cycles": 13544952550.0,
-      "cycles_uk": 14224331545.0
+      "task_clock": 4.43393,
+      "instructions": 40508488893.0,
+      "cycles": 13238317363.0,
+      "cycles_uk": 13910818869.0
      },
      {
-      "wall": 0.9905175670282915,
-      "user": 4.32,
+      "wall": 0.9553044450003654,
+      "user": 4.14,
+      "sys": 0.34,
+      "maxrss_mb": 115.78515625,
+      "rc": 0,
+      "task_clock": 4.4870600000000005,
+      "instructions": 40508860863.0,
+      "cycles": 13273145002.0,
+      "cycles_uk": 13959400860.0
+     },
+     {
+      "wall": 0.947656783999264,
+      "user": 4.12,
       "sys": 0.31,
-      "maxrss_mb": 115.1796875,
+      "maxrss_mb": 114.91015625,
       "rc": 0,
-      "task_clock": 4.6399099999999995,
-      "instructions": 40508346072.0,
-      "cycles": 13633492520.0,
-      "cycles_uk": 14304146558.0
-     },
-     {
-      "wall": 0.9115245139691979,
-      "user": 3.85,
-      "sys": 0.35,
-      "maxrss_mb": 114.05859375,
-      "rc": 0,
-      "task_clock": 4.20247,
-      "instructions": 40508847086.0,
-      "cycles": 13253300430.0,
-      "cycles_uk": 13933761746.0
+      "task_clock": 4.43448,
+      "instructions": 40509177451.0,
+      "cycles": 13189866224.0,
+      "cycles_uk": 13877069996.0
      }
     ],
     "P2": [
      {
-      "wall": 0.9509585819905624,
-      "user": 3.96,
-      "sys": 0.35,
-      "maxrss_mb": 113.90625,
+      "wall": 0.9528915600003529,
+      "user": 4.11,
+      "sys": 0.32,
+      "maxrss_mb": 113.953125,
       "rc": 0,
-      "task_clock": 4.31846,
-      "instructions": 40511785658.0,
-      "cycles": 13371177298.0,
-      "cycles_uk": 14047237460.0
+      "task_clock": 4.434270000000001,
+      "instructions": 40510673799.0,
+      "cycles": 13269875771.0,
+      "cycles_uk": 13944325920.0
      },
      {
-      "wall": 0.9995965540292673,
-      "user": 4.26,
-      "sys": 0.29,
-      "maxrss_mb": 113.1328125,
+      "wall": 0.9939908309988823,
+      "user": 4.2,
+      "sys": 0.33,
+      "maxrss_mb": 115.27734375,
       "rc": 0,
-      "task_clock": 4.5511,
-      "instructions": 40511077656.0,
-      "cycles": 13254834845.0,
-      "cycles_uk": 13921707143.0
+      "task_clock": 4.53434,
+      "instructions": 40511360597.0,
+      "cycles": 13431314661.0,
+      "cycles_uk": 14133018746.0
      },
      {
-      "wall": 0.9333492740406655,
-      "user": 4.06,
-      "sys": 0.24,
-      "maxrss_mb": 114.296875,
+      "wall": 0.9675305490000028,
+      "user": 4.08,
+      "sys": 0.37,
+      "maxrss_mb": 113.57421875,
       "rc": 0,
-      "task_clock": 4.29839,
-      "instructions": 40511306884.0,
-      "cycles": 13336910989.0,
-      "cycles_uk": 14013881190.0
+      "task_clock": 4.45225,
+      "instructions": 40510582109.0,
+      "cycles": 13270751243.0,
+      "cycles_uk": 13958864280.0
      }
     ],
     "P3": [
      {
-      "wall": 0.9178943469887599,
-      "user": 4.0,
+      "wall": 0.95574590599972,
+      "user": 4.17,
+      "sys": 0.34,
+      "maxrss_mb": 115.61328125,
+      "rc": 0,
+      "task_clock": 4.51189,
+      "instructions": 40510460452.0,
+      "cycles": 13333202340.0,
+      "cycles_uk": 14029486512.0
+     },
+     {
+      "wall": 0.9423814000001585,
+      "user": 4.11,
       "sys": 0.35,
-      "maxrss_mb": 114.890625,
+      "maxrss_mb": 114.21484375,
       "rc": 0,
-      "task_clock": 4.357819999999999,
-      "instructions": 40511085644.0,
-      "cycles": 13277654811.0,
-      "cycles_uk": 13962427673.0
+      "task_clock": 4.46206,
+      "instructions": 40510952850.0,
+      "cycles": 13162813431.0,
+      "cycles_uk": 13847777773.0
      },
      {
-      "wall": 0.963849150983151,
-      "user": 4.23,
-      "sys": 0.33,
-      "maxrss_mb": 114.52734375,
+      "wall": 0.9358741559990449,
+      "user": 4.19,
+      "sys": 0.3,
+      "maxrss_mb": 114.99609375,
       "rc": 0,
-      "task_clock": 4.5565500000000005,
-      "instructions": 40511263603.0,
-      "cycles": 13260946251.0,
-      "cycles_uk": 13930967455.0
-     },
-     {
-      "wall": 0.9437361439922825,
-      "user": 4.12,
-      "sys": 0.37,
-      "maxrss_mb": 114.58203125,
-      "rc": 0,
-      "task_clock": 4.49553,
-      "instructions": 40510690560.0,
-      "cycles": 13273620232.0,
-      "cycles_uk": 13940906911.0
+      "task_clock": 4.49056,
+      "instructions": 40511035973.0,
+      "cycles": 13313995199.0,
+      "cycles_uk": 14004663646.0
      }
     ],
     "P4": [
      {
-      "wall": 0.8836523219943047,
-      "user": 3.66,
-      "sys": 0.36,
-      "maxrss_mb": 113.59765625,
+      "wall": 0.9195592850010144,
+      "user": 3.76,
+      "sys": 0.41,
+      "maxrss_mb": 114.72265625,
       "rc": 0,
-      "task_clock": 4.02398,
-      "instructions": 37356236334.0,
-      "cycles": 12257257125.0,
-      "cycles_uk": 12935831368.0
+      "task_clock": 4.178979999999999,
+      "instructions": 37356513746.0,
+      "cycles": 12219932055.0,
+      "cycles_uk": 12911183821.0
      },
      {
-      "wall": 0.9508682590094395,
-      "user": 3.93,
-      "sys": 0.3,
-      "maxrss_mb": 115.38671875,
-      "rc": 0,
-      "task_clock": 4.230300000000001,
-      "instructions": 37356565595.0,
-      "cycles": 12277557773.0,
-      "cycles_uk": 12951432899.0
-     },
-     {
-      "wall": 0.9094439510372467,
-      "user": 3.77,
+      "wall": 0.9228249169991614,
+      "user": 3.83,
       "sys": 0.35,
-      "maxrss_mb": 114.47265625,
+      "maxrss_mb": 114.11328125,
       "rc": 0,
-      "task_clock": 4.12209,
-      "instructions": 37356976609.0,
-      "cycles": 12230092192.0,
-      "cycles_uk": 12903176247.0
+      "task_clock": 4.18343,
+      "instructions": 37355961390.0,
+      "cycles": 12264749381.0,
+      "cycles_uk": 12960860895.0
+     },
+     {
+      "wall": 0.9122958990010375,
+      "user": 3.71,
+      "sys": 0.44,
+      "maxrss_mb": 115.8515625,
+      "rc": 0,
+      "task_clock": 4.15742,
+      "instructions": 37357116113.0,
+      "cycles": 12210879031.0,
+      "cycles_uk": 12905271552.0
      }
     ],
     "P5": [
      {
-      "wall": 0.5376861050026491,
-      "user": 3.88,
+      "wall": 0.5233104359995195,
+      "user": 4.05,
+      "sys": 0.21,
+      "maxrss_mb": 115.5703125,
+      "rc": 0,
+      "task_clock": 4.2642299999999995,
+      "instructions": 31755772455.0,
+      "cycles": 12765265056.0,
+      "cycles_uk": 13332648722.0
+     },
+     {
+      "wall": 0.526072506001583,
+      "user": 3.95,
+      "sys": 0.24,
+      "maxrss_mb": 115.48046875,
+      "rc": 0,
+      "task_clock": 4.19855,
+      "instructions": 31756554725.0,
+      "cycles": 12586433953.0,
+      "cycles_uk": 13162951838.0
+     },
+     {
+      "wall": 0.5264263170010963,
+      "user": 3.93,
       "sys": 0.3,
-      "maxrss_mb": 114.64453125,
+      "maxrss_mb": 115.0625,
       "rc": 0,
-      "task_clock": 4.1816,
-      "instructions": 31756263248.0,
-      "cycles": 12680099526.0,
-      "cycles_uk": 13257231485.0
-     },
-     {
-      "wall": 0.5263586930232123,
-      "user": 4.02,
-      "sys": 0.25,
-      "maxrss_mb": 115.5390625,
-      "rc": 0,
-      "task_clock": 4.26975,
-      "instructions": 31756853969.0,
-      "cycles": 12697350402.0,
-      "cycles_uk": 13255802476.0
-     },
-     {
-      "wall": 0.535168761969544,
-      "user": 3.98,
-      "sys": 0.26,
-      "maxrss_mb": 115.9453125,
-      "rc": 0,
-      "task_clock": 4.2336800000000006,
-      "instructions": 31756160454.0,
-      "cycles": 12813171710.0,
-      "cycles_uk": 13373332061.0
+      "task_clock": 4.229,
+      "instructions": 31755130772.0,
+      "cycles": 12649122685.0,
+      "cycles_uk": 13215295425.0
      }
     ],
     "P6": [
      {
-      "wall": 0.516132665972691,
-      "user": 3.24,
-      "sys": 0.24,
-      "maxrss_mb": 116.0703125,
+      "wall": 0.5087702780001564,
+      "user": 3.18,
+      "sys": 0.29,
+      "maxrss_mb": 116.36328125,
       "rc": 0,
-      "task_clock": 3.48035,
-      "instructions": 25821313660.0,
-      "cycles": 10022309222.0,
-      "cycles_uk": 10594939500.0
+      "task_clock": 3.46956,
+      "instructions": 25822170794.0,
+      "cycles": 9981776323.0,
+      "cycles_uk": 10555330664.0
      },
      {
-      "wall": 0.528749176999554,
-      "user": 3.26,
-      "sys": 0.27,
-      "maxrss_mb": 116.4140625,
+      "wall": 0.49829837500146823,
+      "user": 3.2,
+      "sys": 0.26,
+      "maxrss_mb": 116.1015625,
       "rc": 0,
-      "task_clock": 3.53869,
-      "instructions": 25821673788.0,
-      "cycles": 10062366373.0,
-      "cycles_uk": 10635289867.0
+      "task_clock": 3.4645799999999998,
+      "instructions": 25820982701.0,
+      "cycles": 10029728796.0,
+      "cycles_uk": 10598350412.0
      },
      {
-      "wall": 0.5187697110231966,
-      "user": 3.11,
-      "sys": 0.34,
-      "maxrss_mb": 116.7421875,
+      "wall": 0.5031820519998291,
+      "user": 3.23,
+      "sys": 0.26,
+      "maxrss_mb": 115.1953125,
       "rc": 0,
-      "task_clock": 3.45456,
-      "instructions": 25823245915.0,
-      "cycles": 10030638179.0,
-      "cycles_uk": 10602329850.0
+      "task_clock": 3.4908200000000003,
+      "instructions": 25822614567.0,
+      "cycles": 9995173854.0,
+      "cycles_uk": 10561766142.0
      }
     ],
-    "final": [
+    "5.6": [
      {
-      "wall": 0.4429668570519425,
-      "user": 3.19,
-      "sys": 0.26,
-      "maxrss_mb": 115.30859375,
+      "wall": 0.45552817700081505,
+      "user": 3.26,
+      "sys": 0.22,
+      "maxrss_mb": 114.859375,
       "rc": 0,
-      "task_clock": 3.44718,
-      "instructions": 23902413939.0,
-      "cycles": 10088555173.0,
-      "cycles_uk": 10644746382.0
+      "task_clock": 3.48848,
+      "instructions": 23901866124.0,
+      "cycles": 10105145036.0,
+      "cycles_uk": 10663049829.0
      },
      {
-      "wall": 0.4734351339866407,
-      "user": 3.37,
-      "sys": 0.24,
-      "maxrss_mb": 116.63671875,
-      "rc": 0,
-      "task_clock": 3.60663,
-      "instructions": 23901847879.0,
-      "cycles": 10151203293.0,
-      "cycles_uk": 10703265483.0
-     },
-     {
-      "wall": 0.44496816402534023,
+      "wall": 0.46209630999874207,
       "user": 3.22,
-      "sys": 0.23,
-      "maxrss_mb": 115.60546875,
+      "sys": 0.29,
+      "maxrss_mb": 115.9453125,
       "rc": 0,
-      "task_clock": 3.45416,
-      "instructions": 23902268564.0,
-      "cycles": 10168034108.0,
-      "cycles_uk": 10725028353.0
+      "task_clock": 3.5109899999999996,
+      "instructions": 23902194445.0,
+      "cycles": 10144830684.0,
+      "cycles_uk": 10699753316.0
+     },
+     {
+      "wall": 0.45449963200007915,
+      "user": 3.27,
+      "sys": 0.24,
+      "maxrss_mb": 115.15234375,
+      "rc": 0,
+      "task_clock": 3.51774,
+      "instructions": 23902246198.0,
+      "cycles": 10084211150.0,
+      "cycles_uk": 10644240443.0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 0.4421815269997751,
+      "user": 3.1,
+      "sys": 0.26,
+      "maxrss_mb": 117.9296875,
+      "rc": 0,
+      "task_clock": 3.37223,
+      "instructions": 22725587758.0,
+      "cycles": 9482850901.0,
+      "cycles_uk": 10044108888.0
+     },
+     {
+      "wall": 0.4382464760001312,
+      "user": 3.15,
+      "sys": 0.25,
+      "maxrss_mb": 117.828125,
+      "rc": 0,
+      "task_clock": 3.40425,
+      "instructions": 22725763419.0,
+      "cycles": 9578937144.0,
+      "cycles_uk": 10134599942.0
+     },
+     {
+      "wall": 0.4369622590002109,
+      "user": 3.03,
+      "sys": 0.28,
+      "maxrss_mb": 119.1640625,
+      "rc": 0,
+      "task_clock": 3.31168,
+      "instructions": 22726736150.0,
+      "cycles": 9483829619.0,
+      "cycles_uk": 10056115467.0
      }
     ]
    },
@@ -2457,282 +2750,317 @@
    "runs": {
     "upstream": [
      {
-      "wall": 6.6941804000525735,
-      "user": 5.87,
-      "sys": 5.23,
-      "maxrss_mb": 58.71875,
+      "wall": 6.604023939999024,
+      "user": 5.83,
+      "sys": 5.12,
+      "maxrss_mb": 58.38671875,
       "rc": 0,
-      "task_clock": 10.74051,
-      "instructions": 61025760218.0,
-      "cycles": 18248471802.0,
-      "cycles_uk": 25056025216.0
+      "task_clock": 10.6035,
+      "instructions": 61023830738.0,
+      "cycles": 18161151701.0,
+      "cycles_uk": 25000529694.0
      },
      {
-      "wall": 6.740041644952726,
-      "user": 5.9,
-      "sys": 5.23,
-      "maxrss_mb": 56.94140625,
+      "wall": 6.624770984000861,
+      "user": 5.85,
+      "sys": 5.12,
+      "maxrss_mb": 56.671875,
       "rc": 0,
-      "task_clock": 10.775,
-      "instructions": 61025568918.0,
-      "cycles": 18282247941.0,
-      "cycles_uk": 25063155653.0
+      "task_clock": 10.614600000000001,
+      "instructions": 61025702894.0,
+      "cycles": 18188065513.0,
+      "cycles_uk": 24923778047.0
      },
      {
-      "wall": 6.707694562966935,
-      "user": 5.98,
-      "sys": 5.05,
-      "maxrss_mb": 57.5859375,
+      "wall": 6.521551190000537,
+      "user": 5.69,
+      "sys": 5.09,
+      "maxrss_mb": 59.8828125,
       "rc": 0,
-      "task_clock": 10.68369,
-      "instructions": 61024148470.0,
-      "cycles": 18251519220.0,
-      "cycles_uk": 24972634280.0
+      "task_clock": 10.427950000000001,
+      "instructions": 61020782487.0,
+      "cycles": 18085731800.0,
+      "cycles_uk": 24719188886.0
      }
     ],
     "P1": [
      {
-      "wall": 6.405301398015581,
+      "wall": 6.550683394998487,
+      "user": 5.6,
+      "sys": 5.3,
+      "maxrss_mb": 56.92578125,
+      "rc": 0,
+      "task_clock": 10.550930000000001,
+      "instructions": 59793659519.0,
+      "cycles": 17719168251.0,
+      "cycles_uk": 24479237638.0
+     },
+     {
+      "wall": 6.507858102000682,
       "user": 5.66,
-      "sys": 5.0,
-      "maxrss_mb": 61.265625,
+      "sys": 5.24,
+      "maxrss_mb": 56.30078125,
       "rc": 0,
-      "task_clock": 10.30353,
-      "instructions": 59794602174.0,
-      "cycles": 17700003738.0,
-      "cycles_uk": 24342863179.0
+      "task_clock": 10.55332,
+      "instructions": 59793760659.0,
+      "cycles": 17692837456.0,
+      "cycles_uk": 24595240875.0
      },
      {
-      "wall": 6.616750088986009,
-      "user": 5.68,
-      "sys": 5.39,
-      "maxrss_mb": 54.75,
+      "wall": 6.4530564559991035,
+      "user": 5.67,
+      "sys": 5.14,
+      "maxrss_mb": 55.7109375,
       "rc": 0,
-      "task_clock": 10.71332,
-      "instructions": 59792663304.0,
-      "cycles": 17811687280.0,
-      "cycles_uk": 24734693857.0
-     },
-     {
-      "wall": 6.573037213995121,
-      "user": 5.81,
-      "sys": 5.19,
-      "maxrss_mb": 59.4765625,
-      "rc": 0,
-      "task_clock": 10.65194,
-      "instructions": 59795964548.0,
-      "cycles": 17752039684.0,
-      "cycles_uk": 24483675382.0
+      "task_clock": 10.471200000000001,
+      "instructions": 59791248158.0,
+      "cycles": 17676193389.0,
+      "cycles_uk": 24627767133.0
      }
     ],
     "P2": [
      {
-      "wall": 6.401159500004724,
-      "user": 5.67,
-      "sys": 5.05,
-      "maxrss_mb": 61.828125,
+      "wall": 6.3680893709988595,
+      "user": 5.43,
+      "sys": 5.28,
+      "maxrss_mb": 62.9921875,
       "rc": 0,
-      "task_clock": 10.37797,
-      "instructions": 59744077861.0,
-      "cycles": 17580152748.0,
-      "cycles_uk": 24346821287.0
+      "task_clock": 10.35992,
+      "instructions": 59744551627.0,
+      "cycles": 17549702918.0,
+      "cycles_uk": 24305503684.0
      },
      {
-      "wall": 6.463795060990378,
-      "user": 5.6,
-      "sys": 5.18,
-      "maxrss_mb": 59.28125,
+      "wall": 6.451851380999869,
+      "user": 5.81,
+      "sys": 5.02,
+      "maxrss_mb": 55.88671875,
       "rc": 0,
-      "task_clock": 10.41984,
-      "instructions": 59744059743.0,
-      "cycles": 17612558306.0,
-      "cycles_uk": 24224068145.0
+      "task_clock": 10.4754,
+      "instructions": 59741064414.0,
+      "cycles": 17555869957.0,
+      "cycles_uk": 24500044638.0
      },
      {
-      "wall": 6.438873770995997,
-      "user": 5.77,
-      "sys": 4.99,
-      "maxrss_mb": 56.0078125,
+      "wall": 6.3879235409985995,
+      "user": 5.54,
+      "sys": 5.13,
+      "maxrss_mb": 57.1484375,
       "rc": 0,
-      "task_clock": 10.41924,
-      "instructions": 59741897085.0,
-      "cycles": 17643404877.0,
-      "cycles_uk": 24502375395.0
+      "task_clock": 10.32494,
+      "instructions": 59745769990.0,
+      "cycles": 17511172221.0,
+      "cycles_uk": 24151108595.0
      }
     ],
     "P3": [
      {
-      "wall": 4.22822096303571,
-      "user": 5.0,
-      "sys": 0.17,
-      "maxrss_mb": 57.8828125,
+      "wall": 4.0861187530008465,
+      "user": 4.81,
+      "sys": 0.22,
+      "maxrss_mb": 57.94921875,
       "rc": 0,
-      "task_clock": 5.170319999999999,
-      "instructions": 59116840721.0,
-      "cycles": 16122244848.0,
-      "cycles_uk": 16593563081.0
+      "task_clock": 5.019979999999999,
+      "instructions": 59116762532.0,
+      "cycles": 15971034599.0,
+      "cycles_uk": 16458962847.0
      },
      {
-      "wall": 4.215703447000124,
-      "user": 4.98,
+      "wall": 4.229960722999749,
+      "user": 4.99,
       "sys": 0.2,
-      "maxrss_mb": 58.01953125,
+      "maxrss_mb": 57.58984375,
       "rc": 0,
-      "task_clock": 5.17366,
-      "instructions": 59116783345.0,
-      "cycles": 16155325432.0,
-      "cycles_uk": 16639102037.0
+      "task_clock": 5.1763900000000005,
+      "instructions": 59116792660.0,
+      "cycles": 16087412539.0,
+      "cycles_uk": 16548397838.0
      },
      {
-      "wall": 4.199310964031611,
-      "user": 4.98,
-      "sys": 0.19,
-      "maxrss_mb": 58.22265625,
+      "wall": 4.24777278900001,
+      "user": 5.0,
+      "sys": 0.21,
+      "maxrss_mb": 57.58203125,
       "rc": 0,
-      "task_clock": 5.1580699999999995,
-      "instructions": 59116869922.0,
-      "cycles": 16078945694.0,
-      "cycles_uk": 16548574631.0
+      "task_clock": 5.20686,
+      "instructions": 59116790662.0,
+      "cycles": 16170631853.0,
+      "cycles_uk": 16638270040.0
      }
     ],
     "P4": [
      {
-      "wall": 4.158992893004324,
-      "user": 4.97,
-      "sys": 0.21,
-      "maxrss_mb": 57.59765625,
-      "rc": 0,
-      "task_clock": 5.17523,
-      "instructions": 58322060525.0,
-      "cycles": 16263322994.0,
-      "cycles_uk": 16748622658.0
-     },
-     {
-      "wall": 4.102740576025099,
-      "user": 4.88,
+      "wall": 4.034477048000554,
+      "user": 4.78,
       "sys": 0.19,
-      "maxrss_mb": 58.4375,
+      "maxrss_mb": 58.21875,
       "rc": 0,
-      "task_clock": 5.06064,
-      "instructions": 58322043156.0,
-      "cycles": 15961174185.0,
-      "cycles_uk": 16435407612.0
+      "task_clock": 4.9627799999999995,
+      "instructions": 58322062572.0,
+      "cycles": 15771611152.0,
+      "cycles_uk": 16225385196.0
      },
      {
-      "wall": 4.167623462970369,
-      "user": 4.91,
-      "sys": 0.22,
-      "maxrss_mb": 57.84375,
+      "wall": 4.245037434000551,
+      "user": 5.01,
+      "sys": 0.2,
+      "maxrss_mb": 57.92578125,
       "rc": 0,
-      "task_clock": 5.12048,
-      "instructions": 58322070401.0,
-      "cycles": 15945598702.0,
-      "cycles_uk": 16416128196.0
+      "task_clock": 5.202100000000001,
+      "instructions": 58322061929.0,
+      "cycles": 16133358774.0,
+      "cycles_uk": 16589781549.0
+     },
+     {
+      "wall": 4.10470103499938,
+      "user": 4.89,
+      "sys": 0.19,
+      "maxrss_mb": 57.78515625,
+      "rc": 0,
+      "task_clock": 5.0676000000000005,
+      "instructions": 58322062217.0,
+      "cycles": 15919553461.0,
+      "cycles_uk": 16375660111.0
      }
     ],
     "P5": [
      {
-      "wall": 3.562036675051786,
-      "user": 4.38,
-      "sys": 0.2,
-      "maxrss_mb": 58.42578125,
+      "wall": 3.3229108639989136,
+      "user": 4.06,
+      "sys": 0.19,
+      "maxrss_mb": 57.73828125,
       "rc": 0,
-      "task_clock": 4.57092,
-      "instructions": 48219097522.0,
-      "cycles": 14079753197.0,
-      "cycles_uk": 14505314678.0
+      "task_clock": 4.23703,
+      "instructions": 48219055491.0,
+      "cycles": 13399584157.0,
+      "cycles_uk": 13818489694.0
      },
      {
-      "wall": 3.362333470955491,
-      "user": 4.15,
-      "sys": 0.16,
-      "maxrss_mb": 57.8359375,
+      "wall": 3.4863071190011397,
+      "user": 4.29,
+      "sys": 0.19,
+      "maxrss_mb": 57.4140625,
       "rc": 0,
-      "task_clock": 4.30893,
-      "instructions": 48219100858.0,
-      "cycles": 13657288786.0,
-      "cycles_uk": 14053909724.0
+      "task_clock": 4.47519,
+      "instructions": 48219144751.0,
+      "cycles": 13898333119.0,
+      "cycles_uk": 14299181144.0
      },
      {
-      "wall": 3.4672182319918647,
-      "user": 4.28,
+      "wall": 3.418834082000103,
+      "user": 4.24,
       "sys": 0.17,
-      "maxrss_mb": 57.703125,
+      "maxrss_mb": 57.484375,
       "rc": 0,
-      "task_clock": 4.4455,
-      "instructions": 48219090498.0,
-      "cycles": 13767997430.0,
-      "cycles_uk": 14165225394.0
+      "task_clock": 4.3997,
+      "instructions": 48219100527.0,
+      "cycles": 13777524276.0,
+      "cycles_uk": 14173331914.0
      }
     ],
     "P6": [
      {
-      "wall": 2.8618447910412215,
-      "user": 3.62,
+      "wall": 2.8272008519998053,
+      "user": 3.6,
       "sys": 0.18,
-      "maxrss_mb": 59.65625,
+      "maxrss_mb": 59.43359375,
       "rc": 0,
-      "task_clock": 3.78802,
-      "instructions": 37765073823.0,
-      "cycles": 11433022652.0,
-      "cycles_uk": 11854337242.0
+      "task_clock": 3.7746999999999997,
+      "instructions": 37765111674.0,
+      "cycles": 11577366469.0,
+      "cycles_uk": 11976906431.0
      },
      {
-      "wall": 2.918843506020494,
-      "user": 3.75,
+      "wall": 2.86051748600039,
+      "user": 3.66,
       "sys": 0.17,
-      "maxrss_mb": 59.25,
+      "maxrss_mb": 59.2109375,
       "rc": 0,
-      "task_clock": 3.9121300000000003,
-      "instructions": 37765083791.0,
-      "cycles": 11769992886.0,
-      "cycles_uk": 12180917014.0
+      "task_clock": 3.82068,
+      "instructions": 37765106754.0,
+      "cycles": 11552721114.0,
+      "cycles_uk": 11943692159.0
      },
      {
-      "wall": 2.9083214580314234,
-      "user": 3.7,
-      "sys": 0.17,
-      "maxrss_mb": 59.79296875,
+      "wall": 2.818234067999583,
+      "user": 3.57,
+      "sys": 0.18,
+      "maxrss_mb": 59.0234375,
       "rc": 0,
-      "task_clock": 3.86132,
-      "instructions": 37765099099.0,
-      "cycles": 11608821272.0,
-      "cycles_uk": 12024029380.0
+      "task_clock": 3.7390700000000003,
+      "instructions": 37765108054.0,
+      "cycles": 11415475479.0,
+      "cycles_uk": 11802267735.0
      }
     ],
-    "final": [
+    "5.6": [
      {
-      "wall": 2.660058993031271,
-      "user": 3.41,
-      "sys": 0.17,
-      "maxrss_mb": 59.81640625,
+      "wall": 2.6713899489986943,
+      "user": 3.45,
+      "sys": 0.18,
+      "maxrss_mb": 59.08984375,
       "rc": 0,
-      "task_clock": 3.57623,
-      "instructions": 34242129863.0,
-      "cycles": 10940713001.0,
-      "cycles_uk": 11338314309.0
+      "task_clock": 3.62187,
+      "instructions": 34242117874.0,
+      "cycles": 10997661419.0,
+      "cycles_uk": 11384579181.0
      },
      {
-      "wall": 2.7226474250201136,
-      "user": 3.48,
+      "wall": 2.677266213000621,
+      "user": 3.46,
       "sys": 0.17,
-      "maxrss_mb": 59.45703125,
+      "maxrss_mb": 59.29296875,
       "rc": 0,
-      "task_clock": 3.63741,
-      "instructions": 34242136412.0,
-      "cycles": 10884327593.0,
-      "cycles_uk": 11306091459.0
+      "task_clock": 3.62426,
+      "instructions": 34242114094.0,
+      "cycles": 10980050371.0,
+      "cycles_uk": 11371052422.0
      },
      {
-      "wall": 2.7203993939911015,
-      "user": 3.48,
-      "sys": 0.19,
-      "maxrss_mb": 59.984375,
+      "wall": 2.6460723060008604,
+      "user": 3.37,
+      "sys": 0.18,
+      "maxrss_mb": 59.31640625,
       "rc": 0,
-      "task_clock": 3.66199,
-      "instructions": 34242163409.0,
-      "cycles": 11144449175.0,
-      "cycles_uk": 11546564130.0
+      "task_clock": 3.5409699999999997,
+      "instructions": 34242109244.0,
+      "cycles": 10861652654.0,
+      "cycles_uk": 11242860135.0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 0.5774733890011703,
+      "user": 3.71,
+      "sys": 0.25,
+      "maxrss_mb": 104.046875,
+      "rc": 0,
+      "task_clock": 3.96879,
+      "instructions": 24454509566.0,
+      "cycles": 11364841459.0,
+      "cycles_uk": 11884862600.0
+     },
+     {
+      "wall": 0.5827115789998061,
+      "user": 3.72,
+      "sys": 0.26,
+      "maxrss_mb": 105.8671875,
+      "rc": 0,
+      "task_clock": 3.98178,
+      "instructions": 24451647674.0,
+      "cycles": 11354727851.0,
+      "cycles_uk": 11891414542.0
+     },
+     {
+      "wall": 0.5876727310005663,
+      "user": 3.71,
+      "sys": 0.28,
+      "maxrss_mb": 104.7265625,
+      "rc": 0,
+      "task_clock": 3.98407,
+      "instructions": 24452498512.0,
+      "cycles": 11317340666.0,
+      "cycles_uk": 11842816638.0
      }
     ]
    },
@@ -2749,282 +3077,644 @@
    "runs": {
     "upstream": [
      {
-      "wall": 34.95949834899511,
-      "user": 14.87,
-      "sys": 102.68,
-      "maxrss_mb": 33.796875,
+      "wall": 34.1213239209992,
+      "user": 14.41,
+      "sys": 99.88,
+      "maxrss_mb": 33.80859375,
       "rc": 0,
-      "task_clock": 110.18755999999999,
-      "instructions": 65565871411.0,
-      "cycles": 43998335839.0,
-      "cycles_uk": 170403131735.0
+      "task_clock": 107.06627999999999,
+      "instructions": 65548332729.0,
+      "cycles": 42857518063.0,
+      "cycles_uk": 166609208830.0
      },
      {
-      "wall": 34.69250566000119,
-      "user": 14.74,
-      "sys": 101.52,
-      "maxrss_mb": 33.43359375,
+      "wall": 34.41752239700145,
+      "user": 14.65,
+      "sys": 100.25,
+      "maxrss_mb": 37.88671875,
       "rc": 0,
-      "task_clock": 108.868,
-      "instructions": 65537064067.0,
-      "cycles": 43081743669.0,
-      "cycles_uk": 167867617233.0
+      "task_clock": 107.55107000000001,
+      "instructions": 65593713404.0,
+      "cycles": 42465913006.0,
+      "cycles_uk": 162387317854.0
      },
      {
-      "wall": 34.98009304300649,
-      "user": 15.09,
-      "sys": 102.52,
-      "maxrss_mb": 33.58203125,
+      "wall": 34.62743776199932,
+      "user": 14.73,
+      "sys": 101.18,
+      "maxrss_mb": 33.609375,
       "rc": 0,
-      "task_clock": 110.18082000000001,
-      "instructions": 65562963142.0,
-      "cycles": 43699844387.0,
-      "cycles_uk": 169047132733.0
+      "task_clock": 108.55606,
+      "instructions": 65532986892.0,
+      "cycles": 43392467166.0,
+      "cycles_uk": 167134553965.0
      }
     ],
     "P1": [
      {
-      "wall": 35.22352245199727,
-      "user": 15.17,
-      "sys": 102.51,
-      "maxrss_mb": 33.36328125,
+      "wall": 34.76382612699854,
+      "user": 14.55,
+      "sys": 101.67,
+      "maxrss_mb": 33.27734375,
       "rc": 0,
-      "task_clock": 110.26191,
-      "instructions": 65274598982.0,
-      "cycles": 43811078984.0,
-      "cycles_uk": 166744430891.0
+      "task_clock": 108.96739,
+      "instructions": 65277229507.0,
+      "cycles": 42760086513.0,
+      "cycles_uk": 168198836700.0
      },
      {
-      "wall": 34.91408096201485,
-      "user": 14.85,
-      "sys": 102.25,
-      "maxrss_mb": 34.6875,
+      "wall": 34.45948805499938,
+      "user": 14.6,
+      "sys": 100.93,
+      "maxrss_mb": 33.48828125,
       "rc": 0,
-      "task_clock": 109.62702,
-      "instructions": 65340230880.0,
-      "cycles": 43100813910.0,
-      "cycles_uk": 167539488974.0
+      "task_clock": 108.35501,
+      "instructions": 65298880719.0,
+      "cycles": 42514815309.0,
+      "cycles_uk": 166877680684.0
      },
      {
-      "wall": 34.64126839704113,
-      "user": 14.88,
-      "sys": 100.5,
-      "maxrss_mb": 38.09765625,
+      "wall": 34.40898043599918,
+      "user": 14.51,
+      "sys": 100.94,
+      "maxrss_mb": 32.9765625,
       "rc": 0,
-      "task_clock": 107.99652999999999,
-      "instructions": 65332026549.0,
-      "cycles": 43006004781.0,
-      "cycles_uk": 163414671860.0
+      "task_clock": 108.20797999999999,
+      "instructions": 65302968562.0,
+      "cycles": 42800929253.0,
+      "cycles_uk": 168351010131.0
      }
     ],
     "P2": [
      {
-      "wall": 34.880546397995204,
-      "user": 15.06,
-      "sys": 101.29,
-      "maxrss_mb": 33.484375,
+      "wall": 34.156481696998526,
+      "user": 14.46,
+      "sys": 99.62,
+      "maxrss_mb": 38.1171875,
       "rc": 0,
-      "task_clock": 109.08966000000001,
-      "instructions": 65295119128.0,
-      "cycles": 44100228075.0,
-      "cycles_uk": 167281083540.0
+      "task_clock": 106.45242,
+      "instructions": 65339902962.0,
+      "cycles": 42417444078.0,
+      "cycles_uk": 162924636090.0
      },
      {
-      "wall": 34.65842753101606,
-      "user": 15.06,
-      "sys": 100.7,
-      "maxrss_mb": 38.19921875,
+      "wall": 34.23363107700061,
+      "user": 14.36,
+      "sys": 99.91,
+      "maxrss_mb": 33.0234375,
       "rc": 0,
-      "task_clock": 108.26031,
-      "instructions": 65353695923.0,
-      "cycles": 43597640354.0,
-      "cycles_uk": 165385758753.0
+      "task_clock": 107.06958,
+      "instructions": 65295527506.0,
+      "cycles": 43108591718.0,
+      "cycles_uk": 167544945926.0
      },
      {
-      "wall": 35.11010869801976,
-      "user": 15.28,
-      "sys": 102.05,
-      "maxrss_mb": 38.37890625,
+      "wall": 34.13563698899998,
+      "user": 14.55,
+      "sys": 99.26,
+      "maxrss_mb": 38.46484375,
       "rc": 0,
-      "task_clock": 109.83979,
-      "instructions": 65354316417.0,
-      "cycles": 43786873471.0,
-      "cycles_uk": 165894532499.0
+      "task_clock": 106.30832000000001,
+      "instructions": 65356712988.0,
+      "cycles": 42696459932.0,
+      "cycles_uk": 162727979952.0
      }
     ],
     "P3": [
      {
-      "wall": 3.0096372889820486,
-      "user": 6.69,
-      "sys": 1.72,
-      "maxrss_mb": 40.9609375,
+      "wall": 2.7702556169988384,
+      "user": 6.32,
+      "sys": 1.56,
+      "maxrss_mb": 41.44921875,
       "rc": 0,
-      "task_clock": 8.32048,
-      "instructions": 51765584133.0,
-      "cycles": 20778878854.0,
-      "cycles_uk": 22523355503.0
+      "task_clock": 7.79227,
+      "instructions": 51765562802.0,
+      "cycles": 20430013562.0,
+      "cycles_uk": 22208953254.0
      },
      {
-      "wall": 2.897596495982725,
-      "user": 6.44,
-      "sys": 1.7,
-      "maxrss_mb": 40.78125,
+      "wall": 2.885740778998297,
+      "user": 6.54,
+      "sys": 1.62,
+      "maxrss_mb": 41.2265625,
       "rc": 0,
-      "task_clock": 8.05003,
-      "instructions": 51765588844.0,
-      "cycles": 20531343187.0,
-      "cycles_uk": 22277810245.0
+      "task_clock": 8.06537,
+      "instructions": 51765629711.0,
+      "cycles": 20503914150.0,
+      "cycles_uk": 22260183034.0
      },
      {
-      "wall": 2.893399337946903,
-      "user": 6.43,
-      "sys": 1.65,
-      "maxrss_mb": 40.828125,
+      "wall": 2.9867763969996304,
+      "user": 6.65,
+      "sys": 1.67,
+      "maxrss_mb": 41.37109375,
       "rc": 0,
-      "task_clock": 7.99371,
-      "instructions": 51765926633.0,
-      "cycles": 20604052053.0,
-      "cycles_uk": 22353898668.0
+      "task_clock": 8.22625,
+      "instructions": 51765446299.0,
+      "cycles": 20947761106.0,
+      "cycles_uk": 22732905752.0
      }
     ],
     "P4": [
      {
-      "wall": 2.8200201229774393,
-      "user": 6.41,
-      "sys": 1.65,
-      "maxrss_mb": 40.97265625,
+      "wall": 2.7529707820012845,
+      "user": 6.18,
+      "sys": 1.63,
+      "maxrss_mb": 40.68359375,
       "rc": 0,
-      "task_clock": 7.97725,
-      "instructions": 51688056607.0,
-      "cycles": 20378880223.0,
-      "cycles_uk": 22111701936.0
+      "task_clock": 7.71634,
+      "instructions": 51688758597.0,
+      "cycles": 20282984688.0,
+      "cycles_uk": 22057444086.0
      },
      {
-      "wall": 2.8854598199832253,
-      "user": 6.47,
+      "wall": 2.845592180001404,
+      "user": 6.43,
       "sys": 1.64,
-      "maxrss_mb": 40.78515625,
+      "maxrss_mb": 40.890625,
       "rc": 0,
-      "task_clock": 8.00887,
-      "instructions": 51688752476.0,
-      "cycles": 20386830538.0,
-      "cycles_uk": 22136517927.0
+      "task_clock": 7.979979999999999,
+      "instructions": 51689440894.0,
+      "cycles": 20247949355.0,
+      "cycles_uk": 21963260193.0
      },
      {
-      "wall": 2.9174509349977598,
-      "user": 6.54,
-      "sys": 1.65,
-      "maxrss_mb": 41.33984375,
+      "wall": 2.896207879999565,
+      "user": 6.52,
+      "sys": 1.56,
+      "maxrss_mb": 41.8671875,
       "rc": 0,
-      "task_clock": 8.09972,
-      "instructions": 51689058143.0,
-      "cycles": 20577581947.0,
-      "cycles_uk": 22364429909.0
+      "task_clock": 7.9873400000000006,
+      "instructions": 51689285581.0,
+      "cycles": 20307489172.0,
+      "cycles_uk": 22069589938.0
      }
     ],
     "P5": [
      {
-      "wall": 2.9449588560382836,
-      "user": 6.37,
+      "wall": 2.803044210000735,
+      "user": 6.06,
+      "sys": 1.57,
+      "maxrss_mb": 40.40234375,
+      "rc": 0,
+      "task_clock": 7.53928,
+      "instructions": 49861086717.0,
+      "cycles": 19692222763.0,
+      "cycles_uk": 21416641879.0
+     },
+     {
+      "wall": 3.1923875309985306,
+      "user": 6.5,
       "sys": 1.69,
-      "maxrss_mb": 40.15625,
+      "maxrss_mb": 40.20703125,
       "rc": 0,
-      "task_clock": 7.9561,
-      "instructions": 49860470896.0,
-      "cycles": 19853547536.0,
-      "cycles_uk": 21615567838.0
+      "task_clock": 8.09712,
+      "instructions": 49860961524.0,
+      "cycles": 20480896623.0,
+      "cycles_uk": 22246304727.0
      },
      {
-      "wall": 2.887910221994389,
-      "user": 6.26,
-      "sys": 1.66,
-      "maxrss_mb": 40.859375,
+      "wall": 2.897252196999034,
+      "user": 6.22,
+      "sys": 1.64,
+      "maxrss_mb": 40.9765625,
       "rc": 0,
-      "task_clock": 7.8255,
-      "instructions": 49861066682.0,
-      "cycles": 19680547629.0,
-      "cycles_uk": 21398526147.0
-     },
-     {
-      "wall": 2.8887469029868953,
-      "user": 6.31,
-      "sys": 1.62,
-      "maxrss_mb": 40.21875,
-      "rc": 0,
-      "task_clock": 7.834779999999999,
-      "instructions": 49860815553.0,
-      "cycles": 19720536216.0,
-      "cycles_uk": 21428671385.0
+      "task_clock": 7.7677700000000005,
+      "instructions": 49861020986.0,
+      "cycles": 20090545669.0,
+      "cycles_uk": 21854631356.0
      }
     ],
     "P6": [
      {
-      "wall": 2.882080578012392,
-      "user": 6.41,
-      "sys": 1.73,
-      "maxrss_mb": 41.91796875,
+      "wall": 2.6741868169992813,
+      "user": 6.05,
+      "sys": 1.58,
+      "maxrss_mb": 42.34765625,
       "rc": 0,
-      "task_clock": 8.03773,
-      "instructions": 48853633610.0,
-      "cycles": 19789198703.0,
-      "cycles_uk": 21592069925.0
+      "task_clock": 7.53946,
+      "instructions": 48854429220.0,
+      "cycles": 19832854771.0,
+      "cycles_uk": 21668218010.0
      },
      {
-      "wall": 2.756848737015389,
-      "user": 6.27,
-      "sys": 1.66,
-      "maxrss_mb": 42.21484375,
+      "wall": 2.872436164001556,
+      "user": 6.4,
+      "sys": 1.7,
+      "maxrss_mb": 42.91796875,
       "rc": 0,
-      "task_clock": 7.8333,
-      "instructions": 48853213402.0,
-      "cycles": 19665336455.0,
-      "cycles_uk": 21456810443.0
+      "task_clock": 8.007670000000001,
+      "instructions": 48854416413.0,
+      "cycles": 20061162662.0,
+      "cycles_uk": 21857575472.0
      },
      {
-      "wall": 3.115317536983639,
-      "user": 6.41,
-      "sys": 1.8,
-      "maxrss_mb": 42.76171875,
+      "wall": 2.75120959600099,
+      "user": 6.14,
+      "sys": 1.61,
+      "maxrss_mb": 42.5078125,
       "rc": 0,
-      "task_clock": 8.11475,
-      "instructions": 48854075219.0,
-      "cycles": 19968835795.0,
-      "cycles_uk": 21775633270.0
+      "task_clock": 7.64947,
+      "instructions": 48855392156.0,
+      "cycles": 19569870144.0,
+      "cycles_uk": 21390626162.0
      }
     ],
-    "final": [
+    "5.6": [
      {
-      "wall": 2.8507213490083814,
-      "user": 6.31,
-      "sys": 1.72,
-      "maxrss_mb": 42.7265625,
+      "wall": 2.6939863259995036,
+      "user": 6.13,
+      "sys": 1.61,
+      "maxrss_mb": 42.91796875,
       "rc": 0,
-      "task_clock": 7.925560000000001,
-      "instructions": 48082796415.0,
-      "cycles": 19689173693.0,
-      "cycles_uk": 21482625453.0
+      "task_clock": 7.65526,
+      "instructions": 48081891783.0,
+      "cycles": 19555980443.0,
+      "cycles_uk": 21341370485.0
      },
      {
-      "wall": 2.740885355975479,
-      "user": 6.21,
-      "sys": 1.6,
+      "wall": 2.8732918749992677,
+      "user": 6.38,
+      "sys": 1.7,
+      "maxrss_mb": 41.95703125,
+      "rc": 0,
+      "task_clock": 7.9728,
+      "instructions": 48080772824.0,
+      "cycles": 19825027315.0,
+      "cycles_uk": 21665753276.0
+     },
+     {
+      "wall": 2.7437696260003577,
+      "user": 5.99,
+      "sys": 1.69,
+      "maxrss_mb": 42.51953125,
+      "rc": 0,
+      "task_clock": 7.59443,
+      "instructions": 48082631758.0,
+      "cycles": 19529070380.0,
+      "cycles_uk": 21322178304.0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 1.71817603800082,
+      "user": 5.83,
+      "sys": 2.37,
+      "maxrss_mb": 60.9375,
+      "rc": 0,
+      "task_clock": 8.18072,
+      "instructions": 38730944454.0,
+      "cycles": 17982790504.0,
+      "cycles_uk": 20892635165.0
+     },
+     {
+      "wall": 1.7257731720001175,
+      "user": 5.73,
+      "sys": 2.51,
+      "maxrss_mb": 62.20703125,
+      "rc": 0,
+      "task_clock": 8.217709999999999,
+      "instructions": 38731599859.0,
+      "cycles": 17948033947.0,
+      "cycles_uk": 20809382987.0
+     },
+     {
+      "wall": 1.67301958400094,
+      "user": 5.61,
+      "sys": 2.39,
+      "maxrss_mb": 62.75,
+      "rc": 0,
+      "task_clock": 7.97933,
+      "instructions": 38731988294.0,
+      "cycles": 18026490995.0,
+      "cycles_uk": 20913568144.0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "X4_pfamA_txt_cN",
+   "args": "--cpu 16 -Z 5 -o main.out --tblout t.tbl D/Pfam-A.hmm D/q_pick5.fa",
+   "sets": [
+    "query"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 50.84298689700154,
+      "user": 31.65,
+      "sys": 100.8,
+      "maxrss_mb": 33.5703125,
+      "rc": 0,
+      "task_clock": 125.21651,
+      "instructions": 263464881538.0,
+      "cycles": 95145504883.0,
+      "cycles_uk": 220263376513.0
+     },
+     {
+      "wall": 50.97608543699971,
+      "user": 31.82,
+      "sys": 101.21,
+      "maxrss_mb": 33.5234375,
+      "rc": 0,
+      "task_clock": 125.86280000000001,
+      "instructions": 263473917231.0,
+      "cycles": 95142720051.0,
+      "cycles_uk": 222158904419.0
+     },
+     {
+      "wall": 50.567011344001,
+      "user": 31.54,
+      "sys": 100.49,
+      "maxrss_mb": 33.36328125,
+      "rc": 0,
+      "task_clock": 124.92347,
+      "instructions": 263486921442.0,
+      "cycles": 94890139462.0,
+      "cycles_uk": 220834547229.0
+     }
+    ],
+    "P1": [
+     {
+      "wall": 50.025033469000846,
+      "user": 31.04,
+      "sys": 99.52,
+      "maxrss_mb": 33.76171875,
+      "rc": 0,
+      "task_clock": 123.49572,
+      "instructions": 263210323167.0,
+      "cycles": 94846981450.0,
+      "cycles_uk": 221496391716.0
+     },
+     {
+      "wall": 50.63232393200087,
+      "user": 31.73,
+      "sys": 99.87,
+      "maxrss_mb": 37.7734375,
+      "rc": 0,
+      "task_clock": 124.23444,
+      "instructions": 263280660561.0,
+      "cycles": 95003970293.0,
+      "cycles_uk": 219533736213.0
+     },
+     {
+      "wall": 49.851761855001314,
+      "user": 31.21,
+      "sys": 98.26,
+      "maxrss_mb": 36.63671875,
+      "rc": 0,
+      "task_clock": 122.22022,
+      "instructions": 263264468945.0,
+      "cycles": 94864179569.0,
+      "cycles_uk": 218158170139.0
+     }
+    ],
+    "P2": [
+     {
+      "wall": 50.55776860700098,
+      "user": 31.25,
+      "sys": 101.03,
+      "maxrss_mb": 33.6015625,
+      "rc": 0,
+      "task_clock": 125.05502,
+      "instructions": 262052414226.0,
+      "cycles": 94267600318.0,
+      "cycles_uk": 220726940249.0
+     },
+     {
+      "wall": 49.96442577999915,
+      "user": 31.41,
+      "sys": 98.28,
+      "maxrss_mb": 38.55078125,
+      "rc": 0,
+      "task_clock": 122.23118,
+      "instructions": 262081186054.0,
+      "cycles": 94326836028.0,
+      "cycles_uk": 216242189292.0
+     },
+     {
+      "wall": 50.529523555000196,
+      "user": 31.33,
+      "sys": 100.89,
+      "maxrss_mb": 33.578125,
+      "rc": 0,
+      "task_clock": 125.05818,
+      "instructions": 262018691574.0,
+      "cycles": 95202127912.0,
+      "cycles_uk": 222881494873.0
+     }
+    ],
+    "P3": [
+     {
+      "wall": 17.854140935000032,
+      "user": 21.79,
+      "sys": 2.51,
+      "maxrss_mb": 43.140625,
+      "rc": 0,
+      "task_clock": 24.12771,
+      "instructions": 248607239618.0,
+      "cycles": 71849773575.0,
+      "cycles_uk": 75011566720.0
+     },
+     {
+      "wall": 18.39371357500022,
+      "user": 22.51,
+      "sys": 2.53,
+      "maxrss_mb": 42.54296875,
+      "rc": 0,
+      "task_clock": 24.85639,
+      "instructions": 248606648010.0,
+      "cycles": 71669244305.0,
+      "cycles_uk": 74790121854.0
+     },
+     {
+      "wall": 18.39409294000143,
+      "user": 22.4,
+      "sys": 2.61,
       "maxrss_mb": 41.703125,
       "rc": 0,
-      "task_clock": 7.71894,
-      "instructions": 48081863792.0,
-      "cycles": 19301883297.0,
-      "cycles_uk": 21052808811.0
+      "task_clock": 24.82843,
+      "instructions": 248607205159.0,
+      "cycles": 71475826226.0,
+      "cycles_uk": 74599844020.0
+     }
+    ],
+    "P4": [
+     {
+      "wall": 18.50931629399929,
+      "user": 22.57,
+      "sys": 2.55,
+      "maxrss_mb": 42.4140625,
+      "rc": 0,
+      "task_clock": 24.93462,
+      "instructions": 249664567828.0,
+      "cycles": 72547140058.0,
+      "cycles_uk": 75673074046.0
      },
      {
-      "wall": 2.913057135010604,
-      "user": 6.35,
-      "sys": 1.73,
-      "maxrss_mb": 42.09375,
+      "wall": 18.60466233599982,
+      "user": 22.59,
+      "sys": 2.6,
+      "maxrss_mb": 42.89453125,
       "rc": 0,
-      "task_clock": 7.98851,
-      "instructions": 48081635748.0,
-      "cycles": 19799472263.0,
-      "cycles_uk": 21565449487.0
+      "task_clock": 25.00906,
+      "instructions": 249664949706.0,
+      "cycles": 72411548680.0,
+      "cycles_uk": 75539928678.0
+     },
+     {
+      "wall": 18.404223454001112,
+      "user": 22.45,
+      "sys": 2.57,
+      "maxrss_mb": 42.51953125,
+      "rc": 0,
+      "task_clock": 24.83877,
+      "instructions": 249664574230.0,
+      "cycles": 72661867586.0,
+      "cycles_uk": 75834275262.0
+     }
+    ],
+    "P5": [
+     {
+      "wall": 18.596660041999712,
+      "user": 22.42,
+      "sys": 2.62,
+      "maxrss_mb": 43.78515625,
+      "rc": 0,
+      "task_clock": 24.84986,
+      "instructions": 247836775136.0,
+      "cycles": 71931453495.0,
+      "cycles_uk": 75056586606.0
+     },
+     {
+      "wall": 18.73502301500048,
+      "user": 22.59,
+      "sys": 2.61,
+      "maxrss_mb": 41.55859375,
+      "rc": 0,
+      "task_clock": 25.01245,
+      "instructions": 247835991560.0,
+      "cycles": 71941281688.0,
+      "cycles_uk": 75106039935.0
+     },
+     {
+      "wall": 18.67966950399932,
+      "user": 22.48,
+      "sys": 2.62,
+      "maxrss_mb": 42.80859375,
+      "rc": 0,
+      "task_clock": 24.915509999999998,
+      "instructions": 247836449864.0,
+      "cycles": 71535781564.0,
+      "cycles_uk": 74607531721.0
+     }
+    ],
+    "P6": [
+     {
+      "wall": 18.025197287000992,
+      "user": 21.77,
+      "sys": 2.58,
+      "maxrss_mb": 44.30859375,
+      "rc": 0,
+      "task_clock": 24.174049999999998,
+      "instructions": 245689176838.0,
+      "cycles": 70610530633.0,
+      "cycles_uk": 73869865177.0
+     },
+     {
+      "wall": 18.1278001339997,
+      "user": 21.87,
+      "sys": 2.65,
+      "maxrss_mb": 44.92578125,
+      "rc": 0,
+      "task_clock": 24.3341,
+      "instructions": 245689641595.0,
+      "cycles": 70849564775.0,
+      "cycles_uk": 74041540166.0
+     },
+     {
+      "wall": 18.513760822999757,
+      "user": 22.42,
+      "sys": 2.64,
+      "maxrss_mb": 45.56640625,
+      "rc": 0,
+      "task_clock": 24.87424,
+      "instructions": 245691352201.0,
+      "cycles": 70903007958.0,
+      "cycles_uk": 74126621602.0
+     }
+    ],
+    "5.6": [
+     {
+      "wall": 18.09092577499905,
+      "user": 21.87,
+      "sys": 2.55,
+      "maxrss_mb": 45.3828125,
+      "rc": 0,
+      "task_clock": 24.24409,
+      "instructions": 244916525750.0,
+      "cycles": 70606488755.0,
+      "cycles_uk": 73848457835.0
+     },
+     {
+      "wall": 18.36474688999988,
+      "user": 22.15,
+      "sys": 2.57,
+      "maxrss_mb": 46.1484375,
+      "rc": 0,
+      "task_clock": 24.533759999999997,
+      "instructions": 244917351648.0,
+      "cycles": 71264167681.0,
+      "cycles_uk": 74437692951.0
+     },
+     {
+      "wall": 18.39560926700142,
+      "user": 22.19,
+      "sys": 2.65,
+      "maxrss_mb": 44.96484375,
+      "rc": 0,
+      "task_clock": 24.66691,
+      "instructions": 244916560520.0,
+      "cycles": 70415464865.0,
+      "cycles_uk": 73638299499.0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 7.748675685999842,
+      "user": 11.24,
+      "sys": 2.4,
+      "maxrss_mb": 62.89453125,
+      "rc": 0,
+      "task_clock": 13.5716,
+      "instructions": 108442894194.0,
+      "cycles": 35011200436.0,
+      "cycles_uk": 38301141605.0
+     },
+     {
+      "wall": 7.774332025001058,
+      "user": 11.15,
+      "sys": 2.44,
+      "maxrss_mb": 64.98828125,
+      "rc": 0,
+      "task_clock": 13.52345,
+      "instructions": 108443463162.0,
+      "cycles": 35484126225.0,
+      "cycles_uk": 38771555656.0
+     },
+     {
+      "wall": 7.728148920999956,
+      "user": 11.19,
+      "sys": 2.36,
+      "maxrss_mb": 64.0390625,
+      "rc": 0,
+      "task_clock": 13.476959999999998,
+      "instructions": 108443564558.0,
+      "cycles": 35073238124.0,
+      "cycles_uk": 38420371180.0
      }
     ]
    },
@@ -3043,212 +3733,247 @@
     "P1": [],
     "P2": [
      {
-      "wall": 5.0899970549508,
-      "user": 4.33,
-      "sys": 4.4,
-      "maxrss_mb": 41.2734375,
+      "wall": 4.91584913800034,
+      "user": 4.12,
+      "sys": 4.34,
+      "maxrss_mb": 41.75,
       "rc": 0,
-      "task_clock": 8.357389999999999,
-      "instructions": 42336163422.0,
-      "cycles": 13202572950.0,
-      "cycles_uk": 19067573874.0
+      "task_clock": 8.08173,
+      "instructions": 42333700373.0,
+      "cycles": 13134816437.0,
+      "cycles_uk": 19075480600.0
      },
      {
-      "wall": 5.0109594439854845,
-      "user": 4.35,
-      "sys": 4.29,
-      "maxrss_mb": 43.359375,
+      "wall": 4.8510019710010965,
+      "user": 4.12,
+      "sys": 4.28,
+      "maxrss_mb": 42.1796875,
       "rc": 0,
-      "task_clock": 8.26374,
-      "instructions": 42337564385.0,
-      "cycles": 13165095520.0,
-      "cycles_uk": 19064929705.0
+      "task_clock": 8.02599,
+      "instructions": 42327213613.0,
+      "cycles": 13148422326.0,
+      "cycles_uk": 19142840916.0
      },
      {
-      "wall": 5.062222140026279,
-      "user": 4.32,
-      "sys": 4.4,
-      "maxrss_mb": 43.99609375,
+      "wall": 4.872408446000918,
+      "user": 4.22,
+      "sys": 4.16,
+      "maxrss_mb": 41.29296875,
       "rc": 0,
-      "task_clock": 8.345229999999999,
-      "instructions": 42341164588.0,
-      "cycles": 13239477607.0,
-      "cycles_uk": 19051078994.0
+      "task_clock": 8.00816,
+      "instructions": 42333012333.0,
+      "cycles": 13161589473.0,
+      "cycles_uk": 18977787171.0
      }
     ],
     "P3": [
      {
-      "wall": 0.9832419930025935,
+      "wall": 0.9662186900004599,
       "user": 4.53,
-      "sys": 0.19,
-      "maxrss_mb": 92.87890625,
+      "sys": 0.17,
+      "maxrss_mb": 91.85546875,
       "rc": 0,
-      "task_clock": 4.70596,
-      "instructions": 41308252733.0,
-      "cycles": 14553172743.0,
-      "cycles_uk": 14934583613.0
+      "task_clock": 4.69469,
+      "instructions": 41308226640.0,
+      "cycles": 14570593137.0,
+      "cycles_uk": 14943362291.0
      },
      {
-      "wall": 0.9667898199986666,
-      "user": 4.45,
-      "sys": 0.2,
-      "maxrss_mb": 94.03515625,
+      "wall": 0.9353594399999565,
+      "user": 4.37,
+      "sys": 0.17,
+      "maxrss_mb": 91.9296875,
       "rc": 0,
-      "task_clock": 4.6448,
-      "instructions": 41308097656.0,
-      "cycles": 14503485073.0,
-      "cycles_uk": 14884016517.0
+      "task_clock": 4.53437,
+      "instructions": 41308154766.0,
+      "cycles": 14553457566.0,
+      "cycles_uk": 14924904673.0
      },
      {
-      "wall": 0.9782320950180292,
-      "user": 4.6,
-      "sys": 0.14,
-      "maxrss_mb": 93.00390625,
+      "wall": 0.9511213580008189,
+      "user": 4.54,
+      "sys": 0.16,
+      "maxrss_mb": 93.62890625,
       "rc": 0,
-      "task_clock": 4.73688,
-      "instructions": 41308261929.0,
-      "cycles": 14562446654.0,
-      "cycles_uk": 14936803431.0
+      "task_clock": 4.6880299999999995,
+      "instructions": 41307990974.0,
+      "cycles": 14677304948.0,
+      "cycles_uk": 15053171092.0
      }
     ],
     "P4": [
      {
-      "wall": 0.9879306509974413,
-      "user": 4.48,
-      "sys": 0.19,
-      "maxrss_mb": 90.8125,
-      "rc": 0,
-      "task_clock": 4.66559,
-      "instructions": 40513269202.0,
-      "cycles": 14456223729.0,
-      "cycles_uk": 14830380205.0
-     },
-     {
-      "wall": 0.9645016540307552,
-      "user": 4.33,
-      "sys": 0.18,
-      "maxrss_mb": 92.296875,
-      "rc": 0,
-      "task_clock": 4.50326,
-      "instructions": 40513377445.0,
-      "cycles": 14191981464.0,
-      "cycles_uk": 14567978558.0
-     },
-     {
-      "wall": 0.9893193659954704,
-      "user": 4.54,
+      "wall": 0.9640119710002182,
+      "user": 4.49,
       "sys": 0.15,
-      "maxrss_mb": 93.921875,
+      "maxrss_mb": 91.90625,
       "rc": 0,
-      "task_clock": 4.685689999999999,
-      "instructions": 40513243661.0,
-      "cycles": 14391582254.0,
-      "cycles_uk": 14764610871.0
+      "task_clock": 4.63812,
+      "instructions": 40513473230.0,
+      "cycles": 14340598945.0,
+      "cycles_uk": 14710095330.0
+     },
+     {
+      "wall": 0.9900178579991916,
+      "user": 4.32,
+      "sys": 0.17,
+      "maxrss_mb": 93.6484375,
+      "rc": 0,
+      "task_clock": 4.48287,
+      "instructions": 40513377240.0,
+      "cycles": 14422229321.0,
+      "cycles_uk": 14798416490.0
+     },
+     {
+      "wall": 0.9536027729991474,
+      "user": 4.44,
+      "sys": 0.17,
+      "maxrss_mb": 93.1015625,
+      "rc": 0,
+      "task_clock": 4.6084,
+      "instructions": 40513408373.0,
+      "cycles": 14429626828.0,
+      "cycles_uk": 14800363635.0
      }
     ],
     "P5": [
      {
-      "wall": 0.9697963939979672,
-      "user": 4.54,
-      "sys": 0.16,
-      "maxrss_mb": 95.23046875,
+      "wall": 0.9574651659986557,
+      "user": 4.43,
+      "sys": 0.14,
+      "maxrss_mb": 95.80078125,
       "rc": 0,
-      "task_clock": 4.69679,
-      "instructions": 40503270089.0,
-      "cycles": 14498214587.0,
-      "cycles_uk": 14878284857.0
+      "task_clock": 4.56755,
+      "instructions": 40503257123.0,
+      "cycles": 14326320800.0,
+      "cycles_uk": 14701842846.0
      },
      {
-      "wall": 0.9349638209678233,
-      "user": 4.28,
+      "wall": 0.954639698000392,
+      "user": 4.48,
       "sys": 0.16,
-      "maxrss_mb": 89.56640625,
+      "maxrss_mb": 93.71484375,
       "rc": 0,
-      "task_clock": 4.43268,
-      "instructions": 40503249801.0,
-      "cycles": 14254504401.0,
-      "cycles_uk": 14628844893.0
+      "task_clock": 4.63562,
+      "instructions": 40503337522.0,
+      "cycles": 14591167950.0,
+      "cycles_uk": 14970643218.0
      },
      {
-      "wall": 0.9713473269948736,
-      "user": 4.5,
-      "sys": 0.19,
-      "maxrss_mb": 88.421875,
+      "wall": 0.9447427579998475,
+      "user": 4.38,
+      "sys": 0.18,
+      "maxrss_mb": 88.265625,
       "rc": 0,
-      "task_clock": 4.68684,
-      "instructions": 40503231324.0,
-      "cycles": 14390180864.0,
-      "cycles_uk": 14758361638.0
+      "task_clock": 4.55574,
+      "instructions": 40503216318.0,
+      "cycles": 14306760570.0,
+      "cycles_uk": 14671838963.0
      }
     ],
     "P6": [
      {
-      "wall": 0.9354328600456938,
-      "user": 3.6,
-      "sys": 0.18,
-      "maxrss_mb": 93.4296875,
+      "wall": 0.9137850900006015,
+      "user": 3.55,
+      "sys": 0.15,
+      "maxrss_mb": 93.58203125,
       "rc": 0,
-      "task_clock": 3.76906,
-      "instructions": 30049401162.0,
-      "cycles": 11323019188.0,
-      "cycles_uk": 11688241728.0
+      "task_clock": 3.69315,
+      "instructions": 30049436712.0,
+      "cycles": 11329635175.0,
+      "cycles_uk": 11687466679.0
      },
      {
-      "wall": 0.9170963949873112,
-      "user": 3.58,
-      "sys": 0.16,
-      "maxrss_mb": 92.48828125,
+      "wall": 0.9262958800009073,
+      "user": 3.59,
+      "sys": 0.17,
+      "maxrss_mb": 91.55078125,
       "rc": 0,
-      "task_clock": 3.73493,
-      "instructions": 30049285317.0,
-      "cycles": 11378424174.0,
-      "cycles_uk": 11746131731.0
+      "task_clock": 3.76192,
+      "instructions": 30049330149.0,
+      "cycles": 11330184391.0,
+      "cycles_uk": 11690527121.0
      },
      {
-      "wall": 0.9433982080081478,
-      "user": 3.65,
-      "sys": 0.18,
-      "maxrss_mb": 85.09765625,
+      "wall": 0.929924313999436,
+      "user": 3.53,
+      "sys": 0.19,
+      "maxrss_mb": 91.328125,
       "rc": 0,
-      "task_clock": 3.8233800000000002,
-      "instructions": 30049424696.0,
-      "cycles": 11388907503.0,
-      "cycles_uk": 11735039345.0
+      "task_clock": 3.71846,
+      "instructions": 30049382670.0,
+      "cycles": 11265628930.0,
+      "cycles_uk": 11612621918.0
      }
     ],
-    "final": [
+    "5.6": [
      {
-      "wall": 0.9290377239813097,
-      "user": 3.61,
+      "wall": 0.9308568939995894,
+      "user": 3.58,
+      "sys": 0.16,
+      "maxrss_mb": 92.86328125,
+      "rc": 0,
+      "task_clock": 3.7276100000000003,
+      "instructions": 30045830395.0,
+      "cycles": 11271572041.0,
+      "cycles_uk": 11629653758.0
+     },
+     {
+      "wall": 0.9308412760001374,
+      "user": 3.57,
       "sys": 0.18,
-      "maxrss_mb": 92.3125,
+      "maxrss_mb": 96.21875,
       "rc": 0,
-      "task_clock": 3.78158,
-      "instructions": 30045962765.0,
-      "cycles": 11382555344.0,
-      "cycles_uk": 11749850434.0
+      "task_clock": 3.74655,
+      "instructions": 30045884824.0,
+      "cycles": 11226576530.0,
+      "cycles_uk": 11590079524.0
      },
      {
-      "wall": 0.904160342994146,
-      "user": 3.43,
-      "sys": 0.19,
-      "maxrss_mb": 94.50390625,
+      "wall": 0.9313888980013871,
+      "user": 3.58,
+      "sys": 0.16,
+      "maxrss_mb": 91.90625,
       "rc": 0,
-      "task_clock": 3.60651,
-      "instructions": 30046038789.0,
-      "cycles": 11250822421.0,
-      "cycles_uk": 11612001164.0
+      "task_clock": 3.73286,
+      "instructions": 30045909351.0,
+      "cycles": 11210526470.0,
+      "cycles_uk": 11567274553.0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 0.5299947380008234,
+      "user": 3.18,
+      "sys": 0.18,
+      "maxrss_mb": 97.37890625,
+      "rc": 0,
+      "task_clock": 3.3541999999999996,
+      "instructions": 23769463131.0,
+      "cycles": 10005068541.0,
+      "cycles_uk": 10381579889.0
      },
      {
-      "wall": 0.9376750480150804,
-      "user": 3.65,
-      "sys": 0.15,
-      "maxrss_mb": 87.71875,
+      "wall": 0.5508431969992671,
+      "user": 3.21,
+      "sys": 0.16,
+      "maxrss_mb": 103.58203125,
       "rc": 0,
-      "task_clock": 3.78613,
-      "instructions": 30045925310.0,
-      "cycles": 11378986537.0,
-      "cycles_uk": 11733342544.0
+      "task_clock": 3.3651500000000003,
+      "instructions": 23769359750.0,
+      "cycles": 9901172831.0,
+      "cycles_uk": 10277115934.0
+     },
+     {
+      "wall": 0.5326141630011989,
+      "user": 3.1,
+      "sys": 0.18,
+      "maxrss_mb": 100.15234375,
+      "rc": 0,
+      "task_clock": 3.27873,
+      "instructions": 23769252861.0,
+      "cycles": 9963829713.0,
+      "cycles_uk": 10343045209.0
      }
     ]
    },
@@ -3267,212 +3992,247 @@
     "P1": [],
     "P2": [
      {
-      "wall": 33.4600886789849,
-      "user": 14.17,
-      "sys": 97.44,
-      "maxrss_mb": 36.2421875,
+      "wall": 32.861749173000135,
+      "user": 14.14,
+      "sys": 95.17,
+      "maxrss_mb": 35.34375,
       "rc": 0,
-      "task_clock": 103.40942999999999,
-      "instructions": 61871929953.0,
-      "cycles": 41474715491.0,
-      "cycles_uk": 163563832239.0
+      "task_clock": 101.25597,
+      "instructions": 61847706260.0,
+      "cycles": 41639301496.0,
+      "cycles_uk": 164140266661.0
      },
      {
-      "wall": 33.306299666990526,
-      "user": 14.29,
-      "sys": 96.48,
-      "maxrss_mb": 35.52734375,
+      "wall": 33.12427838400072,
+      "user": 14.32,
+      "sys": 95.94,
+      "maxrss_mb": 35.453125,
       "rc": 0,
-      "task_clock": 102.5292,
-      "instructions": 61818382525.0,
-      "cycles": 42160651607.0,
-      "cycles_uk": 163570636171.0
+      "task_clock": 102.28578,
+      "instructions": 61839484126.0,
+      "cycles": 41074660133.0,
+      "cycles_uk": 163392308795.0
      },
      {
-      "wall": 33.37471500301035,
-      "user": 14.48,
-      "sys": 96.91,
-      "maxrss_mb": 35.07421875,
+      "wall": 33.07523595099883,
+      "user": 14.3,
+      "sys": 96.13,
+      "maxrss_mb": 35.10546875,
       "rc": 0,
-      "task_clock": 103.02888,
-      "instructions": 61845719411.0,
-      "cycles": 41894031840.0,
-      "cycles_uk": 164288735107.0
+      "task_clock": 102.32208,
+      "instructions": 61860967067.0,
+      "cycles": 41571845035.0,
+      "cycles_uk": 164600749640.0
      }
     ],
     "P3": [
      {
-      "wall": 1.54037454695208,
-      "user": 5.82,
-      "sys": 1.95,
-      "maxrss_mb": 53.85546875,
+      "wall": 1.4291029310006707,
+      "user": 5.44,
+      "sys": 1.72,
+      "maxrss_mb": 53.671875,
       "rc": 0,
-      "task_clock": 7.70076,
-      "instructions": 39318192651.0,
-      "cycles": 18045274218.0,
-      "cycles_uk": 20017881801.0
+      "task_clock": 7.09201,
+      "instructions": 39319012751.0,
+      "cycles": 18177823599.0,
+      "cycles_uk": 20218090123.0
      },
      {
-      "wall": 1.5297318740049377,
-      "user": 5.77,
+      "wall": 1.523309350001,
+      "user": 5.79,
       "sys": 1.86,
-      "maxrss_mb": 53.7109375,
+      "maxrss_mb": 54.3515625,
       "rc": 0,
-      "task_clock": 7.55478,
-      "instructions": 39319031146.0,
-      "cycles": 18030700027.0,
-      "cycles_uk": 19981008025.0
+      "task_clock": 7.57965,
+      "instructions": 39317773528.0,
+      "cycles": 17995650226.0,
+      "cycles_uk": 20019883306.0
      },
      {
-      "wall": 1.5217277799965814,
-      "user": 5.8,
-      "sys": 1.89,
-      "maxrss_mb": 53.43359375,
+      "wall": 1.5096890040003927,
+      "user": 5.73,
+      "sys": 1.87,
+      "maxrss_mb": 52.79296875,
       "rc": 0,
-      "task_clock": 7.617430000000001,
-      "instructions": 39319050721.0,
-      "cycles": 17981863395.0,
-      "cycles_uk": 19939517263.0
+      "task_clock": 7.53059,
+      "instructions": 39318459160.0,
+      "cycles": 18105637554.0,
+      "cycles_uk": 20122776284.0
      }
     ],
     "P4": [
      {
-      "wall": 1.5294829119811766,
-      "user": 5.85,
-      "sys": 1.87,
-      "maxrss_mb": 53.3203125,
+      "wall": 1.45445855700018,
+      "user": 5.48,
+      "sys": 1.8,
+      "maxrss_mb": 52.0703125,
       "rc": 0,
-      "task_clock": 7.6452,
-      "instructions": 39240769006.0,
-      "cycles": 18054398624.0,
-      "cycles_uk": 20037892639.0
+      "task_clock": 7.20697,
+      "instructions": 39241939560.0,
+      "cycles": 18094164110.0,
+      "cycles_uk": 20114342967.0
      },
      {
-      "wall": 1.5126066859811544,
-      "user": 5.74,
-      "sys": 1.83,
-      "maxrss_mb": 51.51171875,
+      "wall": 1.4941529039988382,
+      "user": 5.62,
+      "sys": 1.93,
+      "maxrss_mb": 53.0390625,
       "rc": 0,
-      "task_clock": 7.49928,
-      "instructions": 39241799562.0,
-      "cycles": 17999799140.0,
-      "cycles_uk": 19967268507.0
+      "task_clock": 7.48305,
+      "instructions": 39241203402.0,
+      "cycles": 18033330539.0,
+      "cycles_uk": 20055689559.0
      },
      {
-      "wall": 1.5232397289946675,
-      "user": 5.83,
-      "sys": 1.86,
-      "maxrss_mb": 52.6953125,
+      "wall": 1.5131530800008477,
+      "user": 5.72,
+      "sys": 1.92,
+      "maxrss_mb": 53.375,
       "rc": 0,
-      "task_clock": 7.6144300000000005,
-      "instructions": 39241371752.0,
-      "cycles": 18010514216.0,
-      "cycles_uk": 19985074035.0
+      "task_clock": 7.560359999999999,
+      "instructions": 39241279794.0,
+      "cycles": 18027090105.0,
+      "cycles_uk": 20050118296.0
      }
     ],
     "P5": [
      {
-      "wall": 1.5420921360491775,
-      "user": 5.9,
-      "sys": 1.85,
-      "maxrss_mb": 56.4921875,
+      "wall": 1.4696188750003785,
+      "user": 5.58,
+      "sys": 1.77,
+      "maxrss_mb": 53.19140625,
       "rc": 0,
-      "task_clock": 7.68319,
-      "instructions": 39242734655.0,
-      "cycles": 18101747485.0,
-      "cycles_uk": 20089240132.0
+      "task_clock": 7.28197,
+      "instructions": 39242362930.0,
+      "cycles": 18112094323.0,
+      "cycles_uk": 20129129056.0
      },
      {
-      "wall": 1.5225915110204369,
-      "user": 5.8,
-      "sys": 1.93,
-      "maxrss_mb": 54.984375,
+      "wall": 1.5088523590002296,
+      "user": 5.84,
+      "sys": 1.76,
+      "maxrss_mb": 53.98046875,
       "rc": 0,
-      "task_clock": 7.65823,
-      "instructions": 39243371720.0,
-      "cycles": 17975278799.0,
-      "cycles_uk": 19927389182.0
+      "task_clock": 7.53118,
+      "instructions": 39241427052.0,
+      "cycles": 18011417331.0,
+      "cycles_uk": 20000098151.0
      },
      {
-      "wall": 1.535166867019143,
-      "user": 5.75,
-      "sys": 2.0,
-      "maxrss_mb": 54.87890625,
+      "wall": 1.531211149000228,
+      "user": 5.78,
+      "sys": 1.87,
+      "maxrss_mb": 54.2890625,
       "rc": 0,
-      "task_clock": 7.67134,
-      "instructions": 39241924799.0,
-      "cycles": 18060178818.0,
-      "cycles_uk": 20037771183.0
+      "task_clock": 7.57796,
+      "instructions": 39241598247.0,
+      "cycles": 18139009177.0,
+      "cycles_uk": 20166782481.0
      }
     ],
     "P6": [
      {
-      "wall": 1.5138891910319217,
-      "user": 5.73,
+      "wall": 1.4777774720005254,
+      "user": 5.56,
+      "sys": 1.89,
+      "maxrss_mb": 53.234375,
+      "rc": 0,
+      "task_clock": 7.38067,
+      "instructions": 38235676720.0,
+      "cycles": 17943827115.0,
+      "cycles_uk": 20039143019.0
+     },
+     {
+      "wall": 1.5162006300015491,
+      "user": 5.82,
       "sys": 1.88,
-      "maxrss_mb": 56.7890625,
+      "maxrss_mb": 54.62109375,
       "rc": 0,
-      "task_clock": 7.54795,
-      "instructions": 38237069196.0,
-      "cycles": 17924483109.0,
-      "cycles_uk": 19958491287.0
+      "task_clock": 7.6272,
+      "instructions": 38235195764.0,
+      "cycles": 17910279615.0,
+      "cycles_uk": 19982998286.0
      },
      {
-      "wall": 1.4860182979609817,
-      "user": 5.61,
-      "sys": 1.86,
-      "maxrss_mb": 55.90234375,
+      "wall": 1.476180903999193,
+      "user": 5.58,
+      "sys": 1.87,
+      "maxrss_mb": 53.13671875,
       "rc": 0,
-      "task_clock": 7.3996,
-      "instructions": 38236404139.0,
-      "cycles": 17954380391.0,
-      "cycles_uk": 19988996003.0
-     },
-     {
-      "wall": 1.5293139269924723,
-      "user": 5.73,
-      "sys": 2.04,
-      "maxrss_mb": 56.109375,
-      "rc": 0,
-      "task_clock": 7.68983,
-      "instructions": 38235657686.0,
-      "cycles": 17919274706.0,
-      "cycles_uk": 19916734352.0
+      "task_clock": 7.37896,
+      "instructions": 38235560138.0,
+      "cycles": 17915524706.0,
+      "cycles_uk": 19984803519.0
      }
     ],
-    "final": [
+    "5.6": [
      {
-      "wall": 1.5113200979540125,
-      "user": 5.75,
-      "sys": 1.86,
-      "maxrss_mb": 55.34765625,
+      "wall": 1.4726351240005897,
+      "user": 5.58,
+      "sys": 1.84,
+      "maxrss_mb": 55.0625,
       "rc": 0,
-      "task_clock": 7.53887,
-      "instructions": 38236057152.0,
-      "cycles": 17933347238.0,
-      "cycles_uk": 19979260467.0
+      "task_clock": 7.35181,
+      "instructions": 38236142794.0,
+      "cycles": 17984688480.0,
+      "cycles_uk": 20031182698.0
      },
      {
-      "wall": 1.520478396967519,
-      "user": 5.81,
+      "wall": 1.5158223809994524,
+      "user": 5.85,
+      "sys": 1.81,
+      "maxrss_mb": 56.88671875,
+      "rc": 0,
+      "task_clock": 7.593310000000001,
+      "instructions": 38236385367.0,
+      "cycles": 17927751504.0,
+      "cycles_uk": 19942379052.0
+     },
+     {
+      "wall": 1.4813643919987953,
+      "user": 5.6,
       "sys": 1.87,
-      "maxrss_mb": 53.84765625,
+      "maxrss_mb": 55.15625,
       "rc": 0,
-      "task_clock": 7.61467,
-      "instructions": 38235526879.0,
-      "cycles": 17902415838.0,
-      "cycles_uk": 19923139947.0
+      "task_clock": 7.40381,
+      "instructions": 38235596647.0,
+      "cycles": 17892866348.0,
+      "cycles_uk": 19991092025.0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 1.4447764929991536,
+      "user": 5.3,
+      "sys": 1.85,
+      "maxrss_mb": 57.2109375,
+      "rc": 0,
+      "task_clock": 7.0841899999999995,
+      "instructions": 37689541790.0,
+      "cycles": 17631388366.0,
+      "cycles_uk": 19666447210.0
      },
      {
-      "wall": 1.5314543739659712,
-      "user": 5.89,
-      "sys": 1.91,
-      "maxrss_mb": 56.90234375,
+      "wall": 1.4960872909996397,
+      "user": 5.67,
+      "sys": 1.86,
+      "maxrss_mb": 56.1796875,
       "rc": 0,
-      "task_clock": 7.72121,
-      "instructions": 38236696729.0,
-      "cycles": 17982773308.0,
-      "cycles_uk": 20003735704.0
+      "task_clock": 7.46373,
+      "instructions": 37689367149.0,
+      "cycles": 17607217946.0,
+      "cycles_uk": 19632688411.0
+     },
+     {
+      "wall": 1.4510261710001942,
+      "user": 5.46,
+      "sys": 1.8,
+      "maxrss_mb": 57.37890625,
+      "rc": 0,
+      "task_clock": 7.18435,
+      "instructions": 37689101308.0,
+      "cycles": 17632188121.0,
+      "cycles_uk": 19684272834.0
      }
     ]
    },
@@ -3489,282 +4249,317 @@
    "runs": {
     "upstream": [
      {
-      "wall": 58.05046671099262,
-      "user": 162.06,
-      "sys": 16.69,
-      "maxrss_mb": 338.328125,
+      "wall": 53.568661004001115,
+      "user": 156.09,
+      "sys": 15.69,
+      "maxrss_mb": 331.5078125,
       "rc": 0,
-      "task_clock": 178.68587,
-      "instructions": 1637103950064.0,
-      "cycles": 514290551982.0,
-      "cycles_uk": 543323619407.0
+      "task_clock": 171.72593,
+      "instructions": 1637103975616.0,
+      "cycles": 503697543035.0,
+      "cycles_uk": 530924994584.0
      },
      {
-      "wall": 58.961341904010624,
-      "user": 162.55,
-      "sys": 16.89,
-      "maxrss_mb": 319.91796875,
+      "wall": 53.80315343800066,
+      "user": 156.67,
+      "sys": 15.77,
+      "maxrss_mb": 337.9609375,
       "rc": 0,
-      "task_clock": 179.3835,
-      "instructions": 1637094956696.0,
-      "cycles": 516728021664.0,
-      "cycles_uk": 546348757566.0
+      "task_clock": 172.38717000000003,
+      "instructions": 1637117345620.0,
+      "cycles": 504246253809.0,
+      "cycles_uk": 531525811404.0
      },
      {
-      "wall": 59.84138938499382,
-      "user": 163.6,
-      "sys": 17.53,
-      "maxrss_mb": 331.48828125,
+      "wall": 53.65859291200104,
+      "user": 155.66,
+      "sys": 16.04,
+      "maxrss_mb": 335.98046875,
       "rc": 0,
-      "task_clock": 181.06789999999998,
-      "instructions": 1637095986875.0,
-      "cycles": 520832584846.0,
-      "cycles_uk": 551389312307.0
+      "task_clock": 171.64865,
+      "instructions": 1637102647600.0,
+      "cycles": 504211487445.0,
+      "cycles_uk": 531722566728.0
      }
     ],
     "P1": [
      {
-      "wall": 56.678233596961945,
-      "user": 156.94,
-      "sys": 16.73,
-      "maxrss_mb": 317.98046875,
+      "wall": 52.9899734490009,
+      "user": 152.48,
+      "sys": 16.05,
+      "maxrss_mb": 326.8359375,
       "rc": 0,
-      "task_clock": 173.60637,
-      "instructions": 1593630090937.0,
-      "cycles": 500757114992.0,
-      "cycles_uk": 529975725293.0
+      "task_clock": 168.49060999999998,
+      "instructions": 1593628772364.0,
+      "cycles": 490368267661.0,
+      "cycles_uk": 517682758070.0
      },
      {
-      "wall": 55.76265788602177,
-      "user": 153.38,
-      "sys": 16.86,
-      "maxrss_mb": 324.51171875,
+      "wall": 52.38579510099953,
+      "user": 151.6,
+      "sys": 15.37,
+      "maxrss_mb": 317.6640625,
       "rc": 0,
-      "task_clock": 170.19176000000002,
-      "instructions": 1593629563529.0,
-      "cycles": 501519513439.0,
-      "cycles_uk": 530627433094.0
+      "task_clock": 166.93169,
+      "instructions": 1593628148346.0,
+      "cycles": 490477701967.0,
+      "cycles_uk": 516979233248.0
      },
      {
-      "wall": 59.18375412398018,
-      "user": 160.5,
-      "sys": 17.47,
-      "maxrss_mb": 316.21875,
+      "wall": 53.104355731000396,
+      "user": 152.6,
+      "sys": 16.19,
+      "maxrss_mb": 330.10546875,
       "rc": 0,
-      "task_clock": 177.9156,
-      "instructions": 1593627888596.0,
-      "cycles": 508117485402.0,
-      "cycles_uk": 538682275375.0
+      "task_clock": 168.74284,
+      "instructions": 1593629057395.0,
+      "cycles": 491653279782.0,
+      "cycles_uk": 518960838352.0
      }
     ],
     "P2": [
      {
-      "wall": 56.31816304300446,
-      "user": 155.51,
-      "sys": 16.83,
-      "maxrss_mb": 320.078125,
+      "wall": 53.75450523499967,
+      "user": 153.62,
+      "sys": 16.32,
+      "maxrss_mb": 325.5703125,
       "rc": 0,
-      "task_clock": 172.24962,
-      "instructions": 1593657214525.0,
-      "cycles": 499186403824.0,
-      "cycles_uk": 528422706117.0
+      "task_clock": 169.89568,
+      "instructions": 1593655324096.0,
+      "cycles": 491705227460.0,
+      "cycles_uk": 519457050706.0
      },
      {
-      "wall": 56.502342132036574,
-      "user": 156.01,
-      "sys": 17.11,
-      "maxrss_mb": 325.25,
+      "wall": 52.777724001000024,
+      "user": 152.42,
+      "sys": 15.49,
+      "maxrss_mb": 320.12109375,
       "rc": 0,
-      "task_clock": 173.05912,
-      "instructions": 1593656491547.0,
-      "cycles": 499065598153.0,
-      "cycles_uk": 528001270815.0
+      "task_clock": 167.84944000000002,
+      "instructions": 1593652237716.0,
+      "cycles": 490210086876.0,
+      "cycles_uk": 517944429867.0
      },
      {
-      "wall": 57.58918856002856,
-      "user": 156.26,
-      "sys": 17.59,
-      "maxrss_mb": 336.1875,
+      "wall": 52.39674618400022,
+      "user": 152.08,
+      "sys": 15.74,
+      "maxrss_mb": 329.49609375,
       "rc": 0,
-      "task_clock": 173.79789000000002,
-      "instructions": 1593658825886.0,
-      "cycles": 503543335053.0,
-      "cycles_uk": 533842619088.0
+      "task_clock": 167.76498999999998,
+      "instructions": 1593652583434.0,
+      "cycles": 488837361527.0,
+      "cycles_uk": 516434251667.0
      }
     ],
     "P3": [
      {
-      "wall": 52.67454656702466,
-      "user": 150.67,
-      "sys": 12.03,
-      "maxrss_mb": 388.546875,
-      "rc": 0,
-      "task_clock": 162.89506,
-      "instructions": 1593076494133.0,
-      "cycles": 493426990739.0,
-      "cycles_uk": 514828488536.0
-     },
-     {
-      "wall": 53.3149119640002,
-      "user": 154.52,
-      "sys": 11.61,
-      "maxrss_mb": 376.4453125,
-      "rc": 0,
-      "task_clock": 166.38255999999998,
-      "instructions": 1593077064213.0,
-      "cycles": 490152279133.0,
-      "cycles_uk": 510733175949.0
-     },
-     {
-      "wall": 50.41492990095867,
-      "user": 147.02,
+      "wall": 49.13314935800008,
+      "user": 148.56,
       "sys": 10.89,
-      "maxrss_mb": 381.7734375,
+      "maxrss_mb": 386.9453125,
       "rc": 0,
-      "task_clock": 158.15059,
-      "instructions": 1593075707846.0,
-      "cycles": 489748424024.0,
-      "cycles_uk": 510221983154.0
+      "task_clock": 159.70679,
+      "instructions": 1593073182310.0,
+      "cycles": 480806891846.0,
+      "cycles_uk": 500158442033.0
+     },
+     {
+      "wall": 49.148346526999376,
+      "user": 149.83,
+      "sys": 10.8,
+      "maxrss_mb": 403.16796875,
+      "rc": 0,
+      "task_clock": 160.87838,
+      "instructions": 1593074754681.0,
+      "cycles": 479408762575.0,
+      "cycles_uk": 498625882260.0
+     },
+     {
+      "wall": 48.87973638099902,
+      "user": 148.51,
+      "sys": 10.63,
+      "maxrss_mb": 386.41015625,
+      "rc": 0,
+      "task_clock": 159.41593,
+      "instructions": 1593074419659.0,
+      "cycles": 479405454085.0,
+      "cycles_uk": 498400100971.0
      }
     ],
     "P4": [
      {
-      "wall": 50.59829675703077,
-      "user": 143.89,
-      "sys": 12.23,
-      "maxrss_mb": 395.16015625,
+      "wall": 47.50444573400091,
+      "user": 142.37,
+      "sys": 11.07,
+      "maxrss_mb": 393.84765625,
       "rc": 0,
-      "task_clock": 156.38410000000002,
-      "instructions": 1508817179509.0,
-      "cycles": 464818051145.0,
-      "cycles_uk": 484784487807.0
+      "task_clock": 153.70829999999998,
+      "instructions": 1508812815873.0,
+      "cycles": 456065469049.0,
+      "cycles_uk": 475158673134.0
      },
      {
-      "wall": 52.020339901035186,
-      "user": 146.29,
-      "sys": 12.47,
-      "maxrss_mb": 379.11328125,
+      "wall": 47.185848744000396,
+      "user": 141.77,
+      "sys": 10.39,
+      "maxrss_mb": 390.77734375,
       "rc": 0,
-      "task_clock": 158.9964,
-      "instructions": 1508814433812.0,
-      "cycles": 468148726029.0,
-      "cycles_uk": 489067979879.0
+      "task_clock": 152.42151,
+      "instructions": 1508814883917.0,
+      "cycles": 454837094543.0,
+      "cycles_uk": 473829681704.0
      },
      {
-      "wall": 47.148032722994685,
-      "user": 134.76,
-      "sys": 11.02,
-      "maxrss_mb": 396.15234375,
+      "wall": 47.31169832699925,
+      "user": 141.34,
+      "sys": 11.15,
+      "maxrss_mb": 385.49609375,
       "rc": 0,
-      "task_clock": 145.99715,
-      "instructions": 1508814798816.0,
-      "cycles": 467121865386.0,
-      "cycles_uk": 487882901389.0
+      "task_clock": 152.7852,
+      "instructions": 1508814261738.0,
+      "cycles": 455381291290.0,
+      "cycles_uk": 474143144029.0
      }
     ],
     "P5": [
      {
-      "wall": 27.26172895799391,
-      "user": 130.97,
-      "sys": 10.01,
-      "maxrss_mb": 371.12890625,
+      "wall": 26.350164702000257,
+      "user": 129.51,
+      "sys": 9.72,
+      "maxrss_mb": 390.03125,
       "rc": 0,
-      "task_clock": 141.17776999999998,
-      "instructions": 1241670226777.0,
-      "cycles": 421237253674.0,
-      "cycles_uk": 437310537492.0
+      "task_clock": 139.44056,
+      "instructions": 1241669581279.0,
+      "cycles": 419841350980.0,
+      "cycles_uk": 435125745110.0
      },
      {
-      "wall": 27.510509536019526,
-      "user": 131.88,
-      "sys": 9.52,
-      "maxrss_mb": 391.75,
+      "wall": 26.622403389999818,
+      "user": 131.32,
+      "sys": 9.18,
+      "maxrss_mb": 388.2109375,
       "rc": 0,
-      "task_clock": 141.60464000000002,
-      "instructions": 1241671206522.0,
-      "cycles": 421218209724.0,
-      "cycles_uk": 437353829796.0
+      "task_clock": 140.72785000000002,
+      "instructions": 1241669033016.0,
+      "cycles": 420037492026.0,
+      "cycles_uk": 435340374389.0
      },
      {
-      "wall": 25.61980665900046,
-      "user": 122.05,
-      "sys": 8.65,
-      "maxrss_mb": 369.16015625,
+      "wall": 26.722324913000193,
+      "user": 130.65,
+      "sys": 9.65,
+      "maxrss_mb": 371.5,
       "rc": 0,
-      "task_clock": 130.89178,
-      "instructions": 1241669896754.0,
-      "cycles": 423436826272.0,
-      "cycles_uk": 440254089222.0
+      "task_clock": 140.50809,
+      "instructions": 1241666946099.0,
+      "cycles": 419469140946.0,
+      "cycles_uk": 434984090133.0
      }
     ],
     "P6": [
      {
-      "wall": 25.526516111043748,
-      "user": 103.24,
-      "sys": 9.87,
-      "maxrss_mb": 379.3203125,
+      "wall": 24.515244566000547,
+      "user": 101.55,
+      "sys": 10.14,
+      "maxrss_mb": 376.07421875,
       "rc": 0,
-      "task_clock": 113.35855000000001,
-      "instructions": 924236595351.0,
-      "cycles": 326312036404.0,
-      "cycles_uk": 342536446239.0
+      "task_clock": 111.96517999999999,
+      "instructions": 924236064377.0,
+      "cycles": 322781705026.0,
+      "cycles_uk": 338286786351.0
      },
      {
-      "wall": 25.742503626970574,
-      "user": 103.13,
-      "sys": 10.35,
-      "maxrss_mb": 398.55078125,
+      "wall": 24.68931257800068,
+      "user": 102.12,
+      "sys": 10.27,
+      "maxrss_mb": 398.61328125,
       "rc": 0,
-      "task_clock": 113.73161999999999,
-      "instructions": 924239290764.0,
-      "cycles": 326287595709.0,
-      "cycles_uk": 342774377447.0
+      "task_clock": 112.65665,
+      "instructions": 924236783608.0,
+      "cycles": 323306125229.0,
+      "cycles_uk": 338765630147.0
      },
      {
-      "wall": 24.363322694029193,
-      "user": 97.04,
-      "sys": 10.05,
-      "maxrss_mb": 376.95703125,
+      "wall": 25.012757780001266,
+      "user": 103.06,
+      "sys": 9.67,
+      "maxrss_mb": 382.32421875,
       "rc": 0,
-      "task_clock": 107.33283999999999,
-      "instructions": 924239173936.0,
-      "cycles": 328726483522.0,
-      "cycles_uk": 345433026044.0
+      "task_clock": 113.00667999999999,
+      "instructions": 924239891308.0,
+      "cycles": 322751128773.0,
+      "cycles_uk": 338263771452.0
      }
     ],
-    "final": [
+    "5.6": [
      {
-      "wall": 21.414910466002766,
-      "user": 103.01,
-      "sys": 9.75,
-      "maxrss_mb": 378.91015625,
+      "wall": 20.368952349999745,
+      "user": 100.49,
+      "sys": 9.04,
+      "maxrss_mb": 396.25,
       "rc": 0,
-      "task_clock": 113.00524,
-      "instructions": 816961041219.0,
-      "cycles": 320937778087.0,
-      "cycles_uk": 336387483311.0
+      "task_clock": 109.81656,
+      "instructions": 816961783801.0,
+      "cycles": 319168268432.0,
+      "cycles_uk": 333650937948.0
      },
      {
-      "wall": 21.331743702001404,
-      "user": 102.29,
-      "sys": 9.69,
-      "maxrss_mb": 385.8984375,
+      "wall": 20.470856370999172,
+      "user": 100.81,
+      "sys": 8.97,
+      "maxrss_mb": 393.75,
       "rc": 0,
-      "task_clock": 112.23052,
-      "instructions": 816965549252.0,
-      "cycles": 321416670555.0,
-      "cycles_uk": 337033013464.0
+      "task_clock": 110.05359,
+      "instructions": 816963059775.0,
+      "cycles": 319938177922.0,
+      "cycles_uk": 334560153066.0
      },
      {
-      "wall": 21.629924097971525,
-      "user": 100.14,
-      "sys": 9.6,
-      "maxrss_mb": 395.72265625,
+      "wall": 20.566380362000928,
+      "user": 101.97,
+      "sys": 9.18,
+      "maxrss_mb": 395.6875,
       "rc": 0,
-      "task_clock": 109.99577000000001,
-      "instructions": 816965702583.0,
-      "cycles": 326020334747.0,
-      "cycles_uk": 343018847019.0
+      "task_clock": 111.42489,
+      "instructions": 816961084031.0,
+      "cycles": 319830450398.0,
+      "cycles_uk": 334395182966.0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 7.6701508999994985,
+      "user": 110.36,
+      "sys": 1.27,
+      "maxrss_mb": 350.85546875,
+      "rc": 0,
+      "task_clock": 111.68144000000001,
+      "instructions": 695705734958.0,
+      "cycles": 349093432186.0,
+      "cycles_uk": 352589227900.0
+     },
+     {
+      "wall": 7.479052347000106,
+      "user": 107.63,
+      "sys": 1.29,
+      "maxrss_mb": 345.453125,
+      "rc": 0,
+      "task_clock": 108.9683,
+      "instructions": 695706377758.0,
+      "cycles": 349420568656.0,
+      "cycles_uk": 352871492524.0
+     },
+     {
+      "wall": 7.816332780001176,
+      "user": 111.94,
+      "sys": 1.34,
+      "maxrss_mb": 354.640625,
+      "rc": 0,
+      "task_clock": 113.33538,
+      "instructions": 695703137495.0,
+      "cycles": 349322356682.0,
+      "cycles_uk": 352877819360.0
      }
     ]
    },
@@ -3783,212 +4578,247 @@
     "P1": [],
     "P2": [
      {
-      "wall": 19.620017972018104,
-      "user": 143.54,
-      "sys": 6.18,
-      "maxrss_mb": 257.87890625,
+      "wall": 19.351957945998947,
+      "user": 142.22,
+      "sys": 5.74,
+      "maxrss_mb": 258.87109375,
       "rc": 0,
-      "task_clock": 149.42295000000001,
-      "instructions": 1116164850721.0,
-      "cycles": 470851346603.0,
-      "cycles_uk": 482295975099.0
+      "task_clock": 147.64505,
+      "instructions": 1116165101214.0,
+      "cycles": 470312856647.0,
+      "cycles_uk": 481158068315.0
      },
      {
-      "wall": 19.048819411022123,
-      "user": 140.28,
-      "sys": 5.63,
-      "maxrss_mb": 252.5546875,
+      "wall": 20.18488601700119,
+      "user": 148.45,
+      "sys": 5.75,
+      "maxrss_mb": 250.52734375,
       "rc": 0,
-      "task_clock": 145.59786,
-      "instructions": 1116169301818.0,
-      "cycles": 470647310831.0,
-      "cycles_uk": 481279976082.0
+      "task_clock": 153.89146,
+      "instructions": 1116168537661.0,
+      "cycles": 470943960036.0,
+      "cycles_uk": 481613678428.0
      },
      {
-      "wall": 19.135812805965543,
-      "user": 140.69,
-      "sys": 5.79,
-      "maxrss_mb": 273.06640625,
+      "wall": 19.69831518799947,
+      "user": 144.88,
+      "sys": 5.91,
+      "maxrss_mb": 263.296875,
       "rc": 0,
-      "task_clock": 146.18142,
-      "instructions": 1116165619958.0,
-      "cycles": 470834368677.0,
-      "cycles_uk": 481744317622.0
+      "task_clock": 150.47701,
+      "instructions": 1116164769645.0,
+      "cycles": 470083564114.0,
+      "cycles_uk": 481219074347.0
      }
     ],
     "P3": [
      {
-      "wall": 14.96888595900964,
-      "user": 144.45,
-      "sys": 2.27,
-      "maxrss_mb": 335.93359375,
-      "rc": 0,
-      "task_clock": 146.77169,
-      "instructions": 1115510995748.0,
-      "cycles": 485094256185.0,
-      "cycles_uk": 490149320557.0
-     },
-     {
-      "wall": 15.187794848985504,
-      "user": 146.81,
-      "sys": 2.25,
-      "maxrss_mb": 330.65234375,
-      "rc": 0,
-      "task_clock": 149.09967,
-      "instructions": 1115510887962.0,
-      "cycles": 484605292323.0,
-      "cycles_uk": 489646133382.0
-     },
-     {
-      "wall": 15.155780896020588,
-      "user": 145.66,
+      "wall": 15.479785216000892,
+      "user": 149.38,
       "sys": 2.35,
-      "maxrss_mb": 325.70703125,
+      "maxrss_mb": 319.16015625,
       "rc": 0,
-      "task_clock": 148.05223,
-      "instructions": 1115510721120.0,
-      "cycles": 483507939623.0,
-      "cycles_uk": 488611305119.0
+      "task_clock": 151.77441000000002,
+      "instructions": 1115512783932.0,
+      "cycles": 485177941157.0,
+      "cycles_uk": 490248993594.0
+     },
+     {
+      "wall": 15.647976754999036,
+      "user": 150.68,
+      "sys": 2.29,
+      "maxrss_mb": 308.4765625,
+      "rc": 0,
+      "task_clock": 153.0139,
+      "instructions": 1115508226276.0,
+      "cycles": 484869185978.0,
+      "cycles_uk": 489955325038.0
+     },
+     {
+      "wall": 15.453550784999607,
+      "user": 149.28,
+      "sys": 2.35,
+      "maxrss_mb": 327.06640625,
+      "rc": 0,
+      "task_clock": 151.67476000000002,
+      "instructions": 1115509940486.0,
+      "cycles": 484826660131.0,
+      "cycles_uk": 489934756880.0
      }
     ],
     "P4": [
      {
-      "wall": 13.06551888003014,
-      "user": 135.83,
-      "sys": 2.22,
-      "maxrss_mb": 284.03125,
+      "wall": 13.781717871999717,
+      "user": 143.26,
+      "sys": 2.38,
+      "maxrss_mb": 315.58203125,
       "rc": 0,
-      "task_clock": 138.08679999999998,
-      "instructions": 1031247831994.0,
-      "cycles": 462151719349.0,
-      "cycles_uk": 466989190506.0
+      "task_clock": 145.67574,
+      "instructions": 1031247958397.0,
+      "cycles": 461549314219.0,
+      "cycles_uk": 466557280110.0
      },
      {
-      "wall": 13.455605339026079,
-      "user": 140.03,
-      "sys": 2.37,
-      "maxrss_mb": 337.25,
+      "wall": 13.565020400999856,
+      "user": 141.03,
+      "sys": 2.24,
+      "maxrss_mb": 329.0,
       "rc": 0,
-      "task_clock": 142.43154,
-      "instructions": 1031250773412.0,
-      "cycles": 461988874780.0,
-      "cycles_uk": 466967398191.0
+      "task_clock": 143.30773000000002,
+      "instructions": 1031247085669.0,
+      "cycles": 461766391559.0,
+      "cycles_uk": 466801408426.0
      },
      {
-      "wall": 13.281976116995793,
-      "user": 138.44,
-      "sys": 2.23,
-      "maxrss_mb": 339.22265625,
+      "wall": 13.765801874998942,
+      "user": 143.23,
+      "sys": 2.4,
+      "maxrss_mb": 324.82421875,
       "rc": 0,
-      "task_clock": 140.72044,
-      "instructions": 1031249684879.0,
-      "cycles": 462165115216.0,
-      "cycles_uk": 467180107031.0
+      "task_clock": 145.67091,
+      "instructions": 1031247988799.0,
+      "cycles": 462841242896.0,
+      "cycles_uk": 467824756778.0
      }
     ],
     "P5": [
      {
-      "wall": 13.16332173597766,
-      "user": 136.78,
+      "wall": 13.784849497000323,
+      "user": 143.08,
       "sys": 2.35,
-      "maxrss_mb": 335.796875,
+      "maxrss_mb": 295.30078125,
       "rc": 0,
-      "task_clock": 139.17335999999997,
-      "instructions": 1030983974095.0,
-      "cycles": 462393642880.0,
-      "cycles_uk": 467342894611.0
+      "task_clock": 145.47184,
+      "instructions": 1030979762997.0,
+      "cycles": 462564883500.0,
+      "cycles_uk": 467563757803.0
      },
      {
-      "wall": 13.476257948030252,
-      "user": 140.21,
+      "wall": 13.619259064000289,
+      "user": 141.62,
+      "sys": 2.35,
+      "maxrss_mb": 309.1015625,
+      "rc": 0,
+      "task_clock": 144.00786,
+      "instructions": 1030983037424.0,
+      "cycles": 461727318683.0,
+      "cycles_uk": 466725967290.0
+     },
+     {
+      "wall": 13.681685535000724,
+      "user": 142.23,
       "sys": 2.26,
-      "maxrss_mb": 322.9609375,
+      "maxrss_mb": 314.81640625,
       "rc": 0,
-      "task_clock": 142.51881,
-      "instructions": 1030982473249.0,
-      "cycles": 462732799451.0,
-      "cycles_uk": 467748427015.0
-     },
-     {
-      "wall": 13.265611954964697,
-      "user": 137.62,
-      "sys": 2.19,
-      "maxrss_mb": 299.515625,
-      "rc": 0,
-      "task_clock": 139.84429,
-      "instructions": 1030981655864.0,
-      "cycles": 461937575055.0,
-      "cycles_uk": 466859743823.0
+      "task_clock": 144.53188,
+      "instructions": 1030980405419.0,
+      "cycles": 462079862346.0,
+      "cycles_uk": 467074872892.0
      }
     ],
     "P6": [
      {
-      "wall": 10.863119376997929,
-      "user": 101.41,
-      "sys": 2.0,
-      "maxrss_mb": 334.96875,
+      "wall": 11.389609546000429,
+      "user": 105.61,
+      "sys": 2.13,
+      "maxrss_mb": 328.19921875,
       "rc": 0,
-      "task_clock": 103.4752,
-      "instructions": 713747393580.0,
-      "cycles": 338416346913.0,
-      "cycles_uk": 342699317329.0
+      "task_clock": 107.7998,
+      "instructions": 713724789501.0,
+      "cycles": 338739530644.0,
+      "cycles_uk": 343073959794.0
      },
      {
-      "wall": 11.27152644796297,
-      "user": 104.51,
-      "sys": 2.12,
-      "maxrss_mb": 329.23046875,
+      "wall": 11.565024288998757,
+      "user": 107.45,
+      "sys": 2.17,
+      "maxrss_mb": 318.25,
       "rc": 0,
-      "task_clock": 106.69058,
-      "instructions": 713743056403.0,
-      "cycles": 338381395873.0,
-      "cycles_uk": 342695802881.0
+      "task_clock": 109.68302,
+      "instructions": 713789116535.0,
+      "cycles": 338484146722.0,
+      "cycles_uk": 342862372194.0
      },
      {
-      "wall": 11.218233111023437,
-      "user": 104.34,
-      "sys": 2.1,
-      "maxrss_mb": 334.85546875,
+      "wall": 11.444741827999678,
+      "user": 106.49,
+      "sys": 2.16,
+      "maxrss_mb": 333.4453125,
       "rc": 0,
-      "task_clock": 106.49982000000001,
-      "instructions": 713739162444.0,
-      "cycles": 338576289042.0,
-      "cycles_uk": 342898656346.0
+      "task_clock": 108.70272,
+      "instructions": 713760332849.0,
+      "cycles": 339068536256.0,
+      "cycles_uk": 343405385972.0
      }
     ],
-    "final": [
+    "5.6": [
      {
-      "wall": 10.837321597966366,
-      "user": 100.77,
-      "sys": 2.01,
-      "maxrss_mb": 337.890625,
+      "wall": 11.70481765600016,
+      "user": 109.04,
+      "sys": 2.11,
+      "maxrss_mb": 318.40234375,
       "rc": 0,
-      "task_clock": 102.8458,
-      "instructions": 713640578637.0,
-      "cycles": 338283139476.0,
-      "cycles_uk": 342556111967.0
+      "task_clock": 111.20953999999999,
+      "instructions": 713618140935.0,
+      "cycles": 338678959326.0,
+      "cycles_uk": 343017642506.0
      },
      {
-      "wall": 11.130320212978404,
-      "user": 103.63,
-      "sys": 2.09,
-      "maxrss_mb": 324.09765625,
+      "wall": 11.43848697500107,
+      "user": 106.29,
+      "sys": 2.21,
+      "maxrss_mb": 331.25,
       "rc": 0,
-      "task_clock": 105.78285000000001,
-      "instructions": 713642606874.0,
-      "cycles": 338278626507.0,
-      "cycles_uk": 342565768787.0
+      "task_clock": 108.56585000000001,
+      "instructions": 713652697856.0,
+      "cycles": 338043236355.0,
+      "cycles_uk": 342422922870.0
      },
      {
-      "wall": 10.998704153986182,
-      "user": 101.83,
-      "sys": 2.09,
-      "maxrss_mb": 336.83203125,
+      "wall": 11.543237862000751,
+      "user": 107.55,
+      "sys": 2.1,
+      "maxrss_mb": 324.5625,
       "rc": 0,
-      "task_clock": 103.97639,
-      "instructions": 713629079846.0,
-      "cycles": 338639780069.0,
-      "cycles_uk": 343011559459.0
+      "task_clock": 109.70469,
+      "instructions": 713622741570.0,
+      "cycles": 337916641860.0,
+      "cycles_uk": 342253184984.0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 7.517045026999767,
+      "user": 107.83,
+      "sys": 1.36,
+      "maxrss_mb": 344.67578125,
+      "rc": 0,
+      "task_clock": 109.23843,
+      "instructions": 689379576441.0,
+      "cycles": 345911944215.0,
+      "cycles_uk": 349024259400.0
+     },
+     {
+      "wall": 7.503627126001447,
+      "user": 107.97,
+      "sys": 1.34,
+      "maxrss_mb": 340.79296875,
+      "rc": 0,
+      "task_clock": 109.36322,
+      "instructions": 689377886502.0,
+      "cycles": 345863397690.0,
+      "cycles_uk": 348923554955.0
+     },
+     {
+      "wall": 7.708732387000055,
+      "user": 110.91,
+      "sys": 1.41,
+      "maxrss_mb": 364.73046875,
+      "rc": 0,
+      "task_clock": 112.36006,
+      "instructions": 689382055256.0,
+      "cycles": 345932413865.0,
+      "cycles_uk": 349061347077.0
      }
     ]
    },
@@ -3996,5 +4826,6 @@
    "notes": [],
    "problems": []
   }
- ]
+ ],
+ "note": "two series.py runs in one session (all scenarios; then X4_pfamA_txt_cN), merged"
 }
