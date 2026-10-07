@@ -175,7 +175,22 @@ typedef struct {
   int               qbase;       /* a one-batch pass searches slots wq[qbase..qbase+nq-1] */
   int               nq;
   int               reuse_seqs;  /* TRUE: reset each target after use. FALSE: targets are cached, read-only */
+  int               pair;        /* TRUE: run the parsers on two targets at once (p7_fb_PairAvailable()) */
+  P7_OMX           *pf[2];       /* the pair's Forward and Backward parser matrices, or NULL until used  */
+  P7_OMX           *pb[2];
 } WORKER_INFO;
+
+/* A target that passed the filters, waiting for a second one to run the
+ * Forward/Backward parsers with (worker_SearchPairs()): what its later
+ * stages need from the time it was filtered.
+ */
+typedef struct {
+  const ESL_SQ     *sq;
+  float             nullsc;
+  float             filtersc;
+  double            Z;           /* the pipeline's running Z after this target's p7_pli_NewSeq() */
+  float             xf[p7O_NXSTATES][p7O_NXTRANS];  /* om->xf configured for this target's length */
+} PAIR_WAIT;
 
 #define REPOPTS     "-E,-T,--cut_ga,--cut_nc,--cut_tc"
 #define DOMREPOPTS  "--domE,--domT,--cut_ga,--cut_nc,--cut_tc"
@@ -366,6 +381,7 @@ static int  split_is_free(const ESL_GETOPTS *go);
 static int  worker_SetQuery(WORKER_INFO *info, int k, const P7_OPROFILE *om, const ESL_GETOPTS *go, const ESL_ALPHABET *abc);
 static void worker_Fresh(WORKER_INFO *info);
 static void worker_Search(WORKER_INFO *info, int base, int nq, ESL_SQ *dbsq, int n);
+static void worker_SearchPairs(WORKER_INFO *info, WORKER_QUERY *q, ESL_SQ *dbsq, int n);
 static int  output_batch(WORKER_INFO *info, int infocnt, int base, int nb, P7_HMM **bhmm, P7_PROFILE **bgm, P7_OPROFILE **bom, int *bnum, ESL_STOPWATCH **w,
                          const OUTPUTS *outs, const ESL_GETOPTS *go, const ESL_ALPHABET *abc, int textw);
 #ifdef HMMER_THREADS
@@ -749,6 +765,8 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 	  info[i].work       = NULL;
 	  info[i].qbase      = 0;
 	  info[i].nq         = 0;
+	  info[i].pair       = p7_fb_PairAvailable();
+	  info[i].pf[0] = info[i].pf[1] = info[i].pb[0] = info[i].pb[1] = NULL;
 	  info[i].reuse_seqs = (dbc == NULL);
 #ifdef HMMER_THREADS
 	  info[i].queue = queue;
@@ -1007,6 +1025,7 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 	    p7_bg_Destroy(info[i].wq[k].bg);
 	  }
       p7_pipeline_Destroy(info[i].work);
+      for (k = 0; k < 2; k++) { p7_omx_Destroy(info[i].pf[k]); p7_omx_Destroy(info[i].pb[k]); }
       free(info[i].wq);
     }
 
@@ -2062,30 +2081,50 @@ serial_loop(WORKER_INFO *info, ESL_SQFILE *dbfp, int n_targetseqs, DBCACHE *dbc)
 
       dbcache_StartPass(dbc);
       while ((sstatus = dbcache_NextBlock(dbc, dbfp, &n_targetseqs, dbc->scratch, &blk)) == eslOK)
-        for (i = 0; i < blk->count; i++)
-          {
-            dbsq = blk->list + i;
-            worker_Search(info, info->qbase, info->nq, dbsq, 1);
-            if (reading) esl_sq_Reuse(dbsq);
-          }
+        {
+          worker_Search(info, info->qbase, info->nq, blk->list, blk->count);
+          if (reading) for (i = 0; i < blk->count; i++) esl_sq_Reuse(blk->list + i);
+        }
       return sstatus;
     }
 
-  dbsq = esl_sq_CreateDigital(info->wq[info->qbase].om->abc);
+  if (! info->pair)
+    {
+      dbsq = esl_sq_CreateDigital(info->wq[info->qbase].om->abc);
 
-  /* Main loop: */
-  while ( (n_targetseqs==-1 || seq_cnt<n_targetseqs) &&  (sstatus = esl_sqio_Read(dbfp, dbsq)) == eslOK)
+      /* Main loop: */
+      while ( (n_targetseqs==-1 || seq_cnt<n_targetseqs) &&  (sstatus = esl_sqio_Read(dbfp, dbsq)) == eslOK)
+      {
+          worker_Search(info, info->qbase, info->nq, dbsq, 1);
+          seq_cnt++;
+          esl_sq_Reuse(dbsq);
+      }
+
+      if (n_targetseqs!=-1 && seq_cnt==n_targetseqs)
+        sstatus = eslEOF;
+
+      esl_sq_Destroy(dbsq);
+      return sstatus;
+    }
+
+  /* With paired parsers: blocks of targets, as the threaded reader reads
+   * them (esl_sqio_ReadBlock() reads each target with the same parser call
+   * as esl_sqio_Read()), so targets can wait for a partner within a block.
+   */
   {
-      worker_Search(info, info->qbase, info->nq, dbsq, 1);
-      seq_cnt++;
-      esl_sq_Reuse(dbsq);
+    ESL_SQ_BLOCK *blk = esl_sq_CreateDigitalBlock(BLOCK_SIZE, info->wq[info->qbase].om->abc);
+    if (blk == NULL) esl_fatal("Failed to allocate sequence block");
+    for (;;)
+      {
+        if (n_targetseqs == 0) { sstatus = eslEOF; break; }
+        sstatus = esl_sqio_ReadBlock(dbfp, blk, -1, n_targetseqs, /*max_init_window=*/FALSE, FALSE);
+        if (sstatus != eslOK) break;
+        if (n_targetseqs > 0) n_targetseqs -= blk->count;
+        worker_Search(info, info->qbase, info->nq, blk->list, blk->count);
+        for (i = 0; i < blk->count; i++) esl_sq_Reuse(blk->list + i);
+      }
+    esl_sq_DestroyBlock(blk);
   }
-
-  if (n_targetseqs!=-1 && seq_cnt==n_targetseqs)
-    sstatus = eslEOF;
-
-  esl_sq_Destroy(dbsq);
-
   return sstatus;
 }
 
@@ -2535,6 +2574,7 @@ worker_Search(WORKER_INFO *info, int base, int nq, ESL_SQ *dbsq, int n)
   for (k = base; k < base + nq; k++)
     {
       q = &(info->wq[k]);
+      if (info->pair) { worker_SearchPairs(info, q, dbsq, n); continue; }
       for (i = 0; i < n; i++)
 	{
 	  p7_pli_NewSeq(q->pli, dbsq + i);
@@ -2546,6 +2586,157 @@ worker_Search(WORKER_INFO *info, int base, int nq, ESL_SQ *dbsq, int n)
 	  p7_pipeline_Reuse(q->pli);
 	}
     }
+}
+
+/* pair_finish()
+ * The rest of p7_Pipeline() for a target whose parsers have run (Forward
+ * score <fwdsc>, matrices <fwd>, <bck>): <om> and <bg> configured for its
+ * length again and the pipeline's Z as it was for it, then the domain
+ * stage and the hit.
+ */
+static void
+pair_finish(WORKER_QUERY *q, const PAIR_WAIT *t, float fwdsc, P7_OMX *fwd, P7_OMX *bck)
+{
+  double Z = q->pli->Z;
+
+  p7_oprofile_ReconfigLength(q->om, t->sq->n);
+  p7_bg_SetLength(q->bg, t->sq->n);
+  q->pli->Z = t->Z;
+  p7_pli_Domains(q->pli, q->om, q->bg, t->sq, NULL, t->nullsc, fwdsc, fwd, bck, q->th);
+  q->pli->Z = Z;
+  p7_pipeline_Reuse(q->pli);
+}
+
+/* pair_one()
+ * A target without a partner: the single-target parsers, as p7_Pipeline().
+ */
+static void
+pair_one(WORKER_INFO *info, WORKER_QUERY *q, const PAIR_WAIT *t)
+{
+  float fwdsc;
+
+  p7_oprofile_ReconfigLength(q->om, t->sq->n);
+  p7_omx_GrowTo(info->pf[0], q->om->M, 0, t->sq->n);
+  p7_ForwardParser(t->sq->dsq, t->sq->n, q->om, info->pf[0], &fwdsc);
+  if (! p7_pli_ForwardPass(q->pli, q->om, t->filtersc, fwdsc)) return;
+  p7_omx_GrowTo(info->pb[0], q->om->M, 0, t->sq->n);
+  p7_BackwardParser(t->sq->dsq, t->sq->n, q->om, info->pf[0], info->pb[0], NULL);
+  pair_finish(q, t, fwdsc, info->pf[0], info->pb[0]);
+}
+
+/* pair_two()
+ * Two targets, <a> before <b> in the db: both parsers on the pair (each
+ * target's results are bitwise those of the single-target parsers, see
+ * fwdback_pair.c), then each target's domain stage in db order.
+ */
+static void
+pair_two(WORKER_INFO *info, WORKER_QUERY *q, const PAIR_WAIT *a, const PAIR_WAIT *b)
+{
+  const P7_OPROFILE *om = q->om;
+  int                La = a->sq->n, Lb = b->sq->n;
+  float              sa, sb;
+  int                pa, pb;
+
+  p7_omx_GrowTo(info->pf[0], om->M, 0, La);
+  p7_omx_GrowTo(info->pf[1], om->M, 0, Lb);
+  p7_ForwardParserPair(om, a->sq->dsq, La, (const float (*)[p7O_NXTRANS]) a->xf, info->pf[0], &sa,
+		           b->sq->dsq, Lb, (const float (*)[p7O_NXTRANS]) b->xf, info->pf[1], &sb);
+  pa = p7_pli_ForwardPass(q->pli, om, a->filtersc, sa);
+  pb = p7_pli_ForwardPass(q->pli, om, b->filtersc, sb);
+  if (! pa && ! pb) return;
+
+  p7_omx_GrowTo(info->pb[0], om->M, 0, La);
+  p7_omx_GrowTo(info->pb[1], om->M, 0, Lb);
+  if (pa && pb)
+    p7_BackwardParserPair(om, a->sq->dsq, La, (const float (*)[p7O_NXTRANS]) a->xf, info->pf[0], info->pb[0], NULL,
+			      b->sq->dsq, Lb, (const float (*)[p7O_NXTRANS]) b->xf, info->pf[1], info->pb[1], NULL);
+#ifdef p7_CROSSCHECK
+  { /* shadow-run the single-target parsers; any bit difference is fatal */
+    const PAIR_WAIT *t[2] = { a, b };
+    float            ps[2] = { sa, sb };
+    int              ok[2] = { pa, pb };
+    int              h, i;
+    for (h = 0; h < 2; h++)
+      {
+	P7_OMX *xf  = p7_omx_Create(om->M, 0, t[h]->sq->n);
+	P7_OMX *xb  = p7_omx_Create(om->M, 0, t[h]->sq->n);
+	float   s1;
+	p7_oprofile_ReconfigLength(q->om, t[h]->sq->n);
+	p7_ForwardParser(t[h]->sq->dsq, t[h]->sq->n, om, xf, &s1);
+	if (memcmp(&s1, &ps[h], sizeof(float)) != 0) esl_fatal("p7_CROSSCHECK: paired Forward score %a != %a (L=%d)", ps[h], s1, t[h]->sq->n);
+	for (i = 0; i <= t[h]->sq->n; i++)
+	  if (memcmp(xf->xmx + i*p7X_NXCELLS, info->pf[h]->xmx + i*p7X_NXCELLS, sizeof(float) * p7X_NXCELLS) != 0)
+	    esl_fatal("p7_CROSSCHECK: paired Forward row %d differs (L=%d)", i, t[h]->sq->n);
+	if (ok[0] && ok[1])
+	  {
+	    p7_BackwardParser(t[h]->sq->dsq, t[h]->sq->n, om, xf, xb, NULL);
+	    if (xb->has_own_scales != info->pb[h]->has_own_scales || memcmp(&xb->totscale, &info->pb[h]->totscale, sizeof(float)) != 0)
+	      esl_fatal("p7_CROSSCHECK: paired Backward scales differ (L=%d)", t[h]->sq->n);
+	    for (i = 0; i <= t[h]->sq->n; i++)
+	      if (memcmp(xb->xmx + i*p7X_NXCELLS, info->pb[h]->xmx + i*p7X_NXCELLS, sizeof(float) * p7X_NXCELLS) != 0)
+		esl_fatal("p7_CROSSCHECK: paired Backward row %d differs (L=%d)", i, t[h]->sq->n);
+	  }
+	p7_omx_Destroy(xf);
+	p7_omx_Destroy(xb);
+      }
+  }
+#endif
+  if (pa)
+    {
+      if (! pb) { p7_oprofile_ReconfigLength(q->om, La); p7_BackwardParser(a->sq->dsq, La, q->om, info->pf[0], info->pb[0], NULL); }
+      pair_finish(q, a, sa, info->pf[0], info->pb[0]);
+    }
+  if (pb)
+    {
+      if (! pa) { p7_oprofile_ReconfigLength(q->om, Lb); p7_BackwardParser(b->sq->dsq, Lb, q->om, info->pf[1], info->pb[1], NULL); }
+      pair_finish(q, b, sb, info->pf[1], info->pb[1]);
+    }
+}
+
+/* worker_SearchPairs()
+ * worker_Search() for one query, running the Forward/Backward parsers on
+ * two targets at once: a target that passes the filters waits for the
+ * next one that does, within this block. Per target, the calls are those
+ * of p7_Pipeline(), in its order: p7_pli_Filter(), the parsers,
+ * p7_pli_ForwardPass(), p7_pli_Domains() (fwdback_pair.c: the paired
+ * parsers give each target's single-target results bit for bit). Hits are
+ * added in db order. A waiting target's later stages get its own length
+ * configuration and running Z back (pair_finish()).
+ */
+static void
+worker_SearchPairs(WORKER_INFO *info, WORKER_QUERY *q, ESL_SQ *dbsq, int n)
+{
+  PAIR_WAIT w[2];
+  int       nw = 0;            /* targets in w[]: 0, or 1 waiting */
+  int       i, h, pass;
+
+  if (info->pf[0] == NULL)
+    for (h = 0; h < 2; h++)
+      {
+	if ((info->pf[h] = p7_omx_Create(q->om->M, 0, 100)) == NULL) esl_fatal("Failed to allocate parser matrices");
+	if ((info->pb[h] = p7_omx_Create(q->om->M, 0, 100)) == NULL) esl_fatal("Failed to allocate parser matrices");
+      }
+
+  for (i = 0; i < n; i++)
+    {
+      PAIR_WAIT *t = &w[nw];
+
+      p7_pli_NewSeq(q->pli, dbsq + i);
+      p7_bg_SetLength(q->bg, dbsq[i].n);
+      p7_oprofile_ReconfigLength(q->om, dbsq[i].n);
+
+      p7_pli_Filter(q->pli, q->om, q->bg, dbsq + i, &(t->nullsc), &(t->filtersc), &pass);
+      p7_pipeline_Reuse(q->pli);
+      if (! pass) continue;
+
+      t->sq = dbsq + i;
+      t->Z  = q->pli->Z;
+      memcpy(t->xf, q->om->xf, sizeof(t->xf));
+      if (nw == 0) { nw = 1; continue; }
+      pair_two(info, q, &w[0], &w[1]);
+      nw = 0;
+    }
+  if (nw) pair_one(info, q, &w[0]);
 }
 
 /* output_batch()
@@ -2620,6 +2811,12 @@ search_query(WORKER_INFO *info, WORKER_GATE *gate, QP_JOB *job)
   for (b = 0; b < gate->dbc->nblk; b++)
     {
       blk = gate->dbc->blk[b];
+      if (info->pair)
+	{ /* this job's query as a slot: its profile and hit list, the worker's pipeline and null model */
+	  WORKER_QUERY jq = { bg, pli, job->th, job->om };
+	  worker_SearchPairs(info, &jq, blk->list, blk->count);
+	  continue;
+	}
       for (i = 0; i < blk->count; i++)
 	{
 	  dbsq = blk->list + i;
