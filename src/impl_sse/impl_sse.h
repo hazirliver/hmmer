@@ -378,6 +378,15 @@ extern int p7_StochasticTrace(ESL_RANDOMNESS *rng, const ESL_DSQ *dsq, int L, co
 /* vitfilter.c, vitfilter_avx2.c */
 extern int p7_ViterbiFilter(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox, float *ret_sc);
 extern int p7_ViterbiFilter_avx2(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox, int16_t *ret_xC);
+
+/* fwdback_pair.c: the Forward/Backward parsers on two targets at once (AVX2) */
+extern int p7_fb_PairAvailable(void);
+extern int p7_ForwardParserPair (const P7_OPROFILE *om,
+				 const ESL_DSQ *dsqA, int LA, const float (*xfA)[p7O_NXTRANS], P7_OMX *oxA, float *opt_scA,
+				 const ESL_DSQ *dsqB, int LB, const float (*xfB)[p7O_NXTRANS], P7_OMX *oxB, float *opt_scB);
+extern int p7_BackwardParserPair(const P7_OPROFILE *om,
+				 const ESL_DSQ *dsqA, int LA, const float (*xfA)[p7O_NXTRANS], const P7_OMX *fwdA, P7_OMX *bckA, float *opt_scA,
+				 const ESL_DSQ *dsqB, int LB, const float (*xfB)[p7O_NXTRANS], const P7_OMX *fwdB, P7_OMX *bckB, float *opt_scB);
 extern int p7_ViterbiFilter_avx512(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox, int16_t *ret_xC);
 extern int p7_ViterbiFilter_longtarget(const ESL_DSQ *dsq, int L, const P7_OPROFILE *om, P7_OMX *ox,
                                         float filtersc, double P, P7_HMM_WINDOWLIST *windowlist);
