@@ -860,19 +860,19 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 #else
 	  sstatus = serial_loop(info, dbfp, cfg->n_targetseq, dbc);
 #endif
+	  switch(sstatus)
+	  {
+	  case eslEFORMAT:
+	    esl_fatal("Parse failed (sequence file %s):\n%s\n",
+		dbfp->filename, esl_sqfile_GetErrorBuf(dbfp));
+	    break;
+	  case eslEOF:
+	    /* do nothing */
+	    break;
+	  default:
+	    esl_fatal("Unexpected error %d reading sequence file %s", sstatus, dbfp->filename);
+	  }
 	}
-      switch(sstatus)
-      {
-      case eslEFORMAT:
-        esl_fatal("Parse failed (sequence file %s):\n%s\n",
-            dbfp->filename, esl_sqfile_GetErrorBuf(dbfp));
-        break;
-      case eslEOF:
-        /* do nothing */
-        break;
-      default:
-        esl_fatal("Unexpected error %d reading sequence file %s", sstatus, dbfp->filename);
-      }
 
       for (k = 0; k < nb; k++)
 	{
