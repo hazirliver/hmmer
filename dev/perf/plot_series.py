@@ -17,6 +17,7 @@ from html import escape
 SCENARIOS = [  # (workload base, short name, detail)
     ("X5_human_pfam1k_cN", "Pfam 1k × human proteome",      "realistic annotation: --cut_ga, 16 threads"),
     ("X4_pfamA_h3m_cN",    "All of Pfam-A × 5 sequences",    "many models, tiny database: pressed HMMs, 16 threads"),
+    ("X4_pfamA_txt_cN",    "All of Pfam-A (text) × 5 seqs",  "the same from the text HMM file, 16 threads"),
     ("X3_p1k_s1k_cN",      "Pfam 1k × Swiss-Prot 1k",        "many models, small database, 16 threads"),
     ("X1_p100_50k_cN",     "Pfam 100 × Swiss-Prot 50k",      "16 threads"),
     ("X2_m200_sprot_cN",   "1 model × Swiss-Prot, 16 threads", "one query (M = 200), 570k targets"),

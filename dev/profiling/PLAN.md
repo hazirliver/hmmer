@@ -254,25 +254,33 @@ Outcome (milestone, default `-O3` vs f9dcb6b, outputs identical everywhere): W2 
 
 Out of scope, because it isn't byte-identical: wider Forward/Backward and the posterior kernels. Lane count changes the float summation order (the D-chain serialization and the E-state horizontal sum). They need an explicit, reviewed golden update, which is a separate decision.
 
-### Phase 7 — proposed after the re-profile (not started; see [`REPROFILE.md`](REPROFILE.md))
+### Phase 7 — after the re-profile · **done** (7A.0-7A.4, 7B, 7C.1-7C.4, 7D.1; 7D.2 measured and dropped; see PROGRESS.md and [`REPROFILE.md`](REPROFILE.md))
 
 The re-profile at 432ee21 found that at 16 threads the **end-of-query barrier** now costs more than any kernel. On X5 with `--dbcache`, workers are busy 61% of each pass, and 4.8 s of the 10.2 s run is per-query tail. Uncached, the reader is busy only 11.1 s of 18.9 s: it waits out each tail before it can rewind.
 
-| Step | Change | BI | Expect |
+| Step | Change | BI | Measure / Outcome |
 |---|---|---|---|
-| **7A** | Batched multi-query scheduler: per-worker query slots, each block (read or cached slice) searched by K queries, batches overlapped, output in query order. Sub-steps 7A.0 (16 slices per worker with `--dbcache`: −7% measured) to 7A.4 | Same targets and `p7_Pipeline()` calls per query; targets shared read-only, as with `--dbcache` | X5 @ 16: uncached 19 → ~7-8 s, `--dbcache` 10 → ~7 s. The at-scale reader floor is divided by K |
-| **7B** | Exact `atof()` fast path in `read_asc30hmm()` (Clinger: ≤ 15 digits, ≤ 22 decimals, one division), `atof()` otherwise | Correctly rounded = glibc `strtod`; prototype matched 230 M Pfam/Dfam tokens + 50 M random | Pfam-A text × 5 seqs: serial 19 → ~10 s, @ 16 15 → ~5 s |
-| **7C** | Forward/Backward parsers on two targets at once (one per 128-bit half of a 256-bit register, same ops per half); needs the pipeline split per block | Per half, the exact SSE operation sequence | ≤ 1.4× on S4/S5: realistic −3 to −4%, hit-rich −8 to −10% CPU |
-| 7D | Bias-filter chain without `0.0 +` / `max(0, ·)`; `choose()` and the cluster overlap test with multiply + margin before the divide | Exact for the value ranges involved; fallback to the divide | ~1-2% each |
+| **7B** ✔ | Exact `atof()` fast path in `read_asc30hmm()` (Clinger: ≤ 15 digits, ≤ 22 decimals, one division), `atof()` otherwise | Correctly rounded = glibc `strtod()`; utest bitwise on 1M strings + every token of Pfam-A and Dfam | Pfam-A text × 5 seqs: serial 20.6 → 9.5 s, @ 16 17.7 → 7.8 s |
+| **7A.0** ✔ | 16 slices per worker with `--dbcache` when splitting can't change results (`-Z` or bit-score thresholds) | Which hits a worker keeps depends on its running Z only with E-values and no `-Z` | X5 `--dbcache` −7% |
+| **7A.1** ✔ | Per-worker query slots sharing one DP workspace | Refactor | Neutral |
+| **7A.2** ✔ | Up to 16 queries per pass over the targets (`MAXQ`; hit lists of a batch are held until printed) | Same targets and pipeline calls per query; output in query order | X5 uncached 0.43, X3 0.29, X1 @ 16 0.37 |
+| **7A.3** ✔ | The same batching with `--cpu 0` | Same | W4 −8%, W2 −4%, X3 serial −8% |
+| **7A.4** ✔ | Consecutive batches overlap ("streaming": two slot sets, tagged blocks); slots configured from a template | Scheduling only | X5 −11%, X3 −24%, X4 pressed −28% |
+| fixes ✔ | Two error paths changed by printing headers after a pass (`--cut_ga` failing on the first model; a target-file parse error); goldens added, `dev/perf/errpaths.sh` | Same output as upstream, checked | — |
+| **7C.1** ✔ | `p7_Pipeline()` split into `p7_pli_Filter()`, the parsers, `p7_pli_ForwardPass()`, `p7_pli_Domains()` | Refactor | Neutral |
+| **7C.2** ✔ | Forward/Backward parsers on two targets at once (one per 128-bit half of an AVX2 register) | Per half, the SSE code's operations; bitwise utest, crosscheck | 1.4-1.5× Forward, 1.7-1.9× Backward per pair |
+| **7C.3/7C.4** ✔ | hmmsearch pairs targets that pass the filters; `--cpu 0` keeps waiting targets in a small pool | Per target, `p7_Pipeline()`'s calls and state | W5 −9%, W1 −7%, W3 −4%; few targets reach the parsers on the realistic run |
+| **7D.1** ✔ | Bias filter chain without `0.0 +` / `max(0, ·)` | Exact for values ≥ +0 (crosscheck vs `esl_hmm_Forward()`) | W3 −2%, W4 −3% |
+| 7D.2 *(dropped)* | `choose()` with multiply + margin before the divide | Exact by a rounding argument | No gain |
 
-Measured and dropped in the re-profile: an exact inline `log()` for the bias filter (exhaustively verified, −1%: the libm samples were stalls), LTO (−0.5 to −1%), the query-parallel mode for big dbs (1.53× slower on X5).
+Outcome (milestone, default `-O3` vs 7d637cb, outputs identical everywhere): X5 `pfam_1k × human --cut_ga` @ 16 20.8 → 7.85 s (2.6×), with `--dbcache` 11.5 → 7.6 s; X3 @ 16 0.216; X1 @ 16 0.384; Pfam-A text × 5 seqs @ 16 0.422, pressed 0.624; W1-W5 0.86-0.95 cycles. The default and `--dbcache` realistic runs are now equally fast: no re-parsing bound is left at 16 threads. Measured and dropped in the re-profile: an exact inline `log()` for the bias filter (exhaustively verified, −1%: the libm samples were stalls), LTO (−0.5 to −1%), the query-parallel mode for big dbs (1.53× slower on X5).
 
 ---
 
 ## 5. Order and expected end state
 
 ```
-0.1-0.4  ->  1.1-1.2 (protocol warm-up)  ->  2.1-2.5  ->  3.1-3.4  ->  4.1-4.7  ->  6.0-6.4 (all done)
+0.1-0.4  ->  1.1-1.2 (protocol warm-up)  ->  2.1-2.5  ->  3.1-3.4  ->  4.1-4.7  ->  6.0-6.4  ->  7B, 7A, 7C, 7D (all done)
                                               \-> 5.x can run in parallel once the Easel decision is made
 ```
 

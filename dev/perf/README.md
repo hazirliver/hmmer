@@ -81,6 +81,17 @@ Options: `--workloads REGEX`, `--reps`, `--warmup`, `--check-only` (one untimed 
 
 `ab.sh` compares two binaries; `series.py` runs any number of them (for example upstream and the end of every phase) on the same workloads in one session, round-robin with a rotated order each round, after an untimed round that checks every binary's outputs against the first one's. `plot_series.py` turns its JSON into SVG charts (light and dark) and a Markdown table. [`../profiling/RESULTS.md`](../profiling/RESULTS.md) was made this way; its last section has the commands.
 
+## `errpaths.sh A B`: error paths and query batching
+
+Goldens cover few error exits, and a change in *when* output is printed (Phase 7's query batches) changes what is printed before a fatal error. `errpaths.sh` runs both binaries on multi-query searches that end in an error or exercise batching, at several thread counts, each in its own directory with the same file names, and compares every output (dates and timings masked):
+
+```
+dev/perf/errpaths.sh 8f490d2f-perf build-dev/src/hmmsearch                 # default: --cpu 0 4 16, sprot_10k
+dev/perf/errpaths.sh A B --cpus "0 2" --db ~/.cache/hmmer-bench/derived-*/sprot_1k.fa
+```
+
+Cases: `--cut_ga` with GA lines missing on the first / 23rd model (with and without `--dbcache`), an HMM file truncated mid-model, mixed alphabets, a target file with a parse error in its 500th record (with and without `--dbcache`), and plain runs with and without `-Z`, `--cut_ga`, `--dbcache`, `-A`. Exit status 1 on any difference.
+
 ## Measured noise (A/A, same binary on both sides)
 
 Machine: 16-vCPU Xeon 8468 VM, idle. Measured on 2026-10-04 with 5 reps per side.

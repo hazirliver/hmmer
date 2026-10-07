@@ -4,6 +4,8 @@ The first profile ([`README.md`](README.md), 2026-10-04) found a serial reader, 
 
 Machine, data and build: as in README.md (16 vCPU = 8 cores × 2 HT, Sapphire Rapids, gcc 13.3 `-O3`). Profiling build: `build-prof6` (frame pointers, 92 goldens byte-identical).
 
+**Outcome:** the proposals in §5 became Phase 7 ([`PLAN.md`](PLAN.md), step numbers in [`PROGRESS.md`](PROGRESS.md)). The estimates held: the realistic annotation run at 16 threads went 20.8 → 7.85 s by default (§5 estimated ~7-8 s) and 11.5 → 7.6 s with `--dbcache`; Pfam-A text × 5 seqs 18.1 → 7.7 s. Pairing targets in Forward/Backward (7C) gave the hit-rich and `--max` runs 7-9%, as estimated, but little on the realistic run, where few targets reach the parsers. [`RESULTS.md`](RESULTS.md) has upstream vs every phase.
+
 ---
 
 ## 1. TL;DR
