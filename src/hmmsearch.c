@@ -921,6 +921,10 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
 #else
 	  sstatus = serial_loop(info, dbfp, cfg->n_targetseq, dbc);
 #endif
+	  /* a read error: as a one-query pass would, the failing pass's query
+	   * header comes after the queries before it, then the error
+	   */
+	  if (sstatus != eslEOF && (status = output_query_header(ofp, bhmm[set][0])) != eslOK) return status;
 	  switch(sstatus)
 	  {
 	  case eslEFORMAT:
