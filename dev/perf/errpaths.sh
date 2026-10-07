@@ -12,6 +12,7 @@
 #   --cut_ga with GA lines missing on model 1 / 23     (p7_pli_NewModel() fails)
 #   HMM file truncated mid-model / mixed alphabets     (p7_hmmfile_Read() fails)
 #   plain runs with and without -Z, --cut_ga, --dbcache, -A
+#   a target file with a parse error in its 500th record
 set -uo pipefail
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
 D=$(ls -d ~/.cache/hmmer-bench/derived-* | head -1)
@@ -29,16 +30,19 @@ head -c $(( $(stat -c %s p40.hmm) * 3 / 5 )) p40.hmm > trunc.hmm
 awk 'BEGIN{n=0} /^HMMER3/{n++} n<=20{print}' p40.hmm > p20.hmm
 awk 'BEGIN{n=0} /^HMMER3/{n++} n<=1{print}' "$D/dfam_100.hmm" > dna1.hmm
 cat p20.hmm dna1.hmm p20.hmm > mixed.hmm
+awk '/^>/{n++} n==500 && !/^>/ && !done {print "MKV!!LLA"; done=1} {print}' "$DB" > baddb.fa     # a parse error mid-file
 mkdir dA dB; ln -s "$A" dA/hmmsearch; ln -s "$B" dB/hmmsearch
-for f in *.hmm; do ln -s ../$f dA/$f; ln -s ../$f dB/$f; done
+for f in *.hmm baddb.fa; do ln -s ../$f dA/$f; ln -s ../$f dB/$f; done
 
 norm() { sed -E 's/^# (CPU time|Mc\/sec|Date|Current dir).*//' "$1"; }
 bad=0
 for t in "--cut_ga noga1.hmm" "--cut_ga noga23.hmm" "--dbcache --cut_ga noga23.hmm" "trunc.hmm" "mixed.hmm" \
-         "--cut_ga p40.hmm" "p40.hmm" "-Z 10000 p40.hmm" "--dbcache p40.hmm" "--dbcache -Z 10000 --cut_ga p40.hmm"; do
+         "--cut_ga p40.hmm" "p40.hmm" "-Z 10000 p40.hmm" "--dbcache p40.hmm" "--dbcache -Z 10000 --cut_ga p40.hmm" \
+         "p40.hmm baddb.fa" "--dbcache p40.hmm baddb.fa"; do
   for c in $CPUS; do
     for x in dA dB; do
-      (cd $x && ./hmmsearch --cpu "$c" --tblout r.tbl --domtblout r.dom -A r.sto -o r.out $t "$DB" > r.stdout 2> r.err; echo $? > r.rc)
+      db=$DB; case "$t" in *baddb*) db=""; esac
+      (cd $x && ./hmmsearch --cpu "$c" --tblout r.tbl --domtblout r.dom -A r.sto -o r.out $t $db > r.stdout 2> r.err; echo $? > r.rc)
     done
     diffs=""
     for f in tbl dom sto out stdout err rc; do cmp -s <(norm dA/r.$f) <(norm dB/r.$f) || diffs="$diffs $f"; done

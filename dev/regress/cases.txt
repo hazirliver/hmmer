@@ -61,6 +61,9 @@ hmmsearch_dbcache_cap_gz_err gzip -nc data/protdb.fa > db.fa.gz && hmmsearch --d
 hmmsearch_cut_ga_err_cpu4 hmmsearch --cut_ga --cpu 4 --tblout t.tbl -o main.out fx/minipfam.hmm data/protdb.fa
 hmmsearch_cut_ga_mid_cpu0 awk '/^HMMER3/{n++} n>=2' fx/minipfam.hmm > ga.hmm && hmmsearch --cut_ga --cpu 0 --tblout t.tbl -o main.out ga.hmm data/protdb.fa; rc=$?; rm -f ga.hmm; exit $rc
 hmmsearch_cut_ga_mid_cpu4 awk '/^HMMER3/{n++} n>=2' fx/minipfam.hmm > ga.hmm && hmmsearch --cut_ga --cpu 4 --tblout t.tbl -o main.out ga.hmm data/protdb.fa; rc=$?; rm -f ga.hmm; exit $rc
+# a parse error in the target file (record 50), with several queries
+hmmsearch_db_parse_err_cpu0 awk '/^>/{n++} n==50 && !/^>/ && !d {print "MKV!!LLA"; d=1} {print}' data/protdb.fa > bad.fa && hmmsearch --cpu 0 --tblout t.tbl -o main.out fx/minipfam.hmm bad.fa; rc=$?; rm -f bad.fa; exit $rc
+hmmsearch_db_parse_err_cpu4 awk '/^>/{n++} n==50 && !/^>/ && !d {print "MKV!!LLA"; d=1} {print}' data/protdb.fa > bad.fa && hmmsearch --cpu 4 --tblout t.tbl -o main.out fx/minipfam.hmm bad.fa; rc=$?; rm -f bad.fa; exit $rc
 
 # ---------- hmmpress / hmmscan ----------
 hmmpress_protdb       cp fx/minipfam.hmm db.hmm && hmmpress db.hmm && rm db.hmm
