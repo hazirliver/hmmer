@@ -10,6 +10,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#ifdef __GLIBC__
+#include <malloc.h>     /* mallopt(): see worker_Trim() */
+#endif
 
 #include "easel.h"
 #include "esl_alphabet.h"
@@ -298,6 +301,12 @@ struct cfg_s {
 #define MAXQ       16     /* queries searched per pass over the targets              */
 #define SLICES     4      /* cached passes: blocks per worker...                     */
 #define SLICES_FREE 16    /*   ... or this many, when splitting can't change results  */
+#ifndef DP_KEEP_CELLS
+#define DP_KEEP_CELLS (1 << 18) /* a worker keeps its domain matrices up to this many cells (3 MB each) */
+#endif
+#ifndef MMAP_FLOOR
+#define MMAP_FLOOR  (1 << 20)   /* glibc: blocks from 1 MB up get their own mapping, freed to the system */
+#endif
 
 /* DBCACHE: the target database kept in memory (--dbcache).
  *
@@ -384,6 +393,7 @@ static void search_pass(WORKER_INFO *info);
 static int  split_is_free(const ESL_GETOPTS *go);
 static int  worker_SetQuery(WORKER_INFO *info, int k, const P7_OPROFILE *om, const ESL_GETOPTS *go, const ESL_ALPHABET *abc);
 static void worker_Fresh(WORKER_INFO *info);
+static void worker_Trim(WORKER_INFO *info, int M);
 static void worker_Search(WORKER_INFO *info, int base, int nq, ESL_SQ *dbsq, int n);
 static void pair_feed (WORKER_INFO *info, WORKER_QUERY *q, const ESL_SQ *sq);
 static void pair_flush(WORKER_INFO *info, WORKER_QUERY *q);
@@ -709,6 +719,13 @@ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
   ncpus = ESL_MIN( esl_opt_GetInteger(go, "--cpu"), esl_threads_GetCPUCount());
   if (ncpus > 0)
     {
+#ifdef __GLIBC__
+      if (MMAP_FLOOR > 0)
+	{ /* trimmed matrices go back to the system: see worker_Trim() */
+	  mallopt(M_MMAP_THRESHOLD, MMAP_FLOOR);
+	  mallopt(M_TRIM_THRESHOLD, 2 * MMAP_FLOOR);
+	}
+#endif
       threadObj = esl_threads_Create(&pipeline_thread);
       queue = esl_workqueue_Create(ncpus * 2);
       ESL_ALLOC(gate.go,    sizeof(pthread_cond_t) * ncpus);
@@ -2598,6 +2615,44 @@ worker_Fresh(WORKER_INFO *info)
   info->work->oxf->validR = info->work->oxb->validR = info->work->fwd->validR = info->work->bck->validR = 0;
 }
 
+/* worker_Trim()
+ * After a target's domain stage: if a long region made the worker's
+ * domain definition matrices (fwd, bck: a row per residue of the region,
+ * a column per model node) bigger than DP_KEEP_CELLS, give the memory
+ * back. Upstream does that by making a new pipeline for every query;
+ * reused matrices would otherwise keep, in every worker, the largest
+ * region times the longest model it has met (16 threads, 250 human
+ * proteins of 696-13,477 residues against Pfam-A: 740 MB peak, upstream
+ * 192 MB). The trim is in place: the slots' pipelines are struct copies
+ * that hold these P7_OMX pointers, so a fresh matrix's contents go into
+ * the old object and the old buffers are freed with the fresh one.
+ * glibc would keep freed blocks in the worker's arena once its mmap
+ * threshold has grown, so threaded runs fix the threshold at MMAP_FLOOR
+ * (mallopt() in serial_master()): big matrices then have their own
+ * mappings and are unmapped when trimmed. Fixing it also stops glibc's
+ * own adjustment of the trim threshold, which would stay at 128 KB and
+ * make arenas give back and refault memory all the time (Pfam-A x 5
+ * sequences: 10x the madvise() calls, 5% slower); it is set as glibc's
+ * adjustment would set it, to twice the mmap threshold. Only memory and
+ * speed depend on any of this.
+ */
+static void
+worker_Trim(WORKER_INFO *info, int M)
+{
+  P7_OMX *ox[2], *nx, tmp;
+  int     h;
+
+  ox[0] = info->work->fwd;
+  ox[1] = info->work->bck;
+  for (h = 0; h < 2; h++)
+    if (ox[h]->ncells > DP_KEEP_CELLS)
+      {
+	if ((nx = p7_omx_Create(M, 100, 100)) == NULL) esl_fatal("Failed to allocate a DP matrix");
+	tmp = *(ox[h]); *(ox[h]) = *nx; *nx = tmp;
+	p7_omx_Destroy(nx);
+      }
+}
+
 /* worker_Search()
  * Search targets <dbsq[0..n-1]> with queries wq[base..base+nq-1], in
  * order: per query, exactly the calls a one-query search makes.
@@ -2626,6 +2681,7 @@ worker_Search(WORKER_INFO *info, int base, int nq, ESL_SQ *dbsq, int n)
 	  p7_Pipeline(q->pli, q->om, q->bg, dbsq + i, NULL, q->th);
 
 	  p7_pipeline_Reuse(q->pli);
+	  worker_Trim(info, q->om->M);
 	}
     }
 }
@@ -2637,7 +2693,7 @@ worker_Search(WORKER_INFO *info, int base, int nq, ESL_SQ *dbsq, int n)
  * stage and the hit.
  */
 static void
-pair_finish(WORKER_QUERY *q, const PAIR_WAIT *t, float fwdsc, P7_OMX *fwd, P7_OMX *bck)
+pair_finish(WORKER_INFO *info, WORKER_QUERY *q, const PAIR_WAIT *t, float fwdsc, P7_OMX *fwd, P7_OMX *bck)
 {
   double Z = q->pli->Z;
 
@@ -2647,6 +2703,7 @@ pair_finish(WORKER_QUERY *q, const PAIR_WAIT *t, float fwdsc, P7_OMX *fwd, P7_OM
   p7_pli_Domains(q->pli, q->om, q->bg, t->sq, NULL, t->nullsc, fwdsc, fwd, bck, q->th);
   q->pli->Z = Z;
   p7_pipeline_Reuse(q->pli);
+  worker_Trim(info, q->om->M);
 }
 
 /* pair_one()
@@ -2663,7 +2720,7 @@ pair_one(WORKER_INFO *info, WORKER_QUERY *q, const PAIR_WAIT *t)
   if (! p7_pli_ForwardPass(q->pli, q->om, t->filtersc, fwdsc)) return;
   p7_omx_GrowTo(info->pb[0], q->om->M, 0, t->sq->n);
   p7_BackwardParser(t->sq->dsq, t->sq->n, q->om, info->pf[0], info->pb[0], NULL);
-  pair_finish(q, t, fwdsc, info->pf[0], info->pb[0]);
+  pair_finish(info, q, t, fwdsc, info->pf[0], info->pb[0]);
 }
 
 /* pair_two()
@@ -2726,12 +2783,12 @@ pair_two(WORKER_INFO *info, WORKER_QUERY *q, const PAIR_WAIT *a, const PAIR_WAIT
   if (pa)
     {
       if (! pb) { p7_oprofile_ReconfigLength(q->om, La); p7_BackwardParser(a->sq->dsq, La, q->om, info->pf[0], info->pb[0], NULL); }
-      pair_finish(q, a, sa, info->pf[0], info->pb[0]);
+      pair_finish(info, q, a, sa, info->pf[0], info->pb[0]);
     }
   if (pb)
     {
       if (! pa) { p7_oprofile_ReconfigLength(q->om, Lb); p7_BackwardParser(b->sq->dsq, Lb, q->om, info->pf[1], info->pb[1], NULL); }
-      pair_finish(q, b, sb, info->pf[1], info->pb[1]);
+      pair_finish(info, q, b, sb, info->pf[1], info->pb[1]);
     }
 }
 
@@ -2876,6 +2933,7 @@ search_query(WORKER_INFO *info, WORKER_GATE *gate, QP_JOB *job)
 	  p7_Pipeline(pli, job->om, bg, dbsq, NULL, job->th);
 
 	  p7_pipeline_Reuse(pli);   /* cached targets are read-only: no esl_sq_Reuse() */
+	  worker_Trim(info, job->om->M);
 	}
     }
   if (info->pair) pair_flush(info, &jq);

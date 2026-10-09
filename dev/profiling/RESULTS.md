@@ -37,6 +37,7 @@ What the work in [`PLAN.md`](PLAN.md) achieved. Upstream HMMER 3.4 and the end o
 | 6. Wider SIMD | AVX2 SSV, MSV and Viterbi filters (AVX-512 for models longer than 448), chosen at run time | Filter-heavy runs: 16-29% |
 | 5.6 (after 6) | FASTA residues digitized through one table, 8 at a time | Uncached threaded runs: 13-19% |
 | 7. Query batches, paired parsers | Up to 16 queries per pass over the targets, with consecutive batches overlapped; an exact fast `atof()` for text HMM files; the Forward/Backward parsers on two targets at once; a shorter bias-filter chain | Threaded runs with many queries: realistic 2.7×, Pfam 1k × Swiss-Prot 1k 4.5×, Pfam-A from text 2.4×; single-threaded runs 5-15%, except the reading-bound one (1%) |
+| 7E.1 (after 7) | A worker's domain-stage matrices trimmed after any target that grew them past 3 MB; big blocks get their own mappings (glibc) | Memory only: realistic run 350 → 220 MB, longest human proteins against Pfam-A 754 → 272 MB; at most 2% more CPU on the longest proteins |
 
 ## All numbers
 
@@ -60,7 +61,7 @@ Median wall time of 3 rounds (each round ran every binary once, in rotated order
 | 10 hit-rich models × 10k | 0.92 s | 0.91 s | 0.91 s | 0.90 s | 0.82 s | 0.73 s | 0.70 s | 0.69 s | 0.61 s | 1.5× |
 | 10 models × 1k, --max | 3.6 s | 3.7 s | 3.7 s | 3.7 s | 3.2 s | 3.2 s | 3.1 s | 3.1 s | 2.8 s | 1.3× |
 
-Peak memory: the realistic run takes 341 MB upstream and 350 MB now (per-thread state kept across queries, and the hit lists of a batch of up to 16 queries held until they're printed), 352 MB with `--dbcache`. Many models against a tiny database take 35 → 62 MB.
+Peak memory: the realistic run takes 341 MB upstream and 350 MB at the end of Phase 7 (per-thread state kept across queries, and the hit lists of a batch of up to 16 queries held until they're printed), 352 MB with `--dbcache`; step 7E.1 brought it to 220 MB (232 MB with `--dbcache`). Many models against a tiny database take 35 → 62 MB.
 
 ## Annotating proteins with all of Pfam-A
 
@@ -118,7 +119,7 @@ Sequences per second (median of 3 rounds):
 | | **all 1,000** | | **4.1** | **42** | **10×** | **3.1** | **22** | **7.3×** |
 | **All six** | **6,000** | | **5.2** | **71** | **14×** | **3.8** | **28** | **7.4×** |
 
-Peak memory grows with protein length here: 34-192 MB upstream and 65-754 MB with this branch, the top of both for human L4 (pressed or text alike). Since Phase 3 every worker keeps its DP matrices across models, sized for the largest domain it has met; upstream frees them after each model and, on these runs, has one worker searching at a time.
+Peak memory grows with protein length here: 34-192 MB upstream, and 65-754 MB at the end of Phase 7 (the top of both for human L4). Phase 3's reused pipelines kept every worker's domain-stage matrices as large as the largest region it had met, against the longest model; upstream frees them after each model. Step 7E.1 trims them after any target that needed more than 3 MB: 69-334 MB, the same outputs, and at most 2% more CPU on the longest groups. It stays above upstream on the longest proteins (human L4 272 MB, viruses L4 334 MB) because 16 workers each hold such matrices at once, where upstream has one worker searching. The speeds above are Phase 7's; 7E.1 doesn't change them beyond noise.
 
 ## How this was measured
 
