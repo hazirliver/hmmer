@@ -1,0 +1,12 @@
+# Protein sets for the Pfam-A annotation benchmark (dev/bench/uniprot.py, dev/perf/annot.tsv).
+# Each set: 1,000 UniProtKB/Swiss-Prot proteins drawn from the query below, then split by length
+# into 4 groups of 250 (the set's own quartiles). Every query gets "AND reviewed:true AND
+# fragment:false" appended. Sets are drawn in this order; a protein already drawn by an earlier
+# set is skipped, so no protein is in two sets.
+# name      query
+bacteria    taxonomy_id:2
+phage       taxonomy_id:10239 AND virus_host_id:2
+fungi       taxonomy_id:4751
+virus       taxonomy_id:10239 AND virus_host_id:2759 AND NOT virus_host_id:2
+eukaryota   taxonomy_id:2759 AND NOT organism_id:9606
+human       organism_id:9606

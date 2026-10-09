@@ -73,6 +73,11 @@ def data_version():
 def derived_dir():
     return os.path.join(DATA, "derived-" + data_version())
 
+def uniprot_dir():
+    """Protein sets made by dev/bench/uniprot.py fetch; versioned by the manifest's content."""
+    h = hashlib.sha256(open(os.path.join(BENCH, "uniprot", "manifest.tsv"), "rb").read()).hexdigest()[:12]
+    return os.path.join(DATA, "uniprot-" + h)
+
 def verify_manifest(d, quiet=False):
     """Compare derived data against the committed dev/bench/data.sha256."""
     golden = os.path.join(BENCH, "data.sha256")

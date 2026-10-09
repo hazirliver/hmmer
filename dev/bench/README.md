@@ -70,6 +70,29 @@ The times above were measured on a 16-vCPU Xeon 8468 VM. Each case runs 3 reps, 
 | `ecoli.fa` | E. coli K-12 genome | 4.6 Mb, a different base composition |
 | `random_dna_10M.fa` | Generated | Random DNA |
 
+**UniProt protein sets (Pfam-A annotation benchmark)**
+
+Six sets of 1,000 UniProtKB/Swiss-Prot proteins (reviewed, no fragments), each split by length into four groups of 250, `L1` (shortest) to `L4` (longest). The bounds are each set's own quartiles. They're the targets of the annotation workloads in [`../perf/annot.tsv`](../perf/annot.tsv).
+
+```
+dev/bench/uniprot.py fetch       # ~10 s: 6,000 proteins by accession -> ~/.cache/hmmer-bench/uniprot-<hash>/
+```
+
+| Set | UniProtKB query | L1 | L2 | L3 | L4 |
+|---|---|---|---|---|---|
+| `bacteria` | `taxonomy_id:2` | 29-165 | 166-277 | 278-407 | 411-1,457 |
+| `phage` | `taxonomy_id:10239 AND virus_host_id:2` (viruses of bacteria) | 23-93 | 93-164 | 164-336 | 336-3,500 |
+| `fungi` | `taxonomy_id:4751` | 15-256 | 256-400 | 400-593 | 595-2,904 |
+| `virus` | `taxonomy_id:10239 AND virus_host_id:2759 AND NOT virus_host_id:2` (viruses of eukaryotes) | 31-179 | 179-318 | 318-570 | 570-7,182 |
+| `eukaryota` | `taxonomy_id:2759 AND NOT organism_id:9606` (fungi included) | 6-200 | 202-355 | 355-537 | 537-5,801 |
+| `human` | `organism_id:9606` | 16-246 | 248-395 | 396-695 | 696-13,477 |
+
+Files: `<set>_L<1-4>.fa` (250 proteins each) and `<set>.fa` (all 1,000), with headers `>sp|ACCESSION|ENTRY_NAME OX=taxid`.
+
+- **Drawing the sets** (`uniprot.py select`, done once, UniProt release 2026_03). Every query also gets `AND reviewed:true AND fragment:false`. The script lists every matching accession, ranks them by sha256(`<set>:<accession>`) and keeps the first 1,000 not drawn by an earlier set (in the table's order), so no protein is in two sets. The 1,000 are then sorted by length (ties by accession) and cut into four groups. Within a group, proteins keep the draw order, which is effectively random.
+- **Why Swiss-Prot.** Every reviewed entry can be listed, so the draw is uniform over the whole query. Host annotations, which define the phage and virus sets, are near complete there: 99% of reviewed viral entries have one, against 18% of unreviewed ones. Fragments are excluded by the query.
+- **Reproducible in later releases.** [`uniprot/manifest.tsv`](uniprot/manifest.tsv) records every protein's set, group, accession, entry name, entry and sequence versions, length and taxon. `fetch` downloads them from the UniProtKB REST API in batches of 250. A protein whose sequence version has changed since 2026_03, or that was deleted or merged, comes from UniSave at the manifest's entry version instead. Headers are built from the manifest, so annotation updates don't change the files. The files are checked against [`uniprot/data.sha256`](uniprot/data.sha256).
+
 ## Cases
 
 `cases.tsv` covers every stage of the toolchain:
