@@ -1,0 +1,277 @@
+diff --git a/src/hmmsearch.c b/src/hmmsearch.c
+index d8b79a0..d1ad806 100644
+--- a/src/hmmsearch.c
++++ b/src/hmmsearch.c
+@@ -16,6 +16,7 @@
+ 
+ #include "easel.h"
+ #include "esl_alphabet.h"
++#include "esl_exponential.h"
+ #include "esl_getopts.h"
+ #include "esl_msa.h"
+ #include "esl_msafile.h"
+@@ -170,6 +171,7 @@ typedef struct {
+   float             filtersc;
+   double            Z;           /* the pipeline's running Z after this target's p7_pli_NewSeq() */
+   float             xf[p7O_NXSTATES][p7O_NXTRANS];  /* om->xf configured for this target's length */
++  struct g0pair_s  *rec;       /* G0 */
+ } PAIR_WAIT;
+ 
+ typedef struct {
+@@ -179,6 +181,7 @@ typedef struct {
+   P7_OPROFILE      *om;          /* optimized query profile (a clone)       */
+   PAIR_WAIT         wait;        /* paired parsers: a target waiting for a partner, if <nwait> */
+   int               nwait;
++  int               g0q;         /* G0: this query's index in the record */
+ } WORKER_QUERY;
+ 
+ typedef struct {
+@@ -277,6 +280,102 @@ static ESL_OPTIONS options[] = {
+ };
+ 
+ static char usage[]  = "[options] <hmmfile> <seqdb>";
++
++/* ---- G0 throwaway (dev/profiling/gpu): record and replay filter outcomes ---- */
++#include <math.h>
++#include <time.h>
++#include <fcntl.h>
++#include <sys/stat.h>
++typedef struct g0pair_s { float usc, vfsc, filtersc, fwdsc; } G0PAIR;
++extern int g0_mode;
++extern __thread G0PAIR *g0_cur;
++typedef struct { uint64_t h; int64_t v; } G0ENT;
++typedef struct { G0ENT *e; uint64_t mask; } G0HT;
++static G0HT     g0_qht, g0_tht;
++static int64_t  g0_nq = 0, g0_nt = 0, g0_ntcap = 0;
++static uint64_t *g0_qh = NULL, *g0_th = NULL;
++static G0PAIR  **g0_rows = NULL;
++static G0PAIR   *g0_data = NULL;
++static char     *g0_file = NULL;
++static __thread double g0_t_wait = 0., g0_t_search = 0.;
++
++static double g0_now(void) { struct timespec t; clock_gettime(CLOCK_MONOTONIC, &t); return t.tv_sec + 1e-9 * t.tv_nsec; }
++static uint64_t g0_hash(const char *s) { uint64_t h = 1469598103934665603ULL; while (*s) { h ^= (unsigned char) *s++; h *= 1099511628211ULL; } return h ? h : 1; }
++static void g0_ht_init(G0HT *t, int64_t n) { uint64_t m = 16; while (m < (uint64_t) n * 2) m <<= 1; t->e = calloc(m, sizeof(G0ENT)); t->mask = m - 1; }
++static int64_t g0_ht_get(const G0HT *t, uint64_t h) { uint64_t i = h & t->mask; while (t->e[i].h) { if (t->e[i].h == h) return t->e[i].v; i = (i + 1) & t->mask; } return -1; }
++static void g0_ht_put(G0HT *t, uint64_t h, int64_t v) { uint64_t i = h & t->mask; while (t->e[i].h) { if (t->e[i].h == h) esl_fatal("G0: hash collision / duplicate name"); i = (i + 1) & t->mask; } t->e[i].h = h; t->e[i].v = v; }
++
++static void g0_dump(void)
++{
++  FILE *fp = fopen(g0_file, "wb");
++  uint64_t hdr[3] = { 0x4730524543ULL, (uint64_t) g0_nq, (uint64_t) g0_nt };
++  int64_t i;
++  fwrite(hdr, 8, 3, fp);
++  fwrite(g0_qh, 8, g0_nq, fp);
++  fwrite(g0_th, 8, g0_nt, fp);
++  for (i = 0; i < g0_nq; i++) fwrite(g0_rows[i], sizeof(G0PAIR), g0_nt, fp);
++  fclose(fp);
++  fprintf(stderr, "G0: recorded %ld queries x %ld targets\n", (long) g0_nq, (long) g0_nt);
++}
++
++static void g0_init(void)
++{
++  const char *m = getenv("HMMER_G0"), *f = getenv("HMMER_G0_FILE");
++  if (m == NULL) return;
++  g0_file = (char *) f;
++  if      (!strcmp(m, "record")) g0_mode = 1;
++  else if (!strcmp(m, "ctl"))    g0_mode = 2;
++  else if (!strcmp(m, "A"))      g0_mode = 3;
++  else if (!strcmp(m, "B"))      g0_mode = 4;
++  else esl_fatal("bad HMMER_G0");
++  if (g0_mode == 1)
++    {
++      g0_nt = 0; g0_ntcap = atol(getenv("HMMER_G0_NT"));
++      g0_ht_init(&g0_qht, 40000); g0_ht_init(&g0_tht, g0_ntcap);
++      g0_th = calloc(g0_ntcap, 8); g0_qh = calloc(40000, 8); g0_rows = calloc(40000, sizeof(G0PAIR *));
++      atexit(g0_dump);
++    }
++  else
++    {
++      double t0 = g0_now();
++      int fd = open(g0_file, O_RDONLY); struct stat st; uint64_t *hdr; char *map; int64_t i;
++      fstat(fd, &st);
++      map = mmap(NULL, st.st_size, PROT_READ, MAP_PRIVATE | MAP_POPULATE, fd, 0);
++      hdr = (uint64_t *) map; g0_nq = hdr[1]; g0_nt = hdr[2];
++      g0_qh = (uint64_t *) (map + 24); g0_th = g0_qh + g0_nq; g0_data = (G0PAIR *) (g0_th + g0_nt);
++      g0_ht_init(&g0_qht, g0_nq); g0_ht_init(&g0_tht, g0_nt);
++      for (i = 0; i < g0_nq; i++) g0_ht_put(&g0_qht, g0_qh[i], i);
++      for (i = 0; i < g0_nt; i++) g0_ht_put(&g0_tht, g0_th[i], i);
++      fprintf(stderr, "G0: loaded %ld x %ld in %.3f s\n", (long) g0_nq, (long) g0_nt, g0_now() - t0);
++    }
++}
++
++static int g0_query(const char *name)
++{
++  uint64_t h = g0_hash(name); int64_t q = g0_ht_get(&g0_qht, h);
++  if (g0_mode == 1)
++    {
++      int64_t i;
++      if (q >= 0) esl_fatal("G0: query seen twice");
++      q = g0_nq++; g0_ht_put(&g0_qht, h, q); g0_qh[q] = h;
++      g0_rows[q] = malloc(sizeof(G0PAIR) * g0_ntcap);
++      for (i = 0; i < g0_ntcap; i++) g0_rows[q][i].usc = g0_rows[q][i].vfsc = g0_rows[q][i].filtersc = g0_rows[q][i].fwdsc = NAN;
++    }
++  else if (q < 0) esl_fatal("G0: query %s not in the record", name);
++  return (int) q;
++}
++
++static G0PAIR *g0_slot(int q, const char *name)
++{
++  uint64_t h = g0_hash(name); int64_t t = g0_ht_get(&g0_tht, h);
++  if (t < 0)
++    {
++      if (g0_mode != 1 || g0_nt >= g0_ntcap) esl_fatal("G0: target %s not in the record", name);
++      t = g0_nt++; g0_ht_put(&g0_tht, h, t); g0_th[t] = h;
++    }
++  return g0_mode == 1 ? &g0_rows[q][t] : &g0_data[(int64_t) q * g0_nt + t];
++}
++
+ static char banner[] = "search profile(s) against a sequence database";
+ 
+ /* struct cfg_s : "Global" application configuration shared by all threads/processes
+@@ -617,6 +716,7 @@ main(int argc, char **argv)
+ static int
+ serial_master(ESL_GETOPTS *go, struct cfg_s *cfg)
+ {
++  g0_init();
+   FILE            *ofp      = stdout;            /* results output file (-o)                        */
+   FILE            *afp      = NULL;              /* alignment output file (-A)                      */
+   FILE            *tblfp    = NULL;              /* output stream for tabular per-seq (--tblout)    */
+@@ -2483,14 +2583,18 @@ stream_search(WORKER_INFO *info)
+   int64_t       last = -1;
+   int           set, i;
+ 
++  double tw = g0_now();
+   if (esl_workqueue_WorkerUpdate(info->queue, NULL, &newBlock) != eslOK) esl_fatal("Work queue worker failed");
++  g0_t_wait += g0_now() - tw;
+   block = (ESL_SQ_BLOCK *) newBlock;
+   while (block->count > 0)
+     {
+       set = stream_tag(gate, block);
+       if (gate->bid[set] != last) { worker_Fresh(info); last = gate->bid[set]; }
+ 
++      tw = g0_now();
+       worker_Search(info, set * MAXQ, gate->bnq[set], block->list, block->count);
++      g0_t_search += g0_now() - tw;
+       if (info->reuse_seqs)   /* not with --dbcache: cached targets are read-only */
+ 	for (i = 0; i < block->count; ++i) esl_sq_Reuse(block->list + i);
+ 
+@@ -2498,7 +2602,9 @@ stream_search(WORKER_INFO *info)
+       if (++gate->bdone[set] == gate->bsent[set] && gate->bfin[set]) pthread_cond_signal(&gate->done);
+       pthread_mutex_unlock(&gate->mutex);
+ 
++      tw = g0_now();
+       if (esl_workqueue_WorkerUpdate(info->queue, block, &newBlock) != eslOK) esl_fatal("Work queue worker failed");
++      g0_t_wait += g0_now() - tw;
+       block = (ESL_SQ_BLOCK *) newBlock;
+     }
+   if (esl_workqueue_WorkerUpdate(info->queue, block, NULL) != eslOK) esl_fatal("Work queue worker failed");
+@@ -2559,6 +2665,7 @@ pipeline_thread(void *arg)
+       pthread_mutex_unlock(&gate->mutex);
+     }
+ 
++  if (g0_mode) { struct timespec ct; clock_gettime(CLOCK_THREAD_CPUTIME_ID, &ct); fprintf(stderr, "G0W %d cpu %.3f search %.3f wait %.3f\n", workeridx, ct.tv_sec + 1e-9 * ct.tv_nsec, g0_t_search, g0_t_wait); }
+   esl_threads_Finished(obj, workeridx);
+   return;
+ }
+@@ -2595,6 +2702,7 @@ worker_SetQuery(WORKER_INFO *info, int k, const P7_OPROFILE *om, const ESL_GETOP
+   *(q->pli) = info->tmpl;
+   q->om    = p7_oprofile_Clone(om);
+   q->nwait = 0;
++  if (g0_mode) q->g0q = g0_query(om->name);
+   return p7_pli_NewModel(q->pli, q->om, q->bg);
+ 
+  ERROR:
+@@ -2717,6 +2825,8 @@ pair_one(WORKER_INFO *info, WORKER_QUERY *q, const PAIR_WAIT *t)
+   p7_oprofile_ReconfigLength(q->om, t->sq->n);
+   p7_omx_GrowTo(info->pf[0], q->om->M, 0, t->sq->n);
+   p7_ForwardParser(t->sq->dsq, t->sq->n, q->om, info->pf[0], &fwdsc);
++  if (g0_mode == 1) t->rec->fwdsc = fwdsc;
++  if (g0_mode >= 2 && memcmp(&t->rec->fwdsc, &fwdsc, 4)) fprintf(stderr, "G0BAD one %a %a\n", t->rec->fwdsc, fwdsc);
+   if (! p7_pli_ForwardPass(q->pli, q->om, t->filtersc, fwdsc)) return;
+   p7_omx_GrowTo(info->pb[0], q->om->M, 0, t->sq->n);
+   p7_BackwardParser(t->sq->dsq, t->sq->n, q->om, info->pf[0], info->pb[0], NULL);
+@@ -2740,6 +2850,8 @@ pair_two(WORKER_INFO *info, WORKER_QUERY *q, const PAIR_WAIT *a, const PAIR_WAIT
+   p7_omx_GrowTo(info->pf[1], om->M, 0, Lb);
+   p7_ForwardParserPair(om, a->sq->dsq, La, (const float (*)[p7O_NXTRANS]) a->xf, info->pf[0], &sa,
+ 		           b->sq->dsq, Lb, (const float (*)[p7O_NXTRANS]) b->xf, info->pf[1], &sb);
++  if (g0_mode == 1) { a->rec->fwdsc = sa; b->rec->fwdsc = sb; }
++  if (g0_mode >= 2 && (memcmp(&a->rec->fwdsc, &sa, 4) || memcmp(&b->rec->fwdsc, &sb, 4))) fprintf(stderr, "G0BAD two\n");
+   pa = p7_pli_ForwardPass(q->pli, om, a->filtersc, sa);
+   pb = p7_pli_ForwardPass(q->pli, om, b->filtersc, sb);
+   if (! pa && ! pb) return;
+@@ -2821,10 +2933,17 @@ pair_feed(WORKER_INFO *info, WORKER_QUERY *q, const ESL_SQ *sq)
+   p7_bg_SetLength(q->bg, sq->n);
+   p7_oprofile_ReconfigLength(q->om, sq->n);
+ 
++  if (g0_mode) g0_cur = g0_slot(q->g0q, sq->name);
+   p7_pli_Filter(q->pli, q->om, q->bg, sq, &(t->nullsc), &(t->filtersc), &pass);
+   p7_pipeline_Reuse(q->pli);
+   if (! pass) return;
+-
++  if (g0_mode == 4)
++    { /* replay B: the Forward parser's F3 test from the record */
++      float  ss = (g0_cur->fwdsc - t->filtersc) / eslCONST_LOG2;
++      double P  = esl_exp_surv(ss, q->om->evparam[p7_FTAU], q->om->evparam[p7_FLAMBDA]);
++      if (P > q->pli->F3) return;
++    }
++  t->rec = g0_cur;
+   t->sq = sq;
+   t->Z  = q->pli->Z;
+   memcpy(t->xf, q->om->xf, sizeof(t->xf));
+@@ -2911,6 +3030,7 @@ search_query(WORKER_INFO *info, WORKER_GATE *gate, QP_JOB *job)
+   *pli = info->tmpl;
+   worker_Fresh(info);
+   jq.bg = bg; jq.pli = pli; jq.th = job->th; jq.om = job->om; jq.nwait = 0;
++  if (g0_mode) jq.g0q = g0_query(job->om->name);
+   job->status = p7_pli_NewModel(pli, job->om, bg);
+   if (job->status == eslEINVAL) { strcpy(job->errbuf, pli->errbuf); return; }
+ 
+diff --git a/src/p7_pipeline.c b/src/p7_pipeline.c
+index 62988d5..7f9ea85 100644
+--- a/src/p7_pipeline.c
++++ b/src/p7_pipeline.c
+@@ -745,6 +745,13 @@ p7_pipeline_Merge(P7_PIPELINE *p1, P7_PIPELINE *p2)
+  *            and handle normal errors appropriately, which we haven't 
+  *            been careful enough about. [SRE H9/4]
+  */
++
++/* ---- G0 throwaway: record / replay of filter outcomes (dev/profiling/gpu) ---- */
++#include <math.h>
++typedef struct { float usc, vfsc, filtersc, fwdsc; } G0PAIR;
++int             g0_mode = 0;       /* 0 off, 1 record, 2 control (lookups only), 3 replay A (no MSV/VF), 4 replay B (also no bias, no F-parser for F3 failures) */
++__thread G0PAIR *g0_cur = NULL;
++
+ int
+ p7_Pipeline(P7_PIPELINE *pli, P7_OPROFILE *om, P7_BG *bg, const ESL_SQ *sq, const ESL_SQ *ntsq, P7_TOPHITS *hitlist)
+ {
+@@ -806,7 +813,8 @@ p7_pli_Filter(P7_PIPELINE *pli, P7_OPROFILE *om, P7_BG *bg, const ESL_SQ *sq, fl
+   p7_bg_NullOne  (bg, sq->dsq, sq->n, &nullsc);
+ 
+   /* First level filter: the MSV filter, multihit with <om> */
+-  p7_MSVFilter(sq->dsq, sq->n, om, pli->oxf, &usc);
++  if (g0_mode >= 3) usc = g0_cur->usc; else p7_MSVFilter(sq->dsq, sq->n, om, pli->oxf, &usc);
++  if (g0_mode == 1) g0_cur->usc = usc;
+   seq_score = (usc - nullsc) / eslCONST_LOG2;
+   P = esl_gumbel_surv(seq_score,  om->evparam[p7_MMU],  om->evparam[p7_MLAMBDA]);
+   if (P > pli->F1) return eslOK;
+@@ -815,7 +823,8 @@ p7_pli_Filter(P7_PIPELINE *pli, P7_OPROFILE *om, P7_BG *bg, const ESL_SQ *sq, fl
+   /* biased composition HMM filtering */
+   if (pli->do_biasfilter)
+     {
+-      p7_bg_FilterScore(bg, sq->dsq, sq->n, &filtersc);
++      if (g0_mode >= 4) filtersc = g0_cur->filtersc; else p7_bg_FilterScore(bg, sq->dsq, sq->n, &filtersc);
++      if (g0_mode == 1) g0_cur->filtersc = filtersc;
+       seq_score = (usc - filtersc) / eslCONST_LOG2;
+       P = esl_gumbel_surv(seq_score,  om->evparam[p7_MMU],  om->evparam[p7_MLAMBDA]);
+       if (P > pli->F1) return eslOK;
+@@ -834,7 +843,8 @@ p7_pli_Filter(P7_PIPELINE *pli, P7_OPROFILE *om, P7_BG *bg, const ESL_SQ *sq, fl
+   /* Second level filter: ViterbiFilter(), multihit with <om> */
+   if (P > pli->F2)
+     {
+-      p7_ViterbiFilter(sq->dsq, sq->n, om, pli->oxf, &vfsc);  
++      if (g0_mode >= 3) vfsc = g0_cur->vfsc; else p7_ViterbiFilter(sq->dsq, sq->n, om, pli->oxf, &vfsc);
++      if (g0_mode == 1) g0_cur->vfsc = vfsc;
+       seq_score = (vfsc-filtersc) / eslCONST_LOG2;
+       P  = esl_gumbel_surv(seq_score,  om->evparam[p7_VMU],  om->evparam[p7_VLAMBDA]);
+       if (P > pli->F2) return eslOK;
