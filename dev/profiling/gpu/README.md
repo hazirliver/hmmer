@@ -17,3 +17,14 @@ Measured 2026-10-09 (wall medians, 3 reps, 16 threads, outputs identical in ever
 | A_human_L4 | 14.84 | 12.86 | 12.05 | 1.15× | 1.23× |
 
 ctl (lookups, nothing skipped) was within 1% of ref everywhere, so the harness itself adds no visible cost.
+
+## Large-database annotation (all of Pfam-A, pressed, `--cut_ga`, 16 threads, 2 reps)
+
+`g0-big.tsv`, `g0-run-big.sh`; the bacterial set is made by `mk_bact50k.py` (50,000 random non-fragment bacterial Swiss-Prot proteins, seed 1, 15.7 M residues). Outputs identical in every variant. The lookup-only control (ctl) was 3-6% slower than ref here, so the ceilings are slightly conservative.
+
+| Workload | ref | ctl | A | B | ceiling A | ceiling B |
+|---|---:|---:|---:|---:|---:|---:|
+| Pfam-A × human 20,428 | 193.5 s | 199.8 | 119.4 | 105.1 | 1.62× | 1.84× |
+| Pfam-A × bacteria 50,000 | 177.9 s | 188.2 | 68.0 | 53.2 | 2.62× | 3.34× |
+
+In B, the 16 workers' CPU time is 52% (human) and 60% (bacteria) of 16 × wall; the rest is waiting for work.

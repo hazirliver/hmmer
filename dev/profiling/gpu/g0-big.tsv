@@ -1,0 +1,3 @@
+# G0 on the large-database annotation case: all of Pfam-A (pressed, --cut_ga) x a big protein set.
+G0_human20k_pfamA_cN   g0big  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom /home/asokolov/.cache/hmmer-bench/ab-fixtures/Pfam-A.hmm.h3m /home/asokolov/.cache/hmmer-bench/derived-b36ad365c6d1/human.fa
+G0_bact50k_pfamA_cN    g0big  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom /home/asokolov/.cache/hmmer-bench/ab-fixtures/Pfam-A.hmm.h3m /home/asokolov/.cache/hmmer-bench/g0-data/bacteria_50k.fa
