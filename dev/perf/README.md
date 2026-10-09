@@ -51,12 +51,14 @@ dev/perf/snap.sh --cflags "-O3 ..."    # any flags; --name NAME overrides the sn
 | `query` | X3 `pfam_1k × sprot_1k` @ 0/N, X4 Pfam-A (text and `.h3m`) × 5 seqs @ 0/N | wall | Per-query fixed costs |
 | `milestone` | X5 `pfam_1k × human --cut_ga` @ N | wall | Realistic annotation run |
 
-Data comes from the bench dataset (`dev/bench.sh prepare`). Fixtures such as the pressed Pfam-A are built on demand with A's `hmmpress`, in `~/.cache/hmmer-bench/ab-fixtures/`.
+A second file, [`annot.tsv`](annot.tsv) (`--file annot.tsv`), holds the **Pfam-A annotation benchmark**: all of Pfam-A with `--cut_ga` at N threads against six protein sets from UniProt (bacteria, phages, fungi, viruses of eukaryotes, eukaryotes other than human, human), each split by length into four groups of 250 (`L1` shortest to `L4` longest). That makes 24 workloads `A_<set>_L<g>` with the pressed Pfam-A (set `annot`), and the same 24 from the text file (`A_<set>_L<g>_txt`, set `annot_txt`). Upstream runs each model on a single worker here, because 250 targets fit in one read block, so these runs show per-model overhead and thread use more than kernel speed. The proteins come from `dev/bench/uniprot.py fetch` (see [`../bench/README.md`](../bench/README.md)); results are in [`../profiling/RESULTS.md`](../profiling/RESULTS.md), as sequences per second.
+
+Data comes from the bench dataset (`dev/bench.sh prepare`), and `U/` in a workload stands for the UniProt sets. Fixtures such as the pressed Pfam-A are built on demand with A's `hmmpress`, in `~/.cache/hmmer-bench/ab-fixtures/`.
 
 **How a comparison runs:**
 
 - **Interleaving.** For each workload, the binaries alternate: A B, B A, A B, and so on. The first pair (`--warmup`, default 1) is untimed and serves as the output reference. Then come `--reps` timed pairs (default 5). Drift on the machine affects both sides equally.
-- **Measurements.** Each run is wrapped in `perf stat -e task-clock,instructions:u,cycles:u,cycles` and GNU `time` (user, sys, peak RSS). Wall time is the parent's clock around a *blocking* wait. (Until 2026-10-05 it used `Popen.wait(timeout=...)`, which polls with sleeps that grow to 50 ms: every wall time was rounded up to the next poll, by up to 50 ms. That inflated the spreads of sub-second runs such as X2, about 5% of its 0.9 s, and is part of the wall noise in the table below. `dev/bench` had the same flaw and the same fix.)
+- **Measurements.** Each run is wrapped in GNU `time` (user, sys, peak RSS). Workloads judged by a counter (sets `cpu` and `reader`) also run under `perf stat -e task-clock,instructions:u,cycles:u,cycles`. Workloads judged by wall time don't, unless you pass `--perf-all`. On this VM, counting a threaded run costs wall time: the per-thread counters are switched along with the threads. Pfam-A × 250 proteins at 16 threads measured +41% upstream (27.5 → 38.8 s) and +18% with Phase 7 (1.71 → 2.03 s). Until 2026-10-07 every timed run was counted, so wall-time verdicts on threaded runs carried that cost. Wall time is the parent's clock around a *blocking* wait. (Until 2026-10-05 it used `Popen.wait(timeout=...)`, which polls with sleeps that grow to 50 ms: every wall time was rounded up to the next poll, by up to 50 ms. That inflated the spreads of sub-second runs such as X2, about 5% of its 0.9 s, and is part of the wall noise in the table below. `dev/bench` had the same flaw and the same fix.)
 - **argv[0].** The binary always runs as `hmmsearch`, through a symlink on `PATH`. Outputs therefore don't contain its path; the tabular tail echoes argv.
 - **Output identity.**
   - Every file a run leaves, plus stdout and stderr, is hashed after the dev/bench normalization: dates, CPU time, Mc/s and thread count are masked.
@@ -71,7 +73,7 @@ Data comes from the bench dataset (`dev/bench.sh prepare`). Fixtures such as the
   - Results go to `bench-results/ab/<time>_<A>_vs_<B>[_label].json`, with every sample included.
   - Exit status: 0 = outputs identical; 1 = outputs differ, are nondeterministic, or a run failed; 3 = a slowdown, only with `--fail-on-slowdown`.
 
-Options: `--workloads REGEX`, `--reps`, `--warmup`, `--check-only` (one untimed run each, outputs only), `--no-perf`, `--keep`, `--label`.
+Options: `--file FILE` (workloads file, default `workloads.tsv`), `--workloads REGEX`, `--reps`, `--warmup`, `--check-only` (one untimed run each, outputs only), `--no-perf`, `--perf-all`, `--keep`, `--label`.
 
 **B-only options.** `--b-args="--dbcache"` (use the `=` form) adds options to B's command line only, for example to compare a new opt-in feature against the old default. The option's own traces (its header echo line and its token in a table's `# Option settings:` line) are masked before comparing, so everything else must still be identical.
 
@@ -79,7 +81,7 @@ Options: `--workloads REGEX`, `--reps`, `--warmup`, `--check-only` (one untimed 
 
 ## `series.py` and `plot_series.py`: many snapshots at once
 
-`ab.sh` compares two binaries; `series.py` runs any number of them (for example upstream and the end of every phase) on the same workloads in one session, round-robin with a rotated order each round, after an untimed round that checks every binary's outputs against the first one's. `plot_series.py` turns its JSON into SVG charts (light and dark) and a Markdown table. [`../profiling/RESULTS.md`](../profiling/RESULTS.md) was made this way; its last section has the commands.
+`ab.sh` compares two binaries; `series.py` runs any number of them (for example upstream and the end of every phase) on the same workloads in one session, round-robin with a rotated order each round, after an untimed round that checks every binary's outputs against the first one's. It takes `--file` and `--perf-all` like `ab.sh`. `plot_series.py` turns its JSON into SVG charts (light and dark) and a Markdown table. [`../profiling/RESULTS.md`](../profiling/RESULTS.md) was made this way; its last section has the commands. `plot_annot.py` draws the annotation benchmark (one grouped bar chart per protein set, sequences per second, first vs last binary) for the same page.
 
 ## `errpaths.sh A B`: error paths and query batching
 

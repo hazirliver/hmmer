@@ -1,0 +1,66 @@
+# Pfam-A annotation benchmark (dev/perf/ab.sh and series.py with --file annot.tsv).
+#
+# All of Pfam-A 37.0 (21,979 models, --cut_ga) against six sets of 1,000 UniProtKB/Swiss-Prot
+# proteins: bacteria, phage, fungi, viruses of eukaryotes, eukaryotes other than human, and
+# human. Each set is split by length into four groups of 250 (L1 shortest .. L4 longest; the
+# bounds are the set's own quartiles). The sets are defined in dev/bench/uniprot/sets.tsv and
+# made by `dev/bench/uniprot.py fetch`.
+#   U/  the UniProt sets (~/.cache/hmmer-bench/uniprot-*)    D/, F/, $NCPU: as in workloads.tsv
+#
+# Two forms of the same run: Pfam-A pressed with hmmpress (F/Pfam-A.hmm.h3m; hmmsearch also
+# picks the pressed file up by itself when it sits next to Pfam-A.hmm) and the text file as
+# downloaded (D/Pfam-A.hmm, workloads ending in _txt). --cut_ga thresholds are bit scores, so the
+# threaded runs need no -Z to be deterministic.
+@fixture Pfam-A.hmm.h3m  ln -sf D/Pfam-A.hmm Pfam-A.hmm && hmmpress Pfam-A.hmm > /dev/null
+
+# ---- annot: pressed Pfam-A, $NCPU threads
+A_bacteria_L1            annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/bacteria_L1.fa
+A_bacteria_L2            annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/bacteria_L2.fa
+A_bacteria_L3            annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/bacteria_L3.fa
+A_bacteria_L4            annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/bacteria_L4.fa
+A_phage_L1               annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/phage_L1.fa
+A_phage_L2               annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/phage_L2.fa
+A_phage_L3               annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/phage_L3.fa
+A_phage_L4               annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/phage_L4.fa
+A_fungi_L1               annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/fungi_L1.fa
+A_fungi_L2               annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/fungi_L2.fa
+A_fungi_L3               annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/fungi_L3.fa
+A_fungi_L4               annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/fungi_L4.fa
+A_virus_L1               annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/virus_L1.fa
+A_virus_L2               annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/virus_L2.fa
+A_virus_L3               annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/virus_L3.fa
+A_virus_L4               annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/virus_L4.fa
+A_eukaryota_L1           annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/eukaryota_L1.fa
+A_eukaryota_L2           annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/eukaryota_L2.fa
+A_eukaryota_L3           annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/eukaryota_L3.fa
+A_eukaryota_L4           annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/eukaryota_L4.fa
+A_human_L1               annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/human_L1.fa
+A_human_L2               annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/human_L2.fa
+A_human_L3               annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/human_L3.fa
+A_human_L4               annot      --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/human_L4.fa
+
+# ---- annot_txt: text Pfam-A, $NCPU threads
+A_bacteria_L1_txt        annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/bacteria_L1.fa
+A_bacteria_L2_txt        annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/bacteria_L2.fa
+A_bacteria_L3_txt        annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/bacteria_L3.fa
+A_bacteria_L4_txt        annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/bacteria_L4.fa
+A_phage_L1_txt           annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/phage_L1.fa
+A_phage_L2_txt           annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/phage_L2.fa
+A_phage_L3_txt           annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/phage_L3.fa
+A_phage_L4_txt           annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/phage_L4.fa
+A_fungi_L1_txt           annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/fungi_L1.fa
+A_fungi_L2_txt           annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/fungi_L2.fa
+A_fungi_L3_txt           annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/fungi_L3.fa
+A_fungi_L4_txt           annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/fungi_L4.fa
+A_virus_L1_txt           annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/virus_L1.fa
+A_virus_L2_txt           annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/virus_L2.fa
+A_virus_L3_txt           annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/virus_L3.fa
+A_virus_L4_txt           annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/virus_L4.fa
+A_eukaryota_L1_txt       annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/eukaryota_L1.fa
+A_eukaryota_L2_txt       annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/eukaryota_L2.fa
+A_eukaryota_L3_txt       annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/eukaryota_L3.fa
+A_eukaryota_L4_txt       annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/eukaryota_L4.fa
+A_human_L1_txt           annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/human_L1.fa
+A_human_L2_txt           annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/human_L2.fa
+A_human_L3_txt           annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/human_L3.fa
+A_human_L4_txt           annot_txt  --cpu $NCPU --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/human_L4.fa

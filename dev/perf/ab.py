@@ -7,7 +7,7 @@ A and B are a binary, a directory holding one, or a snapshot name under
 bench-results/bins/ (made by dev/perf/snap.sh; a unique prefix is enough).
 B defaults to build-dev/src/hmmsearch.
 
-For each workload (dev/perf/workloads.tsv) both binaries run alternately
+For each workload (dev/perf/workloads.tsv, or --file) both binaries run alternately
 (A B, B A, A B, ...) so machine drift hits both equally. Each run is wrapped in
 `perf stat` (task-clock, instructions:u, cycles:u, cycles) and GNU time (wall, user,
 sys, peak RSS). Every file a run writes, plus stdout/stderr, is hashed after the
@@ -89,7 +89,20 @@ def load_workloads(path, ncpu):
 
 def expand(s, data):
     s = re.sub(r"(?<![\w/.])D/", data + "/", s)
+    s = re.sub(r"(?<![\w/.])U/", bench.uniprot_dir() + "/", s)
     return re.sub(r"(?<![\w/.])F/", FIXTURES + "/", s)
+
+
+def workloads_file(name):
+    """--file: a path, or a file name in dev/perf (workloads.tsv, annot.tsv)."""
+    p = name if os.path.exists(name) else os.path.join(HERE, name)
+    if not os.path.exists(p): die(f"no workloads file {name}")
+    return p
+
+
+def check_data(wls):
+    if any(re.search(r"(?<![\w/.])U/", w["args"]) for w in wls) and not os.path.exists(os.path.join(bench.uniprot_dir(), ".complete")):
+        die(f"no UniProt protein sets in {bench.uniprot_dir()}; run: dev/bench/uniprot.py fetch")
 
 
 def make_fixtures(fixtures, needed_args, data, bindir):
@@ -105,6 +118,16 @@ def make_fixtures(fixtures, needed_args, data, bindir):
 
 
 # ------------------------------------------------------------------ running
+# Sets judged by a counter; every other set is judged by wall time and runs without perf stat:
+# counting a threaded run costs wall time on this VM (per-thread counters are switched with the
+# threads), measured +41% on upstream and +18% on Phase 7 for Pfam-A x 250 proteins at 16 threads.
+COUNTER_SETS = {"cpu": "cycles", "reader": "cycles_uk"}
+
+
+def wants_perf(w, perf_all=False):
+    return perf_all or w["sets"][0] in COUNTER_SETS
+
+
 def perf_ok():
     try:
         r = subprocess.run(["perf", "stat", "-x,", "-e", ",".join(EVENTS), "true"],
@@ -255,10 +278,13 @@ def main():
     ap.add_argument("A"); ap.add_argument("B", nargs="?", default=os.path.join(ROOT, "build-dev", "src", "hmmsearch"))
     ap.add_argument("--set", default="cpu", help="cpu|reader|scale|query|milestone|all, or comma list [cpu]")
     ap.add_argument("--workloads", help="regex on workload name (applied after --set)")
+    ap.add_argument("--file", default="workloads.tsv", help="workloads file, in dev/perf or a path [workloads.tsv]")
     ap.add_argument("--reps", type=int, default=5, help="timed runs per binary [5]")
     ap.add_argument("--warmup", type=int, default=1, help="untimed runs per binary first; its outputs are the A/B reference [1]")
     ap.add_argument("--check-only", action="store_true", help="outputs only: one run each, no timing (e.g. crosscheck builds)")
     ap.add_argument("--no-perf", action="store_true", help="don't use perf stat (wall/user/sys/RSS only)")
+    ap.add_argument("--perf-all", action="store_true",
+                    help="also count workloads judged by wall time (their wall times then include perf's cost)")
     ap.add_argument("--timeout", type=float, default=3600)
     ap.add_argument("--label")
     ap.add_argument("--keep", action="store_true", help="keep all run dirs (default: keep only mismatching ones)")
@@ -282,7 +308,7 @@ def main():
     if "--dbcache" in a.b_args.split():
         EXTRA_RULES.append((re.compile(r"^# target db cached in memory:.*\n?", re.M), ""))
     ncpu = os.cpu_count()
-    fixtures, wls = load_workloads(os.path.join(HERE, "workloads.tsv"), ncpu)
+    fixtures, wls = load_workloads(workloads_file(a.file), ncpu)
     sets = None if a.set == "all" else set(a.set.split(","))
     wls = [w for w in wls if (sets is None or sets & set(w["sets"])) and (not a.workloads or re.search(a.workloads, w["name"]))]
     if a.list:
@@ -294,6 +320,7 @@ def main():
 
     data = bench.derived_dir()
     if not os.path.isdir(data): die(f"no benchmark data in {data}; run: dev/bench.sh prepare")
+    check_data(wls)
     A, B = resolve_bin(a.A), resolve_bin(a.B)
     da, db = describe_bin(A), describe_bin(B)
     use_perf = not a.no_perf and not a.check_only and perf_ok()
@@ -314,7 +341,8 @@ def main():
     results, failed, slower = [], False, False
     for w in wls:
         args = expand(w["args"], data)
-        metric = {"cpu": "cycles", "reader": "cycles_uk"}.get(w["sets"][0], "wall") if use_perf else "wall"
+        metric = COUNTER_SETS.get(w["sets"][0], "wall") if use_perf else "wall"
+        wperf = use_perf and wants_perf(w, a.perf_all)
         runs = {"A": [], "B": []}
         ref, ref_dir, problems, notes = {}, {}, [], []
         nrun = a.warmup + a.reps
@@ -323,7 +351,7 @@ def main():
             for v in (("A", "B") if i % 2 == 0 else ("B", "A")):
                 cwd = os.path.join(work, w["name"], f"{v}{i}")
                 os.makedirs(cwd)
-                r = run_once(A if v == "A" else B, args, cwd, use_perf and i >= a.warmup, a.timeout,
+                r = run_once(A if v == "A" else B, args, cwd, wperf and i >= a.warmup, a.timeout,
                              a.b_args if v == "B" else "", env_of[v])
                 h = hash_run(cwd)
                 if r.get("rc") != 0:

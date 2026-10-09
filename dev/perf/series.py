@@ -4,7 +4,7 @@
   dev/perf/series.py SNAP1 SNAP2 ... [--labels L1,L2,...] [--workloads REGEX] [--reps 3] [--out FILE]
 
 SNAPs are anything ab.sh accepts (binary, dir, or snapshot name under bench-results/bins/).
-Workloads come from workloads.tsv (all of them by default; --workloads filters by name).
+Workloads come from workloads.tsv, or --file (all of them by default; --workloads filters by name).
 
 Each round runs every binary once per workload, in an order rotated by one each round, so
 machine drift spreads over all binaries; the first round is an untimed warm-up whose outputs
@@ -13,7 +13,9 @@ normalization (whitespace-only differences accepted, as in ab.sh). A workload th
 option a binary doesn't have (--dbcache before Phase 2) is skipped for that binary.
 
 Writes JSON (default bench-results/series/<time>.json): per workload, per binary label, the
-samples of wall, user, sys, cycles:u, cycles (user+kernel), instructions:u and peak RSS.
+samples of wall, user, sys and peak RSS, plus cycles:u, cycles (user+kernel) and instructions:u
+for workloads judged by counters (the cpu and reader sets; --perf-all for all of them: perf stat
+inflates threaded wall times, see ab.COUNTER_SETS).
 dev/perf/plot_series.py draws it.
 """
 import argparse, datetime, json, os, re, shutil, subprocess, sys
@@ -34,20 +36,24 @@ def main():
     ap.add_argument("snaps", nargs="+")
     ap.add_argument("--labels", help="comma-separated labels, one per snapshot (default: snapshot names)")
     ap.add_argument("--workloads", help="regex on workload names")
+    ap.add_argument("--file", default="workloads.tsv", help="workloads file, in dev/perf or a path [workloads.tsv]")
     ap.add_argument("--reps", type=int, default=3, help="timed rounds [3]")
     ap.add_argument("--warmup", type=int, default=1, help="untimed rounds first [1]")
     ap.add_argument("--timeout", type=float, default=3600)
     ap.add_argument("--out")
+    ap.add_argument("--perf-all", action="store_true",
+                    help="perf stat on every workload, not only those judged by counters (inflates threaded wall times)")
     a = ap.parse_args()
 
     bins   = [ab.resolve_bin(s) for s in a.snaps]
     labels = a.labels.split(",") if a.labels else [ab.describe_bin(b).get("name", s) for b, s in zip(bins, a.snaps)]
     if len(labels) != len(bins): ab.die("--labels: one label per snapshot")
     ncpu = os.cpu_count()
-    fixtures, wls = ab.load_workloads(os.path.join(HERE, "workloads.tsv"), ncpu)
+    fixtures, wls = ab.load_workloads(ab.workloads_file(a.file), ncpu)
     wls = [w for w in wls if not a.workloads or re.search(a.workloads, w["name"])]
     if not wls: ab.die("no workloads selected")
     data = bench.derived_dir()
+    ab.check_data(wls)
     ab.make_fixtures(fixtures, [w["args"] for w in wls], data, os.path.dirname(bins[0]))
     has_dbcache = [supports(b, "--dbcache") for b in bins]
     use_perf = ab.perf_ok()
@@ -76,7 +82,7 @@ def main():
                 if needs_cache and not has_dbcache[i]: continue
                 cwd = os.path.join(work, w["name"], f"{labels[i]}_{r}")
                 os.makedirs(cwd)
-                s = ab.run_once(bins[i], args, cwd, use_perf and r >= a.warmup, a.timeout)
+                s = ab.run_once(bins[i], args, cwd, use_perf and ab.wants_perf(w, a.perf_all) and r >= a.warmup, a.timeout)
                 if s.get("rc") != 0:
                     problems.append(f"{labels[i]} round {r}: exit {s.get('rc')}"); failed = True
                 if r < a.warmup:
