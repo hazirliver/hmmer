@@ -1,0 +1,249 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620" font-family='system-ui, -apple-system, "Segoe UI", sans-serif'>
+<rect width="100%" height="100%" fill="#1a1a19"/>
+<rect x="10.0" y="13.0" width="12" height="12" rx="3" fill="#898781"/>
+<text x="28.0" y="23.0" fill="#c3c2b7" font-size="12" font-weight="400" text-anchor="start" >upstream HMMER 3.4</text>
+<rect x="176.0" y="13.0" width="12" height="12" rx="3" fill="#3987e5"/>
+<text x="194.0" y="23.0" fill="#c3c2b7" font-size="12" font-weight="400" text-anchor="start" >this branch</text>
+<text x="890.0" y="22.0" fill="#c3c2b7" font-size="12" font-weight="400" text-anchor="end" >Pfam-A text file: sequences per second, 16 threads</text>
+<text x="10.0" y="68.0" fill="#ffffff" font-size="13" font-weight="600" text-anchor="start" >Bacteria</text>
+<text x="10.0" y="84.0" fill="#c3c2b7" font-size="11" font-weight="400" text-anchor="start" font-variant-numeric="tabular-nums">all 1,000: 4.6 → 32 seq/s (7.1×)</text>
+<line x1="44.0" y1="254.0" x2="283.3333333333333" y2="254.0" stroke="#383835" stroke-width="1"/>
+<text x="38.0" y="258.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">0</text>
+<line x1="44.0" y1="215.0" x2="283.3333333333333" y2="215.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="38.0" y="219.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">10</text>
+<line x1="44.0" y1="176.0" x2="283.3333333333333" y2="176.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="38.0" y="180.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">20</text>
+<line x1="44.0" y1="137.0" x2="283.3333333333333" y2="137.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="38.0" y="141.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">30</text>
+<line x1="44.0" y1="98.0" x2="283.3333333333333" y2="98.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="38.0" y="102.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">40</text>
+<text x="73.9" y="269.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L1</text>
+<text x="73.9" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">29-165</text>
+<text x="73.9" y="296.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">5.9×</text>
+<path d="M53.4,254.0 v-19.1 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v19.1 z" fill="#898781"><title>Bacteria L1, Pfam-A text file, upstream: 5.7 sequences/s</title></path>
+<text x="62.9" y="227.9" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">5.7</text>
+<path d="M75.4,254.0 v-127.8 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v127.8 z" fill="#3987e5"><title>Bacteria L1, Pfam-A text file, this branch: 34 sequences/s</title></path>
+<text x="84.9" y="119.2" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">34</text>
+<text x="133.8" y="269.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L2</text>
+<text x="133.8" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">166-277</text>
+<text x="133.8" y="296.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6.7×</text>
+<path d="M113.2,254.0 v-16.4 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v16.4 z" fill="#898781"><title>Bacteria L2, Pfam-A text file, upstream: 5.0 sequences/s</title></path>
+<text x="122.8" y="230.6" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">5.0</text>
+<path d="M135.2,254.0 v-126.1 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v126.1 z" fill="#3987e5"><title>Bacteria L2, Pfam-A text file, this branch: 33 sequences/s</title></path>
+<text x="144.8" y="120.9" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">33</text>
+<text x="193.6" y="269.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L3</text>
+<text x="193.6" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">278-407</text>
+<text x="193.6" y="296.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">7.1×</text>
+<path d="M173.1,254.0 v-15.3 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v15.3 z" fill="#898781"><title>Bacteria L3, Pfam-A text file, upstream: 4.7 sequences/s</title></path>
+<text x="182.6" y="231.7" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">4.7</text>
+<path d="M195.1,254.0 v-126.6 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v126.6 z" fill="#3987e5"><title>Bacteria L3, Pfam-A text file, this branch: 33 sequences/s</title></path>
+<text x="204.6" y="120.4" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">33</text>
+<text x="253.4" y="269.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L4</text>
+<text x="253.4" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">411-1,457</text>
+<text x="253.4" y="296.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">8.7×</text>
+<path d="M232.9,254.0 v-10.6 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v10.6 z" fill="#898781"><title>Bacteria L4, Pfam-A text file, upstream: 3.5 sequences/s</title></path>
+<text x="242.4" y="236.4" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">3.5</text>
+<path d="M254.9,254.0 v-114.7 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v114.7 z" fill="#3987e5"><title>Bacteria L4, Pfam-A text file, this branch: 30 sequences/s</title></path>
+<text x="264.4" y="132.3" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">30</text>
+<text x="313.3" y="68.0" fill="#ffffff" font-size="13" font-weight="600" text-anchor="start" >Phages</text>
+<text x="313.3" y="84.0" fill="#c3c2b7" font-size="11" font-weight="400" text-anchor="start" font-variant-numeric="tabular-nums">all 1,000: 4.8 → 32 seq/s (6.6×)</text>
+<line x1="347.3333333333333" y1="254.0" x2="586.6666666666666" y2="254.0" stroke="#383835" stroke-width="1"/>
+<text x="341.3" y="258.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">0</text>
+<line x1="347.3333333333333" y1="215.0" x2="586.6666666666666" y2="215.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="341.3" y="219.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">10</text>
+<line x1="347.3333333333333" y1="176.0" x2="586.6666666666666" y2="176.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="341.3" y="180.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">20</text>
+<line x1="347.3333333333333" y1="137.0" x2="586.6666666666666" y2="137.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="341.3" y="141.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">30</text>
+<line x1="347.3333333333333" y1="98.0" x2="586.6666666666666" y2="98.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="341.3" y="102.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">40</text>
+<text x="377.2" y="269.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L1</text>
+<text x="377.2" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">23-93</text>
+<text x="377.2" y="296.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">5.7×</text>
+<path d="M356.8,254.0 v-19.9 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v19.9 z" fill="#898781"><title>Phages L1, Pfam-A text file, upstream: 5.9 sequences/s</title></path>
+<text x="366.2" y="227.1" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">5.9</text>
+<path d="M378.8,254.0 v-126.5 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v126.5 z" fill="#3987e5"><title>Phages L1, Pfam-A text file, this branch: 33 sequences/s</title></path>
+<text x="388.2" y="120.5" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">33</text>
+<text x="437.1" y="269.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L2</text>
+<text x="437.1" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">93-164</text>
+<text x="437.1" y="296.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6.0×</text>
+<path d="M416.6,254.0 v-18.3 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v18.3 z" fill="#898781"><title>Phages L2, Pfam-A text file, upstream: 5.5 sequences/s</title></path>
+<text x="426.1" y="228.7" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">5.5</text>
+<path d="M438.6,254.0 v-124.6 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v124.6 z" fill="#3987e5"><title>Phages L2, Pfam-A text file, this branch: 33 sequences/s</title></path>
+<text x="448.1" y="122.4" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">33</text>
+<text x="496.9" y="269.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L3</text>
+<text x="496.9" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">164-336</text>
+<text x="496.9" y="296.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6.7×</text>
+<path d="M476.4,254.0 v-16.0 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v16.0 z" fill="#898781"><title>Phages L3, Pfam-A text file, upstream: 4.9 sequences/s</title></path>
+<text x="485.9" y="231.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">4.9</text>
+<path d="M498.4,254.0 v-124.4 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v124.4 z" fill="#3987e5"><title>Phages L3, Pfam-A text file, this branch: 33 sequences/s</title></path>
+<text x="507.9" y="122.6" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">33</text>
+<text x="556.8" y="269.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L4</text>
+<text x="556.8" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">336-3,500</text>
+<text x="556.8" y="296.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">8.0×</text>
+<path d="M536.2,254.0 v-11.1 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v11.1 z" fill="#898781"><title>Phages L4, Pfam-A text file, upstream: 3.6 sequences/s</title></path>
+<text x="545.8" y="235.9" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">3.6</text>
+<path d="M558.2,254.0 v-110.6 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v110.6 z" fill="#3987e5"><title>Phages L4, Pfam-A text file, this branch: 29 sequences/s</title></path>
+<text x="567.8" y="136.4" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">29</text>
+<text x="616.7" y="68.0" fill="#ffffff" font-size="13" font-weight="600" text-anchor="start" >Fungi</text>
+<text x="616.7" y="84.0" fill="#c3c2b7" font-size="11" font-weight="400" text-anchor="start" font-variant-numeric="tabular-nums">all 1,000: 3.6 → 28 seq/s (7.8×)</text>
+<line x1="650.6666666666666" y1="254.0" x2="890.0" y2="254.0" stroke="#383835" stroke-width="1"/>
+<text x="644.7" y="258.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">0</text>
+<line x1="650.6666666666666" y1="215.0" x2="890.0" y2="215.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="644.7" y="219.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">10</text>
+<line x1="650.6666666666666" y1="176.0" x2="890.0" y2="176.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="644.7" y="180.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">20</text>
+<line x1="650.6666666666666" y1="137.0" x2="890.0" y2="137.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="644.7" y="141.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">30</text>
+<line x1="650.6666666666666" y1="98.0" x2="890.0" y2="98.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="644.7" y="102.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">40</text>
+<text x="680.6" y="269.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L1</text>
+<text x="680.6" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">15-256</text>
+<text x="680.6" y="296.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6.2×</text>
+<path d="M660.1,254.0 v-16.7 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v16.7 z" fill="#898781"><title>Fungi L1, Pfam-A text file, upstream: 5.0 sequences/s</title></path>
+<text x="669.6" y="230.3" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">5.0</text>
+<path d="M682.1,254.0 v-119.7 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v119.7 z" fill="#3987e5"><title>Fungi L1, Pfam-A text file, this branch: 31 sequences/s</title></path>
+<text x="691.6" y="127.3" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">31</text>
+<text x="740.4" y="269.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L2</text>
+<text x="740.4" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">256-400</text>
+<text x="740.4" y="296.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">7.1×</text>
+<path d="M719.9,254.0 v-13.6 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v13.6 z" fill="#898781"><title>Fungi L2, Pfam-A text file, upstream: 4.2 sequences/s</title></path>
+<text x="729.4" y="233.4" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">4.2</text>
+<path d="M741.9,254.0 v-114.7 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v114.7 z" fill="#3987e5"><title>Fungi L2, Pfam-A text file, this branch: 30 sequences/s</title></path>
+<text x="751.4" y="132.3" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">30</text>
+<text x="800.2" y="269.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L3</text>
+<text x="800.2" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">400-593</text>
+<text x="800.2" y="296.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">7.9×</text>
+<path d="M779.8,254.0 v-11.4 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v11.4 z" fill="#898781"><title>Fungi L3, Pfam-A text file, upstream: 3.7 sequences/s</title></path>
+<text x="789.2" y="235.6" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">3.7</text>
+<path d="M801.8,254.0 v-110.4 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v110.4 z" fill="#3987e5"><title>Fungi L3, Pfam-A text file, this branch: 29 sequences/s</title></path>
+<text x="811.2" y="136.6" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">29</text>
+<text x="860.1" y="269.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L4</text>
+<text x="860.1" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">595-2,904</text>
+<text x="860.1" y="296.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">9.5×</text>
+<path d="M839.6,254.0 v-6.6 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v6.6 z" fill="#898781"><title>Fungi L4, Pfam-A text file, upstream: 2.5 sequences/s</title></path>
+<text x="849.1" y="240.4" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">2.5</text>
+<path d="M861.6,254.0 v-88.5 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v88.5 z" fill="#3987e5"><title>Fungi L4, Pfam-A text file, this branch: 23 sequences/s</title></path>
+<text x="871.1" y="158.5" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">23</text>
+<text x="10.0" y="352.0" fill="#ffffff" font-size="13" font-weight="600" text-anchor="start" >Eukaryotic viruses</text>
+<text x="10.0" y="368.0" fill="#c3c2b7" font-size="11" font-weight="400" text-anchor="start" font-variant-numeric="tabular-nums">all 1,000: 3.6 → 28 seq/s (7.9×)</text>
+<line x1="44.0" y1="538.0" x2="283.3333333333333" y2="538.0" stroke="#383835" stroke-width="1"/>
+<text x="38.0" y="542.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">0</text>
+<line x1="44.0" y1="499.0" x2="283.3333333333333" y2="499.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="38.0" y="503.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">10</text>
+<line x1="44.0" y1="460.0" x2="283.3333333333333" y2="460.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="38.0" y="464.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">20</text>
+<line x1="44.0" y1="421.0" x2="283.3333333333333" y2="421.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="38.0" y="425.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">30</text>
+<line x1="44.0" y1="382.0" x2="283.3333333333333" y2="382.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="38.0" y="386.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">40</text>
+<text x="73.9" y="553.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L1</text>
+<text x="73.9" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">31-179</text>
+<text x="73.9" y="580.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6.0×</text>
+<path d="M53.4,538.0 v-17.8 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v17.8 z" fill="#898781"><title>Eukaryotic viruses L1, Pfam-A text file, upstream: 5.3 sequences/s</title></path>
+<text x="62.9" y="513.2" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">5.3</text>
+<path d="M75.4,538.0 v-121.3 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v121.3 z" fill="#3987e5"><title>Eukaryotic viruses L1, Pfam-A text file, this branch: 32 sequences/s</title></path>
+<text x="84.9" y="409.7" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">32</text>
+<text x="133.8" y="553.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L2</text>
+<text x="133.8" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">179-318</text>
+<text x="133.8" y="580.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6.6×</text>
+<path d="M113.2,538.0 v-15.4 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v15.4 z" fill="#898781"><title>Eukaryotic viruses L2, Pfam-A text file, upstream: 4.7 sequences/s</title></path>
+<text x="122.8" y="515.6" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">4.7</text>
+<path d="M135.2,538.0 v-117.6 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v117.6 z" fill="#3987e5"><title>Eukaryotic viruses L2, Pfam-A text file, this branch: 31 sequences/s</title></path>
+<text x="144.8" y="413.4" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">31</text>
+<text x="193.6" y="553.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L3</text>
+<text x="193.6" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">318-570</text>
+<text x="193.6" y="580.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">7.5×</text>
+<path d="M173.1,538.0 v-12.2 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v12.2 z" fill="#898781"><title>Eukaryotic viruses L3, Pfam-A text file, upstream: 3.9 sequences/s</title></path>
+<text x="182.6" y="518.8" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">3.9</text>
+<path d="M195.1,538.0 v-111.1 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v111.1 z" fill="#3987e5"><title>Eukaryotic viruses L3, Pfam-A text file, this branch: 29 sequences/s</title></path>
+<text x="204.6" y="419.9" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">29</text>
+<text x="253.4" y="553.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L4</text>
+<text x="253.4" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">570-7,182</text>
+<text x="253.4" y="580.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">10×</text>
+<path d="M232.9,538.0 v-5.6 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v5.6 z" fill="#898781"><title>Eukaryotic viruses L4, Pfam-A text file, upstream: 2.2 sequences/s</title></path>
+<text x="242.4" y="525.4" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">2.2</text>
+<path d="M254.9,538.0 v-86.5 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v86.5 z" fill="#3987e5"><title>Eukaryotic viruses L4, Pfam-A text file, this branch: 23 sequences/s</title></path>
+<text x="264.4" y="444.5" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">23</text>
+<text x="313.3" y="352.0" fill="#ffffff" font-size="13" font-weight="600" text-anchor="start" >Non-human eukaryotes</text>
+<text x="313.3" y="368.0" fill="#c3c2b7" font-size="11" font-weight="400" text-anchor="start" font-variant-numeric="tabular-nums">all 1,000: 3.6 → 27 seq/s (7.5×)</text>
+<line x1="347.3333333333333" y1="538.0" x2="586.6666666666666" y2="538.0" stroke="#383835" stroke-width="1"/>
+<text x="341.3" y="542.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">0</text>
+<line x1="347.3333333333333" y1="499.0" x2="586.6666666666666" y2="499.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="341.3" y="503.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">10</text>
+<line x1="347.3333333333333" y1="460.0" x2="586.6666666666666" y2="460.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="341.3" y="464.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">20</text>
+<line x1="347.3333333333333" y1="421.0" x2="586.6666666666666" y2="421.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="341.3" y="425.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">30</text>
+<line x1="347.3333333333333" y1="382.0" x2="586.6666666666666" y2="382.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="341.3" y="386.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">40</text>
+<text x="377.2" y="553.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L1</text>
+<text x="377.2" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6-200</text>
+<text x="377.2" y="580.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6.0×</text>
+<path d="M356.8,538.0 v-17.6 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v17.6 z" fill="#898781"><title>Non-human eukaryotes L1, Pfam-A text file, upstream: 5.3 sequences/s</title></path>
+<text x="366.2" y="513.4" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">5.3</text>
+<path d="M378.8,538.0 v-119.6 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v119.6 z" fill="#3987e5"><title>Non-human eukaryotes L1, Pfam-A text file, this branch: 31 sequences/s</title></path>
+<text x="388.2" y="411.4" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">31</text>
+<text x="437.1" y="553.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L2</text>
+<text x="437.1" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">202-355</text>
+<text x="437.1" y="580.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">7.0×</text>
+<path d="M416.6,538.0 v-13.7 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v13.7 z" fill="#898781"><title>Non-human eukaryotes L2, Pfam-A text file, upstream: 4.3 sequences/s</title></path>
+<text x="426.1" y="517.3" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">4.3</text>
+<path d="M438.6,538.0 v-114.3 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v114.3 z" fill="#3987e5"><title>Non-human eukaryotes L2, Pfam-A text file, this branch: 30 sequences/s</title></path>
+<text x="448.1" y="416.7" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">30</text>
+<text x="496.9" y="553.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L3</text>
+<text x="496.9" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">355-537</text>
+<text x="496.9" y="580.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">7.6×</text>
+<path d="M476.4,538.0 v-12.2 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v12.2 z" fill="#898781"><title>Non-human eukaryotes L3, Pfam-A text file, upstream: 3.9 sequences/s</title></path>
+<text x="485.9" y="518.8" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">3.9</text>
+<path d="M498.4,538.0 v-111.8 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v111.8 z" fill="#3987e5"><title>Non-human eukaryotes L3, Pfam-A text file, this branch: 29 sequences/s</title></path>
+<text x="507.9" y="419.2" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">29</text>
+<text x="556.8" y="553.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L4</text>
+<text x="556.8" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">537-5,801</text>
+<text x="556.8" y="580.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">8.7×</text>
+<path d="M536.2,538.0 v-5.7 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v5.7 z" fill="#898781"><title>Non-human eukaryotes L4, Pfam-A text file, upstream: 2.2 sequences/s</title></path>
+<text x="545.8" y="525.3" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">2.2</text>
+<path d="M558.2,538.0 v-72.8 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v72.8 z" fill="#3987e5"><title>Non-human eukaryotes L4, Pfam-A text file, this branch: 19 sequences/s</title></path>
+<text x="567.8" y="458.2" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">19</text>
+<text x="616.7" y="352.0" fill="#ffffff" font-size="13" font-weight="600" text-anchor="start" >Human</text>
+<text x="616.7" y="368.0" fill="#c3c2b7" font-size="11" font-weight="400" text-anchor="start" font-variant-numeric="tabular-nums">all 1,000: 3.1 → 22 seq/s (7.3×)</text>
+<line x1="650.6666666666666" y1="538.0" x2="890.0" y2="538.0" stroke="#383835" stroke-width="1"/>
+<text x="644.7" y="542.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">0</text>
+<line x1="650.6666666666666" y1="499.0" x2="890.0" y2="499.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="644.7" y="503.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">10</text>
+<line x1="650.6666666666666" y1="460.0" x2="890.0" y2="460.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="644.7" y="464.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">20</text>
+<line x1="650.6666666666666" y1="421.0" x2="890.0" y2="421.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="644.7" y="425.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">30</text>
+<line x1="650.6666666666666" y1="382.0" x2="890.0" y2="382.0" stroke="#2c2c2a" stroke-width="1"/>
+<text x="644.7" y="386.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">40</text>
+<text x="680.6" y="553.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L1</text>
+<text x="680.6" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">16-246</text>
+<text x="680.6" y="580.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6.3×</text>
+<path d="M660.1,538.0 v-16.9 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v16.9 z" fill="#898781"><title>Human L1, Pfam-A text file, upstream: 5.1 sequences/s</title></path>
+<text x="669.6" y="514.1" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">5.1</text>
+<path d="M682.1,538.0 v-122.4 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v122.4 z" fill="#3987e5"><title>Human L1, Pfam-A text file, this branch: 32 sequences/s</title></path>
+<text x="691.6" y="408.6" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">32</text>
+<text x="740.4" y="553.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L2</text>
+<text x="740.4" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">248-395</text>
+<text x="740.4" y="580.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">7.1×</text>
+<path d="M719.9,538.0 v-13.6 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v13.6 z" fill="#898781"><title>Human L2, Pfam-A text file, upstream: 4.3 sequences/s</title></path>
+<text x="729.4" y="517.4" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">4.3</text>
+<path d="M741.9,538.0 v-114.4 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v114.4 z" fill="#3987e5"><title>Human L2, Pfam-A text file, this branch: 30 sequences/s</title></path>
+<text x="751.4" y="416.6" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">30</text>
+<text x="800.2" y="553.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L3</text>
+<text x="800.2" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">396-695</text>
+<text x="800.2" y="580.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">8.0×</text>
+<path d="M779.8,538.0 v-9.8 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v9.8 z" fill="#898781"><title>Human L3, Pfam-A text file, upstream: 3.3 sequences/s</title></path>
+<text x="789.2" y="521.2" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">3.3</text>
+<path d="M801.8,538.0 v-98.8 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v98.8 z" fill="#3987e5"><title>Human L3, Pfam-A text file, this branch: 26 sequences/s</title></path>
+<text x="811.2" y="432.2" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">26</text>
+<text x="860.1" y="553.0" fill="#c3c2b7" font-size="11" font-weight="600" text-anchor="middle" >L4</text>
+<text x="860.1" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">696-13,477</text>
+<text x="860.1" y="580.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">7.4×</text>
+<path d="M839.6,538.0 v-4.0 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v4.0 z" fill="#898781"><title>Human L4, Pfam-A text file, upstream: 1.8 sequences/s</title></path>
+<text x="849.1" y="527.0" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">1.8</text>
+<path d="M861.6,538.0 v-48.4 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v48.4 z" fill="#3987e5"><title>Human L4, Pfam-A text file, this branch: 13 sequences/s</title></path>
+<text x="871.1" y="482.6" fill="#c3c2b7" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">13</text>
+<text x="10.0" y="610.0" fill="#898781" font-size="11" font-weight="400" text-anchor="start" >Each group: 250 proteins (length range in residues) against all 21,979 Pfam-A models with --cut_ga; under each group, the speedup.</text>
+</svg>

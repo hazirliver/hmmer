@@ -1,0 +1,2870 @@
+{
+ "date": "20261007-130330+20261009-134511",
+ "machine": "Intel(R) Xeon(R) Platinum 8468",
+ "ncpu": 16,
+ "reps": 3,
+ "warmup": 1,
+ "perf": true,
+ "binaries": [
+  {
+   "label": "upstream",
+   "name": "series-p0",
+   "date": "2026-10-06T15:38:31Z",
+   "src": "f8bebd8 @ /tmp/hmmer-snap.PuAteB",
+   "git_sha": "f8bebd8e9b74f0810626fbb4cdfb66af6f805d6d",
+   "git_branch": "dev",
+   "easel_sha": "07ca83ba9ef0414dba9ce0a9331d465b5eb58f2b",
+   "build_dir": "/tmp/hmmer-snap.PuAteB/build",
+   "cflags": "-O3",
+   "hmmsearch": "b9ee6a01b338b607",
+   "path": "/home/asokolov/Projects/hmmer/bench-results/bins/series-p0/hmmsearch"
+  },
+  {
+   "label": "P7",
+   "name": "series-p7",
+   "date": "2026-10-07T10:56:33Z",
+   "src": "HEAD @ /tmp/hmmer-snap.gtkqZa",
+   "git_sha": "50882a6893214a60272908d644339e87efcfc32a",
+   "git_branch": "perf/phase7",
+   "easel_sha": "2be6bccb1f997d7c49f1d1b811a07547fc7afc5f",
+   "build_dir": "/tmp/hmmer-snap.gtkqZa/build",
+   "cflags": "-O3",
+   "hmmsearch": "148405417462bb23",
+   "path": "/home/asokolov/Projects/hmmer/bench-results/bins/series-p7/hmmsearch"
+  }
+ ],
+ "workloads": [
+  {
+   "name": "A_bacteria_L1",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/bacteria_L1.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 27.67089732199929,
+      "user": 25.21,
+      "sys": 44.43,
+      "maxrss_mb": 33.41796875,
+      "rc": 0
+     },
+     {
+      "wall": 27.359601107000344,
+      "user": 25.41,
+      "sys": 43.93,
+      "maxrss_mb": 34.25390625,
+      "rc": 0
+     },
+     {
+      "wall": 27.718342195999867,
+      "user": 25.21,
+      "sys": 44.17,
+      "maxrss_mb": 33.02734375,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 1.7391257049985143,
+      "user": 10.97,
+      "sys": 1.01,
+      "maxrss_mb": 69.18359375,
+      "rc": 0
+     },
+     {
+      "wall": 1.7403140360001998,
+      "user": 10.96,
+      "sys": 0.99,
+      "maxrss_mb": 70.296875,
+      "rc": 0
+     },
+     {
+      "wall": 1.7679150980002305,
+      "user": 11.16,
+      "sys": 1.04,
+      "maxrss_mb": 69.3046875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_bacteria_L2",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/bacteria_L2.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 33.73755161600093,
+      "user": 31.36,
+      "sys": 43.54,
+      "maxrss_mb": 35.6953125,
+      "rc": 0
+     },
+     {
+      "wall": 33.66368877000059,
+      "user": 31.95,
+      "sys": 42.89,
+      "maxrss_mb": 36.15625,
+      "rc": 0
+     },
+     {
+      "wall": 34.413233924999076,
+      "user": 31.53,
+      "sys": 44.97,
+      "maxrss_mb": 35.43359375,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 2.0590414509988477,
+      "user": 15.24,
+      "sys": 1.3,
+      "maxrss_mb": 79.90625,
+      "rc": 0
+     },
+     {
+      "wall": 2.1120797059993492,
+      "user": 15.46,
+      "sys": 1.31,
+      "maxrss_mb": 81.19921875,
+      "rc": 0
+     },
+     {
+      "wall": 2.1181915820016,
+      "user": 15.27,
+      "sys": 1.4,
+      "maxrss_mb": 80.9765625,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_bacteria_L3",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/bacteria_L3.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 39.144545167000615,
+      "user": 37.48,
+      "sys": 42.3,
+      "maxrss_mb": 42.76953125,
+      "rc": 0
+     },
+     {
+      "wall": 39.254935905999446,
+      "user": 37.85,
+      "sys": 43.32,
+      "maxrss_mb": 42.0703125,
+      "rc": 0
+     },
+     {
+      "wall": 39.94008430899703,
+      "user": 38.06,
+      "sys": 43.67,
+      "maxrss_mb": 40.47265625,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 2.444770312999026,
+      "user": 19.32,
+      "sys": 1.47,
+      "maxrss_mb": 105.35546875,
+      "rc": 0
+     },
+     {
+      "wall": 2.4045880339981522,
+      "user": 19.02,
+      "sys": 1.49,
+      "maxrss_mb": 105.3125,
+      "rc": 0
+     },
+     {
+      "wall": 2.423592811999697,
+      "user": 19.08,
+      "sys": 1.44,
+      "maxrss_mb": 105.05859375,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_bacteria_L4",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/bacteria_L4.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 54.89072725799997,
+      "user": 53.48,
+      "sys": 43.18,
+      "maxrss_mb": 52.9140625,
+      "rc": 0
+     },
+     {
+      "wall": 53.25615009499961,
+      "user": 52.77,
+      "sys": 41.59,
+      "maxrss_mb": 54.87109375,
+      "rc": 0
+     },
+     {
+      "wall": 53.90237723999962,
+      "user": 52.91,
+      "sys": 42.76,
+      "maxrss_mb": 59.32421875,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 3.4371664829996007,
+      "user": 31.0,
+      "sys": 1.47,
+      "maxrss_mb": 166.65625,
+      "rc": 0
+     },
+     {
+      "wall": 3.4474740339974232,
+      "user": 31.11,
+      "sys": 1.43,
+      "maxrss_mb": 170.37109375,
+      "rc": 0
+     },
+     {
+      "wall": 3.476933721001842,
+      "user": 31.24,
+      "sys": 1.58,
+      "maxrss_mb": 167.67578125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_phage_L1",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/phage_L1.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 25.590970233999542,
+      "user": 23.18,
+      "sys": 44.22,
+      "maxrss_mb": 32.078125,
+      "rc": 0
+     },
+     {
+      "wall": 25.84230066300006,
+      "user": 22.96,
+      "sys": 45.48,
+      "maxrss_mb": 32.703125,
+      "rc": 0
+     },
+     {
+      "wall": 25.837063906998083,
+      "user": 23.02,
+      "sys": 44.38,
+      "maxrss_mb": 34.56640625,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 1.6224113890020817,
+      "user": 9.16,
+      "sys": 0.89,
+      "maxrss_mb": 63.48828125,
+      "rc": 0
+     },
+     {
+      "wall": 1.6156735420008772,
+      "user": 9.01,
+      "sys": 0.97,
+      "maxrss_mb": 63.90234375,
+      "rc": 0
+     },
+     {
+      "wall": 1.6083237050006574,
+      "user": 9.02,
+      "sys": 0.91,
+      "maxrss_mb": 65.26171875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_phage_L2",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/phage_L2.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 29.091876455997408,
+      "user": 26.91,
+      "sys": 44.08,
+      "maxrss_mb": 33.59765625,
+      "rc": 0
+     },
+     {
+      "wall": 29.560602694997215,
+      "user": 26.42,
+      "sys": 45.67,
+      "maxrss_mb": 33.421875,
+      "rc": 0
+     },
+     {
+      "wall": 28.010280127000442,
+      "user": 25.44,
+      "sys": 42.63,
+      "maxrss_mb": 33.48828125,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 1.7392164539996884,
+      "user": 11.51,
+      "sys": 1.06,
+      "maxrss_mb": 70.5390625,
+      "rc": 0
+     },
+     {
+      "wall": 1.7744110160019773,
+      "user": 11.48,
+      "sys": 1.08,
+      "maxrss_mb": 70.8984375,
+      "rc": 0
+     },
+     {
+      "wall": 1.7844899209994765,
+      "user": 11.58,
+      "sys": 1.1,
+      "maxrss_mb": 71.1953125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_phage_L3",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/phage_L3.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 34.633186985000066,
+      "user": 33.06,
+      "sys": 42.49,
+      "maxrss_mb": 36.6640625,
+      "rc": 0
+     },
+     {
+      "wall": 34.92817815200033,
+      "user": 32.91,
+      "sys": 43.51,
+      "maxrss_mb": 37.1015625,
+      "rc": 0
+     },
+     {
+      "wall": 35.03724975699879,
+      "user": 33.19,
+      "sys": 43.69,
+      "maxrss_mb": 37.078125,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 2.17136108199702,
+      "user": 16.4,
+      "sys": 1.39,
+      "maxrss_mb": 89.296875,
+      "rc": 0
+     },
+     {
+      "wall": 2.09361824699954,
+      "user": 15.8,
+      "sys": 1.38,
+      "maxrss_mb": 86.63671875,
+      "rc": 0
+     },
+     {
+      "wall": 2.067757310996967,
+      "user": 15.53,
+      "sys": 1.41,
+      "maxrss_mb": 86.16796875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_phage_L4",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/phage_L4.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 53.39267773499887,
+      "user": 52.89,
+      "sys": 42.58,
+      "maxrss_mb": 51.2890625,
+      "rc": 0
+     },
+     {
+      "wall": 54.21394105500076,
+      "user": 53.26,
+      "sys": 43.35,
+      "maxrss_mb": 50.8515625,
+      "rc": 0
+     },
+     {
+      "wall": 53.18676100800076,
+      "user": 52.54,
+      "sys": 42.39,
+      "maxrss_mb": 51.33984375,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 3.645845475999522,
+      "user": 29.74,
+      "sys": 1.52,
+      "maxrss_mb": 167.65625,
+      "rc": 0
+     },
+     {
+      "wall": 3.5261325889987347,
+      "user": 29.05,
+      "sys": 1.38,
+      "maxrss_mb": 168.515625,
+      "rc": 0
+     },
+     {
+      "wall": 3.583300292997592,
+      "user": 29.65,
+      "sys": 1.45,
+      "maxrss_mb": 160.328125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_fungi_L1",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/fungi_L1.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 30.775102669998887,
+      "user": 29.32,
+      "sys": 43.72,
+      "maxrss_mb": 34.88671875,
+      "rc": 0
+     },
+     {
+      "wall": 30.704266390999692,
+      "user": 29.34,
+      "sys": 42.94,
+      "maxrss_mb": 35.5,
+      "rc": 0
+     },
+     {
+      "wall": 31.427969732001657,
+      "user": 28.73,
+      "sys": 43.76,
+      "maxrss_mb": 35.765625,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 2.0021753940018243,
+      "user": 13.33,
+      "sys": 1.1,
+      "maxrss_mb": 85.1328125,
+      "rc": 0
+     },
+     {
+      "wall": 1.9804542530000617,
+      "user": 13.4,
+      "sys": 1.11,
+      "maxrss_mb": 85.16796875,
+      "rc": 0
+     },
+     {
+      "wall": 1.99548342900016,
+      "user": 13.44,
+      "sys": 1.13,
+      "maxrss_mb": 87.70703125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_fungi_L2",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/fungi_L2.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 38.97974663900095,
+      "user": 37.4,
+      "sys": 43.2,
+      "maxrss_mb": 44.03125,
+      "rc": 0
+     },
+     {
+      "wall": 39.57461535699986,
+      "user": 37.72,
+      "sys": 43.66,
+      "maxrss_mb": 42.53125,
+      "rc": 0
+     },
+     {
+      "wall": 39.70224605000112,
+      "user": 37.76,
+      "sys": 44.4,
+      "maxrss_mb": 40.58984375,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 2.4785443840009975,
+      "user": 19.45,
+      "sys": 1.44,
+      "maxrss_mb": 101.8671875,
+      "rc": 0
+     },
+     {
+      "wall": 2.413337997997587,
+      "user": 18.92,
+      "sys": 1.48,
+      "maxrss_mb": 104.16796875,
+      "rc": 0
+     },
+     {
+      "wall": 2.4382899709999037,
+      "user": 19.15,
+      "sys": 1.47,
+      "maxrss_mb": 104.69140625,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_fungi_L3",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/fungi_L3.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 47.942833732999134,
+      "user": 47.32,
+      "sys": 42.8,
+      "maxrss_mb": 46.23828125,
+      "rc": 0
+     },
+     {
+      "wall": 48.14781435899931,
+      "user": 46.85,
+      "sys": 42.52,
+      "maxrss_mb": 45.29296875,
+      "rc": 0
+     },
+     {
+      "wall": 46.286969705000956,
+      "user": 45.43,
+      "sys": 41.18,
+      "maxrss_mb": 46.04296875,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 2.8653350560016406,
+      "user": 24.66,
+      "sys": 1.39,
+      "maxrss_mb": 139.87890625,
+      "rc": 0
+     },
+     {
+      "wall": 3.016499493001902,
+      "user": 25.85,
+      "sys": 1.4,
+      "maxrss_mb": 141.2109375,
+      "rc": 0
+     },
+     {
+      "wall": 2.9617199009990145,
+      "user": 25.23,
+      "sys": 1.45,
+      "maxrss_mb": 137.30859375,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_fungi_L4",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/fungi_L4.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 81.25630762899891,
+      "user": 80.57,
+      "sys": 42.63,
+      "maxrss_mb": 63.77734375,
+      "rc": 0
+     },
+     {
+      "wall": 83.02269763699951,
+      "user": 81.41,
+      "sys": 45.48,
+      "maxrss_mb": 63.54296875,
+      "rc": 0
+     },
+     {
+      "wall": 82.86368114300058,
+      "user": 81.41,
+      "sys": 44.4,
+      "maxrss_mb": 68.44921875,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 5.926651793997735,
+      "user": 50.69,
+      "sys": 1.38,
+      "maxrss_mb": 243.40625,
+      "rc": 0
+     },
+     {
+      "wall": 6.091679333996581,
+      "user": 52.49,
+      "sys": 1.39,
+      "maxrss_mb": 238.5234375,
+      "rc": 0
+     },
+     {
+      "wall": 6.145438446998014,
+      "user": 53.33,
+      "sys": 1.42,
+      "maxrss_mb": 231.38671875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_virus_L1",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/virus_L1.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 29.13859272299669,
+      "user": 26.52,
+      "sys": 45.88,
+      "maxrss_mb": 34.0703125,
+      "rc": 0
+     },
+     {
+      "wall": 28.915255371000967,
+      "user": 26.49,
+      "sys": 45.56,
+      "maxrss_mb": 33.28125,
+      "rc": 0
+     },
+     {
+      "wall": 29.301438253001834,
+      "user": 26.89,
+      "sys": 45.65,
+      "maxrss_mb": 33.8203125,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 1.7983549130003667,
+      "user": 11.53,
+      "sys": 1.11,
+      "maxrss_mb": 68.3125,
+      "rc": 0
+     },
+     {
+      "wall": 1.8283176049990288,
+      "user": 11.65,
+      "sys": 1.13,
+      "maxrss_mb": 67.38671875,
+      "rc": 0
+     },
+     {
+      "wall": 1.8363051999986055,
+      "user": 11.64,
+      "sys": 1.13,
+      "maxrss_mb": 66.6640625,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_virus_L2",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/virus_L2.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 36.56029985100031,
+      "user": 33.86,
+      "sys": 46.01,
+      "maxrss_mb": 38.08984375,
+      "rc": 0
+     },
+     {
+      "wall": 36.6816770430014,
+      "user": 34.59,
+      "sys": 46.21,
+      "maxrss_mb": 38.83203125,
+      "rc": 0
+     },
+     {
+      "wall": 36.217523105999135,
+      "user": 33.97,
+      "sys": 44.11,
+      "maxrss_mb": 38.2109375,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 2.2582826709985966,
+      "user": 16.64,
+      "sys": 1.47,
+      "maxrss_mb": 90.203125,
+      "rc": 0
+     },
+     {
+      "wall": 2.2330965679975634,
+      "user": 16.57,
+      "sys": 1.49,
+      "maxrss_mb": 89.83984375,
+      "rc": 0
+     },
+     {
+      "wall": 2.2273382249986753,
+      "user": 16.63,
+      "sys": 1.44,
+      "maxrss_mb": 89.5234375,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_virus_L3",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/virus_L3.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 46.37830706299792,
+      "user": 44.64,
+      "sys": 43.41,
+      "maxrss_mb": 46.22265625,
+      "rc": 0
+     },
+     {
+      "wall": 45.43020654299835,
+      "user": 44.1,
+      "sys": 44.14,
+      "maxrss_mb": 46.640625,
+      "rc": 0
+     },
+     {
+      "wall": 44.1561974920005,
+      "user": 42.34,
+      "sys": 43.39,
+      "maxrss_mb": 47.421875,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 2.860809175999748,
+      "user": 24.04,
+      "sys": 1.49,
+      "maxrss_mb": 161.1015625,
+      "rc": 0
+     },
+     {
+      "wall": 2.7836019469978055,
+      "user": 23.33,
+      "sys": 1.48,
+      "maxrss_mb": 161.50390625,
+      "rc": 0
+     },
+     {
+      "wall": 2.692476883999916,
+      "user": 22.41,
+      "sys": 1.45,
+      "maxrss_mb": 159.7421875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_virus_L4",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/virus_L4.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 92.81405556900063,
+      "user": 92.74,
+      "sys": 42.29,
+      "maxrss_mb": 121.18359375,
+      "rc": 0
+     },
+     {
+      "wall": 91.67997606100107,
+      "user": 90.71,
+      "sys": 43.2,
+      "maxrss_mb": 119.8203125,
+      "rc": 0
+     },
+     {
+      "wall": 91.80297326800064,
+      "user": 91.48,
+      "sys": 43.05,
+      "maxrss_mb": 120.140625,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 6.339140380998288,
+      "user": 60.76,
+      "sys": 1.44,
+      "maxrss_mb": 502.4375,
+      "rc": 0
+     },
+     {
+      "wall": 6.1847866239986615,
+      "user": 59.55,
+      "sys": 1.46,
+      "maxrss_mb": 507.90625,
+      "rc": 0
+     },
+     {
+      "wall": 6.172173091999866,
+      "user": 59.71,
+      "sys": 1.43,
+      "maxrss_mb": 496.51953125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_eukaryota_L1",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/eukaryota_L1.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 28.681523699000536,
+      "user": 26.06,
+      "sys": 44.06,
+      "maxrss_mb": 34.38671875,
+      "rc": 0
+     },
+     {
+      "wall": 28.506065313002182,
+      "user": 26.47,
+      "sys": 43.41,
+      "maxrss_mb": 34.61328125,
+      "rc": 0
+     },
+     {
+      "wall": 29.198790155001916,
+      "user": 26.64,
+      "sys": 45.11,
+      "maxrss_mb": 36.3125,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 1.8530863699998008,
+      "user": 11.7,
+      "sys": 1.09,
+      "maxrss_mb": 74.234375,
+      "rc": 0
+     },
+     {
+      "wall": 1.8342622790005407,
+      "user": 11.63,
+      "sys": 1.01,
+      "maxrss_mb": 76.0546875,
+      "rc": 0
+     },
+     {
+      "wall": 1.8142782939976314,
+      "user": 11.38,
+      "sys": 1.09,
+      "maxrss_mb": 73.6953125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_eukaryota_L2",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/eukaryota_L2.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 39.197157176000474,
+      "user": 37.64,
+      "sys": 43.88,
+      "maxrss_mb": 42.5703125,
+      "rc": 0
+     },
+     {
+      "wall": 38.59791404199859,
+      "user": 37.21,
+      "sys": 42.14,
+      "maxrss_mb": 42.5078125,
+      "rc": 0
+     },
+     {
+      "wall": 38.747279821996926,
+      "user": 36.85,
+      "sys": 42.93,
+      "maxrss_mb": 51.44921875,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 2.795159233999584,
+      "user": 18.98,
+      "sys": 1.38,
+      "maxrss_mb": 119.0859375,
+      "rc": 0
+     },
+     {
+      "wall": 2.7955211979970045,
+      "user": 18.76,
+      "sys": 1.4,
+      "maxrss_mb": 116.2109375,
+      "rc": 0
+     },
+     {
+      "wall": 2.8050759190009558,
+      "user": 18.91,
+      "sys": 1.43,
+      "maxrss_mb": 119.99609375,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_eukaryota_L3",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/eukaryota_L3.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 45.590144380999845,
+      "user": 44.31,
+      "sys": 41.59,
+      "maxrss_mb": 48.484375,
+      "rc": 0
+     },
+     {
+      "wall": 45.60242403299708,
+      "user": 44.6,
+      "sys": 44.01,
+      "maxrss_mb": 47.859375,
+      "rc": 0
+     },
+     {
+      "wall": 45.325423500002216,
+      "user": 44.11,
+      "sys": 42.8,
+      "maxrss_mb": 45.296875,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 2.9403222920009284,
+      "user": 24.28,
+      "sys": 1.44,
+      "maxrss_mb": 130.1640625,
+      "rc": 0
+     },
+     {
+      "wall": 2.933146029001364,
+      "user": 24.2,
+      "sys": 1.59,
+      "maxrss_mb": 132.26171875,
+      "rc": 0
+     },
+     {
+      "wall": 2.8687234459976025,
+      "user": 23.64,
+      "sys": 1.55,
+      "maxrss_mb": 130.4921875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_eukaryota_L4",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/eukaryota_L4.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 91.15838902100222,
+      "user": 89.72,
+      "sys": 42.48,
+      "maxrss_mb": 117.78125,
+      "rc": 0
+     },
+     {
+      "wall": 90.76979407799809,
+      "user": 89.43,
+      "sys": 43.1,
+      "maxrss_mb": 118.03125,
+      "rc": 0
+     },
+     {
+      "wall": 91.15645490799943,
+      "user": 90.17,
+      "sys": 43.08,
+      "maxrss_mb": 117.171875,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 8.409926840999105,
+      "user": 60.55,
+      "sys": 1.34,
+      "maxrss_mb": 319.2421875,
+      "rc": 0
+     },
+     {
+      "wall": 8.555628014000831,
+      "user": 61.44,
+      "sys": 1.42,
+      "maxrss_mb": 316.8984375,
+      "rc": 0
+     },
+     {
+      "wall": 8.651766438000777,
+      "user": 62.3,
+      "sys": 1.46,
+      "maxrss_mb": 321.0546875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_human_L1",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/human_L1.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 31.86323825100044,
+      "user": 29.23,
+      "sys": 44.43,
+      "maxrss_mb": 37.96875,
+      "rc": 0
+     },
+     {
+      "wall": 31.26188789400112,
+      "user": 29.04,
+      "sys": 43.67,
+      "maxrss_mb": 37.54296875,
+      "rc": 0
+     },
+     {
+      "wall": 31.047856990000582,
+      "user": 28.9,
+      "sys": 42.85,
+      "maxrss_mb": 38.7109375,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 2.1312090089995763,
+      "user": 13.29,
+      "sys": 1.14,
+      "maxrss_mb": 106.84765625,
+      "rc": 0
+     },
+     {
+      "wall": 2.1483424190009828,
+      "user": 13.37,
+      "sys": 1.17,
+      "maxrss_mb": 107.140625,
+      "rc": 0
+     },
+     {
+      "wall": 2.1495173210023495,
+      "user": 13.44,
+      "sys": 1.14,
+      "maxrss_mb": 104.96484375,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_human_L2",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/human_L2.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 40.19820224000068,
+      "user": 38.95,
+      "sys": 43.97,
+      "maxrss_mb": 40.390625,
+      "rc": 0
+     },
+     {
+      "wall": 40.80238352100059,
+      "user": 38.87,
+      "sys": 44.22,
+      "maxrss_mb": 39.62890625,
+      "rc": 0
+     },
+     {
+      "wall": 40.251111692999984,
+      "user": 37.9,
+      "sys": 43.47,
+      "maxrss_mb": 40.0859375,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 2.787745986999653,
+      "user": 20.55,
+      "sys": 1.45,
+      "maxrss_mb": 113.49609375,
+      "rc": 0
+     },
+     {
+      "wall": 2.711467064000317,
+      "user": 19.91,
+      "sys": 1.42,
+      "maxrss_mb": 111.55859375,
+      "rc": 0
+     },
+     {
+      "wall": 2.751346294000541,
+      "user": 20.15,
+      "sys": 1.37,
+      "maxrss_mb": 112.4375,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_human_L3",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/human_L3.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 55.93822761699994,
+      "user": 54.49,
+      "sys": 43.56,
+      "maxrss_mb": 49.63671875,
+      "rc": 0
+     },
+     {
+      "wall": 55.79673706500034,
+      "user": 54.83,
+      "sys": 43.04,
+      "maxrss_mb": 47.03125,
+      "rc": 0
+     },
+     {
+      "wall": 55.17254351700103,
+      "user": 54.51,
+      "sys": 41.8,
+      "maxrss_mb": 51.17578125,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 4.538388479999412,
+      "user": 32.01,
+      "sys": 1.43,
+      "maxrss_mb": 167.31640625,
+      "rc": 0
+     },
+     {
+      "wall": 4.521872197998164,
+      "user": 31.95,
+      "sys": 1.42,
+      "maxrss_mb": 171.765625,
+      "rc": 0
+     },
+     {
+      "wall": 4.429293688001053,
+      "user": 31.24,
+      "sys": 1.52,
+      "maxrss_mb": 170.09375,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_human_L4",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/human_L4.fa",
+   "sets": [
+    "annot"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 116.01453803200275,
+      "user": 115.78,
+      "sys": 41.77,
+      "maxrss_mb": 191.28515625,
+      "rc": 0
+     },
+     {
+      "wall": 115.90855112099962,
+      "user": 115.94,
+      "sys": 42.34,
+      "maxrss_mb": 191.58984375,
+      "rc": 0
+     },
+     {
+      "wall": 115.10691340899939,
+      "user": 115.17,
+      "sys": 41.81,
+      "maxrss_mb": 190.56640625,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 13.895944165000401,
+      "user": 77.87,
+      "sys": 1.49,
+      "maxrss_mb": 720.515625,
+      "rc": 0
+     },
+     {
+      "wall": 14.193636779000371,
+      "user": 80.11,
+      "sys": 1.52,
+      "maxrss_mb": 753.86328125,
+      "rc": 0
+     },
+     {
+      "wall": 14.245512558001792,
+      "user": 79.96,
+      "sys": 1.52,
+      "maxrss_mb": 660.10546875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_bacteria_L1_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/bacteria_L1.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 43.8893561540026,
+      "user": 42.26,
+      "sys": 44.16,
+      "maxrss_mb": 33.5625,
+      "rc": 0
+     },
+     {
+      "wall": 44.142376666997734,
+      "user": 42.61,
+      "sys": 44.21,
+      "maxrss_mb": 32.3046875,
+      "rc": 0
+     },
+     {
+      "wall": 44.193451971998,
+      "user": 42.14,
+      "sys": 43.67,
+      "maxrss_mb": 34.0234375,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 7.466218605000904,
+      "user": 16.46,
+      "sys": 1.33,
+      "maxrss_mb": 73.81640625,
+      "rc": 0
+     },
+     {
+      "wall": 7.321141656000691,
+      "user": 16.26,
+      "sys": 1.18,
+      "maxrss_mb": 72.30078125,
+      "rc": 0
+     },
+     {
+      "wall": 7.452395476997481,
+      "user": 16.53,
+      "sys": 1.22,
+      "maxrss_mb": 72.578125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_bacteria_L2_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/bacteria_L2.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 50.2694264510028,
+      "user": 49.36,
+      "sys": 42.13,
+      "maxrss_mb": 37.09375,
+      "rc": 0
+     },
+     {
+      "wall": 49.836003431999416,
+      "user": 48.13,
+      "sys": 43.07,
+      "maxrss_mb": 35.94140625,
+      "rc": 0
+     },
+     {
+      "wall": 50.279377097998804,
+      "user": 48.67,
+      "sys": 44.64,
+      "maxrss_mb": 35.79296875,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 7.55067712500022,
+      "user": 20.49,
+      "sys": 1.51,
+      "maxrss_mb": 84.62109375,
+      "rc": 0
+     },
+     {
+      "wall": 7.554252140998869,
+      "user": 20.41,
+      "sys": 1.55,
+      "maxrss_mb": 85.2265625,
+      "rc": 0
+     },
+     {
+      "wall": 7.63719086600031,
+      "user": 20.72,
+      "sys": 1.44,
+      "maxrss_mb": 83.41796875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_bacteria_L3_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/bacteria_L3.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 53.129037514998345,
+      "user": 52.03,
+      "sys": 42.05,
+      "maxrss_mb": 42.70703125,
+      "rc": 0
+     },
+     {
+      "wall": 53.2945274119993,
+      "user": 52.56,
+      "sys": 41.95,
+      "maxrss_mb": 42.02734375,
+      "rc": 0
+     },
+     {
+      "wall": 53.99756047199844,
+      "user": 53.51,
+      "sys": 42.49,
+      "maxrss_mb": 42.20703125,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 7.510416376000649,
+      "user": 23.43,
+      "sys": 1.71,
+      "maxrss_mb": 105.01953125,
+      "rc": 0
+     },
+     {
+      "wall": 7.595924181998271,
+      "user": 23.82,
+      "sys": 1.63,
+      "maxrss_mb": 106.5625,
+      "rc": 0
+     },
+     {
+      "wall": 7.524239351998403,
+      "user": 23.63,
+      "sys": 1.69,
+      "maxrss_mb": 108.90625,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_bacteria_L4_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/bacteria_L4.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 72.15121521499896,
+      "user": 71.27,
+      "sys": 43.15,
+      "maxrss_mb": 52.4296875,
+      "rc": 0
+     },
+     {
+      "wall": 70.71885544899851,
+      "user": 69.4,
+      "sys": 43.7,
+      "maxrss_mb": 58.59765625,
+      "rc": 0
+     },
+     {
+      "wall": 71.80392643300002,
+      "user": 70.79,
+      "sys": 43.08,
+      "maxrss_mb": 57.58984375,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 8.28482692200123,
+      "user": 35.5,
+      "sys": 1.88,
+      "maxrss_mb": 166.69140625,
+      "rc": 0
+     },
+     {
+      "wall": 8.285840860000462,
+      "user": 35.59,
+      "sys": 1.8,
+      "maxrss_mb": 165.3359375,
+      "rc": 0
+     },
+     {
+      "wall": 8.222237261001283,
+      "user": 35.2,
+      "sys": 1.75,
+      "maxrss_mb": 167.4609375,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_phage_L1_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/phage_L1.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 41.70520264099832,
+      "user": 40.5,
+      "sys": 43.54,
+      "maxrss_mb": 32.03515625,
+      "rc": 0
+     },
+     {
+      "wall": 42.53656522100209,
+      "user": 40.78,
+      "sys": 44.31,
+      "maxrss_mb": 33.10546875,
+      "rc": 0
+     },
+     {
+      "wall": 43.42650789500112,
+      "user": 41.56,
+      "sys": 44.39,
+      "maxrss_mb": 32.66015625,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 7.394284579000669,
+      "user": 14.86,
+      "sys": 1.18,
+      "maxrss_mb": 65.77734375,
+      "rc": 0
+     },
+     {
+      "wall": 7.645949575999111,
+      "user": 15.26,
+      "sys": 1.26,
+      "maxrss_mb": 67.37890625,
+      "rc": 0
+     },
+     {
+      "wall": 7.52832075599872,
+      "user": 15.2,
+      "sys": 1.14,
+      "maxrss_mb": 67.578125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_phage_L2_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/phage_L2.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 45.769449057999736,
+      "user": 44.28,
+      "sys": 43.52,
+      "maxrss_mb": 32.8359375,
+      "rc": 0
+     },
+     {
+      "wall": 44.882950291997986,
+      "user": 42.97,
+      "sys": 43.82,
+      "maxrss_mb": 32.7265625,
+      "rc": 0
+     },
+     {
+      "wall": 46.23234832200251,
+      "user": 44.44,
+      "sys": 44.21,
+      "maxrss_mb": 34.29296875,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 7.751889592000225,
+      "user": 17.68,
+      "sys": 1.4,
+      "maxrss_mb": 75.234375,
+      "rc": 0
+     },
+     {
+      "wall": 7.6432223839983635,
+      "user": 17.31,
+      "sys": 1.46,
+      "maxrss_mb": 73.44921875,
+      "rc": 0
+     },
+     {
+      "wall": 7.375227180997172,
+      "user": 16.85,
+      "sys": 1.23,
+      "maxrss_mb": 75.6796875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_phage_L3_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/phage_L3.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 52.283704907000356,
+      "user": 51.17,
+      "sys": 43.74,
+      "maxrss_mb": 39.15625,
+      "rc": 0
+     },
+     {
+      "wall": 51.34373346999928,
+      "user": 50.08,
+      "sys": 42.77,
+      "maxrss_mb": 36.06640625,
+      "rc": 0
+     },
+     {
+      "wall": 50.31017685500046,
+      "user": 49.22,
+      "sys": 42.92,
+      "maxrss_mb": 38.00390625,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 7.984112794998509,
+      "user": 22.22,
+      "sys": 1.65,
+      "maxrss_mb": 90.765625,
+      "rc": 0
+     },
+     {
+      "wall": 7.6528937280018,
+      "user": 21.14,
+      "sys": 1.66,
+      "maxrss_mb": 90.59765625,
+      "rc": 0
+     },
+     {
+      "wall": 7.51382554799784,
+      "user": 20.92,
+      "sys": 1.63,
+      "maxrss_mb": 89.1640625,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_phage_L4_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/phage_L4.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 69.42259817299782,
+      "user": 69.13,
+      "sys": 41.89,
+      "maxrss_mb": 51.4609375,
+      "rc": 0
+     },
+     {
+      "wall": 69.00242541899934,
+      "user": 68.88,
+      "sys": 41.52,
+      "maxrss_mb": 51.71875,
+      "rc": 0
+     },
+     {
+      "wall": 68.84064888499779,
+      "user": 67.83,
+      "sys": 43.07,
+      "maxrss_mb": 52.46875,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 8.581478351999976,
+      "user": 34.85,
+      "sys": 1.83,
+      "maxrss_mb": 163.609375,
+      "rc": 0
+     },
+     {
+      "wall": 8.646899872997892,
+      "user": 35.07,
+      "sys": 1.86,
+      "maxrss_mb": 169.33203125,
+      "rc": 0
+     },
+     {
+      "wall": 8.57550318399808,
+      "user": 34.84,
+      "sys": 1.77,
+      "maxrss_mb": 161.54296875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261007-130330"
+  },
+  {
+   "name": "A_fungi_L1_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/fungi_L1.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 50.217296085000015,
+      "user": 48.71,
+      "sys": 46.84,
+      "maxrss_mb": 34.07421875,
+      "rc": 0
+     },
+     {
+      "wall": 49.547908879000005,
+      "user": 47.9,
+      "sys": 44.56,
+      "maxrss_mb": 34.1015625,
+      "rc": 0
+     },
+     {
+      "wall": 49.595089023000014,
+      "user": 47.28,
+      "sys": 45.17,
+      "maxrss_mb": 34.75,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 8.02040998199999,
+      "user": 19.72,
+      "sys": 1.6,
+      "maxrss_mb": 85.9921875,
+      "rc": 0
+     },
+     {
+      "wall": 7.948994268000035,
+      "user": 19.69,
+      "sys": 1.36,
+      "maxrss_mb": 91.13671875,
+      "rc": 0
+     },
+     {
+      "wall": 7.944604742000024,
+      "user": 19.67,
+      "sys": 1.37,
+      "maxrss_mb": 86.51953125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261009-134511"
+  },
+  {
+   "name": "A_fungi_L2_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/fungi_L2.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 58.395088025999996,
+      "user": 57.19,
+      "sys": 44.32,
+      "maxrss_mb": 41.66015625,
+      "rc": 0
+     },
+     {
+      "wall": 58.85551745999999,
+      "user": 56.99,
+      "sys": 44.92,
+      "maxrss_mb": 40.296875,
+      "rc": 0
+     },
+     {
+      "wall": 59.05924907399992,
+      "user": 56.98,
+      "sys": 45.68,
+      "maxrss_mb": 40.09375,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 8.333589550999989,
+      "user": 26.03,
+      "sys": 1.8,
+      "maxrss_mb": 106.67578125,
+      "rc": 0
+     },
+     {
+      "wall": 8.28309616699994,
+      "user": 25.83,
+      "sys": 1.81,
+      "maxrss_mb": 107.55078125,
+      "rc": 0
+     },
+     {
+      "wall": 8.224705843000038,
+      "user": 25.91,
+      "sys": 1.73,
+      "maxrss_mb": 106.75,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261009-134511"
+  },
+  {
+   "name": "A_fungi_L3_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/fungi_L3.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 67.29197352899996,
+      "user": 66.63,
+      "sys": 42.94,
+      "maxrss_mb": 47.79296875,
+      "rc": 0
+     },
+     {
+      "wall": 67.9538906790001,
+      "user": 66.89,
+      "sys": 44.47,
+      "maxrss_mb": 46.44140625,
+      "rc": 0
+     },
+     {
+      "wall": 67.66576747099998,
+      "user": 66.83,
+      "sys": 44.2,
+      "maxrss_mb": 47.51171875,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 8.601206546999947,
+      "user": 32.77,
+      "sys": 1.77,
+      "maxrss_mb": 138.1640625,
+      "rc": 0
+     },
+     {
+      "wall": 8.650751204000017,
+      "user": 32.93,
+      "sys": 1.78,
+      "maxrss_mb": 141.08984375,
+      "rc": 0
+     },
+     {
+      "wall": 8.573464267000077,
+      "user": 32.78,
+      "sys": 1.81,
+      "maxrss_mb": 141.64453125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261009-134511"
+  },
+  {
+   "name": "A_fungi_L4_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/fungi_L4.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 100.79379375300005,
+      "user": 100.97,
+      "sys": 42.66,
+      "maxrss_mb": 69.40625,
+      "rc": 0
+     },
+     {
+      "wall": 101.06375112299997,
+      "user": 99.62,
+      "sys": 43.93,
+      "maxrss_mb": 62.0859375,
+      "rc": 0
+     },
+     {
+      "wall": 101.1178747460001,
+      "user": 100.35,
+      "sys": 44.14,
+      "maxrss_mb": 63.1875,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 10.620037949999869,
+      "user": 58.72,
+      "sys": 1.96,
+      "maxrss_mb": 231.59765625,
+      "rc": 0
+     },
+     {
+      "wall": 10.657136579999815,
+      "user": 59.12,
+      "sys": 1.9,
+      "maxrss_mb": 243.98046875,
+      "rc": 0
+     },
+     {
+      "wall": 10.689554820000012,
+      "user": 58.86,
+      "sys": 1.84,
+      "maxrss_mb": 235.79296875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261009-134511"
+  },
+  {
+   "name": "A_virus_L1_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/virus_L1.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 47.14515048800013,
+      "user": 45.67,
+      "sys": 45.21,
+      "maxrss_mb": 34.0703125,
+      "rc": 0
+     },
+     {
+      "wall": 46.958593142000154,
+      "user": 45.54,
+      "sys": 45.16,
+      "maxrss_mb": 43.234375,
+      "rc": 0
+     },
+     {
+      "wall": 46.64510558000006,
+      "user": 45.15,
+      "sys": 45.45,
+      "maxrss_mb": 32.84765625,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 7.885122194000132,
+      "user": 17.59,
+      "sys": 1.36,
+      "maxrss_mb": 71.12109375,
+      "rc": 0
+     },
+     {
+      "wall": 7.798620421999885,
+      "user": 17.45,
+      "sys": 1.27,
+      "maxrss_mb": 71.48046875,
+      "rc": 0
+     },
+     {
+      "wall": 7.843106247999913,
+      "user": 17.49,
+      "sys": 1.32,
+      "maxrss_mb": 69.7421875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261009-134511"
+  },
+  {
+   "name": "A_virus_L2_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/virus_L2.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 54.050767880000194,
+      "user": 52.66,
+      "sys": 43.69,
+      "maxrss_mb": 41.58203125,
+      "rc": 0
+     },
+     {
+      "wall": 52.95514295300018,
+      "user": 51.7,
+      "sys": 43.9,
+      "maxrss_mb": 41.87109375,
+      "rc": 0
+     },
+     {
+      "wall": 52.81524551999996,
+      "user": 51.79,
+      "sys": 43.51,
+      "maxrss_mb": 41.6953125,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 8.08807729299997,
+      "user": 22.31,
+      "sys": 1.68,
+      "maxrss_mb": 92.00390625,
+      "rc": 0
+     },
+     {
+      "wall": 8.003426612999874,
+      "user": 22.15,
+      "sys": 1.72,
+      "maxrss_mb": 95.09375,
+      "rc": 0
+     },
+     {
+      "wall": 8.081650502000002,
+      "user": 22.35,
+      "sys": 1.59,
+      "maxrss_mb": 94.61328125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261009-134511"
+  },
+  {
+   "name": "A_virus_L3_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/virus_L3.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 64.14498799100011,
+      "user": 62.53,
+      "sys": 43.62,
+      "maxrss_mb": 46.62109375,
+      "rc": 0
+     },
+     {
+      "wall": 64.26112307999983,
+      "user": 63.38,
+      "sys": 43.0,
+      "maxrss_mb": 46.55078125,
+      "rc": 0
+     },
+     {
+      "wall": 64.81692944099996,
+      "user": 63.88,
+      "sys": 45.3,
+      "maxrss_mb": 48.2265625,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 8.408963513000117,
+      "user": 30.43,
+      "sys": 1.77,
+      "maxrss_mb": 162.875,
+      "rc": 0
+     },
+     {
+      "wall": 8.570156098000098,
+      "user": 30.76,
+      "sys": 1.76,
+      "maxrss_mb": 162.421875,
+      "rc": 0
+     },
+     {
+      "wall": 8.542493191000176,
+      "user": 30.65,
+      "sys": 1.78,
+      "maxrss_mb": 159.24609375,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261009-134511"
+  },
+  {
+   "name": "A_virus_L4_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/virus_L4.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 113.59393635600009,
+      "user": 112.54,
+      "sys": 43.84,
+      "maxrss_mb": 119.765625,
+      "rc": 0
+     },
+     {
+      "wall": 113.93494758299994,
+      "user": 112.59,
+      "sys": 44.08,
+      "maxrss_mb": 119.203125,
+      "rc": 0
+     },
+     {
+      "wall": 114.47534564499983,
+      "user": 114.28,
+      "sys": 43.58,
+      "maxrss_mb": 119.95703125,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 10.895539590000226,
+      "user": 68.11,
+      "sys": 2.1,
+      "maxrss_mb": 502.9296875,
+      "rc": 0
+     },
+     {
+      "wall": 10.893847438000194,
+      "user": 67.97,
+      "sys": 2.03,
+      "maxrss_mb": 512.87890625,
+      "rc": 0
+     },
+     {
+      "wall": 10.84289356499994,
+      "user": 67.8,
+      "sys": 2.04,
+      "maxrss_mb": 507.91796875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261009-134511"
+  },
+  {
+   "name": "A_eukaryota_L1_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/eukaryota_L1.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 47.69523993699977,
+      "user": 45.56,
+      "sys": 45.96,
+      "maxrss_mb": 33.2109375,
+      "rc": 0
+     },
+     {
+      "wall": 47.406992995999644,
+      "user": 45.35,
+      "sys": 46.98,
+      "maxrss_mb": 34.08984375,
+      "rc": 0
+     },
+     {
+      "wall": 47.30291152400014,
+      "user": 45.43,
+      "sys": 46.38,
+      "maxrss_mb": 34.265625,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 7.937260058999982,
+      "user": 18.05,
+      "sys": 1.3,
+      "maxrss_mb": 79.23046875,
+      "rc": 0
+     },
+     {
+      "wall": 7.95451206000007,
+      "user": 18.0,
+      "sys": 1.37,
+      "maxrss_mb": 79.90234375,
+      "rc": 0
+     },
+     {
+      "wall": 7.954157252000186,
+      "user": 17.97,
+      "sys": 1.38,
+      "maxrss_mb": 77.09765625,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261009-134511"
+  },
+  {
+   "name": "A_eukaryota_L2_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/eukaryota_L2.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 58.70020943700001,
+      "user": 58.19,
+      "sys": 44.91,
+      "maxrss_mb": 42.51953125,
+      "rc": 0
+     },
+     {
+      "wall": 57.900052679000055,
+      "user": 57.08,
+      "sys": 43.67,
+      "maxrss_mb": 43.1171875,
+      "rc": 0
+     },
+     {
+      "wall": 58.272457528999894,
+      "user": 57.47,
+      "sys": 44.23,
+      "maxrss_mb": 42.81640625,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 8.273950509000315,
+      "user": 25.63,
+      "sys": 1.67,
+      "maxrss_mb": 121.0390625,
+      "rc": 0
+     },
+     {
+      "wall": 8.313286025000252,
+      "user": 25.69,
+      "sys": 1.72,
+      "maxrss_mb": 121.49609375,
+      "rc": 0
+     },
+     {
+      "wall": 8.381521357999645,
+      "user": 25.87,
+      "sys": 1.8,
+      "maxrss_mb": 121.6640625,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261009-134511"
+  },
+  {
+   "name": "A_eukaryota_L3_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/eukaryota_L3.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 64.199276586,
+      "user": 63.08,
+      "sys": 42.96,
+      "maxrss_mb": 48.2109375,
+      "rc": 0
+     },
+     {
+      "wall": 66.1505022489996,
+      "user": 64.46,
+      "sys": 45.41,
+      "maxrss_mb": 45.76953125,
+      "rc": 0
+     },
+     {
+      "wall": 64.01680916000032,
+      "user": 62.46,
+      "sys": 43.75,
+      "maxrss_mb": 45.140625,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 8.36512979500003,
+      "user": 30.28,
+      "sys": 1.78,
+      "maxrss_mb": 135.6875,
+      "rc": 0
+     },
+     {
+      "wall": 8.558278836000227,
+      "user": 31.11,
+      "sys": 1.85,
+      "maxrss_mb": 132.6796875,
+      "rc": 0
+     },
+     {
+      "wall": 8.492504678000387,
+      "user": 30.97,
+      "sys": 1.86,
+      "maxrss_mb": 132.7734375,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261009-134511"
+  },
+  {
+   "name": "A_eukaryota_L4_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/eukaryota_L4.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 111.66171481099991,
+      "user": 111.22,
+      "sys": 44.56,
+      "maxrss_mb": 117.9140625,
+      "rc": 0
+     },
+     {
+      "wall": 113.532127339,
+      "user": 112.14,
+      "sys": 45.16,
+      "maxrss_mb": 117.453125,
+      "rc": 0
+     },
+     {
+      "wall": 109.83110314600026,
+      "user": 108.24,
+      "sys": 43.73,
+      "maxrss_mb": 117.33984375,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 12.4879747949999,
+      "user": 67.5,
+      "sys": 1.81,
+      "maxrss_mb": 305.23828125,
+      "rc": 0
+     },
+     {
+      "wall": 12.923569932000191,
+      "user": 69.47,
+      "sys": 1.93,
+      "maxrss_mb": 314.54296875,
+      "rc": 0
+     },
+     {
+      "wall": 12.864077758999883,
+      "user": 69.36,
+      "sys": 1.9,
+      "maxrss_mb": 323.26171875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261009-134511"
+  },
+  {
+   "name": "A_human_L1_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/human_L1.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 49.28866202400013,
+      "user": 47.62,
+      "sys": 44.93,
+      "maxrss_mb": 37.56640625,
+      "rc": 0
+     },
+     {
+      "wall": 48.96321568800022,
+      "user": 46.94,
+      "sys": 45.34,
+      "maxrss_mb": 37.24609375,
+      "rc": 0
+     },
+     {
+      "wall": 48.607599597000444,
+      "user": 46.67,
+      "sys": 44.12,
+      "maxrss_mb": 37.8359375,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 7.772495849999814,
+      "user": 19.45,
+      "sys": 1.4,
+      "maxrss_mb": 110.1171875,
+      "rc": 0
+     },
+     {
+      "wall": 7.77865816800022,
+      "user": 19.36,
+      "sys": 1.47,
+      "maxrss_mb": 108.26953125,
+      "rc": 0
+     },
+     {
+      "wall": 7.76024883700029,
+      "user": 19.44,
+      "sys": 1.37,
+      "maxrss_mb": 111.22265625,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261009-134511"
+  },
+  {
+   "name": "A_human_L2_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/human_L2.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 57.288777169999776,
+      "user": 56.28,
+      "sys": 43.24,
+      "maxrss_mb": 40.48046875,
+      "rc": 0
+     },
+     {
+      "wall": 58.720689165000294,
+      "user": 57.54,
+      "sys": 45.37,
+      "maxrss_mb": 40.21875,
+      "rc": 0
+     },
+     {
+      "wall": 58.66308698600005,
+      "user": 57.56,
+      "sys": 43.32,
+      "maxrss_mb": 40.74609375,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 8.117150531999869,
+      "user": 26.06,
+      "sys": 1.69,
+      "maxrss_mb": 113.72265625,
+      "rc": 0
+     },
+     {
+      "wall": 8.318634206000752,
+      "user": 26.58,
+      "sys": 1.75,
+      "maxrss_mb": 117.30078125,
+      "rc": 0
+     },
+     {
+      "wall": 8.30165593000038,
+      "user": 26.32,
+      "sys": 1.81,
+      "maxrss_mb": 110.5078125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261009-134511"
+  },
+  {
+   "name": "A_human_L3_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/human_L3.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 76.18384936500024,
+      "user": 74.74,
+      "sys": 43.52,
+      "maxrss_mb": 46.8046875,
+      "rc": 0
+     },
+     {
+      "wall": 77.45621856799971,
+      "user": 76.24,
+      "sys": 44.27,
+      "maxrss_mb": 50.4453125,
+      "rc": 0
+     },
+     {
+      "wall": 74.31059059100062,
+      "user": 72.86,
+      "sys": 43.89,
+      "maxrss_mb": 49.9921875,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 9.59157842500008,
+      "user": 39.43,
+      "sys": 1.82,
+      "maxrss_mb": 173.55078125,
+      "rc": 0
+     },
+     {
+      "wall": 9.575183120000474,
+      "user": 39.35,
+      "sys": 1.79,
+      "maxrss_mb": 174.59375,
+      "rc": 0
+     },
+     {
+      "wall": 9.562710143999539,
+      "user": 39.02,
+      "sys": 1.88,
+      "maxrss_mb": 172.8515625,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261009-134511"
+  },
+  {
+   "name": "A_human_L4_txt",
+   "args": "--cpu 16 --cut_ga -o main.out --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/human_L4.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 140.18508874600047,
+      "user": 139.31,
+      "sys": 44.49,
+      "maxrss_mb": 190.71875,
+      "rc": 0
+     },
+     {
+      "wall": 140.11186467700009,
+      "user": 140.39,
+      "sys": 43.85,
+      "maxrss_mb": 190.421875,
+      "rc": 0
+     },
+     {
+      "wall": 137.20082118900064,
+      "user": 136.11,
+      "sys": 44.11,
+      "maxrss_mb": 190.29296875,
+      "rc": 0
+     }
+    ],
+    "P7": [
+     {
+      "wall": 18.735817107000003,
+      "user": 88.01,
+      "sys": 2.02,
+      "maxrss_mb": 696.90625,
+      "rc": 0
+     },
+     {
+      "wall": 18.954659875999823,
+      "user": 89.7,
+      "sys": 2.03,
+      "maxrss_mb": 726.859375,
+      "rc": 0
+     },
+     {
+      "wall": 19.148973205999937,
+      "user": 90.1,
+      "sys": 2.02,
+      "maxrss_mb": 737.51171875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": [],
+   "date": "20261009-134511"
+  }
+ ]
+}
