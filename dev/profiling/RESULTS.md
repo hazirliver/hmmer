@@ -1,11 +1,11 @@
 # hmmsearch speedups: results
 
-What the work in [`PLAN.md`](PLAN.md) achieved. Upstream HMMER 3.4 and the end of every phase ran on the same workloads in one session (2026-10-07). **Every speedup comes with byte-identical output**: in each scenario, every binary's output files were compared with upstream's (dates and timings masked), and all matched. Per-step details are in [`PROGRESS.md`](PROGRESS.md), lessons in [`LEARNINGS.md`](LEARNINGS.md).
+What the work in [`PLAN.md`](PLAN.md) achieved. Upstream HMMER 3.4 and the end of every phase ran on the same workloads in one session (2026-10-09). **Every speedup comes with byte-identical output**: in each scenario, every binary's output files were compared with upstream's (dates and timings masked), and all matched. Per-step details are in [`PROGRESS.md`](PROGRESS.md), lessons in [`LEARNINGS.md`](LEARNINGS.md).
 
 **Headline:**
 
-- Realistic annotation, Pfam (1,000 families) against the human proteome with `--cut_ga`, 16 threads: **54 s → 7.7 s (7.0×)** by default, and the same with the opt-in `--dbcache` (7.5 s, 7.1×).
-- All of Pfam-A (22k HMMs) against a few sequences, 16 threads: **34 s → 1.7 s (20×)** from the pressed file, 1.5 s (24×) with `--dbcache`; **51 s → 7.7 s (6.6×)** from the text file.
+- Realistic annotation, Pfam (1,000 families) against the human proteome with `--cut_ga`, 16 threads: **56 s → 7.9 s (7.1×)** by default, and about the same with the opt-in `--dbcache` (7.7 s, 7.3×).
+- All of Pfam-A (22k HMMs) against a few sequences, 16 threads: **24 s → 1.5 s (16×)** from the pressed file, 1.1 s (21×) with `--dbcache`; **41 s → 7.3 s (5.6×)** from the text file.
 - Single-threaded runs: **1.3-2.1×**, depending on where the time goes (filters and parsing gained most, the domain stage least).
 - Annotating 1,000 Swiss-Prot proteins per taxon (bacteria, phages, fungi, viruses, eukaryotes, human) with all of Pfam-A, 16 threads: **5.2 → 71 sequences per second (14×)** from the pressed file, **3.8 → 28 (7.4×)** from the text file ([below](#annotating-proteins-with-all-of-pfam-a)).
 
@@ -13,7 +13,7 @@ What the work in [`PLAN.md`](PLAN.md) achieved. Upstream HMMER 3.4 and the end o
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="results/speedup-dark.svg">
-  <img alt="Horizontal bar chart: speedup of this branch over upstream HMMER 3.4 for twelve scenarios, from 1.3× (--max, domain stage only) to 20× (all of Pfam-A, pressed, against 5 sequences); with --dbcache 7.1×, 24× and 12× on the three many-model scenarios. Values are in the table below." src="results/speedup-light.svg">
+  <img alt="Horizontal bar chart: speedup of this branch over upstream HMMER 3.4 for twelve scenarios, from 1.3× (--max, domain stage only) to 16× (all of Pfam-A, pressed, against 5 sequences); with --dbcache 7.3×, 21× and 11× on the three many-model scenarios. Values are in the table below." src="results/speedup-light.svg">
 </picture>
 
 `--dbcache` keeps the parsed target database in memory across queries (Phase 2). It is opt-in, so its bars apply only where you pass it. Since Phase 7 a run with many queries reads each block of targets once for a whole batch of them, so the option gains little at these database sizes; it still saves reading where the targets fit in memory and the run has thousands of queries.
@@ -29,14 +29,14 @@ What the work in [`PLAN.md`](PLAN.md) achieved. Upstream HMMER 3.4 and the end o
 
 | Phase | What changed | Where it shows |
 |---|---|---|
-| 1. Bias filter | Streaming 2-state forward instead of a per-call matrix | 3-5% where the bias filter runs often (1 model × Swiss-Prot, long targets) |
-| 2. Target database once | Opt-in `--dbcache`: the first query's pass keeps the parsed targets in memory | Multi-query runs with the option: 2.7× on the realistic run |
-| 3. Per-query costs | Persistent worker threads, reused pipelines, queries prepared ahead in parallel, query-parallel mode for small cached databases | Many models × small databases: 12× on Pfam-A × 5 sequences |
-| 4. Domain stage | Exact rewrites of the stochastic traceback, null2 and clustering hot spots | Hit-rich and `--max` runs: 10-14% |
-| 5. FASTA parser (Easel) | 16 KB reads, one-pass validate + digitize, header scans with `memchr` | Runs that parse a large FASTA: realistic run −44%, Pfam 100 × Swiss-Prot 50k −51% |
-| 6. Wider SIMD | AVX2 SSV, MSV and Viterbi filters (AVX-512 for models longer than 448), chosen at run time | Filter-heavy runs: 14-29% |
-| 5.6 (after 6) | FASTA residues digitized through one table, 8 at a time | Uncached threaded runs: 9-18% |
-| 7. Query batches, paired parsers | Up to 16 queries per pass over the targets, with consecutive batches overlapped; an exact fast `atof()` for text HMM files; the Forward/Backward parsers on two targets at once; a shorter bias-filter chain | Threaded runs with many queries: realistic 2.7×, Pfam 1k × Swiss-Prot 1k 4.6×, Pfam-A from text 2.4×; single-threaded runs with several queries or many hits 5-14% (one-query runs unchanged) |
+| 1. Bias filter | Streaming 2-state forward instead of a per-call matrix | 4% where the bias filter runs often (1 model × Swiss-Prot, 1 thread) |
+| 2. Target database once | Opt-in `--dbcache`: the first query's pass keeps the parsed targets in memory | Multi-query runs with the option: 2.9× on the realistic run |
+| 3. Per-query costs | Persistent worker threads, reused pipelines, queries prepared ahead in parallel, query-parallel mode for small cached databases | Many models × small databases: 9.0× on Pfam-A × 5 sequences (19× with `--dbcache`) |
+| 4. Domain stage | Exact rewrites of the stochastic traceback, null2 and clustering hot spots | Hit-rich and `--max` runs: 9-14% |
+| 5. FASTA parser (Easel) | 16 KB reads, one-pass validate + digitize, header scans with `memchr` | Runs that parse a large FASTA: realistic run −45%, Pfam 100 × Swiss-Prot 50k −50% |
+| 6. Wider SIMD | AVX2 SSV, MSV and Viterbi filters (AVX-512 for models longer than 448), chosen at run time | Filter-heavy runs: 16-29% |
+| 5.6 (after 6) | FASTA residues digitized through one table, 8 at a time | Uncached threaded runs: 13-19% |
+| 7. Query batches, paired parsers | Up to 16 queries per pass over the targets, with consecutive batches overlapped; an exact fast `atof()` for text HMM files; the Forward/Backward parsers on two targets at once; a shorter bias-filter chain | Threaded runs with many queries: realistic 2.7×, Pfam 1k × Swiss-Prot 1k 4.5×, Pfam-A from text 2.4×; single-threaded runs 5-15%, except the reading-bound one (1%) |
 
 ## All numbers
 
@@ -44,23 +44,23 @@ Median wall time of 3 rounds (each round ran every binary once, in rotated order
 
 | Scenario | upstream 3.4 | P1 | P2 | P3 | P4 | P5 | P6 | 5.6 | P7 | speedup |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
-| Pfam 1k × human proteome | 53.7 s | 53.0 s | 52.8 s | 49.1 s | 47.3 s | 26.6 s | 24.7 s | 20.5 s | 7.7 s | 7.0× |
-| Pfam 1k × human proteome (--dbcache) | — | — | 19.7 s | 15.5 s | 13.8 s | 13.7 s | 11.4 s | 11.5 s | 7.5 s | 7.1× |
-| All of Pfam-A × 5 sequences | 34.4 s | 34.5 s | 34.2 s | 2.9 s | 2.8 s | 2.9 s | 2.8 s | 2.7 s | 1.7 s | 20× |
-| All of Pfam-A × 5 sequences (--dbcache) | — | — | 33.1 s | 1.5 s | 1.5 s | 1.5 s | 1.5 s | 1.5 s | 1.5 s | 24× |
-| All of Pfam-A (text) × 5 sequences | 50.8 s | 50.0 s | 50.5 s | 18.4 s | 18.5 s | 18.7 s | 18.1 s | 18.4 s | 7.7 s | 6.6× |
-| Pfam 1k × Swiss-Prot 1k | 6.6 s | 6.5 s | 6.4 s | 4.2 s | 4.1 s | 3.4 s | 2.8 s | 2.7 s | 0.58 s | 11× |
-| Pfam 1k × Swiss-Prot 1k (--dbcache) | — | — | 4.9 s | 0.95 s | 0.96 s | 0.95 s | 0.93 s | 0.93 s | 0.53 s | 12× |
-| Pfam 100 × Swiss-Prot 50k | 9.2 s | 8.8 s | 9.0 s | 8.5 s | 8.4 s | 4.1 s | 3.9 s | 3.2 s | 1.2 s | 7.4× |
-| 1 model × Swiss-Prot, 16 threads | 1.1 s | 0.95 s | 0.97 s | 0.94 s | 0.92 s | 0.53 s | 0.50 s | 0.46 s | 0.44 s | 2.4× |
-| 40 models × Swiss-Prot 10k | 3.4 s | 3.3 s | 3.3 s | 3.3 s | 3.3 s | 2.9 s | 2.1 s | 2.0 s | 1.9 s | 1.8× |
-| 1 model × Swiss-Prot, 1 thread | 3.9 s | 3.7 s | 3.8 s | 3.7 s | 3.5 s | 2.9 s | 2.5 s | 2.4 s | 2.3 s | 1.7× |
-| 1 short model × Swiss-Prot | 1.2 s | 1.1 s | 1.1 s | 1.2 s | 1.2 s | 0.72 s | 0.71 s | 0.62 s | 0.62 s | 2.0× |
-| 10 models × long sequences | 0.35 s | 0.34 s | 0.34 s | 0.34 s | 0.34 s | 0.26 s | 0.21 s | 0.20 s | 0.17 s | 2.1× |
-| 10 hit-rich models × 10k | 0.89 s | 0.87 s | 0.87 s | 0.87 s | 0.78 s | 0.70 s | 0.67 s | 0.69 s | 0.60 s | 1.5× |
-| 10 models × 1k, --max | 3.6 s | 3.6 s | 3.5 s | 3.5 s | 3.0 s | 3.0 s | 3.0 s | 3.1 s | 2.8 s | 1.3× |
+| Pfam 1k × human proteome | 56.4 s | 56.4 s | 55.4 s | 52.2 s | 49.8 s | 27.3 s | 25.8 s | 21.0 s | 7.9 s | 7.1× |
+| Pfam 1k × human proteome (--dbcache) | — | — | 19.5 s | 15.6 s | 13.7 s | 13.7 s | 11.5 s | 11.5 s | 7.7 s | 7.3× |
+| All of Pfam-A × 5 sequences | 23.6 s | 23.0 s | 23.2 s | 2.6 s | 2.6 s | 2.2 s | 2.2 s | 2.2 s | 1.5 s | 16× |
+| All of Pfam-A × 5 sequences (--dbcache) | — | — | 21.8 s | 1.2 s | 1.2 s | 1.2 s | 1.1 s | 1.1 s | 1.1 s | 21× |
+| All of Pfam-A (text) × 5 sequences | 40.6 s | 40.9 s | 40.4 s | 17.9 s | 18.0 s | 17.7 s | 17.6 s | 17.6 s | 7.3 s | 5.6× |
+| Pfam 1k × Swiss-Prot 1k | 6.1 s | 6.0 s | 6.0 s | 4.1 s | 4.1 s | 3.4 s | 2.8 s | 2.6 s | 0.58 s | 11× |
+| Pfam 1k × Swiss-Prot 1k (--dbcache) | — | — | 4.6 s | 0.96 s | 0.96 s | 0.98 s | 0.93 s | 0.93 s | 0.54 s | 11× |
+| Pfam 100 × Swiss-Prot 50k | 9.5 s | 9.2 s | 9.0 s | 8.6 s | 8.4 s | 4.2 s | 3.9 s | 3.2 s | 1.2 s | 7.8× |
+| 1 model × Swiss-Prot, 16 threads | 1.0 s | 0.93 s | 0.98 s | 0.95 s | 0.92 s | 0.51 s | 0.50 s | 0.43 s | 0.44 s | 2.4× |
+| 40 models × Swiss-Prot 10k | 3.5 s | 3.5 s | 3.5 s | 3.4 s | 3.4 s | 3.0 s | 2.1 s | 2.1 s | 1.9 s | 1.8× |
+| 1 model × Swiss-Prot, 1 thread | 4.1 s | 3.9 s | 4.0 s | 3.9 s | 3.6 s | 3.1 s | 2.6 s | 2.5 s | 2.4 s | 1.7× |
+| 1 short model × Swiss-Prot | 1.2 s | 1.1 s | 1.1 s | 1.2 s | 1.2 s | 0.71 s | 0.71 s | 0.62 s | 0.61 s | 2.0× |
+| 10 models × long sequences | 0.38 s | 0.38 s | 0.37 s | 0.36 s | 0.36 s | 0.28 s | 0.23 s | 0.21 s | 0.18 s | 2.1× |
+| 10 hit-rich models × 10k | 0.92 s | 0.91 s | 0.91 s | 0.90 s | 0.82 s | 0.73 s | 0.70 s | 0.69 s | 0.61 s | 1.5× |
+| 10 models × 1k, --max | 3.6 s | 3.7 s | 3.7 s | 3.7 s | 3.2 s | 3.2 s | 3.1 s | 3.1 s | 2.8 s | 1.3× |
 
-Peak memory: the realistic run takes 336 MB upstream and 351 MB now (per-thread state kept across queries, and the hit lists of a batch of up to 16 queries held until they're printed), 345 MB with `--dbcache`. Many models against a tiny database take 34 → 62 MB.
+Peak memory: the realistic run takes 341 MB upstream and 350 MB now (per-thread state kept across queries, and the hit lists of a batch of up to 16 queries held until they're printed), 352 MB with `--dbcache`. Many models against a tiny database take 35 → 62 MB.
 
 ## Annotating proteins with all of Pfam-A
 
@@ -125,7 +125,8 @@ Peak memory grows with protein length here: 34-192 MB upstream and 65-754 MB wit
 - Machine: 16-vCPU Intel Xeon Platinum 8468 (Sapphire Rapids) KVM guest, 8 cores × 2 hyperthreads.
 - Binaries: default `-O3` builds of upstream (the HMMER 3.4 source, f8bebd8) and of each phase's last commit (4088a0d, 5ad2fde, fa18adc, 4f62b07, f9dcb6b, aadf224, 7d637cb for `5.6`, 50882a6 for `P7`), each with the Easel commit it pins. Upstream differs from `master` only in `dev/` and `.gitignore`.
 - Workloads: [`dev/perf/workloads.tsv`](../perf/workloads.tsv) (Pfam 37.0, Swiss-Prot, the human proteome; see [`dev/bench`](../bench)). Threaded runs pin `-Z`, so their outputs are deterministic.
-- Wall times on this VM vary: the spread (max-min)/median of a binary's 3 rounds was up to 12% on the shortest or 16-thread runs, typically 3-6%, and upstream's realistic run measured 59 s the day before. That doesn't affect the conclusions here; per-step decisions in PROGRESS.md used CPU counters and interleaved A/Bs.
+- Wall times on this VM vary: the spread (max-min)/median of a binary's 3 rounds was 2.7% at the median and up to 12% (the 2 s pressed Pfam-A run), and upstream's realistic run measured 54-59 s on other days. That doesn't affect the conclusions here; per-step decisions in PROGRESS.md used CPU counters and interleaved A/Bs.
+- Threaded scenarios are timed without `perf stat`; the single-threaded ones (`W1`-`W5`, `R1`) also collect counters with it. Until 2026-10-07 every timed round ran under `perf stat`, which slows threaded runs that synchronize often on this VM, upstream's most ([`LEARNINGS.md`](LEARNINGS.md), measuring item 20). The previous version of this page overstated two speedups that way: all of Pfam-A × 5 sequences took 34.4 s upstream under `perf stat` and takes 23.6 s without (20× → 16×), and from the text file 50.8 s → 40.6 s (6.6× → 5.6×). The other scenarios moved by less than the day-to-day noise.
 - Annotation runs: the six protein sets come from UniProt release 2026_03 (`dev/bench/uniprot.py fetch` downloads exactly those proteins; see [`dev/bench/README.md`](../bench/README.md)), and the workloads are [`dev/perf/annot.tsv`](../perf/annot.tsv). Upstream and `P7` ran round-robin, 1 untimed round that checked outputs and 3 timed rounds, without `perf stat` (it slowed threaded runs, upstream's most; see [`LEARNINGS.md`](LEARNINGS.md), measuring item 20). The pressed runs and the bacteria and phage text runs were measured on 2026-10-07, the other text runs on 2026-10-09 (a VM reboot stopped the first run). Within a group, both binaries ran in the same session. The spread (max-min)/median of a binary's 3 rounds was 1.7% at the median, at most 6.1%. Raw samples: [`results/annot.json`](results/annot.json).
 - Reproduce (about one and a half hours; the second `series.py` run adds the text Pfam-A scenario, and the two JSON files are merged by concatenating their `workloads` lists):
 
