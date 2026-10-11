@@ -1,6 +1,6 @@
 # hmmsearch acceleration plan (small, verified steps)
 
-Results, upstream vs every phase: [`RESULTS.md`](RESULTS.md). Re-profile after Phase 6 and proposed Phase 7: [`REPROFILE.md`](REPROFILE.md). Lessons learned so far: [`LEARNINGS.md`](LEARNINGS.md). Input: the profile in [`README.md`](README.md) (dev @ 8da3ab2, measured 2026-10-04).
+Results, upstream vs every phase: [`RESULTS.md`](RESULTS.md). Re-profile after Phase 6 and proposed Phase 7: [`REPROFILE.md`](REPROFILE.md). Lessons learned so far: [`LEARNINGS.md`](LEARNINGS.md). How the whole process was run, and what mattered: [`PROCESS.md`](PROCESS.md). Input: the profile in [`README.md`](README.md) (dev @ 8da3ab2, measured 2026-10-04).
 Each step below is one small commit. A step is kept only if it is **byte-identical** to the previous step on every check and **faster beyond noise** on the metric it targets. A pure refactor that later steps need can be kept when it is perf-neutral.
 
 ---
