@@ -1,0 +1,2873 @@
+{
+ "date": "20261020-154922",
+ "machine": "Intel(R) Xeon(R) Platinum 8468",
+ "ncpu": 16,
+ "reps": 3,
+ "warmup": 1,
+ "perf": true,
+ "binaries": [
+  {
+   "label": "upstream",
+   "name": "series-p0",
+   "date": "2026-10-06T15:38:31Z",
+   "src": "f8bebd8 @ /tmp/hmmer-snap.PuAteB",
+   "git_sha": "f8bebd8e9b74f0810626fbb4cdfb66af6f805d6d",
+   "git_branch": "dev",
+   "easel_sha": "07ca83ba9ef0414dba9ce0a9331d465b5eb58f2b",
+   "build_dir": "/tmp/hmmer-snap.PuAteB/build",
+   "cflags": "-O3",
+   "hmmsearch": "b9ee6a01b338b607",
+   "path": "/home/asokolov/Projects/hmmer/bench-results/bins/series-p0/hmmsearch"
+  },
+  {
+   "label": "pyhmmer",
+   "name": "pyhmmer-0.12.3",
+   "date": "2026-10-20T13:45:50Z",
+   "src": "PyPI wheel, venv /home/asokolov/.cache/hmmer-bench/pyhmmer-0.12.3",
+   "packages": "psutil==7.2.2 pyhmmer==0.12.3",
+   "python": "3.12.3",
+   "compiler": "GCC: (GNU) 14.2.1 20250110 (Red Hat 14.2.1-7)",
+   "simd": "SSE only (no ymm/zmm in libhmmer)",
+   "driver": "dev/perf/pyhmmsearch.py 800e2671a7bc37cd",
+   "hmmsearch": "8cf8f4aa689befee",
+   "path": "/home/asokolov/Projects/hmmer/bench-results/bins/pyhmmer-0.12.3/hmmsearch"
+  },
+  {
+   "label": "fork",
+   "name": "series-p7e1",
+   "date": "2026-10-20T13:26:50Z",
+   "src": "5935bd9 @ /tmp/hmmer-snap.71ho2y",
+   "git_sha": "5935bd9d82b3328f8c6528cf47c60ac9c379bbc7",
+   "git_branch": "dev",
+   "easel_sha": "2be6bccb1f997d7c49f1d1b811a07547fc7afc5f",
+   "build_dir": "/tmp/hmmer-snap.71ho2y/build",
+   "cflags": "-O3",
+   "hmmsearch": "13d6426b137afcca",
+   "path": "/home/asokolov/Projects/hmmer/bench-results/bins/series-p7e1/hmmsearch"
+  }
+ ],
+ "workloads": [
+  {
+   "name": "A_bacteria_L1_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/bacteria_L1.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 44.867152589024045,
+      "user": 43.36,
+      "sys": 45.4,
+      "maxrss_mb": 33.20703125,
+      "rc": 0
+     },
+     {
+      "wall": 45.50098149594851,
+      "user": 43.54,
+      "sys": 45.51,
+      "maxrss_mb": 32.8984375,
+      "rc": 0
+     },
+     {
+      "wall": 44.87587450502906,
+      "user": 43.38,
+      "sys": 44.75,
+      "maxrss_mb": 33.171875,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.54373062797822,
+      "user": 24.69,
+      "sys": 0.47,
+      "maxrss_mb": 61.203125,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05041076405905187,
+       "read_targets": 0.00046913791447877884,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.4524388309801,
+       "queries": 21979,
+       "total": 16.5162636640016
+      }
+     },
+     {
+      "wall": 16.65712280990556,
+      "user": 24.83,
+      "sys": 0.44,
+      "maxrss_mb": 63.01171875,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04989215894602239,
+       "read_targets": 0.000481237075291574,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.565555459004827,
+       "queries": 21979,
+       "total": 16.628531213034876
+      }
+     },
+     {
+      "wall": 16.785784250008874,
+      "user": 24.97,
+      "sys": 0.48,
+      "maxrss_mb": 61.1328125,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05100216704886407,
+       "read_targets": 0.0004890579730272293,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.69396320695523,
+       "queries": 21979,
+       "total": 16.758130821050145
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 7.481537480955012,
+      "user": 16.46,
+      "sys": 1.27,
+      "maxrss_mb": 77.80078125,
+      "rc": 0
+     },
+     {
+      "wall": 7.5586110489675775,
+      "user": 16.75,
+      "sys": 1.19,
+      "maxrss_mb": 78.69921875,
+      "rc": 0
+     },
+     {
+      "wall": 7.5747991719981655,
+      "user": 16.76,
+      "sys": 1.2,
+      "maxrss_mb": 78.79296875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "A_bacteria_L2_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/bacteria_L2.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 51.22380218701437,
+      "user": 50.01,
+      "sys": 45.04,
+      "maxrss_mb": 35.6328125,
+      "rc": 0
+     },
+     {
+      "wall": 51.298374800011516,
+      "user": 50.08,
+      "sys": 44.56,
+      "maxrss_mb": 36.0859375,
+      "rc": 0
+     },
+     {
+      "wall": 51.174517660052516,
+      "user": 49.58,
+      "sys": 45.71,
+      "maxrss_mb": 35.9453125,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.65098090399988,
+      "user": 29.95,
+      "sys": 0.49,
+      "maxrss_mb": 71.47265625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05131726700346917,
+       "read_targets": 0.0005805609980598092,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.55610030796379,
+       "queries": 21979,
+       "total": 16.621397442999296
+      }
+     },
+     {
+      "wall": 16.54241463402286,
+      "user": 29.77,
+      "sys": 0.51,
+      "maxrss_mb": 71.3828125,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04908297001384199,
+       "read_targets": 0.0005861840909346938,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.45178619597573,
+       "queries": 21979,
+       "total": 16.514052795944735
+      }
+     },
+     {
+      "wall": 16.661267775925808,
+      "user": 29.93,
+      "sys": 0.5,
+      "maxrss_mb": 71.21484375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.050001777010038495,
+       "read_targets": 0.0005519279511645436,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.569479373982176,
+       "queries": 21979,
+       "total": 16.63299468299374
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 7.7112294170074165,
+      "user": 20.76,
+      "sys": 1.52,
+      "maxrss_mb": 95.1953125,
+      "rc": 0
+     },
+     {
+      "wall": 7.71024475293234,
+      "user": 20.77,
+      "sys": 1.56,
+      "maxrss_mb": 93.92578125,
+      "rc": 0
+     },
+     {
+      "wall": 7.684482389013283,
+      "user": 20.62,
+      "sys": 1.55,
+      "maxrss_mb": 94.72265625,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "A_bacteria_L3_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/bacteria_L3.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 56.14988059992902,
+      "user": 55.21,
+      "sys": 44.45,
+      "maxrss_mb": 43.5078125,
+      "rc": 0
+     },
+     {
+      "wall": 55.910769012989476,
+      "user": 54.77,
+      "sys": 43.34,
+      "maxrss_mb": 41.37890625,
+      "rc": 0
+     },
+     {
+      "wall": 56.350801412947476,
+      "user": 55.01,
+      "sys": 44.25,
+      "maxrss_mb": 41.0234375,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.954360346891917,
+      "user": 35.63,
+      "sys": 0.51,
+      "maxrss_mb": 91.9375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05106475600041449,
+       "read_targets": 0.0006866509793326259,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.86144809704274,
+       "queries": 21979,
+       "total": 16.926235948922113
+      }
+     },
+     {
+      "wall": 16.808484493987635,
+      "user": 35.42,
+      "sys": 0.47,
+      "maxrss_mb": 93.1328125,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05144798394758254,
+       "read_targets": 0.0006887810304760933,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.71131843398325,
+       "queries": 21979,
+       "total": 16.776735520921648
+      }
+     },
+     {
+      "wall": 16.72119250195101,
+      "user": 35.26,
+      "sys": 0.52,
+      "maxrss_mb": 94.2890625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05120129894930869,
+       "read_targets": 0.0006738259689882398,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.626431394019164,
+       "queries": 21979,
+       "total": 16.69090489903465
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 7.9545694650150836,
+      "user": 24.83,
+      "sys": 1.66,
+      "maxrss_mb": 117.671875,
+      "rc": 0
+     },
+     {
+      "wall": 7.878725668997504,
+      "user": 24.6,
+      "sys": 1.71,
+      "maxrss_mb": 118.15625,
+      "rc": 0
+     },
+     {
+      "wall": 7.893375723971985,
+      "user": 24.85,
+      "sys": 1.63,
+      "maxrss_mb": 118.28125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "A_bacteria_L4_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/bacteria_L4.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 70.97601431806106,
+      "user": 70.36,
+      "sys": 42.27,
+      "maxrss_mb": 60.90234375,
+      "rc": 0
+     },
+     {
+      "wall": 70.81848040700424,
+      "user": 69.83,
+      "sys": 42.87,
+      "maxrss_mb": 66.38671875,
+      "rc": 0
+     },
+     {
+      "wall": 71.75191705091856,
+      "user": 71.3,
+      "sys": 43.98,
+      "maxrss_mb": 52.2578125,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.964776400942355,
+      "user": 51.12,
+      "sys": 0.58,
+      "maxrss_mb": 151.75390625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04993607196956873,
+       "read_targets": 0.0008875419152900577,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.867783572990447,
+       "queries": 21979,
+       "total": 16.931540351943113
+      }
+     },
+     {
+      "wall": 16.831995095009916,
+      "user": 50.8,
+      "sys": 0.56,
+      "maxrss_mb": 157.92578125,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.049814336001873016,
+       "read_targets": 0.0008226219797506928,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.735123830032535,
+       "queries": 21979,
+       "total": 16.798871565959416
+      }
+     },
+     {
+      "wall": 16.78250150301028,
+      "user": 50.72,
+      "sys": 0.56,
+      "maxrss_mb": 154.8828125,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05049599602352828,
+       "read_targets": 0.0008862189715728164,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.684883562033065,
+       "queries": 21979,
+       "total": 16.749388243071735
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 8.5042715909658,
+      "user": 36.44,
+      "sys": 1.82,
+      "maxrss_mb": 160.44921875,
+      "rc": 0
+     },
+     {
+      "wall": 8.49227471894119,
+      "user": 36.54,
+      "sys": 1.67,
+      "maxrss_mb": 147.484375,
+      "rc": 0
+     },
+     {
+      "wall": 8.535787903005257,
+      "user": 36.38,
+      "sys": 1.87,
+      "maxrss_mb": 156.0546875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": false,
+   "notes": [
+    "pyhmmer: 1 numbers below 2.2e-308 compared as 0 (t.dom 1)"
+   ],
+   "problems": [
+    "pyhmmer vs upstream: t.dom, t.tbl DIFFER"
+   ]
+  },
+  {
+   "name": "A_phage_L1_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/phage_L1.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 42.62126560905017,
+      "user": 40.43,
+      "sys": 44.95,
+      "maxrss_mb": 32.1796875,
+      "rc": 0
+     },
+     {
+      "wall": 42.95354101108387,
+      "user": 40.84,
+      "sys": 45.57,
+      "maxrss_mb": 33.265625,
+      "rc": 0
+     },
+     {
+      "wall": 42.522140603046864,
+      "user": 41.18,
+      "sys": 44.85,
+      "maxrss_mb": 33.26171875,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.612241061986424,
+      "user": 22.71,
+      "sys": 0.48,
+      "maxrss_mb": 56.296875,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05037364503368735,
+       "read_targets": 0.00046904501505196095,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.519498044042848,
+       "queries": 21979,
+       "total": 16.583688191953115
+      }
+     },
+     {
+      "wall": 16.680420767050236,
+      "user": 22.8,
+      "sys": 0.49,
+      "maxrss_mb": 56.80859375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.050693136057816446,
+       "read_targets": 0.00046530389226973057,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.588153480086476,
+       "queries": 21979,
+       "total": 16.652756883064285
+      }
+     },
+     {
+      "wall": 16.47734549792949,
+      "user": 22.65,
+      "sys": 0.46,
+      "maxrss_mb": 58.8515625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.0483576999977231,
+       "read_targets": 0.0004232260398566723,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.388608589069918,
+       "queries": 21979,
+       "total": 16.449962768005207
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 7.468098297016695,
+      "user": 14.87,
+      "sys": 1.21,
+      "maxrss_mb": 72.3515625,
+      "rc": 0
+     },
+     {
+      "wall": 7.424676425987855,
+      "user": 14.82,
+      "sys": 1.19,
+      "maxrss_mb": 70.78515625,
+      "rc": 0
+     },
+     {
+      "wall": 7.346736385021359,
+      "user": 14.71,
+      "sys": 1.17,
+      "maxrss_mb": 73.453125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "A_phage_L2_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/phage_L2.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 45.607174727949314,
+      "user": 43.95,
+      "sys": 45.1,
+      "maxrss_mb": 33.9296875,
+      "rc": 0
+     },
+     {
+      "wall": 45.51512327301316,
+      "user": 44.07,
+      "sys": 43.66,
+      "maxrss_mb": 33.484375,
+      "rc": 0
+     },
+     {
+      "wall": 45.81791412702296,
+      "user": 44.01,
+      "sys": 44.63,
+      "maxrss_mb": 33.30078125,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.585431693005376,
+      "user": 25.24,
+      "sys": 0.47,
+      "maxrss_mb": 59.5859375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04992797796148807,
+       "read_targets": 0.00048652500845491886,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.494498196057975,
+       "queries": 21979,
+       "total": 16.557682428043336
+      }
+     },
+     {
+      "wall": 16.670071045984514,
+      "user": 25.36,
+      "sys": 0.48,
+      "maxrss_mb": 62.15234375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.049938559997826815,
+       "read_targets": 0.0004985569976270199,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.578752610017546,
+       "queries": 21979,
+       "total": 16.641937679960392
+      }
+     },
+     {
+      "wall": 16.653097417089157,
+      "user": 25.42,
+      "sys": 0.49,
+      "maxrss_mb": 60.8359375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05269991199020296,
+       "read_targets": 0.0005204749759286642,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.557096633012407,
+       "queries": 21979,
+       "total": 16.623904724023305
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 7.446376994950697,
+      "user": 17.0,
+      "sys": 1.24,
+      "maxrss_mb": 79.0859375,
+      "rc": 0
+     },
+     {
+      "wall": 7.53393608389888,
+      "user": 17.3,
+      "sys": 1.22,
+      "maxrss_mb": 77.8671875,
+      "rc": 0
+     },
+     {
+      "wall": 7.490658640046604,
+      "user": 17.15,
+      "sys": 1.25,
+      "maxrss_mb": 80.15234375,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "A_phage_L3_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/phage_L3.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 51.535624903975986,
+      "user": 51.3,
+      "sys": 43.11,
+      "maxrss_mb": 39.21875,
+      "rc": 0
+     },
+     {
+      "wall": 51.72070229600649,
+      "user": 50.18,
+      "sys": 43.71,
+      "maxrss_mb": 38.67578125,
+      "rc": 0
+     },
+     {
+      "wall": 51.69324606389273,
+      "user": 51.1,
+      "sys": 43.75,
+      "maxrss_mb": 38.76953125,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.880906705977395,
+      "user": 30.87,
+      "sys": 0.5,
+      "maxrss_mb": 75.7890625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.050480229896493256,
+       "read_targets": 0.0006152800051495433,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.78792199899908,
+       "queries": 21979,
+       "total": 16.85177081997972
+      }
+     },
+     {
+      "wall": 16.65724226902239,
+      "user": 30.51,
+      "sys": 0.48,
+      "maxrss_mb": 77.25390625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05047801206819713,
+       "read_targets": 0.0006047380156815052,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.56424412492197,
+       "queries": 21979,
+       "total": 16.62813317903783
+      }
+     },
+     {
+      "wall": 16.58471861400176,
+      "user": 30.38,
+      "sys": 0.5,
+      "maxrss_mb": 78.1171875,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05148323904722929,
+       "read_targets": 0.0005451460601761937,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.49052871693857,
+       "queries": 21979,
+       "total": 16.55505996698048
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 7.754356520948932,
+      "user": 21.49,
+      "sys": 1.67,
+      "maxrss_mb": 102.828125,
+      "rc": 0
+     },
+     {
+      "wall": 7.7578965339343995,
+      "user": 21.65,
+      "sys": 1.5,
+      "maxrss_mb": 100.4375,
+      "rc": 0
+     },
+     {
+      "wall": 7.7869180829729885,
+      "user": 21.71,
+      "sys": 1.56,
+      "maxrss_mb": 105.13671875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "A_phage_L4_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/phage_L4.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 70.78888441505842,
+      "user": 70.28,
+      "sys": 42.1,
+      "maxrss_mb": 55.82421875,
+      "rc": 0
+     },
+     {
+      "wall": 71.26996383094229,
+      "user": 69.76,
+      "sys": 44.16,
+      "maxrss_mb": 50.484375,
+      "rc": 0
+     },
+     {
+      "wall": 71.01896429399494,
+      "user": 70.1,
+      "sys": 43.83,
+      "maxrss_mb": 50.71484375,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.82469964795746,
+      "user": 48.59,
+      "sys": 0.53,
+      "maxrss_mb": 161.72265625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04937053704634309,
+       "read_targets": 0.000890490016900003,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.727429962949827,
+       "queries": 21979,
+       "total": 16.790824303985573
+      }
+     },
+     {
+      "wall": 17.140918759047054,
+      "user": 48.75,
+      "sys": 0.56,
+      "maxrss_mb": 163.28515625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.050864488002844155,
+       "read_targets": 0.0008713370189070702,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 17.04298728099093,
+       "queries": 21979,
+       "total": 17.107687916024588
+      }
+     },
+     {
+      "wall": 16.5737850649748,
+      "user": 47.71,
+      "sys": 0.56,
+      "maxrss_mb": 163.90625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05124502594117075,
+       "read_targets": 0.0008365298854187131,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.472395410994068,
+       "queries": 21979,
+       "total": 16.537141963955946
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 8.775987014989369,
+      "user": 35.74,
+      "sys": 1.8,
+      "maxrss_mb": 152.796875,
+      "rc": 0
+     },
+     {
+      "wall": 8.714423924917355,
+      "user": 35.49,
+      "sys": 1.88,
+      "maxrss_mb": 154.44140625,
+      "rc": 0
+     },
+     {
+      "wall": 8.700982957961969,
+      "user": 35.41,
+      "sys": 1.74,
+      "maxrss_mb": 152.75390625,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [
+    "pyhmmer: 5 numbers below 2.2e-308 compared as 0 (t.dom 3, t.tbl 2)"
+   ],
+   "problems": []
+  },
+  {
+   "name": "A_fungi_L1_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/fungi_L1.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 47.65730255597737,
+      "user": 45.72,
+      "sys": 44.05,
+      "maxrss_mb": 34.98046875,
+      "rc": 0
+     },
+     {
+      "wall": 47.58169351099059,
+      "user": 46.02,
+      "sys": 43.44,
+      "maxrss_mb": 34.73828125,
+      "rc": 0
+     },
+     {
+      "wall": 47.893679823027924,
+      "user": 46.45,
+      "sys": 43.98,
+      "maxrss_mb": 34.2578125,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.54223363089841,
+      "user": 27.25,
+      "sys": 0.45,
+      "maxrss_mb": 77.09765625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04927303304430097,
+       "read_targets": 0.000476742978207767,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.449142255005427,
+       "queries": 21979,
+       "total": 16.511876045027748
+      }
+     },
+     {
+      "wall": 16.583585685002618,
+      "user": 27.38,
+      "sys": 0.47,
+      "maxrss_mb": 79.5859375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04948422801680863,
+       "read_targets": 0.0005414390470832586,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.492399038979784,
+       "queries": 21979,
+       "total": 16.55485428601969
+      }
+     },
+     {
+      "wall": 16.82540221500676,
+      "user": 27.73,
+      "sys": 0.55,
+      "maxrss_mb": 76.5234375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.049850848969072104,
+       "read_targets": 0.0005102390423417091,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.73395900905598,
+       "queries": 21979,
+       "total": 16.796992623014376
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 7.63655352499336,
+      "user": 18.88,
+      "sys": 1.29,
+      "maxrss_mb": 101.61328125,
+      "rc": 0
+     },
+     {
+      "wall": 7.5016060549532995,
+      "user": 18.56,
+      "sys": 1.36,
+      "maxrss_mb": 98.41796875,
+      "rc": 0
+     },
+     {
+      "wall": 7.571468494948931,
+      "user": 18.71,
+      "sys": 1.3,
+      "maxrss_mb": 101.984375,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "A_fungi_L2_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/fungi_L2.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 56.19872570608277,
+      "user": 56.13,
+      "sys": 42.66,
+      "maxrss_mb": 42.48828125,
+      "rc": 0
+     },
+     {
+      "wall": 56.781809312989935,
+      "user": 55.85,
+      "sys": 43.48,
+      "maxrss_mb": 39.7265625,
+      "rc": 0
+     },
+     {
+      "wall": 56.39971619495191,
+      "user": 55.23,
+      "sys": 43.95,
+      "maxrss_mb": 41.52734375,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.980507218046114,
+      "user": 35.34,
+      "sys": 0.5,
+      "maxrss_mb": 97.00390625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04965421394445002,
+       "read_targets": 0.0006284830160439014,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.8872632390121,
+       "queries": 21979,
+       "total": 16.950337220914662
+      }
+     },
+     {
+      "wall": 16.839737980044447,
+      "user": 35.13,
+      "sys": 0.5,
+      "maxrss_mb": 97.3359375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.050785726052708924,
+       "read_targets": 0.000671118963509798,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.74440959992353,
+       "queries": 21979,
+       "total": 16.80865935003385
+      }
+     },
+     {
+      "wall": 16.659817775944248,
+      "user": 34.84,
+      "sys": 0.48,
+      "maxrss_mb": 96.96484375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.049942794954404235,
+       "read_targets": 0.0006680709775537252,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.566838845959865,
+       "queries": 21979,
+       "total": 16.630185696994886
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 7.954909483087249,
+      "user": 24.94,
+      "sys": 1.64,
+      "maxrss_mb": 121.5703125,
+      "rc": 0
+     },
+     {
+      "wall": 7.957152629969642,
+      "user": 24.94,
+      "sys": 1.62,
+      "maxrss_mb": 121.70703125,
+      "rc": 0
+     },
+     {
+      "wall": 7.89103427506052,
+      "user": 24.83,
+      "sys": 1.65,
+      "maxrss_mb": 118.34375,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "A_fungi_L3_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/fungi_L3.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 65.16756290500052,
+      "user": 64.6,
+      "sys": 43.13,
+      "maxrss_mb": 48.4453125,
+      "rc": 0
+     },
+     {
+      "wall": 65.68645092402585,
+      "user": 65.34,
+      "sys": 44.25,
+      "maxrss_mb": 46.76171875,
+      "rc": 0
+     },
+     {
+      "wall": 65.67718255904038,
+      "user": 65.25,
+      "sys": 43.33,
+      "maxrss_mb": 46.609375,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.69837037101388,
+      "user": 43.28,
+      "sys": 0.52,
+      "maxrss_mb": 135.84765625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04821050900500268,
+       "read_targets": 0.000794057035818696,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.602601006045006,
+       "queries": 21979,
+       "total": 16.664401030051522
+      }
+     },
+     {
+      "wall": 16.73675944202114,
+      "user": 43.33,
+      "sys": 0.58,
+      "maxrss_mb": 139.44140625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05090071901213378,
+       "read_targets": 0.0008074080105870962,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.637220107018948,
+       "queries": 21979,
+       "total": 16.701992869959213
+      }
+     },
+     {
+      "wall": 16.64601564500481,
+      "user": 43.19,
+      "sys": 0.55,
+      "maxrss_mb": 141.26171875,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05020166502799839,
+       "read_targets": 0.0007735309191048145,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.5472878360888,
+       "queries": 21979,
+       "total": 16.611210972070694
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 8.255846106098033,
+      "user": 31.42,
+      "sys": 1.73,
+      "maxrss_mb": 146.43359375,
+      "rc": 0
+     },
+     {
+      "wall": 8.285705366055481,
+      "user": 31.6,
+      "sys": 1.7,
+      "maxrss_mb": 149.13671875,
+      "rc": 0
+     },
+     {
+      "wall": 8.197182368952781,
+      "user": 31.33,
+      "sys": 1.73,
+      "maxrss_mb": 148.84765625,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "A_fungi_L4_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/fungi_L4.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 97.08736550505273,
+      "user": 96.17,
+      "sys": 44.45,
+      "maxrss_mb": 62.7109375,
+      "rc": 0
+     },
+     {
+      "wall": 97.0379433099879,
+      "user": 96.66,
+      "sys": 42.79,
+      "maxrss_mb": 63.46875,
+      "rc": 0
+     },
+     {
+      "wall": 97.59053781500552,
+      "user": 97.13,
+      "sys": 42.65,
+      "maxrss_mb": 63.37109375,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 17.41095814795699,
+      "user": 81.18,
+      "sys": 0.59,
+      "maxrss_mb": 233.34375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.049556120997294784,
+       "read_targets": 0.001136818085797131,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 17.31107262999285,
+       "queries": 21979,
+       "total": 17.37442671903409
+      }
+     },
+     {
+      "wall": 17.02158912504092,
+      "user": 81.89,
+      "sys": 0.61,
+      "maxrss_mb": 249.08203125,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05143617303110659,
+       "read_targets": 0.0012078739237040281,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.91820195503533,
+       "queries": 21979,
+       "total": 16.98337612801697
+      }
+     },
+     {
+      "wall": 17.356293546035886,
+      "user": 81.85,
+      "sys": 0.55,
+      "maxrss_mb": 238.078125,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04997012403327972,
+       "read_targets": 0.0011315210722386837,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 17.25451293005608,
+       "queries": 21979,
+       "total": 17.31838475097902
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 10.34679171605967,
+      "user": 56.95,
+      "sys": 1.99,
+      "maxrss_mb": 184.75,
+      "rc": 0
+     },
+     {
+      "wall": 10.3152961229207,
+      "user": 56.3,
+      "sys": 2.01,
+      "maxrss_mb": 180.41015625,
+      "rc": 0
+     },
+     {
+      "wall": 10.314181321067736,
+      "user": 56.45,
+      "sys": 2.12,
+      "maxrss_mb": 197.078125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "A_virus_L1_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/virus_L1.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 45.24162367801182,
+      "user": 43.74,
+      "sys": 43.74,
+      "maxrss_mb": 43.17578125,
+      "rc": 0
+     },
+     {
+      "wall": 45.68270990403835,
+      "user": 43.99,
+      "sys": 44.63,
+      "maxrss_mb": 33.4765625,
+      "rc": 0
+     },
+     {
+      "wall": 45.41971534304321,
+      "user": 43.88,
+      "sys": 44.75,
+      "maxrss_mb": 33.5859375,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.7166679330403,
+      "user": 25.15,
+      "sys": 0.5,
+      "maxrss_mb": 60.046875,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04849180206656456,
+       "read_targets": 0.0004935429897159338,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.626625186065212,
+       "queries": 21979,
+       "total": 16.688289214042015
+      }
+     },
+     {
+      "wall": 16.69090545095969,
+      "user": 25.08,
+      "sys": 0.48,
+      "maxrss_mb": 59.23046875,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.050625281990505755,
+       "read_targets": 0.0004993940237909555,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.59808530600276,
+       "queries": 21979,
+       "total": 16.66189430898521
+      }
+     },
+     {
+      "wall": 16.576754321926273,
+      "user": 24.9,
+      "sys": 0.47,
+      "maxrss_mb": 58.01171875,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04972155194263905,
+       "read_targets": 0.0005066979210823774,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.486568919033743,
+       "queries": 21979,
+       "total": 16.54983395396266
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 7.475639962009154,
+      "user": 16.73,
+      "sys": 1.2,
+      "maxrss_mb": 75.0390625,
+      "rc": 0
+     },
+     {
+      "wall": 7.582919875043444,
+      "user": 16.97,
+      "sys": 1.22,
+      "maxrss_mb": 76.12109375,
+      "rc": 0
+     },
+     {
+      "wall": 7.525333088007756,
+      "user": 16.85,
+      "sys": 1.21,
+      "maxrss_mb": 75.05078125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "A_virus_L2_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/virus_L2.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 51.838320182054304,
+      "user": 50.92,
+      "sys": 43.79,
+      "maxrss_mb": 41.67578125,
+      "rc": 0
+     },
+     {
+      "wall": 52.15492305497173,
+      "user": 50.62,
+      "sys": 45.42,
+      "maxrss_mb": 38.80859375,
+      "rc": 0
+     },
+     {
+      "wall": 52.113673983025365,
+      "user": 51.13,
+      "sys": 43.54,
+      "maxrss_mb": 38.98828125,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.607791019952856,
+      "user": 30.45,
+      "sys": 0.5,
+      "maxrss_mb": 79.08203125,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05073903896845877,
+       "read_targets": 0.0005688669625669718,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.51277367491275,
+       "queries": 21979,
+       "total": 16.577118647983298
+      }
+     },
+     {
+      "wall": 16.69359990709927,
+      "user": 30.47,
+      "sys": 0.52,
+      "maxrss_mb": 81.25390625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04969808703754097,
+       "read_targets": 0.0005691290134564042,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.60151623992715,
+       "queries": 21979,
+       "total": 16.66413107898552
+      }
+     },
+     {
+      "wall": 16.72253038699273,
+      "user": 30.55,
+      "sys": 0.47,
+      "maxrss_mb": 80.8359375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.050012752995826304,
+       "read_targets": 0.0005857640644535422,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.629208875005133,
+       "queries": 21979,
+       "total": 16.692910096026026
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 7.747630654019304,
+      "user": 21.4,
+      "sys": 1.48,
+      "maxrss_mb": 108.2265625,
+      "rc": 0
+     },
+     {
+      "wall": 7.788873590994626,
+      "user": 21.43,
+      "sys": 1.71,
+      "maxrss_mb": 104.21875,
+      "rc": 0
+     },
+     {
+      "wall": 7.806407897965983,
+      "user": 21.44,
+      "sys": 1.71,
+      "maxrss_mb": 105.765625,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "A_virus_L3_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/virus_L3.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 62.32658030791208,
+      "user": 62.01,
+      "sys": 42.46,
+      "maxrss_mb": 47.875,
+      "rc": 0
+     },
+     {
+      "wall": 62.0982630380895,
+      "user": 61.48,
+      "sys": 42.78,
+      "maxrss_mb": 47.71875,
+      "rc": 0
+     },
+     {
+      "wall": 62.26969212095719,
+      "user": 61.91,
+      "sys": 42.17,
+      "maxrss_mb": 48.9453125,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.670721167931333,
+      "user": 40.83,
+      "sys": 0.51,
+      "maxrss_mb": 139.3984375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05110667599365115,
+       "read_targets": 0.000766551005654037,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.573133939993568,
+       "queries": 21979,
+       "total": 16.63790236308705
+      }
+     },
+     {
+      "wall": 16.74087898095604,
+      "user": 41.02,
+      "sys": 0.51,
+      "maxrss_mb": 142.4140625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04999494296498597,
+       "read_targets": 0.0007608169689774513,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.642735428991728,
+       "queries": 21979,
+       "total": 16.70622483396437
+      }
+     },
+     {
+      "wall": 16.79506600392051,
+      "user": 41.06,
+      "sys": 0.54,
+      "maxrss_mb": 143.35546875,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.050018943031318486,
+       "read_targets": 0.0007449190597981215,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.69572756602429,
+       "queries": 21979,
+       "total": 16.76009699900169
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 8.276411205995828,
+      "user": 29.54,
+      "sys": 1.81,
+      "maxrss_mb": 162.5625,
+      "rc": 0
+     },
+     {
+      "wall": 8.202375446096994,
+      "user": 29.41,
+      "sys": 1.85,
+      "maxrss_mb": 163.83984375,
+      "rc": 0
+     },
+     {
+      "wall": 8.207968472968787,
+      "user": 29.36,
+      "sys": 1.81,
+      "maxrss_mb": 164.0234375,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [
+    "pyhmmer: 10 numbers below 2.2e-308 compared as 0 (t.dom 6, t.tbl 4)"
+   ],
+   "problems": []
+  },
+  {
+   "name": "A_virus_L4_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/virus_L4.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 109.7236764539266,
+      "user": 108.6,
+      "sys": 43.99,
+      "maxrss_mb": 121.19140625,
+      "rc": 0
+     },
+     {
+      "wall": 109.46159508707933,
+      "user": 108.84,
+      "sys": 43.58,
+      "maxrss_mb": 118.1015625,
+      "rc": 0
+     },
+     {
+      "wall": 109.56722433899995,
+      "user": 108.87,
+      "sys": 44.39,
+      "maxrss_mb": 121.3046875,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 17.72726705810055,
+      "user": 94.74,
+      "sys": 0.74,
+      "maxrss_mb": 398.125,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04807938006706536,
+       "read_targets": 0.0013806469505652785,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 17.622044329997152,
+       "queries": 21979,
+       "total": 17.683952516992576
+      }
+     },
+     {
+      "wall": 17.696237517986447,
+      "user": 94.72,
+      "sys": 0.72,
+      "maxrss_mb": 410.96484375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05145105894189328,
+       "read_targets": 0.0013895928859710693,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 17.5868541339878,
+       "queries": 21979,
+       "total": 17.652799646020867
+      }
+     },
+     {
+      "wall": 17.148942132946104,
+      "user": 93.92,
+      "sys": 0.7,
+      "maxrss_mb": 407.47265625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05117833602707833,
+       "read_targets": 0.0014240710297599435,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 17.0391757839825,
+       "queries": 21979,
+       "total": 17.104520116001368
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 10.622445532935672,
+      "user": 65.47,
+      "sys": 2.47,
+      "maxrss_mb": 337.85546875,
+      "rc": 0
+     },
+     {
+      "wall": 10.591902272077277,
+      "user": 65.41,
+      "sys": 2.38,
+      "maxrss_mb": 346.78515625,
+      "rc": 0
+     },
+     {
+      "wall": 10.617328192922287,
+      "user": 65.27,
+      "sys": 2.36,
+      "maxrss_mb": 331.203125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [
+    "pyhmmer: 10 numbers below 2.2e-308 compared as 0 (t.dom 6, t.tbl 4)"
+   ],
+   "problems": []
+  },
+  {
+   "name": "A_eukaryota_L1_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/eukaryota_L1.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 45.47511441295501,
+      "user": 44.05,
+      "sys": 45.39,
+      "maxrss_mb": 34.51953125,
+      "rc": 0
+     },
+     {
+      "wall": 45.52967488497961,
+      "user": 43.37,
+      "sys": 44.83,
+      "maxrss_mb": 33.046875,
+      "rc": 0
+     },
+     {
+      "wall": 45.48222674999852,
+      "user": 43.58,
+      "sys": 44.76,
+      "maxrss_mb": 33.2265625,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.562230140902102,
+      "user": 25.25,
+      "sys": 0.51,
+      "maxrss_mb": 66.96484375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04800530802458525,
+       "read_targets": 0.0004730479558929801,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.471717753098346,
+       "queries": 21979,
+       "total": 16.532426599995233
+      }
+     },
+     {
+      "wall": 16.60296918801032,
+      "user": 25.34,
+      "sys": 0.51,
+      "maxrss_mb": 66.51171875,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04990832007024437,
+       "read_targets": 0.0004947410197928548,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.51071399007924,
+       "queries": 21979,
+       "total": 16.574255212093703
+      }
+     },
+     {
+      "wall": 16.66698897909373,
+      "user": 25.49,
+      "sys": 0.5,
+      "maxrss_mb": 66.359375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05151031899731606,
+       "read_targets": 0.0005303950747475028,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.571865872945637,
+       "queries": 21979,
+       "total": 16.636886406922713
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 7.543446004972793,
+      "user": 17.03,
+      "sys": 1.3,
+      "maxrss_mb": 83.8828125,
+      "rc": 0
+     },
+     {
+      "wall": 7.529972360935062,
+      "user": 17.06,
+      "sys": 1.26,
+      "maxrss_mb": 85.59765625,
+      "rc": 0
+     },
+     {
+      "wall": 7.509167912066914,
+      "user": 17.02,
+      "sys": 1.26,
+      "maxrss_mb": 85.75,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "A_eukaryota_L2_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/eukaryota_L2.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 56.450311599997804,
+      "user": 55.64,
+      "sys": 43.35,
+      "maxrss_mb": 42.6015625,
+      "rc": 0
+     },
+     {
+      "wall": 56.31850205210503,
+      "user": 55.49,
+      "sys": 43.33,
+      "maxrss_mb": 42.24609375,
+      "rc": 0
+     },
+     {
+      "wall": 56.22533402405679,
+      "user": 55.34,
+      "sys": 44.21,
+      "maxrss_mb": 42.33984375,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.858857470098883,
+      "user": 35.19,
+      "sys": 0.59,
+      "maxrss_mb": 112.6328125,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04890835203696042,
+       "read_targets": 0.0006067500216886401,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.763526267022826,
+       "queries": 21979,
+       "total": 16.82628089399077
+      }
+     },
+     {
+      "wall": 16.846743526984937,
+      "user": 35.51,
+      "sys": 0.52,
+      "maxrss_mb": 110.27734375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05068187206052244,
+       "read_targets": 0.0005891439504921436,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.74977559200488,
+       "queries": 21979,
+       "total": 16.814014378003776
+      }
+     },
+     {
+      "wall": 16.941159322974272,
+      "user": 35.49,
+      "sys": 0.56,
+      "maxrss_mb": 111.30078125,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05127415293827653,
+       "read_targets": 0.0005845449632033706,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.845635373028927,
+       "queries": 21979,
+       "total": 16.909837229992263
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 8.00613050791435,
+      "user": 24.8,
+      "sys": 1.55,
+      "maxrss_mb": 123.71875,
+      "rc": 0
+     },
+     {
+      "wall": 8.01777797297109,
+      "user": 24.82,
+      "sys": 1.58,
+      "maxrss_mb": 123.92578125,
+      "rc": 0
+     },
+     {
+      "wall": 8.019057276076637,
+      "user": 24.92,
+      "sys": 1.61,
+      "maxrss_mb": 128.65234375,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "A_eukaryota_L3_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/eukaryota_L3.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 62.96090595109854,
+      "user": 61.55,
+      "sys": 44.16,
+      "maxrss_mb": 45.07421875,
+      "rc": 0
+     },
+     {
+      "wall": 62.42865993396845,
+      "user": 61.3,
+      "sys": 43.08,
+      "maxrss_mb": 47.8828125,
+      "rc": 0
+     },
+     {
+      "wall": 62.799114907043986,
+      "user": 61.51,
+      "sys": 42.66,
+      "maxrss_mb": 45.19140625,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.764362098067068,
+      "user": 41.43,
+      "sys": 0.52,
+      "maxrss_mb": 130.1953125,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05022061709314585,
+       "read_targets": 0.0006802919087931514,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.667599294916727,
+       "queries": 21979,
+       "total": 16.730248266016133
+      }
+     },
+     {
+      "wall": 16.837852966971695,
+      "user": 41.32,
+      "sys": 0.56,
+      "maxrss_mb": 127.1953125,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04994971805717796,
+       "read_targets": 0.000654264003969729,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.74320395500399,
+       "queries": 21979,
+       "total": 16.806127596995793
+      }
+     },
+     {
+      "wall": 16.564727968070656,
+      "user": 40.85,
+      "sys": 0.55,
+      "maxrss_mb": 125.67578125,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04953370394650847,
+       "read_targets": 0.0007503139786422253,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.469598295050673,
+       "queries": 21979,
+       "total": 16.532468597055413
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 8.220074973069131,
+      "user": 30.06,
+      "sys": 1.62,
+      "maxrss_mb": 149.8671875,
+      "rc": 0
+     },
+     {
+      "wall": 8.104933422990143,
+      "user": 29.48,
+      "sys": 1.63,
+      "maxrss_mb": 149.2578125,
+      "rc": 0
+     },
+     {
+      "wall": 8.127232457976788,
+      "user": 29.59,
+      "sys": 1.66,
+      "maxrss_mb": 146.05078125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "A_eukaryota_L4_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/eukaryota_L4.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 108.70872063294519,
+      "user": 107.59,
+      "sys": 43.42,
+      "maxrss_mb": 117.9609375,
+      "rc": 0
+     },
+     {
+      "wall": 108.58489299891517,
+      "user": 108.22,
+      "sys": 44.23,
+      "maxrss_mb": 120.140625,
+      "rc": 0
+     },
+     {
+      "wall": 108.08500743098557,
+      "user": 107.48,
+      "sys": 43.13,
+      "maxrss_mb": 118.71484375,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 17.674860485014506,
+      "user": 102.07,
+      "sys": 0.69,
+      "maxrss_mb": 349.40234375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04996149195358157,
+       "read_targets": 0.0010966479312628508,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 17.569329799967818,
+       "queries": 21979,
+       "total": 17.63258621294517
+      }
+     },
+     {
+      "wall": 17.73974123795051,
+      "user": 101.59,
+      "sys": 0.64,
+      "maxrss_mb": 354.40234375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.0487901889719069,
+       "read_targets": 0.0011555430246517062,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 17.635323931928724,
+       "queries": 21979,
+       "total": 17.698652419960126
+      }
+     },
+     {
+      "wall": 18.075960831018165,
+      "user": 102.23,
+      "sys": 0.71,
+      "maxrss_mb": 350.71484375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05112140392884612,
+       "read_targets": 0.0011366329854354262,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 17.965141115011647,
+       "queries": 21979,
+       "total": 18.029953930992633
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 12.56728146201931,
+      "user": 67.04,
+      "sys": 2.12,
+      "maxrss_mb": 217.09375,
+      "rc": 0
+     },
+     {
+      "wall": 12.542214296991006,
+      "user": 66.61,
+      "sys": 2.23,
+      "maxrss_mb": 207.92578125,
+      "rc": 0
+     },
+     {
+      "wall": 12.48693269409705,
+      "user": 66.62,
+      "sys": 2.11,
+      "maxrss_mb": 228.94921875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "A_human_L1_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/human_L1.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 48.489970252034254,
+      "user": 46.54,
+      "sys": 44.57,
+      "maxrss_mb": 37.96484375,
+      "rc": 0
+     },
+     {
+      "wall": 48.81175060395617,
+      "user": 46.55,
+      "sys": 45.57,
+      "maxrss_mb": 37.40625,
+      "rc": 0
+     },
+     {
+      "wall": 48.58560255798511,
+      "user": 46.57,
+      "sys": 44.95,
+      "maxrss_mb": 37.25,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.81637541099917,
+      "user": 28.42,
+      "sys": 0.53,
+      "maxrss_mb": 99.546875,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04938078497070819,
+       "read_targets": 0.0005411190213635564,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.72316494002007,
+       "queries": 21979,
+       "total": 16.786227443022653
+      }
+     },
+     {
+      "wall": 16.70815042499453,
+      "user": 28.14,
+      "sys": 0.49,
+      "maxrss_mb": 101.1953125,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.048532676068134606,
+       "read_targets": 0.0004673319635912776,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.615311585948803,
+       "queries": 21979,
+       "total": 16.67652945604641
+      }
+     },
+     {
+      "wall": 16.708613062975928,
+      "user": 28.23,
+      "sys": 0.49,
+      "maxrss_mb": 101.51171875,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.0486138709820807,
+       "read_targets": 0.0004709110362455249,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.615540463011712,
+       "queries": 21979,
+       "total": 16.67649679502938
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 7.686277533997782,
+      "user": 19.24,
+      "sys": 1.3,
+      "maxrss_mb": 124.17578125,
+      "rc": 0
+     },
+     {
+      "wall": 7.644736113958061,
+      "user": 19.18,
+      "sys": 1.32,
+      "maxrss_mb": 120.953125,
+      "rc": 0
+     },
+     {
+      "wall": 7.629218616057187,
+      "user": 19.06,
+      "sys": 1.38,
+      "maxrss_mb": 116.953125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "A_human_L2_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/human_L2.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 57.85778073000256,
+      "user": 56.37,
+      "sys": 43.75,
+      "maxrss_mb": 39.390625,
+      "rc": 0
+     },
+     {
+      "wall": 57.86217342503369,
+      "user": 56.49,
+      "sys": 44.78,
+      "maxrss_mb": 39.80078125,
+      "rc": 0
+     },
+     {
+      "wall": 57.35334564500954,
+      "user": 56.79,
+      "sys": 43.25,
+      "maxrss_mb": 40.125,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 17.101661622989923,
+      "user": 37.28,
+      "sys": 0.54,
+      "maxrss_mb": 119.48828125,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05042561807204038,
+       "read_targets": 0.0006354819051921368,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 17.006097409990616,
+       "queries": 21979,
+       "total": 17.070279755047522
+      }
+     },
+     {
+      "wall": 16.898048723931424,
+      "user": 36.82,
+      "sys": 0.5,
+      "maxrss_mb": 120.81640625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.049003916908986866,
+       "read_targets": 0.0006252130260691047,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.804890194907784,
+       "queries": 21979,
+       "total": 16.866783913923427
+      }
+     },
+     {
+      "wall": 16.639253203058615,
+      "user": 36.42,
+      "sys": 0.52,
+      "maxrss_mb": 116.8828125,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04874814092181623,
+       "read_targets": 0.0006380550330504775,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.54673821502365,
+       "queries": 21979,
+       "total": 16.608215797925368
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 8.152242162963375,
+      "user": 26.06,
+      "sys": 1.66,
+      "maxrss_mb": 135.515625,
+      "rc": 0
+     },
+     {
+      "wall": 8.081745874020271,
+      "user": 25.92,
+      "sys": 1.65,
+      "maxrss_mb": 129.33984375,
+      "rc": 0
+     },
+     {
+      "wall": 8.008070603013039,
+      "user": 25.73,
+      "sys": 1.71,
+      "maxrss_mb": 127.51953125,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [],
+   "problems": []
+  },
+  {
+   "name": "A_human_L3_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/human_L3.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 72.95472229400184,
+      "user": 71.51,
+      "sys": 43.96,
+      "maxrss_mb": 49.71484375,
+      "rc": 0
+     },
+     {
+      "wall": 72.49175561196171,
+      "user": 72.22,
+      "sys": 43.02,
+      "maxrss_mb": 53.91015625,
+      "rc": 0
+     },
+     {
+      "wall": 72.67497387796175,
+      "user": 72.66,
+      "sys": 42.95,
+      "maxrss_mb": 51.8515625,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 16.9517281280132,
+      "user": 52.98,
+      "sys": 0.54,
+      "maxrss_mb": 165.80859375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05092305701691657,
+       "read_targets": 0.0008280760375782847,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.8543197120307,
+       "queries": 21979,
+       "total": 16.91875162406359
+      }
+     },
+     {
+      "wall": 16.697140697971918,
+      "user": 52.27,
+      "sys": 0.57,
+      "maxrss_mb": 168.66015625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05029467504937202,
+       "read_targets": 0.000800150097347796,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.59910732496064,
+       "queries": 21979,
+       "total": 16.66325538698584
+      }
+     },
+     {
+      "wall": 16.591599497012794,
+      "user": 52.17,
+      "sys": 0.56,
+      "maxrss_mb": 173.77734375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05045454693026841,
+       "read_targets": 0.0007438189350068569,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 16.494099947973154,
+       "queries": 21979,
+       "total": 16.557492700987495
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 9.290647897054441,
+      "user": 37.87,
+      "sys": 1.85,
+      "maxrss_mb": 156.78515625,
+      "rc": 0
+     },
+     {
+      "wall": 9.222709861001931,
+      "user": 37.4,
+      "sys": 1.81,
+      "maxrss_mb": 154.16015625,
+      "rc": 0
+     },
+     {
+      "wall": 9.239825000986457,
+      "user": 37.46,
+      "sys": 1.89,
+      "maxrss_mb": 157.3671875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": true,
+   "notes": [
+    "pyhmmer: 5 numbers below 2.2e-308 compared as 0 (t.dom 3, t.tbl 2)"
+   ],
+   "problems": []
+  },
+  {
+   "name": "A_human_L4_txt",
+   "args": "--cpu 16 --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/human_L4.fa",
+   "sets": [
+    "annot_txt"
+   ],
+   "runs": {
+    "upstream": [
+     {
+      "wall": 134.54867663502228,
+      "user": 133.85,
+      "sys": 43.08,
+      "maxrss_mb": 190.46875,
+      "rc": 0
+     },
+     {
+      "wall": 134.99625431606546,
+      "user": 134.82,
+      "sys": 43.02,
+      "maxrss_mb": 190.765625,
+      "rc": 0
+     },
+     {
+      "wall": 134.35139023605734,
+      "user": 133.65,
+      "sys": 43.53,
+      "maxrss_mb": 190.7265625,
+      "rc": 0
+     }
+    ],
+    "pyhmmer": [
+     {
+      "wall": 19.302576784975827,
+      "user": 134.35,
+      "sys": 0.9,
+      "maxrss_mb": 855.55859375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.04968324303627014,
+       "read_targets": 0.0013144779950380325,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 19.18056293693371,
+       "queries": 21979,
+       "total": 19.244418582995422
+      }
+     },
+     {
+      "wall": 19.569368973956443,
+      "user": 134.98,
+      "sys": 0.91,
+      "maxrss_mb": 851.59375,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05127606901805848,
+       "read_targets": 0.0014238040894269943,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 19.443904376938008,
+       "queries": 21979,
+       "total": 19.509517831960693
+      }
+     },
+     {
+      "wall": 19.339587416034192,
+      "user": 134.87,
+      "sys": 0.89,
+      "maxrss_mb": 837.265625,
+      "rc": 0,
+      "pyhmmer": {
+       "pyhmmer": "0.12.3",
+       "cpus": 16,
+       "ftz": false,
+       "imports": 0.05064373998902738,
+       "read_targets": 0.0014008189318701625,
+       "targets": 250,
+       "mode": "queries",
+       "search_write": 19.211934758001007,
+       "queries": 21979,
+       "total": 19.276524176937528
+      }
+     }
+    ],
+    "fork": [
+     {
+      "wall": 18.363570699002594,
+      "user": 85.57,
+      "sys": 2.78,
+      "maxrss_mb": 250.99609375,
+      "rc": 0
+     },
+     {
+      "wall": 18.48437559499871,
+      "user": 86.15,
+      "sys": 2.82,
+      "maxrss_mb": 256.36328125,
+      "rc": 0
+     },
+     {
+      "wall": 18.599366529029794,
+      "user": 86.26,
+      "sys": 2.79,
+      "maxrss_mb": 266.79296875,
+      "rc": 0
+     }
+    ]
+   },
+   "identical": false,
+   "notes": [],
+   "problems": [
+    "pyhmmer vs upstream: t.dom, t.tbl DIFFER"
+   ]
+  }
+ ]
+}

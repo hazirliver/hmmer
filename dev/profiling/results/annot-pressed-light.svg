@@ -1,249 +1,276 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="620" viewBox="0 0 900 620" font-family='system-ui, -apple-system, "Segoe UI", sans-serif'>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="920" viewBox="0 0 900 920" font-family='system-ui, -apple-system, "Segoe UI", sans-serif'>
 <rect width="100%" height="100%" fill="#fcfcfb"/>
 <rect x="10.0" y="13.0" width="12" height="12" rx="3" fill="#898781"/>
 <text x="28.0" y="23.0" fill="#52514e" font-size="12" font-weight="400" text-anchor="start" >upstream HMMER 3.4</text>
-<rect x="176.0" y="13.0" width="12" height="12" rx="3" fill="#2a78d6"/>
-<text x="194.0" y="23.0" fill="#52514e" font-size="12" font-weight="400" text-anchor="start" >this branch</text>
+<rect x="176.0" y="13.0" width="12" height="12" rx="3" fill="#1baf7a"/>
+<text x="194.0" y="23.0" fill="#52514e" font-size="12" font-weight="400" text-anchor="start" >pyhmmer 0.12.3</text>
+<rect x="314.0" y="13.0" width="12" height="12" rx="3" fill="#2a78d6"/>
+<text x="332.0" y="23.0" fill="#52514e" font-size="12" font-weight="400" text-anchor="start" >this branch</text>
 <text x="890.0" y="22.0" fill="#52514e" font-size="12" font-weight="400" text-anchor="end" >Pfam-A pressed (hmmpress): sequences per second, 16 threads</text>
 <text x="10.0" y="68.0" fill="#0b0b0b" font-size="13" font-weight="600" text-anchor="start" >Bacteria</text>
-<text x="10.0" y="84.0" fill="#52514e" font-size="11" font-weight="400" text-anchor="start" font-variant-numeric="tabular-nums">all 1,000: 6.5 → 103 seq/s (16×)</text>
-<line x1="44.0" y1="254.0" x2="283.3333333333333" y2="254.0" stroke="#c3c2b7" stroke-width="1"/>
+<text x="10.0" y="84.0" fill="#52514e" font-size="11" font-weight="400" text-anchor="start" font-variant-numeric="tabular-nums">all 1,000: upstream 6.4, pyhmmer 0.12.3 97, this branch 103 seq/s</text>
+<line x1="44.0" y1="254.0" x2="435.0" y2="254.0" stroke="#c3c2b7" stroke-width="1"/>
 <text x="38.0" y="258.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">0</text>
-<line x1="44.0" y1="215.0" x2="283.3333333333333" y2="215.0" stroke="#e1e0d9" stroke-width="1"/>
+<line x1="44.0" y1="215.0" x2="435.0" y2="215.0" stroke="#e1e0d9" stroke-width="1"/>
 <text x="38.0" y="219.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">50</text>
-<line x1="44.0" y1="176.0" x2="283.3333333333333" y2="176.0" stroke="#e1e0d9" stroke-width="1"/>
+<line x1="44.0" y1="176.0" x2="435.0" y2="176.0" stroke="#e1e0d9" stroke-width="1"/>
 <text x="38.0" y="180.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">100</text>
-<line x1="44.0" y1="137.0" x2="283.3333333333333" y2="137.0" stroke="#e1e0d9" stroke-width="1"/>
+<line x1="44.0" y1="137.0" x2="435.0" y2="137.0" stroke="#e1e0d9" stroke-width="1"/>
 <text x="38.0" y="141.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">150</text>
-<line x1="44.0" y1="98.0" x2="283.3333333333333" y2="98.0" stroke="#e1e0d9" stroke-width="1"/>
+<line x1="44.0" y1="98.0" x2="435.0" y2="98.0" stroke="#e1e0d9" stroke-width="1"/>
 <text x="38.0" y="102.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">200</text>
-<text x="73.9" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L1</text>
-<text x="73.9" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">29-165</text>
-<text x="73.9" y="296.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">16×</text>
-<path d="M53.4,254.0 v-4.0 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v4.0 z" fill="#898781"><title>Bacteria L1, Pfam-A pressed (hmmpress), upstream: 9.0 sequences/s</title></path>
-<text x="62.9" y="243.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">9.0</text>
-<path d="M75.4,254.0 v-109.0 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v109.0 z" fill="#2a78d6"><title>Bacteria L1, Pfam-A pressed (hmmpress), this branch: 144 sequences/s</title></path>
-<text x="84.9" y="138.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">144</text>
-<text x="133.8" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L2</text>
-<text x="133.8" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">166-277</text>
-<text x="133.8" y="296.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">16×</text>
-<path d="M113.2,254.0 v-2.9 a2.889954822736996,2.889954822736996 0 0 1 2.889954822736996,-2.889954822736996 h13.2 a2.889954822736996,2.889954822736996 0 0 1 2.889954822736996,2.889954822736996 v2.9 z" fill="#898781"><title>Bacteria L2, Pfam-A pressed (hmmpress), upstream: 7.4 sequences/s</title></path>
-<text x="122.8" y="244.2" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">7.4</text>
-<path d="M135.2,254.0 v-89.3 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v89.3 z" fill="#2a78d6"><title>Bacteria L2, Pfam-A pressed (hmmpress), this branch: 118 sequences/s</title></path>
-<text x="144.8" y="157.7" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">118</text>
-<text x="193.6" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L3</text>
-<text x="193.6" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">278-407</text>
-<text x="193.6" y="296.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">16×</text>
-<path d="M173.1,254.0 v-2.5 a2.4837640859604306,2.4837640859604306 0 0 1 2.4837640859604306,-2.4837640859604306 h14.0 a2.4837640859604306,2.4837640859604306 0 0 1 2.4837640859604306,2.4837640859604306 v2.5 z" fill="#898781"><title>Bacteria L3, Pfam-A pressed (hmmpress), upstream: 6.4 sequences/s</title></path>
-<text x="182.6" y="245.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6.4</text>
-<path d="M195.1,254.0 v-77.5 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v77.5 z" fill="#2a78d6"><title>Bacteria L3, Pfam-A pressed (hmmpress), this branch: 103 sequences/s</title></path>
-<text x="204.6" y="169.5" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">103</text>
-<text x="253.4" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L4</text>
-<text x="253.4" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">411-1,457</text>
-<text x="253.4" y="296.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">16×</text>
-<path d="M232.9,254.0 v-1.8 a1.8088256027351548,1.8088256027351548 0 0 1 1.8088256027351548,-1.8088256027351548 h15.4 a1.8088256027351548,1.8088256027351548 0 0 1 1.8088256027351548,1.8088256027351548 v1.8 z" fill="#898781"><title>Bacteria L4, Pfam-A pressed (hmmpress), upstream: 4.6 sequences/s</title></path>
-<text x="242.4" y="246.4" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">4.6</text>
-<path d="M254.9,254.0 v-53.6 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v53.6 z" fill="#2a78d6"><title>Bacteria L4, Pfam-A pressed (hmmpress), this branch: 73 sequences/s</title></path>
-<text x="264.4" y="193.4" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">73</text>
-<text x="313.3" y="68.0" fill="#0b0b0b" font-size="13" font-weight="600" text-anchor="start" >Phages</text>
-<text x="313.3" y="84.0" fill="#52514e" font-size="11" font-weight="400" text-anchor="start" font-variant-numeric="tabular-nums">all 1,000: 7.0 → 110 seq/s (16×)</text>
-<line x1="347.3333333333333" y1="254.0" x2="586.6666666666666" y2="254.0" stroke="#c3c2b7" stroke-width="1"/>
-<text x="341.3" y="258.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">0</text>
-<line x1="347.3333333333333" y1="215.0" x2="586.6666666666666" y2="215.0" stroke="#e1e0d9" stroke-width="1"/>
-<text x="341.3" y="219.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">50</text>
-<line x1="347.3333333333333" y1="176.0" x2="586.6666666666666" y2="176.0" stroke="#e1e0d9" stroke-width="1"/>
-<text x="341.3" y="180.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">100</text>
-<line x1="347.3333333333333" y1="137.0" x2="586.6666666666666" y2="137.0" stroke="#e1e0d9" stroke-width="1"/>
-<text x="341.3" y="141.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">150</text>
-<line x1="347.3333333333333" y1="98.0" x2="586.6666666666666" y2="98.0" stroke="#e1e0d9" stroke-width="1"/>
-<text x="341.3" y="102.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">200</text>
-<text x="377.2" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L1</text>
-<text x="377.2" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">23-93</text>
-<text x="377.2" y="296.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">16×</text>
-<path d="M356.8,254.0 v-4.5 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v4.5 z" fill="#898781"><title>Phages L1, Pfam-A pressed (hmmpress), upstream: 9.7 sequences/s</title></path>
-<text x="366.2" y="242.5" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">9.7</text>
-<path d="M378.8,254.0 v-117.7 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v117.7 z" fill="#2a78d6"><title>Phages L1, Pfam-A pressed (hmmpress), this branch: 155 sequences/s</title></path>
-<text x="388.2" y="129.3" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">155</text>
-<text x="437.1" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L2</text>
-<text x="437.1" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">93-164</text>
-<text x="437.1" y="296.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">16×</text>
-<path d="M416.6,254.0 v-3.7 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v3.7 z" fill="#898781"><title>Phages L2, Pfam-A pressed (hmmpress), upstream: 8.6 sequences/s</title></path>
-<text x="426.1" y="243.3" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">8.6</text>
-<path d="M438.6,254.0 v-106.9 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v106.9 z" fill="#2a78d6"><title>Phages L2, Pfam-A pressed (hmmpress), this branch: 141 sequences/s</title></path>
-<text x="448.1" y="140.1" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">141</text>
-<text x="496.9" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L3</text>
-<text x="496.9" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">164-336</text>
-<text x="496.9" y="296.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">17×</text>
-<path d="M476.4,254.0 v-2.8 a2.7914424730571312,2.7914424730571312 0 0 1 2.7914424730571312,-2.7914424730571312 h13.4 a2.7914424730571312,2.7914424730571312 0 0 1 2.7914424730571312,2.7914424730571312 v2.8 z" fill="#898781"><title>Phages L3, Pfam-A pressed (hmmpress), upstream: 7.2 sequences/s</title></path>
-<text x="485.9" y="244.4" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">7.2</text>
-<path d="M498.4,254.0 v-90.1 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v90.1 z" fill="#2a78d6"><title>Phages L3, Pfam-A pressed (hmmpress), this branch: 119 sequences/s</title></path>
-<text x="507.9" y="156.9" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">119</text>
-<text x="556.8" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L4</text>
-<text x="556.8" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">336-3,500</text>
-<text x="556.8" y="296.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">15×</text>
-<path d="M536.2,254.0 v-1.8 a1.8260930924632959,1.8260930924632959 0 0 1 1.8260930924632959,-1.8260930924632959 h15.3 a1.8260930924632959,1.8260930924632959 0 0 1 1.8260930924632959,1.8260930924632959 v1.8 z" fill="#898781"><title>Phages L4, Pfam-A pressed (hmmpress), upstream: 4.7 sequences/s</title></path>
-<text x="545.8" y="246.3" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">4.7</text>
-<path d="M558.2,254.0 v-51.4 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v51.4 z" fill="#2a78d6"><title>Phages L4, Pfam-A pressed (hmmpress), this branch: 70 sequences/s</title></path>
-<text x="567.8" y="195.6" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">70</text>
-<text x="616.7" y="68.0" fill="#0b0b0b" font-size="13" font-weight="600" text-anchor="start" >Fungi</text>
-<text x="616.7" y="84.0" fill="#52514e" font-size="11" font-weight="400" text-anchor="start" font-variant-numeric="tabular-nums">all 1,000: 5.0 → 74 seq/s (15×)</text>
-<line x1="650.6666666666666" y1="254.0" x2="890.0" y2="254.0" stroke="#c3c2b7" stroke-width="1"/>
-<text x="644.7" y="258.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">0</text>
-<line x1="650.6666666666666" y1="215.0" x2="890.0" y2="215.0" stroke="#e1e0d9" stroke-width="1"/>
-<text x="644.7" y="219.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">50</text>
-<line x1="650.6666666666666" y1="176.0" x2="890.0" y2="176.0" stroke="#e1e0d9" stroke-width="1"/>
-<text x="644.7" y="180.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">100</text>
-<line x1="650.6666666666666" y1="137.0" x2="890.0" y2="137.0" stroke="#e1e0d9" stroke-width="1"/>
-<text x="644.7" y="141.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">150</text>
-<line x1="650.6666666666666" y1="98.0" x2="890.0" y2="98.0" stroke="#e1e0d9" stroke-width="1"/>
-<text x="644.7" y="102.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">200</text>
-<text x="680.6" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L1</text>
-<text x="680.6" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">15-256</text>
-<text x="680.6" y="296.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">15×</text>
-<path d="M660.1,254.0 v-3.3 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v3.3 z" fill="#898781"><title>Fungi L1, Pfam-A pressed (hmmpress), upstream: 8.1 sequences/s</title></path>
-<text x="669.6" y="243.7" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">8.1</text>
-<path d="M682.1,254.0 v-94.7 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v94.7 z" fill="#2a78d6"><title>Fungi L1, Pfam-A pressed (hmmpress), this branch: 125 sequences/s</title></path>
-<text x="691.6" y="152.3" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">125</text>
-<text x="740.4" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L2</text>
-<text x="740.4" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">256-400</text>
-<text x="740.4" y="296.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">16×</text>
-<path d="M719.9,254.0 v-2.5 a2.463700509037409,2.463700509037409 0 0 1 2.463700509037409,-2.463700509037409 h14.1 a2.463700509037409,2.463700509037409 0 0 1 2.463700509037409,2.463700509037409 v2.5 z" fill="#898781"><title>Fungi L2, Pfam-A pressed (hmmpress), upstream: 6.3 sequences/s</title></path>
-<text x="729.4" y="245.1" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6.3</text>
-<path d="M741.9,254.0 v-77.0 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v77.0 z" fill="#2a78d6"><title>Fungi L2, Pfam-A pressed (hmmpress), this branch: 103 sequences/s</title></path>
-<text x="751.4" y="170.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">103</text>
-<text x="800.2" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L3</text>
-<text x="800.2" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">400-593</text>
-<text x="800.2" y="296.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">16×</text>
-<path d="M779.8,254.0 v-2.0 a2.0336720299636966,2.0336720299636966 0 0 1 2.0336720299636966,-2.0336720299636966 h14.9 a2.0336720299636966,2.0336720299636966 0 0 1 2.0336720299636966,2.0336720299636966 v2.0 z" fill="#898781"><title>Fungi L3, Pfam-A pressed (hmmpress), upstream: 5.2 sequences/s</title></path>
-<text x="789.2" y="245.9" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">5.2</text>
-<path d="M801.8,254.0 v-62.8 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v62.8 z" fill="#2a78d6"><title>Fungi L3, Pfam-A pressed (hmmpress), this branch: 84 sequences/s</title></path>
-<text x="811.2" y="184.2" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">84</text>
-<text x="860.1" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L4</text>
-<text x="860.1" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">595-2,904</text>
-<text x="860.1" y="296.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">14×</text>
-<path d="M839.6,254.0 v-1.2 a1.1766312895481974,1.1766312895481974 0 0 1 1.1766312895481974,-1.1766312895481974 h16.6 a1.1766312895481974,1.1766312895481974 0 0 1 1.1766312895481974,1.1766312895481974 v1.2 z" fill="#898781"><title>Fungi L4, Pfam-A pressed (hmmpress), upstream: 3.0 sequences/s</title></path>
-<text x="849.1" y="247.6" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">3.0</text>
-<path d="M861.6,254.0 v-29.0 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v29.0 z" fill="#2a78d6"><title>Fungi L4, Pfam-A pressed (hmmpress), this branch: 41 sequences/s</title></path>
-<text x="871.1" y="218.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">41</text>
-<text x="10.0" y="352.0" fill="#0b0b0b" font-size="13" font-weight="600" text-anchor="start" >Eukaryotic viruses</text>
-<text x="10.0" y="368.0" fill="#52514e" font-size="11" font-weight="400" text-anchor="start" font-variant-numeric="tabular-nums">all 1,000: 4.9 → 77 seq/s (16×)</text>
-<line x1="44.0" y1="538.0" x2="283.3333333333333" y2="538.0" stroke="#c3c2b7" stroke-width="1"/>
+<text x="92.9" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L1</text>
+<text x="92.9" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">29-165</text>
+<path d="M56.9,254.0 v-3.9 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v3.9 z" fill="#898781"><title>Bacteria L1, Pfam-A pressed (hmmpress), upstream: 8.8 sequences/s</title></path>
+<text x="67.9" y="243.1" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">8.8</text>
+<path d="M81.9,254.0 v-97.0 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v97.0 z" fill="#1baf7a"><title>Bacteria L1, Pfam-A pressed (hmmpress), pyhmmer 0.12.3 (8 threads): 128 sequences/s</title></path>
+<text x="92.9" y="150.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">128</text>
+<path d="M106.9,254.0 v-107.9 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v107.9 z" fill="#2a78d6"><title>Bacteria L1, Pfam-A pressed (hmmpress), this branch: 142 sequences/s</title></path>
+<text x="117.9" y="139.1" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">142</text>
+<text x="190.6" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L2</text>
+<text x="190.6" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">166-277</text>
+<path d="M154.6,254.0 v-2.8 a2.7970200634602094,2.7970200634602094 0 0 1 2.7970200634602094,-2.7970200634602094 h16.4 a2.7970200634602094,2.7970200634602094 0 0 1 2.7970200634602094,2.7970200634602094 v2.8 z" fill="#898781"><title>Bacteria L2, Pfam-A pressed (hmmpress), upstream: 7.2 sequences/s</title></path>
+<text x="165.6" y="244.4" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">7.2</text>
+<path d="M179.6,254.0 v-89.0 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v89.0 z" fill="#1baf7a"><title>Bacteria L2, Pfam-A pressed (hmmpress), pyhmmer 0.12.3 (8 threads): 118 sequences/s</title></path>
+<text x="190.6" y="158.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">118</text>
+<path d="M204.6,254.0 v-87.4 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v87.4 z" fill="#2a78d6"><title>Bacteria L2, Pfam-A pressed (hmmpress), this branch: 116 sequences/s</title></path>
+<text x="215.6" y="159.6" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">116</text>
+<text x="288.4" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L3</text>
+<text x="288.4" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">278-407</text>
+<path d="M252.4,254.0 v-2.4 a2.377840591143851,2.377840591143851 0 0 1 2.377840591143851,-2.377840591143851 h17.2 a2.377840591143851,2.377840591143851 0 0 1 2.377840591143851,2.377840591143851 v2.4 z" fill="#898781"><title>Bacteria L3, Pfam-A pressed (hmmpress), upstream: 6.1 sequences/s</title></path>
+<text x="263.4" y="245.2" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6.1</text>
+<path d="M277.4,254.0 v-71.5 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v71.5 z" fill="#1baf7a"><title>Bacteria L3, Pfam-A pressed (hmmpress), pyhmmer 0.12.3 (8 threads): 96 sequences/s</title></path>
+<text x="288.4" y="175.5" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">96</text>
+<path d="M302.4,254.0 v-76.4 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v76.4 z" fill="#2a78d6"><title>Bacteria L3, Pfam-A pressed (hmmpress), this branch: 102 sequences/s</title></path>
+<text x="313.4" y="170.6" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">102</text>
+<text x="386.1" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L4</text>
+<text x="386.1" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">411-1,457</text>
+<path d="M350.1,254.0 v-1.8 a1.8447076232509119,1.8447076232509119 0 0 1 1.8447076232509119,-1.8447076232509119 h18.3 a1.8447076232509119,1.8447076232509119 0 0 1 1.8447076232509119,1.8447076232509119 v1.8 z" fill="#898781"><title>Bacteria L4, Pfam-A pressed (hmmpress), upstream: 4.7 sequences/s</title></path>
+<text x="361.1" y="246.3" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">4.7</text>
+<path d="M375.1,254.0 v-51.1 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v51.1 z" fill="#1baf7a"><title>Bacteria L4, Pfam-A pressed (hmmpress), pyhmmer 0.12.3: 69 sequences/s</title></path>
+<text x="386.1" y="195.9" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">69</text>
+<path d="M400.1,254.0 v-55.4 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v55.4 z" fill="#2a78d6"><title>Bacteria L4, Pfam-A pressed (hmmpress), this branch: 75 sequences/s</title></path>
+<text x="411.1" y="191.6" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">75</text>
+<text x="465.0" y="68.0" fill="#0b0b0b" font-size="13" font-weight="600" text-anchor="start" >Phages</text>
+<text x="465.0" y="84.0" fill="#52514e" font-size="11" font-weight="400" text-anchor="start" font-variant-numeric="tabular-nums">all 1,000: upstream 6.8, pyhmmer 0.12.3 105, this branch 108 seq/s</text>
+<line x1="499.0" y1="254.0" x2="890.0" y2="254.0" stroke="#c3c2b7" stroke-width="1"/>
+<text x="493.0" y="258.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">0</text>
+<line x1="499.0" y1="215.0" x2="890.0" y2="215.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="493.0" y="219.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">50</text>
+<line x1="499.0" y1="176.0" x2="890.0" y2="176.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="493.0" y="180.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">100</text>
+<line x1="499.0" y1="137.0" x2="890.0" y2="137.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="493.0" y="141.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">150</text>
+<line x1="499.0" y1="98.0" x2="890.0" y2="98.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="493.0" y="102.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">200</text>
+<text x="547.9" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L1</text>
+<text x="547.9" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">23-93</text>
+<path d="M511.9,254.0 v-4.4 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v4.4 z" fill="#898781"><title>Phages L1, Pfam-A pressed (hmmpress), upstream: 9.5 sequences/s</title></path>
+<text x="522.9" y="242.6" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">9.5</text>
+<path d="M536.9,254.0 v-93.9 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v93.9 z" fill="#1baf7a"><title>Phages L1, Pfam-A pressed (hmmpress), pyhmmer 0.12.3 (8 threads): 124 sequences/s</title></path>
+<text x="547.9" y="153.1" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">124</text>
+<path d="M561.9,254.0 v-114.8 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v114.8 z" fill="#2a78d6"><title>Phages L1, Pfam-A pressed (hmmpress), this branch: 151 sequences/s</title></path>
+<text x="572.9" y="132.2" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">151</text>
+<text x="645.6" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L2</text>
+<text x="645.6" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">93-164</text>
+<path d="M609.6,254.0 v-3.7 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v3.7 z" fill="#898781"><title>Phages L2, Pfam-A pressed (hmmpress), upstream: 8.6 sequences/s</title></path>
+<text x="620.6" y="243.3" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">8.6</text>
+<path d="M634.6,254.0 v-107.4 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v107.4 z" fill="#1baf7a"><title>Phages L2, Pfam-A pressed (hmmpress), pyhmmer 0.12.3 (8 threads): 142 sequences/s</title></path>
+<text x="645.6" y="139.6" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">142</text>
+<path d="M659.6,254.0 v-108.2 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v108.2 z" fill="#2a78d6"><title>Phages L2, Pfam-A pressed (hmmpress), this branch: 143 sequences/s</title></path>
+<text x="670.6" y="138.8" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">143</text>
+<text x="743.4" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L3</text>
+<text x="743.4" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">164-336</text>
+<path d="M707.4,254.0 v-2.7 a2.727791396401045,2.727791396401045 0 0 1 2.727791396401045,-2.727791396401045 h16.5 a2.727791396401045,2.727791396401045 0 0 1 2.727791396401045,2.727791396401045 v2.7 z" fill="#898781"><title>Phages L3, Pfam-A pressed (hmmpress), upstream: 7.0 sequences/s</title></path>
+<text x="718.4" y="244.5" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">7.0</text>
+<path d="M732.4,254.0 v-89.0 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v89.0 z" fill="#1baf7a"><title>Phages L3, Pfam-A pressed (hmmpress), pyhmmer 0.12.3 (8 threads): 118 sequences/s</title></path>
+<text x="743.4" y="158.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">118</text>
+<path d="M757.4,254.0 v-89.2 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v89.2 z" fill="#2a78d6"><title>Phages L3, Pfam-A pressed (hmmpress), this branch: 118 sequences/s</title></path>
+<text x="768.4" y="157.8" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">118</text>
+<text x="841.1" y="269.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L4</text>
+<text x="841.1" y="282.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">336-3,500</text>
+<path d="M805.1,254.0 v-1.8 a1.7608356629283293,1.7608356629283293 0 0 1 1.7608356629283293,-1.7608356629283293 h18.5 a1.7608356629283293,1.7608356629283293 0 0 1 1.7608356629283293,1.7608356629283293 v1.8 z" fill="#898781"><title>Phages L4, Pfam-A pressed (hmmpress), upstream: 4.5 sequences/s</title></path>
+<text x="816.1" y="246.5" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">4.5</text>
+<path d="M830.1,254.0 v-50.8 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v50.8 z" fill="#1baf7a"><title>Phages L4, Pfam-A pressed (hmmpress), pyhmmer 0.12.3: 69 sequences/s</title></path>
+<text x="841.1" y="196.2" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">69</text>
+<path d="M855.1,254.0 v-48.9 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v48.9 z" fill="#2a78d6"><title>Phages L4, Pfam-A pressed (hmmpress), this branch: 67 sequences/s</title></path>
+<text x="866.1" y="198.1" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">67</text>
+<text x="10.0" y="352.0" fill="#0b0b0b" font-size="13" font-weight="600" text-anchor="start" >Fungi</text>
+<text x="10.0" y="368.0" fill="#52514e" font-size="11" font-weight="400" text-anchor="start" font-variant-numeric="tabular-nums">all 1,000: upstream 5.0, pyhmmer 0.12.3 76, this branch 74 seq/s</text>
+<line x1="44.0" y1="538.0" x2="435.0" y2="538.0" stroke="#c3c2b7" stroke-width="1"/>
 <text x="38.0" y="542.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">0</text>
-<line x1="44.0" y1="499.0" x2="283.3333333333333" y2="499.0" stroke="#e1e0d9" stroke-width="1"/>
+<line x1="44.0" y1="499.0" x2="435.0" y2="499.0" stroke="#e1e0d9" stroke-width="1"/>
 <text x="38.0" y="503.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">50</text>
-<line x1="44.0" y1="460.0" x2="283.3333333333333" y2="460.0" stroke="#e1e0d9" stroke-width="1"/>
+<line x1="44.0" y1="460.0" x2="435.0" y2="460.0" stroke="#e1e0d9" stroke-width="1"/>
 <text x="38.0" y="464.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">100</text>
-<line x1="44.0" y1="421.0" x2="283.3333333333333" y2="421.0" stroke="#e1e0d9" stroke-width="1"/>
+<line x1="44.0" y1="421.0" x2="435.0" y2="421.0" stroke="#e1e0d9" stroke-width="1"/>
 <text x="38.0" y="425.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">150</text>
-<line x1="44.0" y1="382.0" x2="283.3333333333333" y2="382.0" stroke="#e1e0d9" stroke-width="1"/>
+<line x1="44.0" y1="382.0" x2="435.0" y2="382.0" stroke="#e1e0d9" stroke-width="1"/>
 <text x="38.0" y="386.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">200</text>
-<text x="73.9" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L1</text>
-<text x="73.9" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">31-179</text>
-<text x="73.9" y="580.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">16×</text>
-<path d="M53.4,538.0 v-3.7 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v3.7 z" fill="#898781"><title>Eukaryotic viruses L1, Pfam-A pressed (hmmpress), upstream: 8.6 sequences/s</title></path>
-<text x="62.9" y="527.3" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">8.6</text>
-<path d="M75.4,538.0 v-103.7 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v103.7 z" fill="#2a78d6"><title>Eukaryotic viruses L1, Pfam-A pressed (hmmpress), this branch: 137 sequences/s</title></path>
-<text x="84.9" y="427.3" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">137</text>
-<text x="133.8" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L2</text>
-<text x="133.8" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">179-318</text>
-<text x="133.8" y="580.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">16×</text>
-<path d="M113.2,538.0 v-2.7 a2.666827143031014,2.666827143031014 0 0 1 2.666827143031014,-2.666827143031014 h13.7 a2.666827143031014,2.666827143031014 0 0 1 2.666827143031014,2.666827143031014 v2.7 z" fill="#898781"><title>Eukaryotic viruses L2, Pfam-A pressed (hmmpress), upstream: 6.8 sequences/s</title></path>
-<text x="122.8" y="528.7" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6.8</text>
-<path d="M135.2,538.0 v-84.3 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v84.3 z" fill="#2a78d6"><title>Eukaryotic viruses L2, Pfam-A pressed (hmmpress), this branch: 112 sequences/s</title></path>
-<text x="144.8" y="446.7" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">112</text>
-<text x="193.6" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L3</text>
-<text x="193.6" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">318-570</text>
-<text x="193.6" y="580.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">16×</text>
-<path d="M173.1,538.0 v-2.1 a2.1461491685651595,2.1461491685651595 0 0 1 2.1461491685651595,-2.1461491685651595 h14.7 a2.1461491685651595,2.1461491685651595 0 0 1 2.1461491685651595,2.1461491685651595 v2.1 z" fill="#898781"><title>Eukaryotic viruses L3, Pfam-A pressed (hmmpress), upstream: 5.5 sequences/s</title></path>
-<text x="182.6" y="529.7" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">5.5</text>
-<path d="M195.1,538.0 v-67.1 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v67.1 z" fill="#2a78d6"><title>Eukaryotic viruses L3, Pfam-A pressed (hmmpress), this branch: 90 sequences/s</title></path>
-<text x="204.6" y="463.9" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">90</text>
-<text x="253.4" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L4</text>
-<text x="253.4" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">570-7,182</text>
-<text x="253.4" y="580.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">15×</text>
-<path d="M232.9,538.0 v-1.1 a1.0620571047886074,1.0620571047886074 0 0 1 1.0620571047886074,-1.0620571047886074 h16.9 a1.0620571047886074,1.0620571047886074 0 0 1 1.0620571047886074,1.0620571047886074 v1.1 z" fill="#898781"><title>Eukaryotic viruses L4, Pfam-A pressed (hmmpress), upstream: 2.7 sequences/s</title></path>
-<text x="242.4" y="531.9" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">2.7</text>
-<path d="M254.9,538.0 v-28.5 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v28.5 z" fill="#2a78d6"><title>Eukaryotic viruses L4, Pfam-A pressed (hmmpress), this branch: 40 sequences/s</title></path>
-<text x="264.4" y="502.5" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">40</text>
-<text x="313.3" y="352.0" fill="#0b0b0b" font-size="13" font-weight="600" text-anchor="start" >Non-human eukaryotes</text>
-<text x="313.3" y="368.0" fill="#52514e" font-size="11" font-weight="400" text-anchor="start" font-variant-numeric="tabular-nums">all 1,000: 4.9 → 62 seq/s (13×)</text>
-<line x1="347.3333333333333" y1="538.0" x2="586.6666666666666" y2="538.0" stroke="#c3c2b7" stroke-width="1"/>
-<text x="341.3" y="542.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">0</text>
-<line x1="347.3333333333333" y1="499.0" x2="586.6666666666666" y2="499.0" stroke="#e1e0d9" stroke-width="1"/>
-<text x="341.3" y="503.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">50</text>
-<line x1="347.3333333333333" y1="460.0" x2="586.6666666666666" y2="460.0" stroke="#e1e0d9" stroke-width="1"/>
-<text x="341.3" y="464.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">100</text>
-<line x1="347.3333333333333" y1="421.0" x2="586.6666666666666" y2="421.0" stroke="#e1e0d9" stroke-width="1"/>
-<text x="341.3" y="425.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">150</text>
-<line x1="347.3333333333333" y1="382.0" x2="586.6666666666666" y2="382.0" stroke="#e1e0d9" stroke-width="1"/>
-<text x="341.3" y="386.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">200</text>
-<text x="377.2" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L1</text>
-<text x="377.2" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6-200</text>
-<text x="377.2" y="580.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">16×</text>
-<path d="M356.8,538.0 v-3.8 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v3.8 z" fill="#898781"><title>Non-human eukaryotes L1, Pfam-A pressed (hmmpress), upstream: 8.7 sequences/s</title></path>
-<text x="366.2" y="527.2" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">8.7</text>
-<path d="M378.8,538.0 v-103.3 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v103.3 z" fill="#2a78d6"><title>Non-human eukaryotes L1, Pfam-A pressed (hmmpress), this branch: 136 sequences/s</title></path>
-<text x="388.2" y="427.7" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">136</text>
-<text x="437.1" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L2</text>
-<text x="437.1" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">202-355</text>
-<text x="437.1" y="580.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">14×</text>
-<path d="M416.6,538.0 v-2.5 a2.5163056722410033,2.5163056722410033 0 0 1 2.5163056722410033,-2.5163056722410033 h14.0 a2.5163056722410033,2.5163056722410033 0 0 1 2.5163056722410033,2.5163056722410033 v2.5 z" fill="#898781"><title>Non-human eukaryotes L2, Pfam-A pressed (hmmpress), upstream: 6.5 sequences/s</title></path>
-<text x="426.1" y="529.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6.5</text>
-<path d="M438.6,538.0 v-66.8 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v66.8 z" fill="#2a78d6"><title>Non-human eukaryotes L2, Pfam-A pressed (hmmpress), this branch: 89 sequences/s</title></path>
-<text x="448.1" y="464.2" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">89</text>
-<text x="496.9" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L3</text>
-<text x="496.9" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">355-537</text>
-<text x="496.9" y="580.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">16×</text>
-<path d="M476.4,538.0 v-2.1 a2.138620118971005,2.138620118971005 0 0 1 2.138620118971005,-2.138620118971005 h14.7 a2.138620118971005,2.138620118971005 0 0 1 2.138620118971005,2.138620118971005 v2.1 z" fill="#898781"><title>Non-human eukaryotes L3, Pfam-A pressed (hmmpress), upstream: 5.5 sequences/s</title></path>
-<text x="485.9" y="529.7" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">5.5</text>
-<path d="M498.4,538.0 v-63.5 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v63.5 z" fill="#2a78d6"><title>Non-human eukaryotes L3, Pfam-A pressed (hmmpress), this branch: 85 sequences/s</title></path>
-<text x="507.9" y="467.5" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">85</text>
-<text x="556.8" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L4</text>
-<text x="556.8" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">537-5,801</text>
-<text x="556.8" y="580.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">11×</text>
-<path d="M536.2,538.0 v-1.1 a1.0695896423177373,1.0695896423177373 0 0 1 1.0695896423177373,-1.0695896423177373 h16.9 a1.0695896423177373,1.0695896423177373 0 0 1 1.0695896423177373,1.0695896423177373 v1.1 z" fill="#898781"><title>Non-human eukaryotes L4, Pfam-A pressed (hmmpress), upstream: 2.7 sequences/s</title></path>
-<text x="545.8" y="531.9" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">2.7</text>
-<path d="M558.2,538.0 v-19.8 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v19.8 z" fill="#2a78d6"><title>Non-human eukaryotes L4, Pfam-A pressed (hmmpress), this branch: 29 sequences/s</title></path>
-<text x="567.8" y="511.2" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">29</text>
-<text x="616.7" y="352.0" fill="#0b0b0b" font-size="13" font-weight="600" text-anchor="start" >Human</text>
-<text x="616.7" y="368.0" fill="#52514e" font-size="11" font-weight="400" text-anchor="start" font-variant-numeric="tabular-nums">all 1,000: 4.1 → 42 seq/s (10×)</text>
-<line x1="650.6666666666666" y1="538.0" x2="890.0" y2="538.0" stroke="#c3c2b7" stroke-width="1"/>
-<text x="644.7" y="542.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">0</text>
-<line x1="650.6666666666666" y1="499.0" x2="890.0" y2="499.0" stroke="#e1e0d9" stroke-width="1"/>
-<text x="644.7" y="503.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">50</text>
-<line x1="650.6666666666666" y1="460.0" x2="890.0" y2="460.0" stroke="#e1e0d9" stroke-width="1"/>
-<text x="644.7" y="464.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">100</text>
-<line x1="650.6666666666666" y1="421.0" x2="890.0" y2="421.0" stroke="#e1e0d9" stroke-width="1"/>
-<text x="644.7" y="425.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">150</text>
-<line x1="650.6666666666666" y1="382.0" x2="890.0" y2="382.0" stroke="#e1e0d9" stroke-width="1"/>
-<text x="644.7" y="386.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">200</text>
-<text x="680.6" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L1</text>
-<text x="680.6" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">16-246</text>
-<text x="680.6" y="580.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">15×</text>
-<path d="M660.1,538.0 v-3.2 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v3.2 z" fill="#898781"><title>Human L1, Pfam-A pressed (hmmpress), upstream: 8.0 sequences/s</title></path>
-<text x="669.6" y="527.8" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">8.0</text>
-<path d="M682.1,538.0 v-87.8 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v87.8 z" fill="#2a78d6"><title>Human L1, Pfam-A pressed (hmmpress), this branch: 116 sequences/s</title></path>
-<text x="691.6" y="443.2" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">116</text>
-<text x="740.4" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L2</text>
-<text x="740.4" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">248-395</text>
-<text x="740.4" y="580.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">15×</text>
-<path d="M719.9,538.0 v-2.4 a2.4222933454271924,2.4222933454271924 0 0 1 2.4222933454271924,-2.4222933454271924 h14.2 a2.4222933454271924,2.4222933454271924 0 0 1 2.4222933454271924,2.4222933454271924 v2.4 z" fill="#898781"><title>Human L2, Pfam-A pressed (hmmpress), upstream: 6.2 sequences/s</title></path>
-<text x="729.4" y="529.2" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6.2</text>
-<path d="M741.9,538.0 v-67.9 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v67.9 z" fill="#2a78d6"><title>Human L2, Pfam-A pressed (hmmpress), this branch: 91 sequences/s</title></path>
-<text x="751.4" y="463.1" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">91</text>
-<text x="800.2" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L3</text>
-<text x="800.2" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">396-695</text>
-<text x="800.2" y="580.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">12×</text>
-<path d="M779.8,538.0 v-1.7 a1.7474140089306047,1.7474140089306047 0 0 1 1.7474140089306047,-1.7474140089306047 h15.5 a1.7474140089306047,1.7474140089306047 0 0 1 1.7474140089306047,1.7474140089306047 v1.7 z" fill="#898781"><title>Human L3, Pfam-A pressed (hmmpress), upstream: 4.5 sequences/s</title></path>
-<text x="789.2" y="530.5" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">4.5</text>
-<path d="M801.8,538.0 v-40.1 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v40.1 z" fill="#2a78d6"><title>Human L3, Pfam-A pressed (hmmpress), this branch: 55 sequences/s</title></path>
-<text x="811.2" y="490.9" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">55</text>
-<text x="860.1" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L4</text>
-<text x="860.1" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">696-13,477</text>
-<text x="860.1" y="580.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">8.2×</text>
-<path d="M839.6,538.0 v-0.8 a0.8411803879613444,0.8411803879613444 0 0 1 0.8411803879613444,-0.8411803879613444 h17.3 a0.8411803879613444,0.8411803879613444 0 0 1 0.8411803879613444,0.8411803879613444 v0.8 z" fill="#898781"><title>Human L4, Pfam-A pressed (hmmpress), upstream: 2.2 sequences/s</title></path>
-<text x="849.1" y="532.3" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">2.2</text>
-<path d="M861.6,538.0 v-10.7 a3,3 0 0 1 3,-3 h13.0 a3,3 0 0 1 3,3 v10.7 z" fill="#2a78d6"><title>Human L4, Pfam-A pressed (hmmpress), this branch: 18 sequences/s</title></path>
-<text x="871.1" y="520.3" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">18</text>
-<text x="10.0" y="610.0" fill="#898781" font-size="11" font-weight="400" text-anchor="start" >Each group: 250 proteins (length range in residues) against all 21,979 Pfam-A models with --cut_ga; under each group, the speedup.</text>
+<text x="92.9" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L1</text>
+<text x="92.9" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">15-256</text>
+<path d="M56.9,538.0 v-3.3 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v3.3 z" fill="#898781"><title>Fungi L1, Pfam-A pressed (hmmpress), upstream: 8.1 sequences/s</title></path>
+<text x="67.9" y="527.7" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">8.1</text>
+<path d="M81.9,538.0 v-98.9 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v98.9 z" fill="#1baf7a"><title>Fungi L1, Pfam-A pressed (hmmpress), pyhmmer 0.12.3 (8 threads): 131 sequences/s</title></path>
+<text x="92.9" y="432.1" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">131</text>
+<path d="M106.9,538.0 v-97.6 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v97.6 z" fill="#2a78d6"><title>Fungi L1, Pfam-A pressed (hmmpress), this branch: 129 sequences/s</title></path>
+<text x="117.9" y="433.4" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">129</text>
+<text x="190.6" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L2</text>
+<text x="190.6" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">256-400</text>
+<path d="M154.6,538.0 v-2.6 a2.567264403230638,2.567264403230638 0 0 1 2.567264403230638,-2.567264403230638 h16.9 a2.567264403230638,2.567264403230638 0 0 1 2.567264403230638,2.567264403230638 v2.6 z" fill="#898781"><title>Fungi L2, Pfam-A pressed (hmmpress), upstream: 6.6 sequences/s</title></path>
+<text x="165.6" y="528.9" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6.6</text>
+<path d="M179.6,538.0 v-77.3 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v77.3 z" fill="#1baf7a"><title>Fungi L2, Pfam-A pressed (hmmpress), pyhmmer 0.12.3 (8 threads): 103 sequences/s</title></path>
+<text x="190.6" y="453.7" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">103</text>
+<path d="M204.6,538.0 v-78.8 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v78.8 z" fill="#2a78d6"><title>Fungi L2, Pfam-A pressed (hmmpress), this branch: 105 sequences/s</title></path>
+<text x="215.6" y="452.2" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">105</text>
+<text x="288.4" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L3</text>
+<text x="288.4" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">400-593</text>
+<path d="M252.4,538.0 v-2.0 a1.9604868105919309,1.9604868105919309 0 0 1 1.9604868105919309,-1.9604868105919309 h18.1 a1.9604868105919309,1.9604868105919309 0 0 1 1.9604868105919309,1.9604868105919309 v2.0 z" fill="#898781"><title>Fungi L3, Pfam-A pressed (hmmpress), upstream: 5.0 sequences/s</title></path>
+<text x="263.4" y="530.1" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">5.0</text>
+<path d="M277.4,538.0 v-56.8 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v56.8 z" fill="#1baf7a"><title>Fungi L3, Pfam-A pressed (hmmpress), pyhmmer 0.12.3: 77 sequences/s</title></path>
+<text x="288.4" y="474.2" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">77</text>
+<path d="M302.4,538.0 v-60.1 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v60.1 z" fill="#2a78d6"><title>Fungi L3, Pfam-A pressed (hmmpress), this branch: 81 sequences/s</title></path>
+<text x="313.4" y="470.9" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">81</text>
+<text x="386.1" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L4</text>
+<text x="386.1" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">595-2,904</text>
+<path d="M350.1,538.0 v-1.2 a1.2006571960819201,1.2006571960819201 0 0 1 1.2006571960819201,-1.2006571960819201 h19.6 a1.2006571960819201,1.2006571960819201 0 0 1 1.2006571960819201,1.2006571960819201 v1.2 z" fill="#898781"><title>Fungi L4, Pfam-A pressed (hmmpress), upstream: 3.1 sequences/s</title></path>
+<text x="361.1" y="531.6" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">3.1</text>
+<path d="M375.1,538.0 v-32.1 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v32.1 z" fill="#1baf7a"><title>Fungi L4, Pfam-A pressed (hmmpress), pyhmmer 0.12.3: 45 sequences/s</title></path>
+<text x="386.1" y="498.9" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">45</text>
+<path d="M400.1,538.0 v-29.1 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v29.1 z" fill="#2a78d6"><title>Fungi L4, Pfam-A pressed (hmmpress), this branch: 41 sequences/s</title></path>
+<text x="411.1" y="501.9" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">41</text>
+<text x="465.0" y="352.0" fill="#0b0b0b" font-size="13" font-weight="600" text-anchor="start" >Eukaryotic viruses</text>
+<text x="465.0" y="368.0" fill="#52514e" font-size="11" font-weight="400" text-anchor="start" font-variant-numeric="tabular-nums">all 1,000: upstream 4.9, pyhmmer 0.12.3 71, this branch 76 seq/s</text>
+<line x1="499.0" y1="538.0" x2="890.0" y2="538.0" stroke="#c3c2b7" stroke-width="1"/>
+<text x="493.0" y="542.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">0</text>
+<line x1="499.0" y1="499.0" x2="890.0" y2="499.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="493.0" y="503.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">50</text>
+<line x1="499.0" y1="460.0" x2="890.0" y2="460.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="493.0" y="464.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">100</text>
+<line x1="499.0" y1="421.0" x2="890.0" y2="421.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="493.0" y="425.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">150</text>
+<line x1="499.0" y1="382.0" x2="890.0" y2="382.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="493.0" y="386.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">200</text>
+<text x="547.9" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L1</text>
+<text x="547.9" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">31-179</text>
+<path d="M511.9,538.0 v-3.7 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v3.7 z" fill="#898781"><title>Eukaryotic viruses L1, Pfam-A pressed (hmmpress), upstream: 8.5 sequences/s</title></path>
+<text x="522.9" y="527.3" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">8.5</text>
+<path d="M536.9,538.0 v-96.9 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v96.9 z" fill="#1baf7a"><title>Eukaryotic viruses L1, Pfam-A pressed (hmmpress), pyhmmer 0.12.3 (8 threads): 128 sequences/s</title></path>
+<text x="547.9" y="434.1" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">128</text>
+<path d="M561.9,538.0 v-106.2 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v106.2 z" fill="#2a78d6"><title>Eukaryotic viruses L1, Pfam-A pressed (hmmpress), this branch: 140 sequences/s</title></path>
+<text x="572.9" y="424.8" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">140</text>
+<text x="645.6" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L2</text>
+<text x="645.6" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">179-318</text>
+<path d="M609.6,538.0 v-2.7 a2.7212201845405275,2.7212201845405275 0 0 1 2.7212201845405275,-2.7212201845405275 h16.6 a2.7212201845405275,2.7212201845405275 0 0 1 2.7212201845405275,2.7212201845405275 v2.7 z" fill="#898781"><title>Eukaryotic viruses L2, Pfam-A pressed (hmmpress), upstream: 7.0 sequences/s</title></path>
+<text x="620.6" y="528.6" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">7.0</text>
+<path d="M634.6,538.0 v-85.9 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v85.9 z" fill="#1baf7a"><title>Eukaryotic viruses L2, Pfam-A pressed (hmmpress), pyhmmer 0.12.3 (8 threads): 114 sequences/s</title></path>
+<text x="645.6" y="445.1" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">114</text>
+<path d="M659.6,538.0 v-86.3 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v86.3 z" fill="#2a78d6"><title>Eukaryotic viruses L2, Pfam-A pressed (hmmpress), this branch: 114 sequences/s</title></path>
+<text x="670.6" y="444.7" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">114</text>
+<text x="743.4" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L3</text>
+<text x="743.4" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">318-570</text>
+<path d="M707.4,538.0 v-2.1 a2.1340622424913818,2.1340622424913818 0 0 1 2.1340622424913818,-2.1340622424913818 h17.7 a2.1340622424913818,2.1340622424913818 0 0 1 2.1340622424913818,2.1340622424913818 v2.1 z" fill="#898781"><title>Eukaryotic viruses L3, Pfam-A pressed (hmmpress), upstream: 5.5 sequences/s</title></path>
+<text x="718.4" y="529.7" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">5.5</text>
+<path d="M732.4,538.0 v-60.6 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v60.6 z" fill="#1baf7a"><title>Eukaryotic viruses L3, Pfam-A pressed (hmmpress), pyhmmer 0.12.3: 82 sequences/s</title></path>
+<text x="743.4" y="470.4" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">82</text>
+<path d="M757.4,538.0 v-64.5 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v64.5 z" fill="#2a78d6"><title>Eukaryotic viruses L3, Pfam-A pressed (hmmpress), this branch: 87 sequences/s</title></path>
+<text x="768.4" y="466.5" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">87</text>
+<text x="841.1" y="553.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L4</text>
+<text x="841.1" y="566.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">570-7,182</text>
+<path d="M805.1,538.0 v-1.0 a1.038909165467203,1.038909165467203 0 0 1 1.038909165467203,-1.038909165467203 h19.9 a1.038909165467203,1.038909165467203 0 0 1 1.038909165467203,1.038909165467203 v1.0 z" fill="#898781"><title>Eukaryotic viruses L4, Pfam-A pressed (hmmpress), upstream: 2.7 sequences/s</title></path>
+<text x="816.1" y="531.9" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">2.7</text>
+<path d="M830.1,538.0 v-25.7 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v25.7 z" fill="#1baf7a"><title>Eukaryotic viruses L4, Pfam-A pressed (hmmpress), pyhmmer 0.12.3: 37 sequences/s</title></path>
+<text x="841.1" y="505.3" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">37</text>
+<path d="M855.1,538.0 v-27.7 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v27.7 z" fill="#2a78d6"><title>Eukaryotic viruses L4, Pfam-A pressed (hmmpress), this branch: 39 sequences/s</title></path>
+<text x="866.1" y="503.3" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">39</text>
+<text x="10.0" y="636.0" fill="#0b0b0b" font-size="13" font-weight="600" text-anchor="start" >Non-human eukaryotes</text>
+<text x="10.0" y="652.0" fill="#52514e" font-size="11" font-weight="400" text-anchor="start" font-variant-numeric="tabular-nums">all 1,000: upstream 4.8, pyhmmer 0.12.3 69, this branch 61 seq/s</text>
+<line x1="44.0" y1="822.0" x2="435.0" y2="822.0" stroke="#c3c2b7" stroke-width="1"/>
+<text x="38.0" y="826.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">0</text>
+<line x1="44.0" y1="783.0" x2="435.0" y2="783.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="38.0" y="787.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">50</text>
+<line x1="44.0" y1="744.0" x2="435.0" y2="744.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="38.0" y="748.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">100</text>
+<line x1="44.0" y1="705.0" x2="435.0" y2="705.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="38.0" y="709.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">150</text>
+<line x1="44.0" y1="666.0" x2="435.0" y2="666.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="38.0" y="670.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">200</text>
+<text x="92.9" y="837.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L1</text>
+<text x="92.9" y="850.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6-200</text>
+<path d="M56.9,822.0 v-3.5 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v3.5 z" fill="#898781"><title>Non-human eukaryotes L1, Pfam-A pressed (hmmpress), upstream: 8.4 sequences/s</title></path>
+<text x="67.9" y="811.5" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">8.4</text>
+<path d="M81.9,822.0 v-107.6 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v107.6 z" fill="#1baf7a"><title>Non-human eukaryotes L1, Pfam-A pressed (hmmpress), pyhmmer 0.12.3 (8 threads): 142 sequences/s</title></path>
+<text x="92.9" y="707.4" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">142</text>
+<path d="M106.9,822.0 v-101.6 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v101.6 z" fill="#2a78d6"><title>Non-human eukaryotes L1, Pfam-A pressed (hmmpress), this branch: 134 sequences/s</title></path>
+<text x="117.9" y="713.4" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">134</text>
+<text x="190.6" y="837.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L2</text>
+<text x="190.6" y="850.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">202-355</text>
+<path d="M154.6,822.0 v-2.4 a2.4230284210152604,2.4230284210152604 0 0 1 2.4230284210152604,-2.4230284210152604 h17.2 a2.4230284210152604,2.4230284210152604 0 0 1 2.4230284210152604,2.4230284210152604 v2.4 z" fill="#898781"><title>Non-human eukaryotes L2, Pfam-A pressed (hmmpress), upstream: 6.2 sequences/s</title></path>
+<text x="165.6" y="813.2" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6.2</text>
+<path d="M179.6,822.0 v-73.7 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v73.7 z" fill="#1baf7a"><title>Non-human eukaryotes L2, Pfam-A pressed (hmmpress), pyhmmer 0.12.3 (8 threads): 98 sequences/s</title></path>
+<text x="190.6" y="741.3" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">98</text>
+<path d="M204.6,822.0 v-64.6 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v64.6 z" fill="#2a78d6"><title>Non-human eukaryotes L2, Pfam-A pressed (hmmpress), this branch: 87 sequences/s</title></path>
+<text x="215.6" y="750.4" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">87</text>
+<text x="288.4" y="837.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L3</text>
+<text x="288.4" y="850.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">355-537</text>
+<path d="M252.4,822.0 v-2.1 a2.1097600623243693,2.1097600623243693 0 0 1 2.1097600623243693,-2.1097600623243693 h17.8 a2.1097600623243693,2.1097600623243693 0 0 1 2.1097600623243693,2.1097600623243693 v2.1 z" fill="#898781"><title>Non-human eukaryotes L3, Pfam-A pressed (hmmpress), upstream: 5.4 sequences/s</title></path>
+<text x="263.4" y="813.8" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">5.4</text>
+<path d="M277.4,822.0 v-60.4 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v60.4 z" fill="#1baf7a"><title>Non-human eukaryotes L3, Pfam-A pressed (hmmpress), pyhmmer 0.12.3: 81 sequences/s</title></path>
+<text x="288.4" y="754.6" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">81</text>
+<path d="M302.4,822.0 v-63.8 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v63.8 z" fill="#2a78d6"><title>Non-human eukaryotes L3, Pfam-A pressed (hmmpress), this branch: 86 sequences/s</title></path>
+<text x="313.4" y="751.2" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">86</text>
+<text x="386.1" y="837.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L4</text>
+<text x="386.1" y="850.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">537-5,801</text>
+<path d="M350.1,822.0 v-1.1 a1.0606291318985654,1.0606291318985654 0 0 1 1.0606291318985654,-1.0606291318985654 h19.9 a1.0606291318985654,1.0606291318985654 0 0 1 1.0606291318985654,1.0606291318985654 v1.1 z" fill="#898781"><title>Non-human eukaryotes L4, Pfam-A pressed (hmmpress), upstream: 2.7 sequences/s</title></path>
+<text x="361.1" y="815.9" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">2.7</text>
+<path d="M375.1,822.0 v-24.6 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v24.6 z" fill="#1baf7a"><title>Non-human eukaryotes L4, Pfam-A pressed (hmmpress), pyhmmer 0.12.3: 35 sequences/s</title></path>
+<text x="386.1" y="790.4" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">35</text>
+<path d="M400.1,822.0 v-19.3 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v19.3 z" fill="#2a78d6"><title>Non-human eukaryotes L4, Pfam-A pressed (hmmpress), this branch: 29 sequences/s</title></path>
+<text x="411.1" y="795.7" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">29</text>
+<text x="465.0" y="636.0" fill="#0b0b0b" font-size="13" font-weight="600" text-anchor="start" >Human</text>
+<text x="465.0" y="652.0" fill="#52514e" font-size="11" font-weight="400" text-anchor="start" font-variant-numeric="tabular-nums">all 1,000: upstream 4.0, pyhmmer 0.12.3 55, this branch 41 seq/s</text>
+<line x1="499.0" y1="822.0" x2="890.0" y2="822.0" stroke="#c3c2b7" stroke-width="1"/>
+<text x="493.0" y="826.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">0</text>
+<line x1="499.0" y1="783.0" x2="890.0" y2="783.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="493.0" y="787.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">50</text>
+<line x1="499.0" y1="744.0" x2="890.0" y2="744.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="493.0" y="748.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">100</text>
+<line x1="499.0" y1="705.0" x2="890.0" y2="705.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="493.0" y="709.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">150</text>
+<line x1="499.0" y1="666.0" x2="890.0" y2="666.0" stroke="#e1e0d9" stroke-width="1"/>
+<text x="493.0" y="670.0" fill="#898781" font-size="10" font-weight="400" text-anchor="end" font-variant-numeric="tabular-nums">200</text>
+<text x="547.9" y="837.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L1</text>
+<text x="547.9" y="850.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">16-246</text>
+<path d="M511.9,822.0 v-3.1 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v3.1 z" fill="#898781"><title>Human L1, Pfam-A pressed (hmmpress), upstream: 7.8 sequences/s</title></path>
+<text x="522.9" y="811.9" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">7.8</text>
+<path d="M536.9,822.0 v-95.0 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v95.0 z" fill="#1baf7a"><title>Human L1, Pfam-A pressed (hmmpress), pyhmmer 0.12.3 (8 threads): 126 sequences/s</title></path>
+<text x="547.9" y="720.0" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">126</text>
+<path d="M561.9,822.0 v-86.6 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v86.6 z" fill="#2a78d6"><title>Human L1, Pfam-A pressed (hmmpress), this branch: 115 sequences/s</title></path>
+<text x="572.9" y="728.4" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">115</text>
+<text x="645.6" y="837.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L2</text>
+<text x="645.6" y="850.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">248-395</text>
+<path d="M609.6,822.0 v-2.4 a2.3641838065875618,2.3641838065875618 0 0 1 2.3641838065875618,-2.3641838065875618 h17.3 a2.3641838065875618,2.3641838065875618 0 0 1 2.3641838065875618,2.3641838065875618 v2.4 z" fill="#898781"><title>Human L2, Pfam-A pressed (hmmpress), upstream: 6.1 sequences/s</title></path>
+<text x="620.6" y="813.3" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">6.1</text>
+<path d="M634.6,822.0 v-67.2 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v67.2 z" fill="#1baf7a"><title>Human L2, Pfam-A pressed (hmmpress), pyhmmer 0.12.3 (8 threads): 90 sequences/s</title></path>
+<text x="645.6" y="747.8" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">90</text>
+<path d="M659.6,822.0 v-66.7 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v66.7 z" fill="#2a78d6"><title>Human L2, Pfam-A pressed (hmmpress), this branch: 89 sequences/s</title></path>
+<text x="670.6" y="748.3" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">89</text>
+<text x="743.4" y="837.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L3</text>
+<text x="743.4" y="850.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">396-695</text>
+<path d="M707.4,822.0 v-1.7 a1.7239212844287977,1.7239212844287977 0 0 1 1.7239212844287977,-1.7239212844287977 h18.6 a1.7239212844287977,1.7239212844287977 0 0 1 1.7239212844287977,1.7239212844287977 v1.7 z" fill="#898781"><title>Human L3, Pfam-A pressed (hmmpress), upstream: 4.4 sequences/s</title></path>
+<text x="718.4" y="814.6" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">4.4</text>
+<path d="M732.4,822.0 v-47.3 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v47.3 z" fill="#1baf7a"><title>Human L3, Pfam-A pressed (hmmpress), pyhmmer 0.12.3: 65 sequences/s</title></path>
+<text x="743.4" y="767.7" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">65</text>
+<path d="M757.4,822.0 v-38.9 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v38.9 z" fill="#2a78d6"><title>Human L3, Pfam-A pressed (hmmpress), this branch: 54 sequences/s</title></path>
+<text x="768.4" y="776.1" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">54</text>
+<text x="841.1" y="837.0" fill="#52514e" font-size="11" font-weight="600" text-anchor="middle" >L4</text>
+<text x="841.1" y="850.0" fill="#898781" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">696-13,477</text>
+<path d="M805.1,822.0 v-0.8 a0.8281315415523522,0.8281315415523522 0 0 1 0.8281315415523522,-0.8281315415523522 h20.3 a0.8281315415523522,0.8281315415523522 0 0 1 0.8281315415523522,0.8281315415523522 v0.8 z" fill="#898781"><title>Human L4, Pfam-A pressed (hmmpress), upstream: 2.1 sequences/s</title></path>
+<text x="816.1" y="816.3" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">2.1</text>
+<path d="M830.1,822.0 v-17.6 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v17.6 z" fill="#1baf7a"><title>Human L4, Pfam-A pressed (hmmpress), pyhmmer 0.12.3: 26 sequences/s</title></path>
+<text x="841.1" y="797.4" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">26</text>
+<path d="M855.1,822.0 v-10.3 a3,3 0 0 1 3,-3 h16.0 a3,3 0 0 1 3,3 v10.3 z" fill="#2a78d6"><title>Human L4, Pfam-A pressed (hmmpress), this branch: 17 sequences/s</title></path>
+<text x="866.1" y="804.7" fill="#52514e" font-size="10" font-weight="400" text-anchor="middle" font-variant-numeric="tabular-nums">17</text>
+<text x="10.0" y="894.0" fill="#898781" font-size="11" font-weight="400" text-anchor="start" >Each group: 250 proteins (length range in residues) against all 21,979 Pfam-A models with --cut_ga; speedups are in the tables.</text>
+<text x="10.0" y="910.0" fill="#898781" font-size="11" font-weight="400" text-anchor="start" >pyhmmer 0.12.3: the faster of its runs at 16 threads and at 8 (its default here, one per physical core), per group</text>
 </svg>
