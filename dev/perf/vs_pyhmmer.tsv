@@ -1,0 +1,82 @@
+# upstream HMMER vs pyhmmer vs this fork (dev/perf/series.py --mask-tail --file vs_pyhmmer.tsv).
+#
+# The scenarios of dev/profiling/RESULTS.md and the Pfam-A annotation benchmark (annot.tsv), changed only
+# where pyhmmer can't follow: every run writes the two tables (--tblout t.tbl --domtblout t.dom) and
+# sends hmmsearch's main output to /dev/null, which pyhmmer doesn't have (-A is dropped from W1 too).
+# The pyhmmer side is dev/perf/pyhmmsearch.py, made a snapshot by dev/perf/pyhmmer.sh; it accepts only
+# the options used here. Plan and results: dev/profiling/PYHMMER.md.
+#   D/, F/, U/, $NCPU: as in workloads.tsv and annot.tsv
+# The sets don't start with cpu or reader, so no run is under perf stat: every scenario is judged by
+# wall time (perf stat slows threaded runs on this VM, ab.COUNTER_SETS).
+# Threaded runs pin -Z or use --cut_ga, so their outputs are deterministic (workloads.tsv).
+@fixture Pfam-A.hmm.h3m  ln -sf D/Pfam-A.hmm Pfam-A.hmm && hmmpress Pfam-A.hmm > /dev/null
+
+# ---- vs: RESULTS.md scenarios at $NCPU threads (the _dbc ones run only where --dbcache exists)
+X5_human_pfam1k_cN       vs         --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/pfam_1k.hmm D/human.fa
+X5_human_pfam1k_cN_dbc   vs         --cpu $NCPU --dbcache --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/pfam_1k.hmm D/human.fa
+X4_pfamA_h3m_cN          vs         --cpu $NCPU -Z 5 -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m D/q_pick5.fa
+X4_pfamA_h3m_cN_dbc      vs         --cpu $NCPU --dbcache -Z 5 -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m D/q_pick5.fa
+X4_pfamA_txt_cN          vs         --cpu $NCPU -Z 5 -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm D/q_pick5.fa
+X3_p1k_s1k_cN            vs         --cpu $NCPU -Z 999 -o /dev/null --tblout t.tbl --domtblout t.dom D/pfam_1k.hmm D/sprot_1k.fa
+X3_p1k_s1k_cN_dbc        vs         --cpu $NCPU --dbcache -Z 999 -o /dev/null --tblout t.tbl --domtblout t.dom D/pfam_1k.hmm D/sprot_1k.fa
+X1_p100_50k_cN           vs         --cpu $NCPU -Z 51857 --noali -o /dev/null --tblout t.tbl --domtblout t.dom D/pfam_100.hmm D/sprot_50k.fa
+X2_m200_sprot_cN         vs         --cpu $NCPU -Z 570420 --noali -o /dev/null --tblout t.tbl --domtblout t.dom D/kern_M200.hmm D/sprot.fa
+
+# ---- vs1: the single-threaded RESULTS.md scenarios (hmmsearch --cpu 0, pyhmmer in its main thread)
+W2_mix_10k               vs1        --cpu 0 -o /dev/null --tblout t.tbl --domtblout t.dom D/pfam_len_mix.hmm D/sprot_10k.fa
+W3_m200_sprot            vs1        --cpu 0 --noali -o /dev/null --tblout t.tbl --domtblout t.dom D/kern_M200.hmm D/sprot.fa
+R1_m50_sprot             vs1        --cpu 0 --noali -o /dev/null --tblout t.tbl --domtblout t.dom D/kern_M50.hmm D/sprot.fa
+W4_med_longseqs          vs1        --cpu 0 -o /dev/null --tblout t.tbl --domtblout t.dom D/pfam_len_med.hmm D/sprot_long.fa
+W1_hitters_10k           vs1        --cpu 0 -o /dev/null --tblout t.tbl --domtblout t.dom D/pfam_hitters.hmm D/sprot_10k.fa
+W5_med_1k_max            vs1        --cpu 0 --max -o /dev/null --tblout t.tbl --domtblout t.dom D/pfam_len_med.hmm D/sprot_1k.fa
+
+# ---- annot, annot_txt: annot.tsv, all of Pfam-A --cut_ga at $NCPU threads against the UniProt length groups
+A_bacteria_L1            annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/bacteria_L1.fa
+A_bacteria_L2            annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/bacteria_L2.fa
+A_bacteria_L3            annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/bacteria_L3.fa
+A_bacteria_L4            annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/bacteria_L4.fa
+A_phage_L1               annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/phage_L1.fa
+A_phage_L2               annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/phage_L2.fa
+A_phage_L3               annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/phage_L3.fa
+A_phage_L4               annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/phage_L4.fa
+A_fungi_L1               annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/fungi_L1.fa
+A_fungi_L2               annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/fungi_L2.fa
+A_fungi_L3               annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/fungi_L3.fa
+A_fungi_L4               annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/fungi_L4.fa
+A_virus_L1               annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/virus_L1.fa
+A_virus_L2               annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/virus_L2.fa
+A_virus_L3               annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/virus_L3.fa
+A_virus_L4               annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/virus_L4.fa
+A_eukaryota_L1           annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/eukaryota_L1.fa
+A_eukaryota_L2           annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/eukaryota_L2.fa
+A_eukaryota_L3           annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/eukaryota_L3.fa
+A_eukaryota_L4           annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/eukaryota_L4.fa
+A_human_L1               annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/human_L1.fa
+A_human_L2               annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/human_L2.fa
+A_human_L3               annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/human_L3.fa
+A_human_L4               annot      --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom F/Pfam-A.hmm.h3m U/human_L4.fa
+
+A_bacteria_L1_txt        annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/bacteria_L1.fa
+A_bacteria_L2_txt        annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/bacteria_L2.fa
+A_bacteria_L3_txt        annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/bacteria_L3.fa
+A_bacteria_L4_txt        annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/bacteria_L4.fa
+A_phage_L1_txt           annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/phage_L1.fa
+A_phage_L2_txt           annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/phage_L2.fa
+A_phage_L3_txt           annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/phage_L3.fa
+A_phage_L4_txt           annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/phage_L4.fa
+A_fungi_L1_txt           annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/fungi_L1.fa
+A_fungi_L2_txt           annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/fungi_L2.fa
+A_fungi_L3_txt           annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/fungi_L3.fa
+A_fungi_L4_txt           annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/fungi_L4.fa
+A_virus_L1_txt           annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/virus_L1.fa
+A_virus_L2_txt           annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/virus_L2.fa
+A_virus_L3_txt           annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/virus_L3.fa
+A_virus_L4_txt           annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/virus_L4.fa
+A_eukaryota_L1_txt       annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/eukaryota_L1.fa
+A_eukaryota_L2_txt       annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/eukaryota_L2.fa
+A_eukaryota_L3_txt       annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/eukaryota_L3.fa
+A_eukaryota_L4_txt       annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/eukaryota_L4.fa
+A_human_L1_txt           annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/human_L1.fa
+A_human_L2_txt           annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/human_L2.fa
+A_human_L3_txt           annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/human_L3.fa
+A_human_L4_txt           annot_txt  --cpu $NCPU --cut_ga -o /dev/null --tblout t.tbl --domtblout t.dom D/Pfam-A.hmm U/human_L4.fa

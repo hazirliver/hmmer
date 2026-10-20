@@ -12,6 +12,10 @@ are the reference: every binary's files must equal the first binary's after the 
 normalization (whitespace-only differences accepted, as in ab.sh). A workload that uses an
 option a binary doesn't have (--dbcache before Phase 2) is skipped for that binary.
 
+For pyhmmer (dev/perf/pyhmmsearch.py, dev/profiling/PYHMMER.md): --mask-tail drops the block that
+hmmsearch appends to its tables, and --flush-subnormals compares numbers below 2.2e-308 as 0 (hmmsearch
+flushes them to zero, pyhmmer doesn't), noting how many each binary had.
+
 Writes JSON (default bench-results/series/<time>.json): per workload, per binary label, the
 samples of wall, user, sys and peak RSS, plus cycles:u, cycles (user+kernel) and instructions:u
 for workloads judged by counters (the cpu and reader sets; --perf-all for all of them: perf stat
@@ -24,6 +28,8 @@ HERE = os.path.dirname(os.path.realpath(__file__))
 sys.path.insert(0, HERE)
 import ab      # noqa: E402  (runs, hashing, workloads)
 bench = ab.bench   # dev/bench/bench.py: data dir, results dir, normalization
+# the lines of p7_tophits_TabularTail(), which ends every --tblout / --domtblout (a lone '#' occurs only there)
+TAIL = re.compile(r"^#(?: (?:Program|Version|Pipeline mode|Query file|Target file|Option settings|Current dir|Date):.*| \[ok\])?\n?$")
 
 
 def supports(binary, option):
@@ -43,7 +49,16 @@ def main():
     ap.add_argument("--out")
     ap.add_argument("--perf-all", action="store_true",
                     help="perf stat on every workload, not only those judged by counters (inflates threaded wall times)")
+    ap.add_argument("--mask-tail", action="store_true",
+                    help="drop the '# Program: ... # [ok]' block hmmsearch appends to its tables before comparing "
+                         "(pyhmmer's tables don't have it; dev/perf/vs_pyhmmer.tsv)")
+    ap.add_argument("--flush-subnormals", action="store_true",
+                    help="compare numbers below 2.2e-308 as 0, as hmmsearch prints them (pyhmmer doesn't flush "
+                         "subnormals to zero); each binary's count is noted")
     a = ap.parse_args()
+    if a.mask_tail:
+        ab.EXTRA_RULES.append((TAIL, ""))
+    ab.FLUSH_SUBNORMALS = a.flush_subnormals
 
     bins   = [ab.resolve_bin(s) for s in a.snaps]
     labels = a.labels.split(",") if a.labels else [ab.describe_bin(b).get("name", s) for b, s in zip(bins, a.snaps)]
@@ -87,6 +102,11 @@ def main():
                     problems.append(f"{labels[i]} round {r}: exit {s.get('rc')}"); failed = True
                 if r < a.warmup:
                     h = ab.hash_run(cwd)
+                    if a.flush_subnormals:
+                        n = {f: ab.count_subnormals(os.path.join(cwd, f)) for f in h}
+                        if sum(n.values()):
+                            notes.append(f"{labels[i]}: {sum(n.values())} numbers below 2.2e-308 compared as 0 ("
+                                         + ", ".join(f"{f} {k}" for f, k in sorted(n.items()) if k) + ")")
                     if ref is None: ref, ref_label = h, labels[i]
                     else:
                         kind, bad = ab.compare(ref, h)

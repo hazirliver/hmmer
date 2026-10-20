@@ -3,12 +3,16 @@
 
   dev/perf/plot_series.py bench-results/series/phases.json --outdir dev/profiling/results
 
+  dev/perf/plot_series.py vs.json --outdir dev/profiling/results --charts speedup --speedup pyhmmer,fork
+
 Writes, per mode (light, dark):
-  speedup-<mode>.svg   speedup of the last binary over the first one, per scenario
-                       (default options, and with --dbcache where the scenario has a variant)
+  speedup-<mode>.svg   speedup over the first binary, per scenario, of the --speedup binaries (default:
+                       the last one), and of the last one with --dbcache where the scenario has a variant
   phases-<mode>.svg    wall time at every binary of the series, one small panel per scenario
-and prints a Markdown table of the medians. No dependencies: the SVG is written by hand
-(palette and mark specs from the dataviz guidelines: 2 series, validated in both modes).
+(--charts picks which) and prints a Markdown table of the medians. --best-of A,B shows several labels
+as one, at the fastest of them per workload (pyhmmer at 16 or 8 threads), and --drop leaves one out. No dependencies: the SVG is written by
+hand (palette and mark specs from the dataviz guidelines: the first 3 categorical slots, validated
+all-pairs in both modes). The last binary is blue, its --dbcache variant orange, any other aqua.
 """
 import argparse, json, math, os, statistics, sys
 from html import escape
@@ -31,13 +35,39 @@ SCENARIOS = [  # (workload base, short name, detail)
 
 MODES = {
     "light": dict(surface="#fcfcfb", ink="#0b0b0b", ink2="#52514e", muted="#898781",
-                  grid="#e1e0d9", axis="#c3c2b7", s1="#2a78d6", s2="#eb6834"),
+                  grid="#e1e0d9", axis="#c3c2b7", s1="#2a78d6", s2="#eb6834", s3="#1baf7a"),
     "dark":  dict(surface="#1a1a19", ink="#ffffff", ink2="#c3c2b7", muted="#898781",
-                  grid="#2c2c2a", axis="#383835", s1="#3987e5", s2="#d95926"),
+                  grid="#2c2c2a", axis="#383835", s1="#3987e5", s2="#d95926", s3="#199e70"),
 }
 FONT = 'system-ui, -apple-system, "Segoe UI", sans-serif'
 S1_NAME = "this branch, default options"
 S2_NAME = "this branch with --dbcache"
+
+
+def merge_best(res, best_of=(), drop=()):
+    """Edit a series result in place: each "A,B,..." in best_of becomes label A with, per workload, the
+    samples of whichever of them has the lowest median wall time (w["best_of"][A] names it); the labels in
+    drop are removed. E.g. pyhmmer at 16 and at 8 threads shown as one contender at its faster setting."""
+    for grp in best_of:
+        keep, *alts = grp.split(",")
+        for w in res["workloads"]:
+            have = [l for l in [keep] + alts if w["runs"].get(l)]
+            if not have: continue
+            win = min(have, key=lambda l: statistics.median(r["wall"] for r in w["runs"][l]))
+            w["runs"][keep] = w["runs"][win]
+            w.setdefault("best_of", {})[keep] = win
+            for l in alts: w["runs"].pop(l, None)
+        drop = list(drop) + alts
+    for w in res["workloads"]:
+        for l in drop: w["runs"].pop(l, None)
+    res["binaries"] = [b for b in res["binaries"] if b["label"] not in drop]
+    return res
+
+
+def best_args(ap):
+    ap.add_argument("--best-of", action="append", default=[], metavar="A,B",
+                    help="show labels A,B,... as A, with the samples of the fastest per workload (repeatable)")
+    ap.add_argument("--drop", action="append", default=[], metavar="LABEL", help="leave a label out (repeatable)")
 
 
 def medians(res):
@@ -58,11 +88,11 @@ def text(x, y, s, c, size=12, anchor="start", weight=400, extra=""):
 
 
 def hbar(x0, x1, y, h, color, tip):
-    """bar from x0 (baseline) to x1, 4px rounded data end, square at the baseline"""
-    r = min(4, (x1 - x0) / 2, h / 2)
-    w = x1 - x0
-    d = (f"M{x0:.1f},{y:.1f} h{w - r:.1f} a{r},{r} 0 0 1 {r},{r} v{h - 2 * r:.1f} "
-         f"a{r},{r} 0 0 1 {-r},{r} h{-(w - r):.1f} z")
+    """bar from x0 (baseline) to x1, either side of it, 4px rounded data end, square at the baseline"""
+    w, sg = abs(x1 - x0), (1 if x1 >= x0 else -1)
+    r = min(4, w / 2, h / 2)
+    d = (f"M{x0:.1f},{y:.1f} h{sg * (w - r):.1f} a{r},{r} 0 0 {1 if sg > 0 else 0} {sg * r},{r} v{h - 2 * r:.1f} "
+         f"a{r},{r} 0 0 {1 if sg > 0 else 0} {-sg * r},{r} h{-sg * (w - r):.1f} z")
     return f'<path d="{d}" fill="{color}"><title>{escape(tip)}</title></path>'
 
 
@@ -81,41 +111,53 @@ def legend(x, y, c, items):
 
 
 # ------------------------------------------------------------------ speedup chart
-def speedup_chart(med, first, last, c):
+def speedup_chart(med, first, shown, c):
+    """Speedup over `first` of every label in `shown`, and of the last one with --dbcache; log axis
+    around 1x (bars left of it are slower than `first`)."""
+    last = shown[-1]
+    series = [(l, "", c["s3"], l) for l in shown[:-1]]
+    series += [(last, "", c["s1"], S1_NAME), (last, "_dbc", c["s2"], S2_NAME)]
     rows = []
     for base, name, detail in SCENARIOS:
         m = med.get(base)
-        if not m or first not in m or last not in m: continue
-        dflt = m[first] / m[last]
-        dbc  = med.get(base + "_dbc", {}).get(last)
-        rows.append((name, detail, dflt, (m[first] / dbc) if dbc else None, m[first], m[last], dbc))
+        if not m or first not in m or not any(l in m for l in shown): continue
+        bars = []
+        for l, sfx, color, sname in series:
+            t = med.get(base + sfx, {}).get(l)
+            if t: bars.append((m[first] / t, color, f"{name}{' with --dbcache' if sfx else ''}: upstream {fmt_s(m[first])}, "
+                               f"{sname} {fmt_s(t)} ({fmt_x(m[first] / t)})"))
+        rows.append((name, detail, bars))
+    used = [(color, sname) for l, sfx, color, sname in series if any(b[1] == color for r in rows for b in r[2])]
     W, left, right = 820, 330, 70
     x0, x1 = left, W - right
-    vmax = max(max(r[2], r[3] or 0) for r in rows)
-    top = max(2.0, vmax * 1.3)                       # room for the value labels past the longest bar
-    ticks = [t for t in (1, 2, 5, 10, 20, 50, 100) if t <= top]
-    sx = lambda v: x0 + (x1 - x0) * math.log(v) / math.log(top)
+    vals = [b[0] for r in rows for b in r[2]]
+    hi = max(2.0, max(vals) * 1.3)                   # room for the value labels past the longest bar
+    lo = 1.0 if min(vals) >= 1 else min(vals) / 1.7  # bars below 1x: room for their labels left of them
+    ticks = [t for t in (0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100) if lo <= t <= hi]
+    sx = lambda v: x0 + (x1 - x0) * math.log(v / lo) / math.log(hi / lo)
     bar, gap, pad = 14, 2, 16
-    hrow = 2 * bar + gap                             # every row as tall as a two-bar row
+    nmax = max(len(r[2]) for r in rows)
+    hrow = nmax * bar + (nmax - 1) * gap             # every row as tall as the fullest one
     y = 58
-    body = legend(10, 24, c, [(c["s1"], S1_NAME), (c["s2"], S2_NAME)])
+    body = legend(10, 24, c, used)
     grid, marks = [], []
-    for name, detail, dflt, dbc, tup, tlast, tdbc in rows:
+    for name, detail, bars in rows:
         body.append(text(left - 14, y + hrow / 2 - 2, name, c["ink"], 13, "end", 600))
         body.append(text(left - 14, y + hrow / 2 + 13, detail, c["muted"], 11, "end"))
-        ya = y if dbc else y + (hrow - bar) / 2      # a lone bar sits in the middle of its row
-        marks.append(hbar(x0, sx(dflt), ya, bar, c["s1"], f"{name}: upstream {fmt_s(tup)} → {fmt_s(tlast)} ({fmt_x(dflt)})"))
-        marks.append(text(sx(dflt) + 6, ya + bar - 3, fmt_x(dflt), c["ink2"], 12, extra='font-variant-numeric="tabular-nums"'))
-        if dbc:
-            yb = y + bar + gap
-            marks.append(hbar(x0, sx(dbc), yb, bar, c["s2"], f"{name} with --dbcache: upstream {fmt_s(tup)} → {fmt_s(tdbc)} ({fmt_x(dbc)})"))
-            marks.append(text(sx(dbc) + 6, yb + bar - 3, fmt_x(dbc), c["ink2"], 12, extra='font-variant-numeric="tabular-nums"'))
+        yb = y + (hrow - (len(bars) * bar + (len(bars) - 1) * gap)) / 2   # fewer bars sit in the middle of the row
+        for v, color, tip in bars:
+            marks.append(hbar(sx(1), sx(v), yb, bar, color, tip))
+            lx, anchor = (sx(v) + 6, "start") if v >= 1 else (sx(v) - 6, "end")
+            marks.append(text(lx, yb + bar - 3, fmt_x(v), c["ink2"], 12, anchor, extra='font-variant-numeric="tabular-nums"'))
+            yb += bar + gap
         y += hrow + pad
     ybot = y - pad + 8
     for t in ticks:
         grid.append(f'<line x1="{sx(t):.1f}" y1="44" x2="{sx(t):.1f}" y2="{ybot:.1f}" stroke="{c["grid"] if t != 1 else c["axis"]}" stroke-width="1"/>')
-        grid.append(text(sx(t), ybot + 16, f"{t}×", c["muted"], 11, "middle"))
-    grid.append(text((x0 + x1) / 2, ybot + 36, "speedup over upstream HMMER 3.4 (wall time, log scale)", c["ink2"], 12, "middle"))
+        grid.append(text(sx(t), ybot + 16, f"{t:g}×", c["muted"], 11, "middle"))
+    xlabel = "speedup over upstream HMMER 3.4 (wall time, log scale)"
+    if lo < 1: xlabel = "speedup over upstream HMMER 3.4 (wall time, log scale; left of 1× is slower)"
+    grid.append(text((x0 + x1) / 2, ybot + 36, xlabel, c["ink2"], 12, "middle"))
     return svg_doc(W, ybot + 48, c, body + grid + marks)
 
 
@@ -178,26 +220,38 @@ def main():
     ap.add_argument("json")
     ap.add_argument("--outdir", required=True)
     ap.add_argument("--xlabels", help="comma-separated x labels for the phase chart (default: the series labels)")
+    ap.add_argument("--charts", default="speedup,phases", help="which charts to write [speedup,phases]")
+    ap.add_argument("--speedup", help="comma-separated labels shown in the speedup chart, the last one also "
+                                      "with --dbcache (default: the last binary)")
+    best_args(ap)
     a = ap.parse_args()
-    res = json.load(open(a.json))
+    res = merge_best(json.load(open(a.json)), a.best_of, a.drop)
     labels = [b["label"] for b in res["binaries"]]
     xlabels = a.xlabels.split(",") if a.xlabels else labels
+    shown = a.speedup.split(",") if a.speedup else labels[-1:]
+    if not set(shown) <= set(labels[1:]): sys.exit(f"--speedup: labels must be among {', '.join(labels[1:])}")
+    charts = set(a.charts.split(","))
     med = medians(res)
     os.makedirs(a.outdir, exist_ok=True)
     for mode, c in MODES.items():
-        open(os.path.join(a.outdir, f"speedup-{mode}.svg"), "w").write(speedup_chart(med, labels[0], labels[-1], c))
-        open(os.path.join(a.outdir, f"phases-{mode}.svg"), "w").write(phases_chart(med, labels, c, xlabels))
+        if "speedup" in charts:
+            open(os.path.join(a.outdir, f"speedup-{mode}.svg"), "w").write(speedup_chart(med, labels[0], shown, c))
+        if "phases" in charts:
+            open(os.path.join(a.outdir, f"phases-{mode}.svg"), "w").write(phases_chart(med, labels, c, xlabels))
 
-    # Markdown table: wall-time medians per scenario and binary
-    print("| Scenario | " + " | ".join(xlabels) + " | speedup |")
-    print("|---|" + "---:|" * (len(labels) + 1))
+    # Markdown table: wall-time medians per scenario and binary, and the speedups over the first one;
+    # * marks a --best-of label whose value came from one of its alternatives
+    won = {w["name"]: w.get("best_of", {}) for w in res["workloads"]}
+    print("| Scenario | " + " | ".join(xlabels) + " | " + " | ".join(f"{l} speedup" if len(shown) > 1 else "speedup" for l in shown) + " |")
+    print("|---|" + "---:|" * (len(labels) + len(shown)))
     for base, name, detail in SCENARIOS:
         for wl, suffix in ((base, ""), (base + "_dbc", " (--dbcache)")):
             m = med.get(wl)
             if not m: continue
-            cells = [fmt_s(m[l]) if l in m else "—" for l in labels]
+            cells = [fmt_s(m[l]) + ("*" if won[wl].get(l, l) != l else "") if l in m else "—" for l in labels]
             ref = med[base][labels[0]]
-            print(f"| {name}{suffix} | " + " | ".join(cells) + f" | {fmt_x(ref / m[labels[-1]])} |")
+            ups = [fmt_x(ref / m[l]) if l in m else "—" for l in shown]
+            print(f"| {name}{suffix} | " + " | ".join(cells + ups) + " |")
 
 
 if __name__ == "__main__":

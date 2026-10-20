@@ -81,7 +81,28 @@ Options: `--file FILE` (workloads file, default `workloads.tsv`), `--workloads R
 
 ## `series.py` and `plot_series.py`: many snapshots at once
 
-`ab.sh` compares two binaries; `series.py` runs any number of them (for example upstream and the end of every phase) on the same workloads in one session, round-robin with a rotated order each round, after an untimed round that checks every binary's outputs against the first one's. It takes `--file` and `--perf-all` like `ab.sh`. `plot_series.py` turns its JSON into SVG charts (light and dark) and a Markdown table. [`../profiling/RESULTS.md`](../profiling/RESULTS.md) was made this way; its last section has the commands. `plot_annot.py` draws the annotation benchmark (one grouped bar chart per protein set, sequences per second, first vs last binary) for the same page.
+`ab.sh` compares two binaries; `series.py` runs any number of them (for example upstream and the end of every phase) on the same workloads in one session, round-robin with a rotated order each round, after an untimed round that checks every binary's outputs against the first one's. It takes `--file` and `--perf-all` like `ab.sh`. `plot_series.py` turns its JSON into SVG charts (light and dark) and a Markdown table: `--charts` picks the speedup chart, the per-phase chart or both, and `--speedup LABELS` puts several binaries in the speedup chart (e.g. pyhmmer and this branch). [`../profiling/RESULTS.md`](../profiling/RESULTS.md) was made this way; its last section has the commands. `plot_annot.py` draws the annotation benchmark (one grouped bar chart per protein set, sequences per second, one bar per binary) for the same page.
+
+## `pyhmmer.sh` and `pyhmmsearch.py`: pyhmmer as a contender
+
+[pyhmmer](https://github.com/althonos/pyhmmer) runs HMMER 3.4's pipeline from Python, with its own threading. To time it with the same tools:
+
+```
+dev/perf/pyhmmer.sh                 # venv ~/.cache/hmmer-bench/pyhmmer-0.12.3 + snapshot bench-results/bins/pyhmmer-0.12.3
+dev/perf/pyhmmer.sh --ftz           # snapshot pyhmmer-0.12.3-ftz: the same with flush-to-zero on, as in hmmsearch
+dev/perf/series.py series-p0 pyhmmer-0.12.3 series-p7e1 --labels upstream,pyhmmer,fork \
+    --file vs_pyhmmer.tsv --mask-tail --flush-subnormals --workloads '^(X|W|R)'
+dev/perf/ab.sh pyhmmer-0.12.3 pyhmmer-0.12.3 --b-env PYHMMSEARCH_CPUS=8 --file vs_pyhmmer.tsv --set vs   # thread counts
+```
+
+- **The snapshot's `hmmsearch`** is a wrapper around `pyhmmsearch.py`, run by the venv's `python -I`. The driver accepts the `hmmsearch` options that [`vs_pyhmmer.tsv`](vs_pyhmmer.tsv) uses, and rejects any other.
+- **How it runs pyhmmer.** It reads the targets into memory once and streams the HMMs. With fewer HMMs than threads it passes them as a list, so that pyhmmer splits the targets among its threads. It writes `--tblout` / `--domtblout` with pyhmmer's `TopHits.write()`.
+- **No main output.** pyhmmer can't write `hmmsearch`'s report, so every workload in `vs_pyhmmer.tsv` sends it to `-o /dev/null` and writes the two tables instead.
+- **Time breakdown.** The driver writes where its time went to `.pyhmmsearch.json`. `ab.py` stores that in the sample, under `pyhmmer`.
+- **Two output differences**, each masked by its own option, so that everything else is still compared exactly:
+  - `--mask-tail` drops the `# Program: ... # [ok]` block that `hmmsearch` appends to its tables. pyhmmer doesn't write it.
+  - `--flush-subnormals` compares numbers below 2.2e-308 as 0. `hmmsearch` sets flush-to-zero and denormals-are-zero (`impl_Init()`). pyhmmer doesn't, so it prints e.g. an E-value of `3.2e-315` where `hmmsearch` prints `0`. `series.py` notes how many such numbers each binary had. The `-ftz` snapshot has none, and its tables equal `hmmsearch`'s exactly.
+- Plan and results: [`../profiling/PYHMMER.md`](../profiling/PYHMMER.md).
 
 ## `errpaths.sh A B`: error paths and query batching
 

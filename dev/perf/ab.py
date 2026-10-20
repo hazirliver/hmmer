@@ -36,7 +36,7 @@ FIXTURES = os.path.join(bench.DATA, "ab-fixtures")
 EVENTS = ["task-clock", "instructions:u", "cycles:u", "cycles"]   # cycles = user + kernel
 # metric -> (label, smallest relative change that can count, lower is better)
 FLOOR = {"cycles": 0.005, "cycles_uk": 0.005, "instructions": 0.001, "wall": 0.02, "task_clock": 0.01}
-OWN_FILES = {".perf", ".rusage"}
+OWN_FILES = {".perf", ".rusage", ".pyhmmsearch.json"}   # the last: dev/perf/pyhmmsearch.py's time breakdown
 WS = re.compile(rb"[ \t]+")
 RED, GRN, YEL, BLD, DIM = bench.RED, bench.GRN, bench.YEL, bench.BLD, bench.DIM
 
@@ -168,11 +168,20 @@ def run_once(binary, args, cwd, use_perf, timeout, extra="", extra_env=None):
                 if key: r[key] = float(f[0]) / (1000.0 if key == "task_clock" else 1.0)
             except ValueError:
                 pass
+    try:                                       # dev/perf/pyhmmsearch.py: where pyhmmer's time went
+        with open(os.path.join(cwd, ".pyhmmsearch.json")) as f: r["pyhmmer"] = json.load(f)
+    except (OSError, ValueError):
+        pass
     shutil.rmtree(bindir)
     return r
 
 
 EXTRA_RULES = []   # (regex, replacement) for B-only options' traces; set from --b-args in main()
+# hmmsearch flushes subnormal results to zero (impl_Init(): FTZ + DAZ); pyhmmer doesn't, and prints e.g. an
+# E-value of 3.2e-315 where hmmsearch prints 0. With FLUSH_SUBNORMALS (series.py --flush-subnormals) such
+# numbers, exponent -309 and below (all under DBL_MIN, 2.2e-308), become a 0 of the same width.
+FLUSH_SUBNORMALS = False
+SUBNORMAL = re.compile(rb"(?<![\w.])\d(?:\.\d+)?e-3(?:09|[1-9]\d)(?![\w.])")
 
 def norm_line(line):
     if line[:1] in (b"D", b"#", b"r"):
@@ -180,7 +189,17 @@ def norm_line(line):
         for rx, rep in bench.TEXT_RULES: t = rx.sub(rep, t)
         for rx, rep in EXTRA_RULES:      t = rx.sub(rep, t)
         line = t.encode("latin-1")
+    if FLUSH_SUBNORMALS and b"e-3" in line:
+        line = SUBNORMAL.sub(lambda m: b" " * (len(m[0]) - 1) + b"0", line)
     return line
+
+
+def count_subnormals(path):
+    """numbers FLUSH_SUBNORMALS maps to 0 in a text file"""
+    with open(path, "rb") as f:
+        if b"\0" in f.read(8192): return 0
+        f.seek(0)
+        return sum(len(SUBNORMAL.findall(line)) for line in f if b"e-3" in line)
 
 
 def exact_hash(path):
@@ -201,7 +220,8 @@ def ws_hash(path):
         if b"\0" in f.read(8192): return None          # binary: no whitespace tolerance
         f.seek(0)
         for line in f:
-            h.update(WS.sub(b" ", norm_line(line)).rstrip() + b"\n")
+            n = norm_line(line)
+            if n: h.update(WS.sub(b" ", n).rstrip() + b"\n")   # skip lines a rule deleted, as exact_hash does
     return h.hexdigest()
 
 
