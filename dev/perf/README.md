@@ -81,7 +81,7 @@ Options: `--file FILE` (workloads file, default `workloads.tsv`), `--workloads R
 
 ## `series.py` and `plot_series.py`: many snapshots at once
 
-`ab.sh` compares two binaries; `series.py` runs any number of them (for example upstream and the end of every phase) on the same workloads in one session, round-robin with a rotated order each round, after an untimed round that checks every binary's outputs against the first one's. It takes `--file` and `--perf-all` like `ab.sh`. `plot_series.py` turns its JSON into SVG charts (light and dark) and a Markdown table: `--charts` picks the speedup chart, the per-phase chart or both, and `--speedup LABELS` puts several binaries in the speedup chart (e.g. pyhmmer and this branch). [`../profiling/RESULTS.md`](../profiling/RESULTS.md) was made this way; its last section has the commands. `plot_annot.py` draws the annotation benchmark (one grouped bar chart per protein set, sequences per second, one bar per binary) for the same page.
+`ab.sh` compares two binaries; `series.py` runs any number of them (for example upstream and the end of every phase) on the same workloads in one session, round-robin with a rotated order each round, after an untimed round that checks every binary's outputs against the first one's. It takes `--file` and `--perf-all` like `ab.sh`. `plot_series.py` turns its JSON into SVG charts (light and dark) and a Markdown table: `--charts` picks the speedup chart, the per-phase chart or both, and `--speedup LABELS` puts several binaries in the speedup chart (e.g. pyhmmer and this branch). [`../profiling/RESULTS.md`](../profiling/RESULTS.md) was made this way; its last section has the commands. `plot_annot.py` draws the annotation benchmark (one grouped bar chart per protein set, sequences per second, one bar per binary) for the same page. Both take `--best-of A,B` (show labels A and B as A, at the faster of the two per threaded workload, `*` in the tables), `--drop LABEL`, `--legend LABEL=TEXT` (a legend name, or the name of a `--best-of` alternative in tooltips) and `--note TEXT` (a footnote under the chart).
 
 ## `pyhmmer.sh` and `pyhmmsearch.py`: pyhmmer as a contender
 
@@ -102,6 +102,7 @@ dev/perf/ab.sh pyhmmer-0.12.3 pyhmmer-0.12.3 --b-env PYHMMSEARCH_CPUS=8 --file v
 - **Two output differences**, each masked by its own option, so that everything else is still compared exactly:
   - `--mask-tail` drops the `# Program: ... # [ok]` block that `hmmsearch` appends to its tables. pyhmmer doesn't write it.
   - `--flush-subnormals` compares numbers below 2.2e-308 as 0. `hmmsearch` sets flush-to-zero and denormals-are-zero (`impl_Init()`). pyhmmer doesn't, so it prints e.g. an E-value of `3.2e-315` where `hmmsearch` prints `0`. `series.py` notes how many such numbers each binary had. The `-ftz` snapshot has none, and its tables equal `hmmsearch`'s exactly.
+  - Not masked: an E-value whose P-value is subnormal. `hmmsearch` flushes the P-value to 0 and prints an E-value of `0`; pyhmmer prints P × Z, a normal number such as `3.7e-306`. 2 of the 24 pressed annotation runs have one such hit and report `DIFFER`. `series.py` keeps the run directory of a binary whose files differ (not the reference's), under `bench-results/series/work/`.
 - Plan and results: [`../profiling/PYHMMER.md`](../profiling/PYHMMER.md).
 
 ## `errpaths.sh A B`: error paths and query batching

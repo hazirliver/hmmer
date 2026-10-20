@@ -82,9 +82,10 @@ def rates(med, grp, sfx, labels):
     return per, tot
 
 
-def names(labels):
+def names(labels, legend_text=None):
     """legend name per label"""
-    return {l: "upstream HMMER 3.4" if i == 0 else "this branch" if i == len(labels) - 1 else l
+    legend_text = legend_text or {}
+    return {l: "upstream HMMER 3.4" if i == 0 else "this branch" if i == len(labels) - 1 else legend_text.get(l, l)
             for i, l in enumerate(labels)}
 
 
@@ -94,9 +95,10 @@ def colors(labels, c):
             for i, l in enumerate(labels)}
 
 
-def chart(med, grp, sfx, title, labels, c):
+def chart(med, grp, sfx, title, labels, c, legend_text=None, won=None, note=None):
+    """won: {workload: {label: the --best-of alternative its samples came from}}, named in the tooltips"""
     per, tot = rates(med, grp, sfx, labels)
-    col, nm = colors(labels, c), names(labels)
+    col, nm = colors(labels, c), names(labels, legend_text)
     first, last = labels[0], labels[-1]
     nb = len(labels)
     cols = 3 if nb <= 2 else 2                       # three bars per group need wider panels
@@ -106,7 +108,7 @@ def chart(med, grp, sfx, title, labels, c):
     ph = 250
     top = 56
     rows = math.ceil(len(SETS) / cols)
-    H = top + rows * ph + (rows - 1) * gy + 30
+    H = top + rows * ph + (rows - 1) * gy + (46 if note else 30)
     vmax = max(v for d in per.values() for v in d.values())
     step = nice_step(vmax / 4)
     ymax = step * math.ceil(vmax * 1.08 / step)
@@ -145,12 +147,15 @@ def chart(med, grp, sfx, title, labels, c):
             for lab in labels:
                 val = rg[lab]
                 who = "upstream" if lab == first else nm[lab]
+                alt = (won or {}).get(f"A_{s}_L{g}{sfx}", {}).get(lab, lab)
+                if alt != lab: who += f" ({(legend_text or {}).get(alt, alt)})"
                 body.append(vbar(x, b, bw, sy(val), col[lab], f"{name} L{g}, {title}, {who}: {fmt_r(val)} sequences/s"))
                 body.append(text(x + bw / 2, sy(val) - 4, fmt_r(val), c["ink2"], 10, "middle", extra=NUM))
                 x += bw + bgap
-    note = "under each group, the speedup." if nb <= 2 else "speedups are in the tables."
-    body.append(text(10, H - 10, "Each group: 250 proteins (length range in residues) against all 21,979 Pfam-A models with --cut_ga; "
-                     + note, c["muted"], 11))
+    body.append(text(10, H - (26 if note else 10), "Each group: 250 proteins (length range in residues) against all "
+                     "21,979 Pfam-A models with --cut_ga; " + ("under each group, the speedup." if nb <= 2 else
+                     "speedups are in the tables."), c["muted"], 11))
+    if note: body.append(text(10, H - 10, note, c["muted"], 11))
     return svg_doc(W, H, c, body)
 
 
@@ -170,7 +175,8 @@ def main():
     for sfx, tag, title in FORMS:
         if not rt[sfx][0]: continue
         for mode, c in MODES.items():
-            open(os.path.join(a.outdir, f"annot-{tag}-{mode}.svg"), "w").write(chart(med, grp, sfx, title, labels, c))
+            open(os.path.join(a.outdir, f"annot-{tag}-{mode}.svg"), "w").write(
+                chart(med, grp, sfx, title, labels, c, dict(kv.split("=", 1) for kv in a.legend), won, a.note))
 
     # speedups: every label over the first, and the last over each one in between
     pairs = [(x, first) for x in labels[1:]] + [(last, x) for x in labels[1:-1]]

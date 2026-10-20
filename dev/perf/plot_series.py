@@ -14,7 +14,7 @@ as one, at the fastest of them per workload (pyhmmer at 16 or 8 threads), and --
 hand (palette and mark specs from the dataviz guidelines: the first 3 categorical slots, validated
 all-pairs in both modes). The last binary is blue, its --dbcache variant orange, any other aqua.
 """
-import argparse, json, math, os, statistics, sys
+import argparse, json, math, os, re, statistics, sys
 from html import escape
 
 # Scenario per workload; a workload ending in _dbc is the --dbcache variant of its base.
@@ -29,7 +29,7 @@ SCENARIOS = [  # (workload base, short name, detail)
     ("W3_m200_sprot",      "1 model × Swiss-Prot, 1 thread", "M = 200"),
     ("R1_m50_sprot",       "1 short model × Swiss-Prot",     "M = 50, reading-heavy, 1 thread"),
     ("W4_med_longseqs",    "10 models × long sequences",     "targets of 3,000+ residues, 1 thread"),
-    ("W1_hitters_10k",     "10 hit-rich models × 10k",       "many domains, -A alignment output, 1 thread"),
+    ("W1_hitters_10k",     "10 hit-rich models × 10k",       "many domains, 1 thread"),
     ("W5_med_1k_max",      "10 models × 1k, --max",          "all filters off: domain stage only, 1 thread"),
 ]
 
@@ -45,13 +45,15 @@ S2_NAME = "this branch with --dbcache"
 
 
 def merge_best(res, best_of=(), drop=()):
-    """Edit a series result in place: each "A,B,..." in best_of becomes label A with, per workload, the
-    samples of whichever of them has the lowest median wall time (w["best_of"][A] names it); the labels in
-    drop are removed. E.g. pyhmmer at 16 and at 8 threads shown as one contender at its faster setting."""
+    """Edit a series result in place: each "A,B,..." in best_of becomes label A with, per threaded workload,
+    the samples of whichever of them has the lowest median wall time (w["best_of"][A] names it); the labels
+    in drop are removed. E.g. pyhmmer at 16 and at 8 threads shown as one contender at its faster setting.
+    At --cpu 0 the alternatives are the same run as A (they differ in thread count only), so A is kept."""
     for grp in best_of:
         keep, *alts = grp.split(",")
         for w in res["workloads"]:
-            have = [l for l in [keep] + alts if w["runs"].get(l)]
+            serial = re.search(r"--cpu 0(?!\S)", w["args"])
+            have = [l for l in [keep] + ([] if serial else alts) if w["runs"].get(l)]
             if not have: continue
             win = min(have, key=lambda l: statistics.median(r["wall"] for r in w["runs"][l]))
             w["runs"][keep] = w["runs"][win]
@@ -65,8 +67,12 @@ def merge_best(res, best_of=(), drop=()):
 
 
 def best_args(ap):
+    ap.add_argument("--note", help="a footnote under the chart, e.g. what --best-of did")
+    ap.add_argument("--legend", action="append", default=[], metavar="LABEL=TEXT",
+                    help="legend text for a label other than the first and last, or the name of a --best-of "
+                         "alternative in tooltips (repeatable)")
     ap.add_argument("--best-of", action="append", default=[], metavar="A,B",
-                    help="show labels A,B,... as A, with the samples of the fastest per workload (repeatable)")
+                    help="show labels A,B,... as A, with the samples of the fastest per threaded workload (repeatable)")
     ap.add_argument("--drop", action="append", default=[], metavar="LABEL", help="leave a label out (repeatable)")
 
 
@@ -78,7 +84,7 @@ def medians(res):
     return out
 
 
-def fmt_x(v):  return f"{v:.1f}×" if v < 10 else f"{v:.0f}×"
+def fmt_x(v):  return f"{v:.2f}×" if v < 1 else f"{v:.1f}×" if v < 10 else f"{v:.0f}×"
 def fmt_s(v):  return f"{v:.2f} s" if v < 1 else (f"{v:.1f} s" if v < 100 else f"{v:.0f} s")
 
 
@@ -111,11 +117,12 @@ def legend(x, y, c, items):
 
 
 # ------------------------------------------------------------------ speedup chart
-def speedup_chart(med, first, shown, c):
+def speedup_chart(med, first, shown, c, legend_text=None, won=None, note=None):
     """Speedup over `first` of every label in `shown`, and of the last one with --dbcache; log axis
-    around 1x (bars left of it are slower than `first`)."""
-    last = shown[-1]
-    series = [(l, "", c["s3"], l) for l in shown[:-1]]
+    around 1x (bars left of it are slower than `first`). won: {workload: {label: the --best-of
+    alternative its samples came from}}, named in the tooltips."""
+    last, legend_text, won = shown[-1], legend_text or {}, won or {}
+    series = [(l, "", c["s3"], legend_text.get(l, l)) for l in shown[:-1]]
     series += [(last, "", c["s1"], S1_NAME), (last, "_dbc", c["s2"], S2_NAME)]
     rows = []
     for base, name, detail in SCENARIOS:
@@ -124,8 +131,9 @@ def speedup_chart(med, first, shown, c):
         bars = []
         for l, sfx, color, sname in series:
             t = med.get(base + sfx, {}).get(l)
+            alt = won.get(base + sfx, {}).get(l, l)
             if t: bars.append((m[first] / t, color, f"{name}{' with --dbcache' if sfx else ''}: upstream {fmt_s(m[first])}, "
-                               f"{sname} {fmt_s(t)} ({fmt_x(m[first] / t)})"))
+                               f"{sname}{f' ({legend_text.get(alt, alt)})' if alt != l else ''} {fmt_s(t)} ({fmt_x(m[first] / t)})"))
         rows.append((name, detail, bars))
     used = [(color, sname) for l, sfx, color, sname in series if any(b[1] == color for r in rows for b in r[2])]
     W, left, right = 820, 330, 70
@@ -158,7 +166,8 @@ def speedup_chart(med, first, shown, c):
     xlabel = "speedup over upstream HMMER 3.4 (wall time, log scale)"
     if lo < 1: xlabel = "speedup over upstream HMMER 3.4 (wall time, log scale; left of 1× is slower)"
     grid.append(text((x0 + x1) / 2, ybot + 36, xlabel, c["ink2"], 12, "middle"))
-    return svg_doc(W, ybot + 48, c, body + grid + marks)
+    if note: grid.append(text(10, ybot + 62, note, c["muted"], 11))
+    return svg_doc(W, ybot + (74 if note else 48), c, body + grid + marks)
 
 
 # ------------------------------------------------------------------ progression chart
@@ -231,19 +240,22 @@ def main():
     shown = a.speedup.split(",") if a.speedup else labels[-1:]
     if not set(shown) <= set(labels[1:]): sys.exit(f"--speedup: labels must be among {', '.join(labels[1:])}")
     charts = set(a.charts.split(","))
+    legend_text = dict(kv.split("=", 1) for kv in a.legend)
+    won = {w["name"]: w.get("best_of", {}) for w in res["workloads"]}
     med = medians(res)
     os.makedirs(a.outdir, exist_ok=True)
     for mode, c in MODES.items():
         if "speedup" in charts:
-            open(os.path.join(a.outdir, f"speedup-{mode}.svg"), "w").write(speedup_chart(med, labels[0], shown, c))
+            open(os.path.join(a.outdir, f"speedup-{mode}.svg"), "w").write(speedup_chart(med, labels[0], shown, c, legend_text, won, a.note))
         if "phases" in charts:
             open(os.path.join(a.outdir, f"phases-{mode}.svg"), "w").write(phases_chart(med, labels, c, xlabels))
 
     # Markdown table: wall-time medians per scenario and binary, and the speedups over the first one;
     # * marks a --best-of label whose value came from one of its alternatives
-    won = {w["name"]: w.get("best_of", {}) for w in res["workloads"]}
-    print("| Scenario | " + " | ".join(xlabels) + " | " + " | ".join(f"{l} speedup" if len(shown) > 1 else "speedup" for l in shown) + " |")
-    print("|---|" + "---:|" * (len(labels) + len(shown)))
+    vs = [(shown[-1], l) for l in shown[:-1]]        # the last one over each other shown one, too
+    print("| Scenario | " + " | ".join(xlabels) + " | " + " | ".join(f"{l} speedup" if len(shown) > 1 else "speedup" for l in shown)
+          + "".join(f" | {x} vs {y}" for x, y in vs) + " |")
+    print("|---|" + "---:|" * (len(labels) + len(shown) + len(vs)))
     for base, name, detail in SCENARIOS:
         for wl, suffix in ((base, ""), (base + "_dbc", " (--dbcache)")):
             m = med.get(wl)
@@ -251,6 +263,7 @@ def main():
             cells = [fmt_s(m[l]) + ("*" if won[wl].get(l, l) != l else "") if l in m else "—" for l in labels]
             ref = med[base][labels[0]]
             ups = [fmt_x(ref / m[l]) if l in m else "—" for l in shown]
+            ups += [fmt_x(med[base][y] / m[x]) if x in m and y in med[base] else "—" for x, y in vs]
             print(f"| {name}{suffix} | " + " | ".join(cells + ups) + " |")
 
 
